@@ -1,0 +1,98 @@
+CREATE DATABASE IF NOT EXISTS JDBCSample;
+USE JDBCSample;
+
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS employee2;
+DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS membership;
+DROP TABLE IF EXISTS membership2;
+DROP TABLE IF EXISTS club;
+
+CREATE TABLE membership (
+ id                INT NOT NULL,
+ email             VARCHAR(45) NOT NULL,
+ pass              VARCHAR(45) NOT NULL,
+ CONSTRAINT mem_id_pk PRIMARY KEY (id));
+ 
+INSERT INTO membership VALUES (1, '123@abc.com', '123');
+INSERT INTO membership VALUES (2, '999@xyz.com', '999');
+
+CREATE TABLE department (
+ deptno          INT NOT NULL,
+ dname           VARCHAR(40),
+ loc             VARCHAR(40),
+ CONSTRAINT dept_deptno_pk PRIMARY KEY (deptno));
+
+INSERT INTO department VALUES (10,'財務部','臺灣台北');
+INSERT INTO department VALUES (20,'研發部','臺灣新竹');
+INSERT INTO department VALUES (30,'業務部','美國紐約');
+INSERT INTO department VALUES (40,'生管部','中國上海');
+
+
+CREATE TABLE employee (
+ empno               INT NOT NULL,
+ ename               VARCHAR(30),
+ job                 VARCHAR(20),
+ hiredate            DATE,
+ sal                 DECIMAL(7,2),
+ comm                DECIMAL(7,2),
+ deptno             INT NOT NULL,
+ CONSTRAINT emp_dept_id_fk FOREIGN KEY (deptno) REFERENCES department (deptno),
+ CONSTRAINT emp_id_key PRIMARY KEY (empno));
+
+INSERT INTO employee VALUES (7001,'KING','PRESIDENT','1981-11-17',5000.5,0.0,10);
+INSERT INTO employee VALUES (7002,'BLAKE','MANAGER','1981-05-01',2850,0.0,30);
+INSERT INTO employee VALUES (7003,'CLARK','MANAGER','1981-01-09',2450,0.0,10);
+INSERT INTO employee VALUES (7004,'JONES','MANAGER','1981-04-02',2975,0.0,20);
+INSERT INTO employee VALUES (7005,'MARTIN','SALESMAN','1981-09-28',1250,1400,30);
+INSERT INTO employee VALUES (7006,'ALLEN','SALESMAN','1981-02-20',1600,300,30);
+INSERT INTO employee VALUES (7007,'TURNER','SALESMAN','1981-09-28',1500,0,30);
+INSERT INTO employee VALUES (7008,'JAMES','CLERK','1981-12-03',950,0.0,30);
+INSERT INTO employee VALUES (7009,'WARD','SALESMAN','1981-02-22',1250,500,30);
+INSERT INTO employee VALUES (7010,'FORD','ANALYST','1981-12-03',3000,0.0,20);
+INSERT INTO employee VALUES (7011,'SMITH','CLERK','1980-12-17',800,0.0,20);
+INSERT INTO employee VALUES (7012,'SCOTT','ANALYST','1981-12-09',3000,0.0,20);
+INSERT INTO employee VALUES (7013,'ADAMS','CLERK','1983-01-12',1100,0.0,20);
+INSERT INTO employee VALUES (7014,'MILLER','CLERK','1982-01-23',1300,0.0,10);
+
+CREATE TABLE employee2 (
+ empno               INT NOT NULL AUTO_INCREMENT,
+ ename               VARCHAR(30),
+ job                 VARCHAR(20),
+ hiredate            DATE,
+ sal                 DECIMAL(7,2),
+ comm                DECIMAL(7,2),
+ deptno             INT NOT NULL,
+ CONSTRAINT emp2_empno_key PRIMARY KEY (empno))
+ AUTO_INCREMENT = 7001;
+
+INSERT INTO employee2 VALUES (NULL, 'KING','PRESIDENT','1981-11-17',5000.5,0.0,10);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('BLAKE','MANAGER','1981-05-01',2850,0.0,30);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('CLARK','MANAGER','1981-01-09',2450,0.0,10);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('JONES','MANAGER','1981-04-02',2975,0.0,20);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('MARTIN','SALESMAN','1981-09-28',1250,1400,30);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('ALLEN','SALESMAN','1981-02-20',1600,300,30);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('TURNER','SALESMAN','1981-09-28',1500,0,30);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('JAMES','CLERK','1981-12-03',950,0.0,30);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('WARD','SALESMAN','1981-02-22',1250,500,30);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('FORD','ANALYST','1981-12-03',3000,0.0,20);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('SMITH','CLERK','1980-12-17',800,0.0,20);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('SCOTT','ANALYST','1981-12-09',3000,0.0,20);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('ADAMS','CLERK','1983-01-12',1100,0.0,20);
+INSERT INTO employee2 (ename, job, hiredate, sal, comm, deptno) VALUES ('MILLER','CLERK','1982-01-23',1300,0.0,10);
+
+CREATE TABLE club (
+ id               INT NOT NULL,
+ cname            VARCHAR(50),
+ pic              LONGBLOB,
+ intro            LONGTEXT,
+ CONSTRAINT club_id_pk PRIMARY KEY (id));
+
+CREATE TABLE membership2 (
+ id                INT NOT NULL AUTO_INCREMENT,
+ seq               CHAR(10),
+ email             VARCHAR(45) NOT NULL,
+ pass              VARCHAR(45) NOT NULL,
+ CONSTRAINT mem_id_pk PRIMARY KEY (id));
+
+commit;
