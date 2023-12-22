@@ -58,6 +58,21 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>idv.david</groupId>
+			<artifactId>HibernateEx-Association</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>idv.david</groupId>
+			<artifactId>HibernateEx-Web</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>idv.david</groupId>
+			<artifactId>HibernateEx</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>goodluck</finalName>

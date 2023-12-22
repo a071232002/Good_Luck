@@ -38,9 +38,9 @@ public class RtnVO {
 	
 	@ManyToOne(fetch = FetchType.LAZY)//	多對一，延遲載入
 
-	@JoinColumn(name = "rtnvo", referencedColumnName = "ordno")
+//	@JoinColumn(name = "rtnvo", referencedColumnName = "ordno")
 //	FK訂單
-	@JoinColumn(name = "rtnvo", referencedColumnName = "empNo")
+//	@JoinColumn(name = "rtnvo", referencedColumnName = "empNo")
 //	FK員工
 	
 	public Integer getRtnNo() {
