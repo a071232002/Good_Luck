@@ -22,7 +22,7 @@ public class Test {
 		Transaction tx = session.beginTransaction();
 		
 		Dept dept = new Dept();
-		dept.setDeptno(100);
+		dept.setDeptno(110);
 		dept.setDname("人事部");
 		dept.setLoc("中壢");
 		
