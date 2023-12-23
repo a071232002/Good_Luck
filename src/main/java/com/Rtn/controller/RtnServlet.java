@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.Rtn.mdoel.RtnVO;
+import com.Rtn.model.RtnVO;
 import com.Rtn.service.RtnService;
 import com.Rtn.service.RtnServiceImpl;
 
@@ -30,7 +30,9 @@ public class RtnServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
+		
 		String action = req.getParameter("action");
+		System.out.println("action: " + action);
 		String forwardPath = "";
 		switch (action) {
 			case "getAll":
@@ -56,6 +58,7 @@ public class RtnServlet extends HttpServlet {
 
 		if (req.getSession().getAttribute("empPageQty") == null) {
 			int empPageQty = rtnService.getPageTotal();
+			System.out.println("empPageQty: " + empPageQty);
 			req.getSession().setAttribute("empPageQty", empPageQty);
 		}
 		

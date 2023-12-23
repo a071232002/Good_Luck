@@ -1,6 +1,6 @@
 package com.Rtn.service;
 
-import static idv.david.util.Constants.PAGE_MAX_RESULT;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +9,9 @@ import java.util.Set;
 
 import com.Rtn.dao.RtnDAO;
 import com.Rtn.dao.RtnDAOImpl;
-import com.Rtn.mdoel.RtnVO;
+import com.Rtn.model.RtnVO;
 
-import idv.david.emp.dao.EmpDAO;
-import idv.david.emp.dao.EmpDAOImpl;
-import idv.david.emp.entity.Emp;
-import idv.david.util.HibernateUtil;
+
 
 // 搭配 JSP / Thymeleaf 後端渲染畫面，將交易動作至於 view filter
 public class RtnServiceImpl implements RtnService {
@@ -61,7 +58,7 @@ public class RtnServiceImpl implements RtnService {
 	public int getPageTotal() {
 		long total = dao.getTotal();
 		// 計算Emp數量每頁3筆的話總共有幾頁
-		int pageQty = (int)(total % PAGE_MAX_RESULT == 0 ? (total / PAGE_MAX_RESULT) : (total / PAGE_MAX_RESULT + 1));
+		int pageQty = (int)(total % 5 == 0 ? (total / 5) : (total / 5 + 1));
 		return pageQty;
 	}
 

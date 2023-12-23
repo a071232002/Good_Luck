@@ -1,4 +1,4 @@
-package com.Rtn.mdoel;
+package com.Rtn.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -17,9 +17,12 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.Rtn.mdoel.RtnVO;
+import com.Rtn.model.RtnVO;
+import com.util.HibernateUtil;
 
-import idv.david.util.HibernateUtil;
+
+
+
 
 
 
@@ -73,7 +76,7 @@ public class RtnDAOImpl implements RtnDAO {
 
 	@Override
 	public List<RtnVO> getAll() {
-		return getSession().createQuery("from Emp", RtnVO.class).list();
+		return getSession().createQuery("from rtn", RtnVO.class).list();
 	}
 
 	@Override

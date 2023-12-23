@@ -3,7 +3,7 @@ package com.Rtn.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.Rtn.mdoel.RtnVO;
+import com.Rtn.model.RtnVO;
 
 public interface RtnDAO {
 	
