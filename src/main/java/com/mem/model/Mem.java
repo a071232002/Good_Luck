@@ -1,4 +1,4 @@
-package com.mem.controller;
+package com.mem.model;
 
 import java.io.Serializable;
 import java.sql.Date;

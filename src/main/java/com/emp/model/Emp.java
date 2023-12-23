@@ -1,4 +1,4 @@
-package com.emp.controller;
+package com.emp.model;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.empfun.controller.EmpFun;
+import com.empfun.model.EmpFun;
 
 @Entity
 @Table(name="emp")

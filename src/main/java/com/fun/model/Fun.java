@@ -1,4 +1,4 @@
-package com.fun.controller;
+package com.fun.model;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.empfun.controller.EmpFun;
+import com.empfun.model.EmpFun;
 
 @Entity
 @Table(name="fun")

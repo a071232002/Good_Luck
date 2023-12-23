@@ -1,4 +1,4 @@
-package com.empfun.controller;
+package com.empfun.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,9 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.emp.controller.Emp;
-import com.empfun.controller.EmpFun.Composite;
-import com.fun.controller.Fun;
+import com.emp.model.Emp;
+import com.empfun.model.EmpFun.Composite;
+import com.fun.model.Fun;
 
 @Entity
 @Table(name="empfun")
