@@ -11,11 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rtnvo")
-public class RtnVO {
+@Table(name = "Rtn")
+public class Rtn {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "rtnvo", updatable = false)
+	@Column(name = "Rtn", updatable = false)
 	private Integer rtnNo;
 	
 	@Column(name = "empNo")
@@ -38,10 +38,10 @@ public class RtnVO {
 	
 	@ManyToOne(fetch = FetchType.LAZY)//	多對一，延遲載入
 
-//	@JoinColumn(name = "rtnvo", referencedColumnName = "ordno")
-//	FK訂單
-//	@JoinColumn(name = "rtnvo", referencedColumnName = "empNo")
+//	@JoinColumn(name = "Rtn", referencedColumnName = "empNo")
 //	FK員工
+//	@JoinColumn(name = "Rtn", referencedColumnName = "ordno")
+//	FK訂單
 	
 	public Integer getRtnNo() {
 		return rtnNo;

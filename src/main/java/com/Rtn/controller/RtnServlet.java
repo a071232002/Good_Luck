@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.Rtn.model.RtnVO;
+import com.Rtn.model.Rtn;
 import com.Rtn.service.RtnService;
 import com.Rtn.service.RtnServiceImpl;
 
@@ -54,7 +54,7 @@ public class RtnServlet extends HttpServlet {
 		String page = req.getParameter("page");
 		int currentPage = (page == null) ? 1 : Integer.parseInt(page);
 		
-		List<RtnVO> empList = rtnService.getAllEmps(currentPage);
+		List<Rtn> empList = rtnService.getAllEmps(currentPage);
 
 		if (req.getSession().getAttribute("empPageQty") == null) {
 			int empPageQty = rtnService.getPageTotal();
@@ -72,7 +72,7 @@ public class RtnServlet extends HttpServlet {
 		Map<String, String[]> map = req.getParameterMap();
 		
 		if (map != null) {
-			List<RtnVO> empList = rtnService.getEmpsByCompositeQuery(map);
+			List<Rtn> empList = rtnService.getEmpsByCompositeQuery(map);
 			req.setAttribute("empList", empList);
 		} else {
 			return "/index.jsp";

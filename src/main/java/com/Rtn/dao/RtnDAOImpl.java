@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.Rtn.model.RtnVO;
+import com.Rtn.model.Rtn;
 import com.util.HibernateUtil;
 
 
@@ -41,13 +41,13 @@ public class RtnDAOImpl implements RtnDAO {
 	}
 
 	@Override
-	public int insert(RtnVO entity) {
+	public int insert(Rtn entity) {
 		// 回傳給 service 剛新增成功的自增主鍵值
 		return (Integer) getSession().save(entity);
 	}
 
 	@Override
-	public int update(RtnVO entity) {
+	public int update(Rtn entity) {
 		try {
 			getSession().update(entity);
 			return 1;
@@ -58,7 +58,7 @@ public class RtnDAOImpl implements RtnDAO {
 
 	@Override
 	public int delete(Integer id) {
-		RtnVO rtnvo = getSession().get(RtnVO.class, id);
+		Rtn rtnvo = getSession().get(Rtn.class, id);
 		if (rtnvo != null) {
 			getSession().delete(rtnvo);
 			// 回傳給 service，1代表刪除成功
@@ -70,23 +70,23 @@ public class RtnDAOImpl implements RtnDAO {
 	}
 
 	@Override
-	public RtnVO getById(Integer id) {
-		return getSession().get(RtnVO.class, id);
+	public Rtn getById(Integer id) {
+		return getSession().get(Rtn.class, id);
 	}
 
 	@Override
-	public List<RtnVO> getAll() {
-		return getSession().createQuery("from rtn", RtnVO.class).list();
+	public List<Rtn> getAll() {
+		return getSession().createQuery("from rtn", Rtn.class).list();
 	}
 
 	@Override
-	public List<RtnVO> getByCompositeQuery(Map<String, String> map) {
+	public List<Rtn> getByCompositeQuery(Map<String, String> map) {
 		if (map.size() == 0)
 			return getAll();
 
 		CriteriaBuilder builder = getSession().getCriteriaBuilder();
-		CriteriaQuery<RtnVO> criteria = builder.createQuery(RtnVO.class);
-		Root<RtnVO> root = criteria.from(RtnVO.class);
+		CriteriaQuery<Rtn> criteria = builder.createQuery(Rtn.class);
+		Root<Rtn> root = criteria.from(Rtn.class);
 
 		List<Predicate> predicates = new ArrayList<>();
 
@@ -132,15 +132,15 @@ public class RtnDAOImpl implements RtnDAO {
 
 		criteria.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
 		criteria.orderBy(builder.asc(root.get("empno")));
-		TypedQuery<RtnVO> query = getSession().createQuery(criteria);
+		TypedQuery<Rtn> query = getSession().createQuery(criteria);
 
 		return query.getResultList();
 	}
 
 	@Override
-	public List<RtnVO> getAll(int currentPage) {
+	public List<Rtn> getAll(int currentPage) {
 		int first = (currentPage - 1) * 3;//PAGE_MAX_RESULT;
-		return getSession().createQuery("from Emp", RtnVO.class)
+		return getSession().createQuery("from Emp", Rtn.class)
 				.setFirstResult(first)
 //				.setMaxResults(PAGE_MAX_RESULT)
 				.setMaxResults(3)

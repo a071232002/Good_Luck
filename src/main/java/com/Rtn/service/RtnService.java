@@ -3,21 +3,21 @@ package com.Rtn.service;
 import java.util.List;
 import java.util.Map;
 
-import com.Rtn.model.RtnVO;
+import com.Rtn.model.Rtn;
 
 
 public interface RtnService {
-	RtnVO addEmp(RtnVO emp);
+	Rtn addEmp(Rtn emp);
 	
-	RtnVO updateEmp(RtnVO emp);
+	Rtn updateEmp(Rtn emp);
 	
 	void deleteEmp(Integer empno);
 	
-	RtnVO getEmpByEmpno(Integer empno);
+	Rtn getEmpByEmpno(Integer empno);
 	
-	List<RtnVO> getAllEmps(int currentPage);
+	List<Rtn> getAllEmps(int currentPage);
 	
 	int getPageTotal();
 	
-	List<RtnVO> getEmpsByCompositeQuery(Map<String, String[]> map);
+	List<Rtn> getEmpsByCompositeQuery(Map<String, String[]> map);
 }

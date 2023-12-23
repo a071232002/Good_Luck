@@ -3,23 +3,23 @@ package com.Rtn.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.Rtn.model.RtnVO;
+import com.Rtn.model.Rtn;
 
 public interface RtnDAO {
 	
-	int insert(RtnVO entity);
+	int insert(Rtn entity);
 
-	int update(RtnVO entity);
+	int update(Rtn entity);
 	
 	int delete(Integer id);
 	 
-	RtnVO getById(Integer id);
+	Rtn getById(Integer id);
 	
-	List<RtnVO> getAll();
+	List<Rtn> getAll();
 	
-	List<RtnVO> getByCompositeQuery(Map<String, String> map);
+	List<Rtn> getByCompositeQuery(Map<String, String> map);
 	
-	List<RtnVO> getAll(int currentPage);
+	List<Rtn> getAll(int currentPage);
 	
 	long getTotal();
 }

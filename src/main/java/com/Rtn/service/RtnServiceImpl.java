@@ -9,7 +9,7 @@ import java.util.Set;
 
 import com.Rtn.dao.RtnDAO;
 import com.Rtn.dao.RtnDAOImpl;
-import com.Rtn.model.RtnVO;
+import com.Rtn.model.Rtn;
 
 
 
@@ -25,12 +25,12 @@ public class RtnServiceImpl implements RtnService {
 	
 
 	@Override
-	public List<RtnVO> getAllEmps(int currentPage) {
+	public List<Rtn> getAllEmps(int currentPage) {
 		return dao.getAll(currentPage);
 	}
 
 	@Override
-	public List<RtnVO> getEmpsByCompositeQuery(Map<String, String[]> map) {
+	public List<Rtn> getEmpsByCompositeQuery(Map<String, String[]> map) {
 		Map<String, String> query = new HashMap<>();
 		// Map.Entry即代表一組key-value
 		Set<Map.Entry<String, String[]>> entry = map.entrySet();
@@ -65,7 +65,7 @@ public class RtnServiceImpl implements RtnService {
 
 
 	@Override
-	public RtnVO addEmp(RtnVO emp) {
+	public Rtn addEmp(Rtn emp) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -73,7 +73,7 @@ public class RtnServiceImpl implements RtnService {
 
 
 	@Override
-	public RtnVO updateEmp(RtnVO emp) {
+	public Rtn updateEmp(Rtn emp) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -89,7 +89,7 @@ public class RtnServiceImpl implements RtnService {
 
 
 	@Override
-	public RtnVO getEmpByEmpno(Integer empno) {
+	public Rtn getEmpByEmpno(Integer empno) {
 		// TODO Auto-generated method stub
 		return null;
 	}
