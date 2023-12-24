@@ -31,5 +31,6 @@ public class Test {
 		tx.commit();
 		session.close();
 		factory.close();
+		System.out.println("test");
 	}
 }
