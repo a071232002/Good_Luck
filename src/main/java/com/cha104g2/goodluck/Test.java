@@ -1,10 +1,11 @@
 package com.cha104g2.goodluck;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.*;
 
 public class Test {
 	
@@ -22,7 +23,7 @@ public class Test {
 		Transaction tx = session.beginTransaction();
 		
 		Dept dept = new Dept();
-		dept.setDeptno(100);
+		dept.setDeptno(110);
 		dept.setDname("人事部");
 		dept.setLoc("中壢");
 		
