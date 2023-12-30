@@ -1,4 +1,4 @@
-package com.Rtn.model;
+package com.rtn.model;
 
 import java.sql.Timestamp;
 
@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.mem.model.Mem;
+import com.emp.model.Emp;
 
 @Entity
 @Table(name = "Rtn")

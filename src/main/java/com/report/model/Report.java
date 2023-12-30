@@ -10,7 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.rentapp.model.Emp;
+import com.mem.model.Mem;
+import com.emp.model.Emp;
 
 public class Report {
 	

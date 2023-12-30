@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.mem.model.Mem;
+import com.rent.model.Rent;
 
 public class Fix {
 	@Id
@@ -18,11 +19,11 @@ public class Fix {
 	@Column(name = "fixNo", updatable = false)
 	private Integer fixNo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "memNo", referencedColumnName = "memNo")
 	private Mem memNo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo")
 	private Rent rentNo;
 	

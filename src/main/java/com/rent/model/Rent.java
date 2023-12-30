@@ -11,7 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.rentapp.model.Ldd;
+import com.ldd.model.Ldd;
+import com.lse.model.Lse;
 
 public class Rent {
 	
@@ -73,10 +74,10 @@ public class Rent {
 		this.ldd = ldd;
 	}
 	public Lse getLse() {
-		return Lse;
+		return lse;
 	}
 	public void setLse(Lse lse) {
-		Lse = lse;
+		this.lse = lse;
 	}
 	public Timestamp getRentUpTime() {
 		return rentUpTime;

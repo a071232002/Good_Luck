@@ -20,11 +20,11 @@ public class LddApp {
 	@Column(name = "lddAppNo", updatable = false)
 	private Integer lddAppNo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "memNo", referencedColumnName = "memNo")
 	private Mem memNo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
 	private Emp empNo;
 	

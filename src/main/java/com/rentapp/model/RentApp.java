@@ -10,6 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.ldd.model.Ldd;
+import com.rent.model.Rent;
+import com.emp.model.Emp;
+
 @Entity
 @Table(name = "rentapp")
 public class RentApp {
