@@ -32,5 +32,12 @@ build/
 ### VS Code ###
 .vscode/
 
-
-application.properties
+bin/
+.settings/
+target/
+.classpath
+.project
+.DS_Store
+.idea
+*.iml
+hibernate.cfg.xml
