@@ -3,16 +3,20 @@ package com.fix.model;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.mem.model.Mem;
 import com.rent.model.Rent;
 
+@Entity
+@Table(name = "fix")
 public class Fix {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

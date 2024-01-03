@@ -3,17 +3,20 @@ package com.lddapp.model;
 import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.mem.model.Mem;
 import com.emp.model.Emp;
 
-
+@Entity
+@Table(name = "lddapp")
 public class LddApp {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,22 +25,22 @@ public class LddApp {
 	
 	@ManyToOne
 	@JoinColumn(name = "memNo", referencedColumnName = "memNo")
-	private Mem memNo;
+	private Mem mem;
 	
 	@ManyToOne
-	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
-	private Emp empNo;
+	@JoinColumn(name = "empNo", referencedColumnName = "empNo", insertable = false)
+	private Emp emp;
 	
-	@Column(name = "lddAppCreate")
+	@Column(name = "lddAppCreate", updatable = false)
 	private Date lddAppCreate;
 	
 	@Column(name = "lddAppIDPic", columnDefinition = "longblob")
 	private byte[] lddAppIDPic;
 	
-	@Column(name = "lddAppPayStatus")
+	@Column(name = "lddAppPayStatus", insertable = false)
 	private Byte lddAppPayStatus;
 	
-	@Column(name = "lddAppStatus")
+	@Column(name = "lddAppStatus", insertable = false)
 	private Byte lddAppStatus;
 
 	
@@ -49,20 +52,20 @@ public class LddApp {
 		this.lddAppNo = lddAppNo;
 	}
 
-	public Mem getMemNo() {
-		return memNo;
+	public Mem getMem() {
+		return mem;
 	}
 
-	public void setMemNo(Mem memNo) {
-		this.memNo = memNo;
+	public void setMem(Mem mem) {
+		this.mem = mem;
 	}
 
-	public Emp getEmpNo() {
-		return empNo;
+	public Emp getEmp() {
+		return emp;
 	}
 
-	public void setEmpNo(Emp empNo) {
-		this.empNo = empNo;
+	public void setEmp(Emp emp) {
+		this.emp = emp;
 	}
 
 	public Date getLddAppCreate() {
