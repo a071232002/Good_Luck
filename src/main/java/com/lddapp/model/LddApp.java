@@ -20,27 +20,27 @@ import com.emp.model.Emp;
 public class LddApp {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "lddAppNo", updatable = false)
+	@Column(name = "lddappno", updatable = false)
 	private Integer lddAppNo;
 	
 	@ManyToOne
-	@JoinColumn(name = "memNo", referencedColumnName = "memNo")
+	@JoinColumn(name = "memno", referencedColumnName = "memNo")
 	private Mem mem;
 	
 	@ManyToOne
-	@JoinColumn(name = "empNo", referencedColumnName = "empNo", insertable = false)
+	@JoinColumn(name = "empno", referencedColumnName = "empNo", insertable = false)
 	private Emp emp;
 	
-	@Column(name = "lddAppCreate", updatable = false)
+	@Column(name = "lddappcreate", updatable = false)
 	private Date lddAppCreate;
 	
-	@Column(name = "lddAppIDPic", columnDefinition = "longblob")
+	@Column(name = "lddappidpic", columnDefinition = "longblob")
 	private byte[] lddAppIDPic;
 	
-	@Column(name = "lddAppPayStatus", insertable = false)
+	@Column(name = "lddapppaystatus", insertable = false)
 	private Byte lddAppPayStatus;
 	
-	@Column(name = "lddAppStatus", insertable = false)
+	@Column(name = "lddappstatus", insertable = false)
 	private Byte lddAppStatus;
 
 	
