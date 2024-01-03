@@ -4,16 +4,21 @@ import java.sql.Blob;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.ldd.model.Ldd;
 import com.lse.model.Lse;
 
+
+@Entity
+@Table(name = "rent")
 public class Rent {
 	
 	@Id

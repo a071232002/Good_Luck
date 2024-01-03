@@ -16,7 +16,7 @@ import com.mem.model.Mem;
 import com.emp.model.Emp;
 
 @Entity
-@Table(name = "Rtn")
+@Table(name = "rtn")
 public class Rtn {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,9 +39,9 @@ public class Rtn {
 	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
 	private Emp empNo;
 	// FK訂單
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "orderNo", referencedColumnName = "ordNo")
-	private Order orderNo;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "orderNo", referencedColumnName = "ordNo")
+//	private Order orderNo;
 
 	public Integer getRtnNo() {
 		return rtnNo;
@@ -91,12 +91,12 @@ public class Rtn {
 		this.empNo = empNo;
 	}
 
-	public Order getOrderNo() {
-		return orderNo;
-	}
-
-	public void setOrderNo(Order orderNo) {
-		this.orderNo = orderNo;
-	}
+//	public Order getOrderNo() {
+//		return orderNo;
+//	}
+//
+//	public void setOrderNo(Order orderNo) {
+//		this.orderNo = orderNo;
+//	}
 
 }
