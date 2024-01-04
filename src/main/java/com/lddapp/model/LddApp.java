@@ -20,27 +20,27 @@ import com.emp.model.Emp;
 public class LddApp {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "lddappno", updatable = false)
+	@Column(name = "lddappNo", updatable = false)
 	private Integer lddAppNo;
 	
 	@ManyToOne
-	@JoinColumn(name = "memno", referencedColumnName = "memNo")
+	@JoinColumn(name = "memNo", referencedColumnName = "memNo")
 	private Mem mem;
 	
 	@ManyToOne
-	@JoinColumn(name = "empno", referencedColumnName = "empNo", insertable = false)
+	@JoinColumn(name = "empNo", referencedColumnName = "empNo", insertable = false)
 	private Emp emp;
 	
-	@Column(name = "lddappcreate", updatable = false)
+	@Column(name = "lddAppCreate", updatable = false)
 	private Date lddAppCreate;
 	
-	@Column(name = "lddappidpic", columnDefinition = "longblob")
+	@Column(name = "lddAppIDPic", columnDefinition = "longblob")
 	private byte[] lddAppIDPic;
 	
-	@Column(name = "lddapppaystatus", insertable = false)
+	@Column(name = "lddAppPayStatus", insertable = false)
 	private Byte lddAppPayStatus;
 	
-	@Column(name = "lddappstatus", insertable = false)
+	@Column(name = "lddAppStatus", insertable = false)
 	private Byte lddAppStatus;
 
 	
@@ -103,8 +103,8 @@ public class LddApp {
 	@Override
 	public String toString() {
 		return "lddApp [lddAppNo=" + lddAppNo + 
-				", memNo=" + null +
-				", empNo=" + null +
+				", memNo=" + (mem == null? null :mem.getMemNo()) +
+				", empNo=" + (emp == null? null :emp.getEmpNo()) +
 				", lddAppCreate=" + lddAppCreate + 
 				", lddAppIDPic=" + lddAppIDPic + 
 				", lddAppPayStatus=" + lddAppPayStatus+ 
