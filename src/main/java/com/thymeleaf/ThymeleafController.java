@@ -37,11 +37,32 @@ public class ThymeleafController {
 	@Autowired
 	public RtnService rtnService;
 	
-//	後端首頁
+//	後端首頁|後台|Supper
 	@GetMapping("/BackStage")
 	public String index(Model model) {
 		return "BackStage/index";
 	}
+//	退貨單管理|後台|Sub
+	@GetMapping("/Rtn")
+	public String Rtn(Model model) {
+//		注入navImg
+		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
+		model.addAttribute("activeNavItemId", activeNavItemId);
+		
+		
+//		取得所有Rtn資料
+		Integer rtnCount = rtnService.getAllRtnIdCount();
+		List<Rtn> rtn = rtnService.getAllRtnData();
+//		注入QueryButtonEven資料
+			
+		List<String> QueryButtonValue = rtnService.getAllKeepRtnWhy();
+
+		model.addAttribute("rtnCount", rtnCount);
+		model.addAttribute("rtn1", rtn);
+		model.addAttribute("QueryButtonValue", QueryButtonValue);
+		return "/BackStage/rtn/Rtn";
+	}
+	
 	
 //	條件查詢:根據原因查詢
 	@GetMapping("/Rtns")
@@ -70,21 +91,7 @@ public class ThymeleafController {
 	}
 
 
-	@GetMapping("/Rtn")
-	public String Rtn(Model model) {
-
-//		取得所有Rtn資料
-		Integer rtnCount = rtnService.getAllRtnIdCount();
-		List<Rtn> rtn = rtnService.getAllRtnData();
-//		注入QueryButtonEven資料
-
-		List<String> QueryButtonValue = rtnService.getAllKeepRtnWhy();
-
-		model.addAttribute("rtnCount", rtnCount);
-		model.addAttribute("rtn1", rtn);
-		model.addAttribute("QueryButtonValue", QueryButtonValue);
-		return "/BackStage/Rtn";
-	}
+	
 
 	@GetMapping("/Rtnmodify")
 	public String updateProduct(@RequestParam(name = "rtnNo", required = false) Integer rtnNo, Model model) {
