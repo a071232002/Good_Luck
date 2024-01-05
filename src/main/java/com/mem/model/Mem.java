@@ -11,7 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 
 @Entity
 @Table(name = "mem")
@@ -26,27 +29,37 @@ public class Mem implements Serializable{
 	private Integer memNo;
 	
 	@Column(name="memMail")
+	@NotBlank(message = "信箱不能空白！")
+	@Pattern(regexp="^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$", message = "信箱格式輸入錯誤！")
 	private String memMail;
 	
 	@Column(name="memPsw")
+	@NotBlank(message = "密碼不能為空白！")
 	private String memPsw;
 	
-	@Column(name="memName")
+	@Column(name="memName", unique = true)
+	@NotBlank(message="會員姓名: 請勿空白")
+	@Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]$", message = "會員姓名: 只能是中、英文字母、數字和_")
 	private String memName;
 	
 	@Column(name="memSex")
+	@NotNull(message = "請輸入性別")
 	private Byte memSex;
 	
-	@Column(name="memPhone", columnDefinition = "CHAR(10)")
+	@Column(name="memPhone", columnDefinition = "CHAR(10)", unique = true)
+	@NotBlank(message="會員手機: 請勿空白")
 	private String memPhone;
 	
 	@Column(name="memAdd")
+	@NotBlank(message="會員地址: 請勿空白")
 	private String memAdd;
 	
-	@Column(name="memID", columnDefinition = "CHAR(10)")
+	@Column(name="memID", columnDefinition = "CHAR(10)", unique = true)
+	@NotBlank(message="會員身分證: 請勿空白")
 	private String memID;
 	
 	@Column(name="memReg")
+//	@NotNull
 	private Date memReg;
 	
 	@Column(name="memStatus")
@@ -55,56 +68,40 @@ public class Mem implements Serializable{
 	@Column(name="lastLoginTime")
 	private Timestamp lastLoginTime;
 	
+//	@Transient
 	@Column(name="memPic")
-	@Transient
 	private byte[] memPic;
 	
-//	@OneToMany(mappedBy = "fix", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "fix")
 //	private Set<Fix> fix;
 	
-//	@OneToMany(mappedBy = "ldd", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "ldd")
 //	private Set<Ldd> ldd;
 	
-//	@OneToMany(mappedBy = "lddApp", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "lddApp")
 //	private Set<LddApp> lddApp;
 	
-//	@OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "report")
 //	private Set<Report> report;
 	
-//	@OneToMany(mappedBy = "ord", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "ord")
 //	private Set<Ord> ord;
 	
-//	@OneToMany(mappedBy = "myPro", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "myPro")
 //	private Set<MyPro> myPro;
 	
-//	@OneToMany(mappedBy = "myRent", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "myRent")
 //	private Set<MyRent> myRent;
 	
-//	@OneToMany(mappedBy = "apo", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "apo")
 //	private Set<Apo> apo;
 	
-//	@OneToMany(mappedBy = "lse", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "lse")
 //	private Set<Lse> lse;
 	
 	public Mem() {
-		super();
 	}
 	
-	public Mem(String memMail, String memPsw, String memName, Byte memSex, String memPhone,
-			String memAdd, String memID, Date memReg, Byte memStatus, Timestamp lastLoginTime, byte[] memPic) {
-		super();
-		this.memMail = memMail;
-		this.memPsw = memPsw;
-		this.memName = memName;
-		this.memSex = memSex;
-		this.memPhone = memPhone;
-		this.memAdd = memAdd;
-		this.memID = memID;
-		this.memReg = memReg;
-		this.memStatus = memStatus;
-		this.lastLoginTime = lastLoginTime;
-		this.memPic = memPic;
-	}
 
 
 
@@ -189,8 +186,4 @@ public class Mem implements Serializable{
 				+ ", memSex=" + memSex + ", memPhone=" + memPhone + ", memAdd=" + memAdd + ", memID=" + memID
 				+ ", memReg=" + memReg + ", memStatus=" + memStatus + ", lastLoginTime=" + lastLoginTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) + "]";
 	}
-	
-	
-	
 }
-

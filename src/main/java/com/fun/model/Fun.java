@@ -28,7 +28,7 @@ public class Fun implements Serializable{
 	@Column(name="funName")
 	private String funName;
 	
-	@OneToMany(mappedBy = "fun", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "fun")
 	private Set<EmpFun> empFun;
 	
 	public Fun() {
@@ -66,4 +66,3 @@ public class Fun implements Serializable{
 	
 	
 }
-

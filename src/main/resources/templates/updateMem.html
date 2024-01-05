@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        label {
+            /* display: inline-block; */
+            width: 5em;
+        }
+
+        b {
+            color: red;
+        }
+
+        td {
+            text-align: right;
+            padding: 5px;
+        }
+
+        .toggler {
+            display: inline-block;
+            width: 500px;
+            height: 200px;
+        }
+
+        #button {
+            padding: .5em 1em;
+            text-decoration: none;
+        }
+
+        #effect {
+            width: 240px;
+            height: 100px;
+            padding: 0.4em;
+            position: relative;
+        }
+
+        #effect h3 {
+            margin: 0;
+            padding: 0.4em;
+            text-align: center;
+            background-color: red;
+        }
+    </style>
+<title>Insert title here</title>
+</head>
+<body>
+	<form method="post" th:action="@{memupdate}" th:object="${data}" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><label for="mail">信箱帳號<b>*</b>：</label></td>
+				<td><input id="mail" title="請輸入信箱帳號" th:field="*{memMail}" ></td>
+				<td><span  th:if="${#fields.hasErrors('memMail')}" th:errors="*{memMail}" class="error" id="ename.errors"></span></td>
+			</tr>
+			<tr>
+				<td><label for="password">密碼<b>*</b>：</label></td>
+				<td><input type="password" id="password" th:field="*{memPsw}" title="請輸入密碼"></td>
+				<td><span  th:if="${#fields.hasErrors('memPsw')}" th:errors="*{memPsw}" class="error" id="ename.errors"></span></td>
+			</tr>
+<!-- 			<tr> -->
+<!-- 				<td><label for="repassword">再輸入一次密碼<b>*</b>：</label></td> -->
+<!-- 				<td><input type="password" id="repassword" title="再輸入一次密碼"></td> -->
+<!-- 			</tr> -->
+			<tr>
+				<td><label for="name">姓名<b>*</b>：</label></td>
+				<td><input id="name" title="請輸入姓名" th:field="*{memName}"></td>
+				<td><span th:if="${#fields.hasErrors('memName')}" th:errors="*{memName}"></span></td>
+			</tr>
+			<tr>
+                <td><label for="memsex">性別<b>*</b>：</label></td>
+                <td>
+                    <input type="radio" th:field="*{memSex}" id="man" th:value="0"><label for="man">男性</label>
+                    <input type="radio" th:field="*{memSex}" id="femal" th:value="1"><label for="femal">女性</label>
+                </td>
+                <td><span th:if="${#fields.hasErrors('memSex')}" th:errors="*{memSex}"></span></td>
+            </tr>
+			<tr>
+				<td><label for="phone">手機號碼<b>*</b>：</label></td>
+				<td><input id="phone" th:field= "*{memPhone}" title="請輸入手機號碼" name="phone"></td>
+				<td><span th:if="${#fields.hasErrors('memPhone')}" th:errors="*{memPhone}"></span></td>
+			</tr>
+			<tr>
+				<td><label for="add">聯絡地址<b>*</b>：</label></td>
+				<td><input id="add" th:field= "*{memAdd}" title="請輸入聯絡地址"></td>
+				<td><span th:if="${#fields.hasErrors('memAdd')}" th:errors="*{memAdd}"></span></td>
+			</tr>
+			<tr>
+				<td><label for="memID">身分證號碼<b>*</b>：</label></td>
+				<td><input id="memID" th:field= "*{memID}" title="請輸入身分證號碼"></td>
+				<td><span th:if="${#fields.hasErrors('memID')}" th:errors="*{memID}"></span></td>
+			</tr>
+			<tr>
+				<td><label for="upfile">圖片：</label></td>
+				<td><input type="file" th:field= "*{memPic}"></td>
+			</tr>
+		</table>
+		<input type="hidden" th:field="*{memNo}">
+		<input type="hidden" th:field="*{memReg}">
+		<input type="hidden" th:field="*{memStatus}">
+		<input type="hidden" th:field="*{lastLoginTime}">
+		<input type="submit" class="submit" value="註冊會員">
+	</form>
+
+	<button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
+</body>
+</html>

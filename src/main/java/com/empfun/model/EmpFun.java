@@ -9,10 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import com.emp.model.Emp;
-import com.empfun.model.EmpFun.Composite;
 import com.fun.model.Fun;
 
 @Entity
@@ -24,11 +24,11 @@ public class EmpFun implements Serializable{
 	@EmbeddedId
 	private Composite compositeKey;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "empNo", referencedColumnName = "empNo", insertable = false, updatable = false)
 	private Emp emp;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "funNo", referencedColumnName = "funNo", insertable = false, updatable = false)
 	private Fun fun;
 	
@@ -135,5 +135,4 @@ public class EmpFun implements Serializable{
 	
 	
 }
-
 
