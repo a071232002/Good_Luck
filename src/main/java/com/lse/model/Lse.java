@@ -24,15 +24,15 @@ public class Lse {
 	@Column(name = "lseNo", updatable = false)
 	private Integer lseNo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "memNo", referencedColumnName = "memNo")
-	private Mem memNo;
+	@ManyToOne
+	@JoinColumn(name = "memNo", referencedColumnName = "memNo", updatable = false)
+	private Mem mem;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo")
-	private Rent rentNo;
+	@ManyToOne
+	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo", updatable = false)
+	private Rent rent;
 	
-	@Column(name = "lseCreate")
+	@Column(name = "lseCreate", updatable = false)
 	private Date lseCreate;
 	
 	@Column(name = "lseStart")
@@ -44,7 +44,7 @@ public class Lse {
 	@Column(name = "lseSend", columnDefinition = "longblob")
 	private byte[] lseSend;
 	
-	@Column(name = "lseSign", columnDefinition = "longblob")
+	@Column(name = "lseSign", columnDefinition = "longblob", insertable = false)
 	private byte[] lseSign;
 	
 	@Column(name = "lsePay")
@@ -53,13 +53,13 @@ public class Lse {
 	@Column(name = "lsePayAccount")
 	private String lsePayAccount;
 	
-	@Column(name = "lsePayStatus")
+	@Column(name = "lsePayStatus", insertable = false)
 	private Byte lsePayStatus;
 	
-	@Column(name = "lseStatus")
+	@Column(name = "lseStatus", insertable = false)
 	private Byte lseStatus;
 	
-	@Column(name = "lseRenew")
+	@Column(name = "lseRenew", insertable = false)
 	private Byte lseRenew;
 	
 	public Lse() {
@@ -74,20 +74,20 @@ public class Lse {
 		this.lseNo = lseNo;
 	}
 
-	public Mem getMemNo() {
-		return memNo;
+	public Mem getMem() {
+		return mem;
 	}
 
-	public void setMemNo(Mem memNo) {
-		this.memNo = memNo;
+	public void setMem(Mem mem) {
+		this.mem = mem;
 	}
 
-	public Rent getRentNo() {
-		return rentNo;
+	public Rent getRent() {
+		return rent;
 	}
 
-	public void setRentNo(Rent rentNo) {
-		this.rentNo = rentNo;
+	public void setRent(Rent rent) {
+		this.rent = rent;
 	}
 
 	public Date getLseCreate() {

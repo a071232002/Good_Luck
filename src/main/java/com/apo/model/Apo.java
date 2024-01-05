@@ -3,31 +3,34 @@ package com.apo.model;
 import java.sql.Date;
 
 import javax.persistence.Column;
-import javax.persistence.FetchType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.mem.model.Mem;
 import com.rent.model.Rent;
 
+@Entity
+@Table(name = "apo")
 public class Apo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "apoNo", updatable = false)
 	private Integer apoNo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "memNo", referencedColumnName = "memNo")
-	private Mem memNo;
+	@ManyToOne
+	@JoinColumn(name = "memNo", referencedColumnName = "memNo", updatable = false)
+	private Mem mem;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo")
-	private Rent rentNo;
+	@ManyToOne
+	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo", updatable = false)
+	private Rent rent;
 	
-	@Column(name = "apoCreate")
+	@Column(name = "apoCreate", updatable = false)
 	private Date apoCreate;
 	
 	@Column(name = "apoDate")
@@ -36,13 +39,13 @@ public class Apo {
 	@Column(name = "apoTime")
 	private Byte apoTime;
 	
-	@Column(name = "apoStatus")
+	@Column(name = "apoStatus", insertable = false)
 	private Byte apoStatus;
 	
-	@Column(name = "apoWant")
+	@Column(name = "apoWant", insertable = false)
 	private Byte apoWant;
 	
-	@Column(name = "apoWantDate")
+	@Column(name = "apoWantDate", insertable = false)
 	private Date apoWantDate;
 
 	public Apo() {
@@ -57,20 +60,20 @@ public class Apo {
 		this.apoNo = apoNo;
 	}
 
-	public Mem getMemNo() {
-		return memNo;
+	public Mem getMem() {
+		return mem;
 	}
 
-	public void setMemNo(Mem memNo) {
-		this.memNo = memNo;
+	public void setMem(Mem mem) {
+		this.mem = mem;
 	}
 
-	public Rent getRentNo() {
-		return rentNo;
+	public Rent getRent() {
+		return rent;
 	}
 
-	public void setRentNo(Rent rentNo) {
-		this.rentNo = rentNo;
+	public void setRent(Rent rent) {
+		this.rent = rent;
 	}
 
 	public Date getApoCreate() {
