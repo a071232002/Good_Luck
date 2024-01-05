@@ -13,26 +13,26 @@ import com.ldd.model.LddRepository;
 public class LddAppService {
 
 	@Autowired
-	LddAppRepository lddAppRepository;
+	LddAppRepository repository;
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	public void addLddApp(LddApp lddApp) {
-		lddAppRepository.save(lddApp);
+		repository.save(lddApp);
 	}
 
 	public void upDateLddApp(LddApp lddApp) {
-		lddAppRepository.save(lddApp);
+		repository.save(lddApp);
 	}
 
 	public LddApp getOneLddApp(Integer lddAppNo) {
-		Optional<LddApp> optional = lddAppRepository.findById(lddAppNo);
+		Optional<LddApp> optional = repository.findById(lddAppNo);
 		return optional.orElse(null);
 	}
 
 	public List<LddApp> getAll() {
-		return lddAppRepository.findAll();
+		return repository.findAll();
 	}
 
 }
