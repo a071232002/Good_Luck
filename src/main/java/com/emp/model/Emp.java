@@ -41,25 +41,26 @@ public class Emp implements Serializable{
 	@Column(name="empSal")
 	private Integer empSal;
 	
+
 //	@OneToMany(mappedBy = "emp", cascade = CascadeType.ALL)
 //	private Set<EmpFun> empFun;
 	
-//	@OneToMany(mappedBy = "notice", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "notice")
 //	private Set<Notice> notice;
 	
-//	@OneToMany(mappedBy = "rentApp", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "rentApp")
 //	private Set<RentApp> rentApp;
 	
-//	@OneToMany(mappedBy = "lddApp", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "lddApp")
 //	private Set<LddApp> lddApp;
 	
-//	@OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "report")
 //	private Set<Report> report;
 	
-//	@OneToMany(mappedBy = "rtn", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "rtn")
 //	private Set<Rtn> rtn;
 	
-//	@OneToMany(mappedBy = "pro", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "pro")
 //	private Set<Pro> pro;
 	
 	public Emp() {
@@ -127,6 +128,7 @@ public class Emp implements Serializable{
 		this.empSal = empSal;
 	}
 
+
 //	public Set<EmpFun> getEmpFun() {
 //		return empFun;
 //	}
@@ -134,6 +136,13 @@ public class Emp implements Serializable{
 //	public void setEmpFun(Set<EmpFun> empFun) {
 //		this.empFun = empFun;
 //	}
-	
-}
 
+
+
+	@Override
+	public String toString() {
+		return "Emp [empNo=" + empNo + ", empName=" + empName + ", empPsw=" + empPsw + ", empHireDate=" + empHireDate
+				+ ", empStatus=" + empStatus + ", empSal=" + empSal + "]";
+	}
+
+}
