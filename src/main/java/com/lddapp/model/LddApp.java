@@ -20,7 +20,7 @@ import com.emp.model.Emp;
 public class LddApp {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "lddAppNo", updatable = false)
+	@Column(name = "lddappNo", updatable = false)
 	private Integer lddAppNo;
 	
 	@ManyToOne
@@ -103,8 +103,8 @@ public class LddApp {
 	@Override
 	public String toString() {
 		return "lddApp [lddAppNo=" + lddAppNo + 
-				", memNo=" + null +
-				", empNo=" + null +
+				", memNo=" + (mem == null? null :mem.getMemNo()) +
+				", empNo=" + (emp == null? null :emp.getEmpNo()) +
 				", lddAppCreate=" + lddAppCreate + 
 				", lddAppIDPic=" + lddAppIDPic + 
 				", lddAppPayStatus=" + lddAppPayStatus+ 
