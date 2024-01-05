@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- <link rel="stylesheet" th:href="@{/style/try.css}" />
- <link rel="stylesheet" th:href="@{/style/try2.css}" />
+ <link rel="stylesheet" th:href="@{/memStyle/try.css}" />
+ <link rel="stylesheet" th:href="@{/memStyle/try2.css}" />
  <style>
  	h1 {
 		text-align: center;
@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>會員查詢</h1>
+	<h1>成功</h1>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
@@ -29,11 +29,10 @@
 				<th>帳號狀態</th>
 				<th>最後上線時間</th>
 				<th>會員大頭照</th>
-				<th>修改</th>
 			</tr>
 		</thead>
 		<tbody>
-		<th:block th:each="mem : ${memListData}">
+		<th:block th:each="mem : ${successData}">
 			<tr>
 				<td th:text="${mem.memNo}"></td>
 				<td th:text="${mem.memMail}"></td>
@@ -53,12 +52,6 @@
 				</td>
 				<td th:if="${mem.lastLoginTime != null}" th:text="${#dates.format(mem.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td>
 				<td ><img th:src="@{/mem/picture} + '?memno=' + ${mem.memNo}" width="100px" height="100px"></td>
-				<td>
-					<form method="post" th:action="@{updateMem}">
-						<input type="hidden" name= "memNo" th:value="${mem.memNo}">
-						<input type="submit" value="修改" >
-					</form>
-				</td>
 			</tr>
 		
 		</th:block>
@@ -77,16 +70,15 @@
 <!-- 				<th>帳號狀態</th> -->
 <!-- 				<th>最後上線時間</th> -->
 <!-- 				<th>會員大頭照</th> -->
-<!-- 				<th>修改</th> -->
 <!-- 			</tr> -->
 <!-- 		</tfoot> -->
 	</table>
 	<br>
-	<a th:href="@{addMem}"><button>前往註冊會員</button></a>
+	<a th:href="@{/mem/memlist}"><button>返回會員列表</button></a>
 	
-	<script th:src="@{/style/vendors/jquery/jquery-3.7.1.min.js}"></script>
-  	<script th:src="@{/style/the.js}"></script>
-  	<script th:src="@{/style/the2.js}"></script>
+	<script th:src="@{/memStyle/vendors/jquery/jquery-3.7.1.min.js}"></script>
+  	<script th:src="@{/memStyle/the.js}"></script>
+  	<script th:src="@{/memStyle/the2.js}"></script>
   	<script>
     	let table = new DataTable("#example");
     	console.log($(".test"));

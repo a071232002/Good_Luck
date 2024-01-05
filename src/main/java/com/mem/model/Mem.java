@@ -39,7 +39,7 @@ public class Mem implements Serializable{
 	
 	@Column(name="memName", unique = true)
 	@NotBlank(message="會員姓名: 請勿空白")
-	@Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]$", message = "會員姓名: 只能是中、英文字母、數字和_")
+	@Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$", message = "會員姓名: 只能是中、英文字母、數字和_")
 	private String memName;
 	
 	@Column(name="memSex")

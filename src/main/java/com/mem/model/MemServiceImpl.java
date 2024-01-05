@@ -20,7 +20,7 @@ public class MemServiceImpl implements MemService{
 	public Integer register(Mem mem) {
 		mem.setLastLoginTime(Timestamp.valueOf(LocalDateTime.now()));
 		mem.setMemReg(Date.valueOf(LocalDate.now()));
-		mem.setMemStatus(Byte.valueOf("0"));  //default未驗證
+		mem.setMemStatus(Byte.valueOf("0"));
 		Mem newData = memRepository.save(mem);
 		return newData.getMemNo();
 	}
@@ -35,8 +35,8 @@ public class MemServiceImpl implements MemService{
 	//編輯會員
 	@Override
 	public Mem edit(Mem newData) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("get memNo" + newData.getMemNo());
+		return memRepository.save(newData);
 	}
 	
 	//會員編號查詢

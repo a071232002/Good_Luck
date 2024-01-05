@@ -43,9 +43,9 @@ public class MemController {
 	public String updateData(ModelMap model, @ModelAttribute("memNo") String memNo) {
 		System.out.println(memNo);
 		Mem oldData = memservice.findByNo(Integer.valueOf(memNo));
-		System.out.println(oldData);
+		System.out.println("test  " + oldData);
 		model.addAttribute("data", oldData);
-		return"updateMem";
+		return"mem/updateMem";
 	}
 	
 	
@@ -71,7 +71,7 @@ public class MemController {
 		Mem newData = memservice.findByNo(memservice.register(mem));
 		model.addAttribute("successData", newData);
 		System.out.println(newData);
-		return "successPage";
+		return "mem/successPage";
 //		return "redirect:/mem/memlist";
 	}
 	
@@ -91,13 +91,13 @@ public class MemController {
 		System.out.println("yes");
 		if(result.hasErrors()) {
 			System.out.println(result.getAllErrors());
-			return "updateMem";
+			return "mem/updateMem";
 		}
 		
 		Mem newData = memservice.edit(mem);
 		model.addAttribute("successData", newData);
 		System.out.println(newData);
-		return "/successPage";
+		return "mem/successPage";
 //		return "redirect:/mem/memlist";
 	}
 	
