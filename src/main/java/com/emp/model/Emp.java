@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.empfun.model.EmpFun;
+//import com.empfun.model.EmpFun;
 
 @Entity
 @Table(name="emp")
@@ -41,8 +41,9 @@ public class Emp implements Serializable{
 	@Column(name="empSal")
 	private Integer empSal;
 	
-	@OneToMany(mappedBy = "emp")
-	private Set<EmpFun> empFun;
+
+//	@OneToMany(mappedBy = "emp", cascade = CascadeType.ALL)
+//	private Set<EmpFun> empFun;
 	
 //	@OneToMany(mappedBy = "notice")
 //	private Set<Notice> notice;
@@ -127,13 +128,14 @@ public class Emp implements Serializable{
 		this.empSal = empSal;
 	}
 
-	public Set<EmpFun> getEmpFun() {
-		return empFun;
-	}
 
-	public void setEmpFun(Set<EmpFun> empFun) {
-		this.empFun = empFun;
-	}
+//	public Set<EmpFun> getEmpFun() {
+//		return empFun;
+//	}
+//
+//	public void setEmpFun(Set<EmpFun> empFun) {
+//		this.empFun = empFun;
+//	}
 
 
 
@@ -142,7 +144,5 @@ public class Emp implements Serializable{
 		return "Emp [empNo=" + empNo + ", empName=" + empName + ", empPsw=" + empPsw + ", empHireDate=" + empHireDate
 				+ ", empStatus=" + empStatus + ", empSal=" + empSal + "]";
 	}
-	
-	
-	
+
 }

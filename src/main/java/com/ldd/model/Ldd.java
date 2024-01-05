@@ -21,7 +21,7 @@ public class Ldd {
 	private Integer lddNo;
 	
 	@ManyToOne
-	@JoinColumn(name = "memNo", referencedColumnName = "memNo")
+	@JoinColumn(name = "memNo", referencedColumnName = "memNo", updatable = false)
 	private Mem memNo;
 	
 	@Column(name = "lddStatus", insertable = false)

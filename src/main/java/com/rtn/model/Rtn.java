@@ -1,6 +1,6 @@
 package com.rtn.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,37 +11,43 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
-import com.mem.model.Mem;
+import org.hibernate.criterion.Order;
+
 import com.emp.model.Emp;
 
 @Entity
-@Table(name = "rtn")
+@Table(name = "Rtn")
 public class Rtn {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "rtnNo", updatable = false)
 	private Integer rtnNo;
 
+	// FK員工
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
+	private Emp empNo;
+//	// FK訂單
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "orderNo", referencedColumnName = "ordNo")
+//	private Order orderNo;
+	
 	@Column(name = "rtnDate")
-	private Timestamp rtnDate;
+	private Date rtnDate;
 
 	@Column(name = "rtnWhy")
 	private String rtnWhy;
 
 	@Column(name = "refundAmount")
 	private int refundAmount;
-
+	
+	@Max(3)
+	@Min(0)
 	@Column(name = "rtnStatus")
 	private int rtnStatus;
-	// FK員工
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
-	private Emp empNo;
-	// FK訂單
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "orderNo", referencedColumnName = "ordNo")
-//	private Order orderNo;
 
 	public Integer getRtnNo() {
 		return rtnNo;
@@ -51,11 +57,11 @@ public class Rtn {
 		this.rtnNo = rtnNo;
 	}
 
-	public Timestamp getRtnDate() {
+	public Date getRtnDate() {
 		return rtnDate;
 	}
 
-	public void setRtnDate(Timestamp rtnDate) {
+	public void setRtnDate(Date rtnDate) {
 		this.rtnDate = rtnDate;
 	}
 

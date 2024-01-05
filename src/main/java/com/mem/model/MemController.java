@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/mem")
+@RequestMapping("/BackStage/mem")
 public class MemController {
 
 	@Autowired
@@ -35,7 +35,7 @@ public class MemController {
 	public String addData(ModelMap model) {
 		Mem mem = new Mem();
 		model.addAttribute("mem", mem);
-		return "mem/addMem";
+		return "BackStage/mem/addMem";
 	}
 	
 	//前往修改頁面
@@ -45,7 +45,7 @@ public class MemController {
 		Mem oldData = memservice.findByNo(Integer.valueOf(memNo));
 		System.out.println("test  " + oldData);
 		model.addAttribute("data", oldData);
-		return"mem/updateMem";
+		return"BackStage/mem/updateMem";
 	}
 	
 	
@@ -65,13 +65,13 @@ public class MemController {
 		System.out.println(result.getFieldErrorCount());
 		if(result.hasErrors()) {
 			System.out.println(result.getAllErrors());
-			return "mem/addMem";
+			return "BackStage/mem/addMem";
 		}
 		
 		Mem newData = memservice.findByNo(memservice.register(mem));
 		model.addAttribute("successData", newData);
 		System.out.println(newData);
-		return "mem/successPage";
+		return "BackStage/mem/successPage";
 //		return "redirect:/mem/memlist";
 	}
 	
@@ -91,13 +91,13 @@ public class MemController {
 		System.out.println("yes");
 		if(result.hasErrors()) {
 			System.out.println(result.getAllErrors());
-			return "mem/updateMem";
+			return "BackStage/mem/updateMem";
 		}
 		
 		Mem newData = memservice.edit(mem);
 		model.addAttribute("successData", newData);
 		System.out.println(newData);
-		return "mem/successPage";
+		return "BackStage/mem/successPage";
 //		return "redirect:/mem/memlist";
 	}
 	

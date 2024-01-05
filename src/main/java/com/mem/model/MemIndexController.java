@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 
 @Controller
-public class IndexController {
+public class MemIndexController {
 	
 	@Autowired
 	private MemService memservice;
 	
 	//前往查詢頁面
-	@GetMapping("/mem/memlist")
+	@GetMapping("/BackStage/mem/memlist")
 	public String showList(ModelMap model) {
-		return "mem/listAllMem";
+		return "BackStage/mem/listAllMem";
 	}
 	
 	
