@@ -63,6 +63,18 @@ public class ThymeleafController {
 		return "/BackStage/rtn/Rtn";
 	}
 	
+//	修改頁面
+	@GetMapping("/Rtnmodify")
+	public String updateProduct(@RequestParam(name = "rtnNo", required = false) Integer rtnNo, Model model) {
+		if (rtnNo != null) {
+			Rtn rtnPuting = rtnService.getProductById(rtnNo);
+			model.addAttribute("rtnPuting", rtnPuting);
+		}
+		return "BackStage/rtn/Rtnmodify";
+	}
+	
+	
+	
 	
 //	條件查詢:根據原因查詢
 	@GetMapping("/Rtns")
@@ -93,14 +105,7 @@ public class ThymeleafController {
 
 	
 
-	@GetMapping("/Rtnmodify")
-	public String updateProduct(@RequestParam(name = "rtnNo", required = false) Integer rtnNo, Model model) {
-		if (rtnNo != null) {
-			Rtn rtnPuting = rtnService.getProductById(rtnNo);
-			model.addAttribute("rtnPuting", rtnPuting);
-		}
-		return "Rtnmodify";
-	}
+
 
 	@PutMapping("/Rtnmodify/{RtnNoId}")
 	public ResponseEntity<Rtn> updateProduct(@PathVariable Integer RtnNoId,
