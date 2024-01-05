@@ -78,7 +78,7 @@ function updateTable(data) {
 					
 					break;
 				case "rtnStatus":	
-					
+					cell.innerText = keyValue;
 					cell.innerText = changeStatusName(keyValue);
 					break;
 				case null:
@@ -93,7 +93,10 @@ function updateTable(data) {
 	});
 }
 
-function changeStatusName(keyValue){
+function ChangeStatusName(keyValue){
+	
+	keyValue = Number(keyValue);
+	
 	switch (keyValue){
 		case 0:
 			keyValue = "待確認";
@@ -114,3 +117,6 @@ function changeStatusName(keyValue){
 function CanelButton() {
 	window.location.href = '/Rtn';
 }
+
+ChangeStatusName(keyValue);
+CanelButton();
