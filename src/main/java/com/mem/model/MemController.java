@@ -38,6 +38,12 @@ public class MemController {
 		return "BackStage/mem/addMem";
 	}
 	
+	//前往查詢頁面
+	@GetMapping("/memlist")
+	public String showList(ModelMap model) {
+		return "BackStage/mem/listAllMem";
+	}
+	
 	//前往修改頁面
 	@PostMapping("updateMem")
 	public String updateData(ModelMap model, @ModelAttribute("memNo") String memNo) {
