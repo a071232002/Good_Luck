@@ -30,10 +30,10 @@ public class Rtn {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
 	private Emp empNo;
-	// FK訂單
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "orderNo", referencedColumnName = "ordNo")
-	private Order orderNo;
+//	// FK訂單
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "orderNo", referencedColumnName = "ordNo")
+//	private Order orderNo;
 	
 	@Column(name = "rtnDate")
 	private Date rtnDate;
@@ -97,12 +97,12 @@ public class Rtn {
 		this.empNo = empNo;
 	}
 
-	public Order getOrderNo() {
-		return orderNo;
-	}
-
-	public void setOrderNo(Order orderNo) {
-		this.orderNo = orderNo;
-	}
+//	public Order getOrderNo() {
+//		return orderNo;
+//	}
+//
+//	public void setOrderNo(Order orderNo) {
+//		this.orderNo = orderNo;
+//	}
 
 }

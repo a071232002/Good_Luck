@@ -1,4 +1,4 @@
-package com.thymeleaf;
+package com;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.emp.dto.EmpRegisterRequest;
@@ -32,8 +33,8 @@ import com.rtn.service.RtnService;
 
 @Validated
 @Controller
-@ComponentScan(basePackages = "com")
-public class ThymeleafController {
+//@ComponentScan(basePackages = "com")
+public class IndexController {
 	@Autowired
 	public RtnService rtnService;
 	
