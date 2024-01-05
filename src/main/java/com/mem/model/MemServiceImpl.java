@@ -72,5 +72,14 @@ public class MemServiceImpl implements MemService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	//停權會員
+	@Override
+	public void banMem(Integer memNo) {
+		Mem data = memRepository.findById(memNo).orElse(null);
+		//其他停權動作
+		data.setMemStatus(Byte.valueOf("2")); //停權狀態
+		edit(data);
+	}
 
 }

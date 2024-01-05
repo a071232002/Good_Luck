@@ -81,14 +81,14 @@ public class MemController {
 //		return "redirect:/mem/memlist";
 	}
 	
-	//修改資料
+	//修改資料(未修正資料與資料庫重複)
 	//@MdelAttribute對映th:object"${mem}"和model.addAttribute("mem", mem)
 	@PostMapping("memupdate")
 	public String updateMem(@RequestParam("memPic") MultipartFile part, @ModelAttribute("data") @Valid Mem mem, BindingResult result, ModelMap model) throws IOException{
-		//未修正資料與資料庫重複
+
 		System.out.println(part.isEmpty());
 		
-		mem.setMemPic(part.isEmpty() ? null : part.getBytes());
+		mem.setMemPic(part.isEmpty() ? memservice.findByNo(mem.getMemNo()).getMemPic() : part.getBytes());
 		
 		result = removeFieldError(mem, result, "memPic");
 		
@@ -105,6 +105,14 @@ public class MemController {
 		System.out.println(newData);
 		return "BackStage/mem/successPage";
 //		return "redirect:/mem/memlist";
+	}
+	
+	//停權
+	@PostMapping("stopMem")
+	public String banMem(@ModelAttribute("memNo") String memNo) {
+		memservice.banMem(Integer.valueOf(memNo));
+		
+		return "redirect:memlist";
 	}
 	
 	//設置查詢全部屬性

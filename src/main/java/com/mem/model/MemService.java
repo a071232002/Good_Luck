@@ -28,5 +28,8 @@ public interface MemService {
 	//忘記密碼
 	public String forgetPsw(String  memMail);
 	
+	//停權會員
+	public void banMem(Integer memNo);
+	
 	
 }
