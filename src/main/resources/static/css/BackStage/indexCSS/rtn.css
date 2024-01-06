@@ -40,10 +40,13 @@ a {
 	border: 10px dotted rgba(255, 255, 255, 0.2);
 	padding: 1px;
 }
+.modify-btn{
+	background: #ffc107;
+}
+
 
 .subA:hover {
-	color: red;
+	color: #ff0000c2;
 	transition: .3s;
 	transform: scale(1.5);
-	/* padding: 1px; */
 }
