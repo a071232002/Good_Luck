@@ -118,5 +118,5 @@ function CanelButton() {
 	window.location.href = '/Rtn';
 }
 
-ChangeStatusName(keyValue);
-CanelButton();
+//ChangeStatusName(keyValue);
+//CanelButton();
