@@ -220,13 +220,13 @@
 						th:value="${rtn.rtnWhy}"></td>
 					<td><input id="refundAmountInput" class="input-text"
 						th:value="${rtn.refundAmount}"></td>
-					<td><input id="rtnStatusInput" class="input-text"
+					<td><input id="" class="input-text"
 						th:value="${rtn.rtnStatus}"></td>
 					<td>
-						<select>
-							<option value="0">待確認</option>
-							<option value="1">待退款</option>
-							<option value="2">完成</option>
+						<select id="rtnStatusInput" th:value="${rtn.rtnStatus}">
+							<option value="0" th:selected="${rtn.rtnStatus} == 0">待確認</option>
+							<option value="1" th:selected="${rtn.rtnStatus} == 1">待退款</option>
+							<option value="2" th:selected="${rtn.rtnStatus} == 2">完成</option>
 						</select>
 					</td>
 					<td>
