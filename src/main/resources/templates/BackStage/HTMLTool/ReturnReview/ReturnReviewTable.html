@@ -1,5 +1,5 @@
-<div class="container-fluid p-0" 
-th:fragment="ReturnReviewTable">
+
+<div class="container-fluid p-0" th:fragment="ReturnReviewTable">
 	<!-- 退貨審核|表格-->
 	<table>
 		<thead>
@@ -16,45 +16,20 @@ th:fragment="ReturnReviewTable">
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="rtn : ${rtnPuting}">
-				<td><input id="rtnNoInput" class="input-text-FK"
-					th:value="${rtn.rtnNo}" disabled></td>
-
-				<td><input id="rtnNO" class="input-text-FK"
-					th:value="${rtn.empNo.empNo}" disabled></td>
-
-				<!-- 					<td><input id="ordNo" class="input-text-FK" -->
-				<!-- 						th:value="${rtn.ordNo.ordNo}" disabled>ordNo</td> -->
-				<td><input id="ordNo" class="input-text-FK" disabled
-					value="ordNo"></td>
-
-				<td><input id="rtnDateInput" class="input-text"
-					th:value="${rtn.rtnDate}"></td>
-
-				<td><input id="rtnWhyInput" class="input-text"
-					th:value="${rtn.rtnWhy}"></td>
-
-				<td><input id="refundAmountInput" class="input-text"
-					th:value="${rtn.refundAmount}"></td>
-				<!-- 					<td><input id="" class="input-text" -->
-				<!-- 						th:value="${rtn.rtnStatus}"></td> -->
-				<td><select id="rtnStatusInput" th:value="${rtn.rtnStatus}">
-						<option value="0" th:selected="${rtn.rtnStatus} == 0">待確認</option>
-						<option value="1" th:selected="${rtn.rtnStatus} == 1">待退款</option>
-						<option value="2" th:selected="${rtn.rtnStatus} == 2">完成</option>
-				</select></td>
-				<td id="btn-td">
-					<!-- 						<button classㄊ="modify-btn" th:attr="data-rtnNo=${rtn.rtnNo}" -->
-					<!-- 							onclick="redirectToModifyPageAndReturn(this.getAttribute('data-rtnNo'))">存檔</button> -->
-					<button id="ok-btn" class="modify-btn"
-						th:attr="data-rtnNo=${rtn.rtnNo}"
-						onclick="updateRtnOnServer(this.getAttribute('data-rtnNo'))">存檔</button>
-
-					<button id="nook-btn" onclick="cancelAndRollBack()"
-						data-rtnNo="${rtn.rtnNo}" class="modify-btn-c">取消</button>
-
+			<tr th:each="rtn : ${rtn1}" id=Rtn-Table>
+				<td class="Rtn-Table-td" th:text="${rtn.rtnNo}"></td>
+				<td class="Rtn-Table-td" th:text="${rtn.empNo.empNo}"></td>
+				<td class="Rtn-Table-td">ordNo</td>
+				<!-- 					th:text="${rtn.ordNo.ordNo}"> -->
+				<td class="Rtn-Table-td" th:text="${rtn.rtnDate}"></td>
+				<td class="Rtn-Table-td" th:text="${rtn.rtnWhy}"></td>
+				<td class="Rtn-Table-td" th:text="${rtn.refundAmount}"></td>
+				<td class="Rtn-Table-td RtnStatus" th:text="${rtn.rtnStatus}"></td>
+				<td>
+					<button
+						onclick="redirectToModifyPage(this.getAttribute('data-RtnNoId'))"
+						th:attr="data-RtnNoId=${rtn.rtnNo}" class="modify-btn">修改</button>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-<div>
