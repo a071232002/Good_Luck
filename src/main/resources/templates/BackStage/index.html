@@ -34,112 +34,22 @@
 
 <body id="page-top">
 	
-	
 	<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
-	
-
-
 	
 	<!-- Page Content-->
 		<!-- 會員管理-->
 	<div th:replace="BackStage/HTMLTool/MemManage :: MemManage"></div>
-
-		
 		<!-- 物件管理-->
-		<section class="resume-section" id="RentAppManage">
-			<h1 class="mb-0">
-				物件管理 <span class="text-primary">RentAppManage</span>
-			</h1>
-			<div class="resume-section-content">
-
-
-				<div class="subheading mb-5 subManage">
-					<a href="#" class="subA">審核物件</a>
-					<a href="#" class="subA">物件上下架</a>
-				</div>
-
-				<p class="lead mb-5"></p>
-
-
-			</div>
-		</section>
-		<hr class="m-0" />
-		<!-- 購物管理-->
-		<section class="resume-section" id="ShopManage">
-			<h1 class="mb-0">
-				購物管理 <span class="text-primary">ShopManage</span>
-			</h1>
-			<div class="resume-section-content">
-
-
-				<div class="subheading mb-5 subManage">
-					<a href="#" class="subA">商品管理</a>
-					<a href="#" class="subA">訂單管理</a>
-					<a href="/Good_Luck/BackStage/RtnManage" class="subA linkOk">退貨審核</a>
-				</div>
-
-				<p class="lead mb-5"></p>
-
-			</div>
-		</section>
-		<hr class="m-0" />
+	<div th:replace="BackStage/HTMLTool/RentAppManage :: RentAppManage"></div>
+		<!-- 購物管理-->	
+	<div th:replace="BackStage/HTMLTool/ShopManage :: ShopManage"></div>
 		<!-- 公告管理 -->
-		<section class="resume-section" id="NoticeManage">
-			<h1 class="mb-0">
-				公告管理 <span class="text-primary">NoticeManage</span>
-			</h1>
-			<div class="resume-section-content">
-
-
-				<div class="subheading mb-5 subManage">
-					<a href="#" class="subA">最新消息管理</a>
-					<a href="#" class="subA">Q&A管理</a>
-					<a href="#" class="subA">關於我們管理</a>
-				</div>
-
-				<p class="lead mb-5"></p>
-
-			</div>
-		</section>
-		<hr class="m-0" />
+	<div th:replace="BackStage/HTMLTool/NoticeManage :: NoticeManage"></div>				
 		<!-- 投訴管理 -->
-		<section class="resume-section" id="ComplaintManage">
-			<h1 class="mb-0">
-				投訴管理 <span class="text-primary">ComplaintManage</span>
-			</h1>
-			<div class="resume-section-content">
-
-
-				<div class="subheading mb-5 subManage">
-					<a href="#" class="subA">查看</a>
-					<a href="#" class="subA">回覆/結案</a>
-				</div>
-
-				<p class="lead mb-5"></p>
-
-			</div>
-		</section>
-		<hr class="m-0" />
+	<div th:replace="BackStage/HTMLTool/ComplaintManage :: ComplaintManage"></div>						
 		<!-- 後台管理 -->
-		<section class="resume-section" id="BackstageManagement">
-			<h1 class="mb-0">
-				後台管理 <span class="text-primary">BackstageManagement</span>
-			</h1>
-			<div class="resume-section-content">
-
-
-				<div class="subheading mb-5 subManage">
-					<a href="#" class="subA">員工資料管理</a>
-					<a href="#" class="subA">權限管理</a>
-				</div>
-
-				<p class="lead mb-5"></p>
-
-
-			</div>
-		</section>
-		<hr class="m-0" />
-	</div>
+	<div th:replace="BackStage/HTMLTool/BackStageManage :: BackStageManage"></div>						
+	
 
 	<!-- Bootstrap core JS-->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
