@@ -61,8 +61,7 @@ public class IndexController {
 	@GetMapping("/BackStage/Rtn")
 	public String GoRtn(Model model) {
 		model.addAttribute("activeNavItemId", "/Good_Luck/icon/BackStage/indexJS");
-//		return "redirect:/BackStage/Rtn";
-		return "BackStage/rtn/Rtn";
+		return "redirect:/BackStage/RtnManage";
 	}
 }
 

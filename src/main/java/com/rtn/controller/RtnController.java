@@ -33,13 +33,13 @@ import com.rtn.service.RtnService;
 
 @Validated
 @Controller
-@RequestMapping("/BackStage/Rtn")
+@RequestMapping("/BackStage/RtnManage")
 public class RtnController {
 	@Autowired
 	public RtnService rtnService;
 	
 //	退貨單管理|後台|Sub
-	@GetMapping("/BackStage/Rtn")
+	@GetMapping
 	public String Rtn(Model model) {
 ////		注入navImg
 //		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
@@ -56,7 +56,7 @@ public class RtnController {
 //		model.addAttribute("rtnCount", rtnCount);
 //		model.addAttribute("rtn1", rtn);
 //		model.addAttribute("QueryButtonValue", QueryButtonValue);
-		return "BackStage/rtn/Rtn";
+		return "BackStage/rtn/RtnManage";
 	}
 }
 //	
