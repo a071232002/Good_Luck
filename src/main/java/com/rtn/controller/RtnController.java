@@ -44,7 +44,7 @@ public class RtnController {
 //		注入navImg
 //		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
 //		model.addAttribute("activeNavItemId", activeNavItemId);
-		
+		model.addAttribute("activeNavItemId", "/Good_Luck//icon/BackStage/indexJS");
 		
 //		取得所有Rtn資料
 		Integer rtnCount = rtnService.getAllRtnIdCount();
@@ -52,7 +52,7 @@ public class RtnController {
 //		注入QueryButtonEven資料
 			
 		List<String> QueryButtonValue = rtnService.getAllKeepRtnWhy();
-
+		
 		model.addAttribute("rtnCount", rtnCount);
 		model.addAttribute("rtn1", rtn);
 		model.addAttribute("QueryButtonValue", QueryButtonValue);
