@@ -1,4 +1,4 @@
-package com;
+package com.rtn.controller;
 
 import java.util.List;
 
@@ -33,50 +33,14 @@ import com.rtn.service.RtnService;
 
 @Validated
 @Controller
-//@ComponentScan(basePackages = "com")
-public class IndexController {
+@RequestMapping("/BackStage/Rtn")
+public class RtnController {
 	@Autowired
 	public RtnService rtnService;
-
-//	後台登入|後台|
-	@GetMapping("/BackStage/login")
-	public String login() {
-		return "BackStage/login";
-	}
-//	後台首頁|後台|Supper
-	@PostMapping("/BackStage/index")
-	public String login(String userName ,
-						String userPassword ,
-						Model model) 
-	{
-		
-		System.out.println("userName 為: " + userName);
-		System.out.println("userPassword 為: " + userPassword);
-		
-		String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
-		model.addAttribute("activeNavItemId", activeNavItemId);
-		return "BackStage/index";
-	}
-//	GET導向退會單|後台|Sub
+	
+//	退貨單管理|後台|Sub
 	@GetMapping("/BackStage/Rtn")
-	public String GoRtn(Model model) {
-		model.addAttribute("activeNavItemId", "/Good_Luck/icon/BackStage/indexJS");
-//		return "redirect:/BackStage/Rtn";
-		return "BackStage/rtn/Rtn";
-	}
-}
-
-
-
-//@GetMapping("/BackStage")
-//public String index(Model model) {
-//	return "BackStage/index";
-//}
-
-
-////	退貨單管理|後台|Sub
-//	@GetMapping("/Rtn")
-//	public String Rtn(Model model) {
+	public String Rtn(Model model) {
 ////		注入navImg
 //		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
 //		model.addAttribute("activeNavItemId", activeNavItemId);
@@ -92,8 +56,9 @@ public class IndexController {
 //		model.addAttribute("rtnCount", rtnCount);
 //		model.addAttribute("rtn1", rtn);
 //		model.addAttribute("QueryButtonValue", QueryButtonValue);
-//		return "/BackStage/rtn/Rtn";
-//	}
+		return "BackStage/rtn/Rtn";
+	}
+}
 //	
 ////	修改頁面
 //	@GetMapping("/Rtnmodify")
