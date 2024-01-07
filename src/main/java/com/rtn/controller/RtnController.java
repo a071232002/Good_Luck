@@ -41,21 +41,21 @@ public class RtnController {
 //	退貨單管理|後台|Sub
 	@GetMapping
 	public String Rtn(Model model) {
-////		注入navImg
-//		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
-//		model.addAttribute("activeNavItemId", activeNavItemId);
-//		
-//		
-////		取得所有Rtn資料
-//		Integer rtnCount = rtnService.getAllRtnIdCount();
-//		List<Rtn> rtn = rtnService.getAllRtnData();
-////		注入QueryButtonEven資料
-//			
-//		List<String> QueryButtonValue = rtnService.getAllKeepRtnWhy();
-//
-//		model.addAttribute("rtnCount", rtnCount);
-//		model.addAttribute("rtn1", rtn);
-//		model.addAttribute("QueryButtonValue", QueryButtonValue);
+//		注入navImg
+		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
+		model.addAttribute("activeNavItemId", activeNavItemId);
+		
+		
+//		取得所有Rtn資料
+		Integer rtnCount = rtnService.getAllRtnIdCount();
+		List<Rtn> rtn = rtnService.getAllRtnData();
+//		注入QueryButtonEven資料
+			
+		List<String> QueryButtonValue = rtnService.getAllKeepRtnWhy();
+
+		model.addAttribute("rtnCount", rtnCount);
+		model.addAttribute("rtn1", rtn);
+		model.addAttribute("QueryButtonValue", QueryButtonValue);
 		return "BackStage/rtn/RtnManage";
 	}
 }

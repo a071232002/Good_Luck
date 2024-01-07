@@ -1,13 +1,136 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>管理員登入</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>租你好運 | 後台</title>
+	<!-- Font Awesome icons (free version)-->
+	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+	<!-- Google fonts-->
+	<link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
+		type="text/css" />
+	<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+	<!-- Core theme CSS (includes Bootstrap)-->
+	<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+
+	<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
+	
+	<link th:href="@{/css/BackStage/indexCSS/rtn/rtn.css}" rel="stylesheet" />
+	
+	<link href="../../static/css/BackStage/indexCSS/styles.css" rel="stylesheet" />
+</head>
+
+
+
+<!--     <link href="css/styles.css" rel="stylesheet" /> -->
+
+<style>
+	
+</style>
+
 
 </head>
-<body>
-	<h1>qwe</h1>
+
+<body id="page-top">
+	<!-- Navigation-->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+		<a class="navbar-brand js-scroll-trigger" href="#page-top"> <span class="d-block d-lg-none"></span> <span
+				class="d-none d-lg-block">
+				<img id="nav-img" class="img-fluid img-profile rounded-circle mx-auto mb-2"
+			     th:src="@{${activeNavItemId} + '/shop-solid.svg'}"
+			     th:attr="data-active-nav-item-id=${activeNavItemId}" alt="導航icon" />
+
+<!-- 					<img id="nav-img" class="img-fluid img-profile rounded-circle mx-auto mb-2" -->
+<!-- 					     data-active-nav-item-id="${activeNavItemId}" alt="導航icon" /> -->
+
+			</span>
+
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+			aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav">
+				<li id="li_1" class="nav-item"><a class="nav-link js-scroll-trigger nav-li" href="#MemManage">會員管理</a>
+				</li>
+				<li id="li_2" class="nav-item"><a class="nav-link js-scroll-trigger nav-li"
+						href="#RentAppManage">物件管理</a></li>
+				<li id="li_3" class="nav-item"><a class="nav-link js-scroll-trigger nav-li" href="#ShopManage">購物管理</a>
+				</li>
+				<li id="li_4" class="nav-item"><a class="nav-link js-scroll-trigger nav-li"
+						href="#NoticeManage">公告管理</a></li>
+				<li id="li_5" class="nav-item"><a class="nav-link js-scroll-trigger nav-li"
+						href="#ComplaintManage">投訴管理</a></li>
+				<li id="li_6" class="nav-item"><a class="nav-link js-scroll-trigger nav-li"
+						href="#BackstageManagement">後台管理</a></li>
+			</ul>
+		</div>
+	</nav>
+	<!-- Page Content-->
+
+		<!-- 購物管理-->
+		<section class="resume-section" id="ShopManage">
+			<h1 class="mb-0">
+				購物管理 <span class="text-primary">ShopManage</span>
+			</h1>
+			<div class="resume-section-content">
+
+
+				<div class="subheading mb-5 subManage">
+					<a href="#" class="subA">商品管理</a>
+					<a href="#" class="subA">訂單管理</a>
+					<a href="/Rtn" class="subA linkOk">退貨審核</a>
+				</div>
+
+				<p class="lead mb-5"></p>
+
+				<!-- <div class="social-icons">
+                    <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="social-icon" href="#!"><i class="fab fa-github"></i></a>
+                    <a class="social-icon" href="#!"><i class="fab fa-twitter"></i></a>
+                    <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
+                </div> -->
+
+			</div>
+		</section>
+		<hr class="m-0" />
+	</div>
+
+	<!-- Bootstrap core JS-->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Core theme JS-->
+	<script th:src="@{/js/BackStage/indexJS/scripts.js}"></script>
+
+	<script th:src="@{/js/BackStage/indexJS/indexActiveColor.js}"></script>
+
+	<!--     <script src="@{/js/BackStage/indexJS/Rtns_Ajax.js}"></script> -->
+
+	<script th:src="@{/js/BackStage/indexJS/navImgEvent.js}"></script>
+
+	<!-- 取消<a>預設行為 -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			let links = document.querySelectorAll('.subA');
+
+			// 為每個<a>元素添加事件監聽器
+			links.forEach(function(link) {
+				link.addEventListener('click', function(event) {
+					// 如果這個<a>元素沒有'class="linkOk"'，則取消預設行為
+					if (!this.classList.contains('linkOk')) {
+						event.preventDefault();
+					}
+					// 如果有'class="linkOk"'，則不阻止預設行為，什麼也不做
+				});
+			});
+		});
+
+	</script>
+
+
 </body>
+
 </html>
