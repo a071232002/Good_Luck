@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top"
+	id="sideNav"
+	th:fragment="header">>
+	<a class="navbar-brand js-scroll-trigger" href="#page-top"> <span
+		class="d-block d-lg-none"></span> <span class="d-none d-lg-block">
+			<img id="nav-img"
+			class="img-fluid img-profile rounded-circle mx-auto mb-2"
+			th:src="@{${activeNavItemId} + '/shop-solid.svg'}"
+			th:attr="data-active-nav-item-id=${activeNavItemId}" alt="導航icon" />
+	</span>
+
+	</a>
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+		data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+		aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarResponsive">
+		<ul class="navbar-nav">
+			<li id="li_1" class="nav-item"><a
+				class="nav-link js-scroll-trigger nav-li" href="#MemManage">會員管理</a>
+			</li>
+			<li id="li_2" class="nav-item"><a
+				class="nav-link js-scroll-trigger nav-li" href="#RentAppManage">物件管理</a></li>
+			<li id="li_3" class="nav-item"><a
+				class="nav-link js-scroll-trigger nav-li" href="#ShopManage">購物管理</a>
+			</li>
+			<li id="li_4" class="nav-item"><a
+				class="nav-link js-scroll-trigger nav-li" href="#NoticeManage">公告管理</a></li>
+			<li id="li_5" class="nav-item"><a
+				class="nav-link js-scroll-trigger nav-li" href="#ComplaintManage">投訴管理</a></li>
+			<li id="li_6" class="nav-item"><a
+				class="nav-link js-scroll-trigger nav-li"
+				href="#BackstageManagement">後台管理</a></li>
+		</ul>
+	</div>
+</nav>
