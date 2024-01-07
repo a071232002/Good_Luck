@@ -38,11 +38,17 @@ public class IndexController {
 	@Autowired
 	public RtnService rtnService;
 	
-//	後端首頁|後台|Supper
-	@GetMapping("/BackStage")
-	public String index(Model model) {
-		return "BackStage/index";
+	
+	@GetMapping("/BackStage/login")
+	public String login() {
+		return "BackStage/login";
 	}
+	
+//	後端首頁|後台|Supper
+//	@GetMapping("/BackStage")
+//	public String index(Model model) {
+//		return "BackStage/index";
+//	}
 //	退貨單管理|後台|Sub
 	@GetMapping("/Rtn")
 	public String Rtn(Model model) {
