@@ -42,8 +42,8 @@ public class RtnController {
 	@GetMapping
 	public String Rtn(Model model) {
 //		注入navImg
-		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
-		model.addAttribute("activeNavItemId", activeNavItemId);
+//		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
+//		model.addAttribute("activeNavItemId", activeNavItemId);
 		
 		
 //		取得所有Rtn資料
