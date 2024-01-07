@@ -43,22 +43,28 @@ public class IndexController {
 	public String login() {
 		return "BackStage/login";
 	}
-
-//	後端首頁|後台|Supper
-//	@GetMapping("/BackStage")
-//	public String index(Model model) {
-//		return "BackStage/index";
-//	}
-	@PostMapping("BackStage/login/s")
-	public String login(String userName, String userPassword) {
-
+//	後台首頁|後台|Supper
+	@PostMapping("/BackStage/index")
+	public String login(String userName ,
+						String userPassword ,
+						Model model) 
+	{
+		
 		System.out.println("userName 為: " + userName);
 		System.out.println("userPassword 為: " + userPassword);
-
+		
+		String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
+		model.addAttribute("activeNavItemId", activeNavItemId);
 		return "BackStage/index";
 	}
 
 }
+
+//@GetMapping("/BackStage")
+//public String index(Model model) {
+//	return "BackStage/index";
+//}
+
 
 ////	退貨單管理|後台|Sub
 //	@GetMapping("/Rtn")
