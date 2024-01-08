@@ -34,7 +34,7 @@ public class LddApp {
 	@Column(name = "lddAppCreate", updatable = false)
 	private Date lddAppCreate;
 	
-	@Column(name = "lddAppIDPic", columnDefinition = "longblob")
+	@Column(name = "lddAppIDPic")
 	private byte[] lddAppIDPic;
 	
 	@Column(name = "lddAppPayStatus", insertable = false)
