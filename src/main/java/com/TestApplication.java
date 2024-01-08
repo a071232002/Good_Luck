@@ -33,6 +33,7 @@ public class TestApplication implements CommandLineRunner{
 		
 		List<Emp> empDatas = empRepository.findAll();
 		
+		
 		for(Mem data : datas) {
 			System.out.println(data);
 		}

@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -28,16 +29,17 @@ public class Mem implements Serializable{
 	@Column(name="memNo", updatable = false)
 	private Integer memNo;
 	
-	@Column(name="memMail")
+	@Column(name="memMail", unique = true)
 	@NotBlank(message = "信箱不能空白！")
 	@Pattern(regexp="^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$", message = "信箱格式輸入錯誤！")
+	@UniqueMemMail(groups = Create.class)
 	private String memMail;
 	
 	@Column(name="memPsw")
 	@NotBlank(message = "密碼不能為空白！")
 	private String memPsw;
 	
-	@Column(name="memName", unique = true)
+	@Column(name="memName")
 	@NotBlank(message="會員姓名: 請勿空白")
 	@Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$", message = "會員姓名: 只能是中、英文字母、數字和_")
 	private String memName;
@@ -48,6 +50,8 @@ public class Mem implements Serializable{
 	
 	@Column(name="memPhone", columnDefinition = "CHAR(10)", unique = true)
 	@NotBlank(message="會員手機: 請勿空白")
+	@Pattern(regexp = "^[0][9]\\d{8}$", message = "手機格式錯誤")
+	@UniqueMemPhone(groups = Create.class)
 	private String memPhone;
 	
 	@Column(name="memAdd")
@@ -56,6 +60,8 @@ public class Mem implements Serializable{
 	
 	@Column(name="memID", columnDefinition = "CHAR(10)", unique = true)
 	@NotBlank(message="會員身分證: 請勿空白")
+	@Pattern(regexp= "^[A-Z][12]\\d{8}$", message = "身分證格式錯誤")
+	@UniqueMemID(groups = Create.class)
 	private String memID;
 	
 	@Column(name="memReg")
