@@ -33,18 +33,19 @@ import com.rtn.service.RtnService;
 
 @Validated
 @Controller
+@RequestMapping("/BackStage")
 //@ComponentScan(basePackages = "com")
 public class IndexController {
 	@Autowired
 	public RtnService rtnService;
 
 //	後台登入|後台|
-	@GetMapping("/BackStage/login")
+	@GetMapping("/login")
 	public String login() {
 		return "BackStage/login";
 	}
 //	後台首頁|後台|Supper
-	@PostMapping("/BackStage/index")
+	@PostMapping("/index")
 	public String login(String userName ,
 						String userPassword ,
 						Model model) 
@@ -58,7 +59,7 @@ public class IndexController {
 		return "BackStage/index";
 	}
 //	GET導向退會單|後台|Sub
-	@GetMapping("/BackStage/Rtn")
+	@GetMapping("/Rtn")
 	public String GoRtn(Model model) {
 		model.addAttribute("activeNavItemId", "/Good_Luck/icon/BackStage/indexJS");
 		return "redirect:/BackStage/RtnManage";

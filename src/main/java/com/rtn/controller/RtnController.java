@@ -42,8 +42,6 @@ public class RtnController {
 	@GetMapping
 	public String Rtn(Model model) {
 //		注入navImg
-//		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
-//		model.addAttribute("activeNavItemId", activeNavItemId);
 		model.addAttribute("activeNavItemId", "/Good_Luck/icon/BackStage/indexJS");
 		
 //		取得所有Rtn資料
@@ -57,6 +55,31 @@ public class RtnController {
 		model.addAttribute("rtn1", rtn);
 		model.addAttribute("QueryButtonValue", QueryButtonValue);
 		return "BackStage/rtn/RtnManage";
+	}
+	//條件查詢:根據原因查詢
+	@GetMapping("/Rtns")
+	public ResponseEntity<List<Rtn>> getAllRtns(
+	//	查詢條件 Filtering
+			@RequestParam(required = false) RtnCateGory rtnCateGory, @RequestParam(required = false) String search,
+	//	排序條件Sorting
+			@RequestParam(defaultValue = "rtnDate") String rtnDate, @RequestParam(defaultValue = "desc") String sort,
+	//	分頁Pagination
+			@RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit,
+			@RequestParam(defaultValue = "0") @Min(0) Integer offset) {
+		RtnQueryParams rtnQueryParams = new RtnQueryParams();
+	//	查詢條件 Filtering		
+		rtnQueryParams.setRtnCateGory(rtnCateGory);
+		rtnQueryParams.setSearch(search);
+	//	排序條件Sorting
+		rtnQueryParams.setRtnDate(rtnDate);
+		rtnQueryParams.setSort(sort);
+	//	分頁Pagination
+		rtnQueryParams.setLimit(limit);
+		rtnQueryParams.setOffset(offset);
+	
+		List<Rtn> RtnList = rtnService.getAllRtns(rtnQueryParams);
+	
+		return ResponseEntity.status(HttpStatus.OK).body(RtnList);
 	}
 }
 //	
@@ -73,31 +96,7 @@ public class RtnController {
 //	
 //	
 //	
-////	條件查詢:根據原因查詢
-//	@GetMapping("/Rtns")
-//	public ResponseEntity<List<Rtn>> getAllRtns(
-////		查詢條件 Filtering
-//			@RequestParam(required = false) RtnCateGory rtnCateGory, @RequestParam(required = false) String search,
-////		排序條件Sorting
-//			@RequestParam(defaultValue = "rtnDate") String rtnDate, @RequestParam(defaultValue = "desc") String sort,
-////		分頁Pagination
-//			@RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit,
-//			@RequestParam(defaultValue = "0") @Min(0) Integer offset) {
-//		RtnQueryParams rtnQueryParams = new RtnQueryParams();
-////		查詢條件 Filtering		
-//		rtnQueryParams.setRtnCateGory(rtnCateGory);
-//		rtnQueryParams.setSearch(search);
-////		排序條件Sorting
-//		rtnQueryParams.setRtnDate(rtnDate);
-//		rtnQueryParams.setSort(sort);
-////		分頁Pagination
-//		rtnQueryParams.setLimit(limit);
-//		rtnQueryParams.setOffset(offset);
-//
-//		List<Rtn> RtnList = rtnService.getAllRtns(rtnQueryParams);
-//
-//		return ResponseEntity.status(HttpStatus.OK).body(RtnList);
-//	}
+
 //	
 ////	修改 Rtnmodify.html
 //	@PutMapping("/Rtnmodify/{RtnNoId}")

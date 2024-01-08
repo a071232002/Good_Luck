@@ -18,139 +18,16 @@
 	
 		<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
 		
-		<link th:href="@{/css/BackStage/indexCSS/rtn/rtn.css}" rel="stylesheet" />
+		<link th:href="@{/css/BackStage/indexCSS/rtnCSS/rtn.css}" rel="stylesheet" />
+		<!-- 		sub特色 -->
+		<link th:href="@{/css/BackStage/indexCSS/rtnCSS/RtnManageStyles.css}" rel="stylesheet" />
 		
 		<link href="../../static/css/BackStage/indexCSS/styles.css" rel="stylesheet" />
 	</head>
 	
 		<!--     <link href="css/styles.css" rel="stylesheet" /> -->
 	<style>
-		/*     sub特色 */
-	    #li-3 a{
-	    	color: red;
-	    }
-	    
-	    table {
-			border-collapse: collapse;
-			width: 100%;
-			margin-top: 5px;
-			border: 1px solid #dddddd;
-		}
-	
-		th,
-		td {
-			border: 1px solid #dddddd;
-			text-align: center;
-			padding: 8px;
-		}
-	
-		th {
-			background-color: #f2f2f2;
-		}
-		main {
-			position: relative;
-			top: 15%;
-		}
-	
-		#Rtntitle {
-			display: flex;
-			margin-top: 10px;
-			font-size: 2em;
-		}
-	
-		.modify-btn {
-			border: 1px solid #000;
-			border-radius: 5px;
-			width: 50px;
-		}
-	
-		.modify-btn:hover {
-			background: #e76969;
-		}
 		
-		section.resume-section {
-		    justify-content: flex-start !important;;
-	    }
-	    
-	    #RtnTitleCtrl-div{
-	    	display:flex;
-	   	    flex-direction: row;
-		    justify-content: center;
-		    align-items: center;
-	    }
-	    
-	    #Rtntitle-ctrl button,
-	    #Query-btn{
-	    	border-radius : 10px;
-	    }
-	    
-	    #Rtntitle-ctrl button{
-	    	background: #ccc;
-	    	border: 0px;
-	    }
-	    
-	    #Rtntitle-ctrl{
-	    	margin-left: 10%;
-	    }
-	    
-	    
-	    
-		 input {
-		          
-		    height: 40px;       
-	/* 	    line-height: 40px; */
-		    
-		    border: 1px solid #ccc;
-	/* 	    padding: 0 10px;  */
-		  
-		}
-		
-		input,
-		select{
-			width: 100px;
-			text-align: center;
-			border-radius : 25px;
-		}
-	
-		input:hover,
-		select:hover{
-			color : red;
-		}
-	    
-	    #ok-btn,
-	    #nook-btn{
-	    	border-radius:25px;
-	    }
-	    
-	    #ok-btn{
-	    
-	    	background : yellowGreen;
-	    }
-	    
-	    #nook-btn{
-	    
-	    	background : #ff0000c2;
-	    }
-	    
-	    #btn-td{
-	   	    display: flex;
-		    flex-direction: row;
-		    justify-content: center;
-		    align-items: center;
-		}
-		#btn-td button{
-			margin : 5px;
-		}
-		
-	    #btn-td button:hover{
-			background : yellow;
-			transition : .3s;
-			transform : scale(1.2);
-		}
-		
-	    .resume-section-content{
-	    	margin-top: 10%;
-	    }
 	</style>
 	
 	<body id="page-top">
@@ -172,6 +49,7 @@
 		<script th:src="@{/js/BackStage/indexJS/navImgEvent.js}"></script>
 		<!-- 取消<a>預設行為 -->
 		<script th:src="@{/js/BackStage/indexJS/LinkCancelEvent.js}"></script>
+		
 	</body>
 
 </html>
