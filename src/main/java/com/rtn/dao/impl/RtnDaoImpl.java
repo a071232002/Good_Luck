@@ -42,10 +42,7 @@ public class RtnDaoImpl implements RtnDao {
 			map.put("offset", rtnQueryParams.getOffset());
 		}
 		
-		
-
-		
-		System.out.println("addFilteringSQL: " + (sql));
+//		System.out.println("addFilteringSQL: " + (sql));
 		
 		List<Rtn> RtnList = namedParameterJdbcTemplate.query(sql, map, new RtnRowMapper());
 
