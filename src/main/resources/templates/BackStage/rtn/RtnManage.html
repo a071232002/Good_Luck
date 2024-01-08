@@ -77,7 +77,7 @@
 		            success: function(response) {
 		                let tableBody = $('table tbody');
 		                tableBody.empty();
-		                totalRecords = parseInt(document.getElementById("totalCount").innerText); // 正确的方法
+		                totalRecords = parseInt(document.getElementById("totalCount").innerText);
 		                
 		                $.each(response, function(i, rtn) {
 		                    let row = $('<tr></tr>');
@@ -99,6 +99,7 @@
 		                });
 
 		                updatePaginationControls();
+		                updateCurrentPageDisplay(currentPage); // 更新頁碼
 		            },
 		            error: function(error) {
 		                console.log('錯誤:', error);
@@ -133,7 +134,9 @@
 
 		    fetchAndDisplayData(1);
 		});
-
+		function updateCurrentPageDisplay(currentPage) {
+		    $('#current-page-display').text('當前在: ' + currentPage + " 頁");
+		}
 		</script>
 	</body>
 

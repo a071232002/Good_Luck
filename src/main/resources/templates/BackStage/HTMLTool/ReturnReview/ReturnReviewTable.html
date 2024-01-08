@@ -10,6 +10,7 @@ th:fragment="ReturnReviewTable">
 			<p>退貨單總數:</p>
 			<p id=totalCount th:text="${rtnCount}"></p>
 			<p >張</p>
+			<div id="current-page-display">當前在 頁</div>
 		</div>
 		<div id="Rtntitle-ctrl">
 			<select name="Query-btn" id="Query-btn">
@@ -55,7 +56,9 @@ th:fragment="ReturnReviewTable">
 			</tr>
 		</tbody>
 	</table>
-		
-		<div id="pagination-container"></div>
+		<div>
+			<div id="pagination-container"></div>
+			
+		</div>
 </div>
 	
