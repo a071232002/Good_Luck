@@ -31,6 +31,13 @@ public class RtnDaoImpl implements RtnDao {
 		
 		sql = addFilteringSQL(sql, map, rtnQueryParams);
 		
+		
+		if (rtnQueryParams.getLimit() != null) {
+		    sql += " LIMIT :limit";
+		    map.put("limit", rtnQueryParams.getLimit());
+		}
+
+		
 		System.out.println("addFilteringSQL: " + (sql));
 		
 		List<Rtn> RtnList = namedParameterJdbcTemplate.query(sql, map, new RtnRowMapper());
