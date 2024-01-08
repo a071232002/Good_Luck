@@ -24,17 +24,17 @@ public class Fix {
 	private Integer fixNo;
 	
 	@ManyToOne
-	@JoinColumn(name = "memNo", referencedColumnName = "memNo")
-	private Mem memNo;
+	@JoinColumn(name = "memNo", referencedColumnName = "memNo", updatable = false)
+	private Mem mem;
 	
 	@ManyToOne
-	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo")
-	private Rent rentNo;
+	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo", updatable = false)
+	private Rent rent;
 	
-	@Column(name = "fixCreate")
+	@Column(name = "fixCreate", updatable = false)
 	private Timestamp fixCreate;
 	
-	@Column(name = "fixContent")
+	@Column(name = "fixContent", updatable = false)
 	private String fixContent;
 	
 	@Column(name = "fixReply")
@@ -55,20 +55,20 @@ public class Fix {
 		this.fixNo = fixNo;
 	}
 
-	public Mem getMemNo() {
-		return memNo;
+	public Mem getMem() {
+		return mem;
 	}
 
-	public void setMemNo(Mem memNo) {
-		this.memNo = memNo;
+	public void setMem(Mem mem) {
+		this.mem = mem;
 	}
 
-	public Rent getRentNo() {
-		return rentNo;
+	public Rent getRent() {
+		return rent;
 	}
 
-	public void setRentNo(Rent rentNo) {
-		this.rentNo = rentNo;
+	public void setRent(Rent rent) {
+		this.rent = rent;
 	}
 
 	public Timestamp getFixCreate() {

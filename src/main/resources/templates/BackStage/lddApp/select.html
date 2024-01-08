@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select</title>
+</head>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+  }
+</style>
+
+<body>
+
+  <a th:href="@{lddApp/addLddApp}">
+    <h1>新增</h1>
+  </a>
+  <form method="post" th:action="@{lddApp/get_one_display}">
+    <label for="lddAppNo">請輸入申請單編號</label>
+    <input type="text" name="lddAppNo">
+    <input type="submit" value="送出">
+  </form>
+  <a th:href="@{lddApp/listAllLddApp}">
+    <h1>getAll</h1>
+  </a>
+
+
+
+
+</body>
+
+</html>

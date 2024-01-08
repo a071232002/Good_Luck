@@ -102,16 +102,13 @@ public class IndexController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(RtnList);
 	}
-
-
 	
-
-
-
+//	修改 Rtnmodify.html
 	@PutMapping("/Rtnmodify/{RtnNoId}")
 	public ResponseEntity<Rtn> updateProduct(@PathVariable Integer RtnNoId,
 			@RequestBody @Valid RtnRequest rtnRequeset) {
 //    	判斷數據是否存在
+
 		Rtn rtn = rtnService.getProductById(RtnNoId);
 		System.out.println(rtn == null);
 		if (rtn == null) {
@@ -124,6 +121,11 @@ public class IndexController {
 			return ResponseEntity.status(HttpStatus.OK).body(updatedRtn);
 		}
 	}
+	
+
+
+
+	
 
 	@Autowired
 	private EmpService empService;

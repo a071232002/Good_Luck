@@ -3,3 +3,4 @@ function redirectToModifyPage(rtnNo) {
 	window.location.href = 'Rtnmodify?rtnNo=' + rtnNo;
 }
 
+//redirectToModifyPage(rtnNo);

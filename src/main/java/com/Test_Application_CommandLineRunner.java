@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.lddapp.model.LddApp;
 import com.lddapp.model.LddAppRepository;
-import com.lddapp.model.LddAppService;
+import com.lddapp.model.LddAppServiceImpl;
 import com.emp.model.Emp;
 import com.mem.model.Mem;
 
@@ -25,7 +25,7 @@ public class Test_Application_CommandLineRunner implements CommandLineRunner {
 	LddAppRepository repository ;
 	
 	@Autowired
-	LddAppService lddAppService;  
+	LddAppServiceImpl lddAppService;  
 	
 	public static void main(String[] args) {
         SpringApplication.run(Test_Application_CommandLineRunner.class);
