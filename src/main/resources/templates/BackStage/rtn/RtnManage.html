@@ -64,25 +64,27 @@
 		
 		<script>
 		$(document).ready(function() {
-		    var currentPage = 1;
-		    var recordsPerPage = 10; 
+		    let currentPage = 1;
+		    let recordsPerPage = 5; 
+		    let totalRecords;
 
 		    function fetchAndDisplayData(page) {
-		        var offset = (page - 1) * recordsPerPage;
+		        let offset = (page - 1) * recordsPerPage;
 		        $.ajax({
 		            url: `http://localhost:8081/Good_Luck/BackStage/RtnManage/Rtns?limit=${recordsPerPage}&offset=${offset}`,
 		            type: 'GET',
 		            dataType: 'json',
 		            success: function(response) {
-		                var tableBody = $('table tbody');
+		                let tableBody = $('table tbody');
 		                tableBody.empty();
-
-
+		                totalRecords = parseInt(document.getElementById("totalCount").innerText); // 正确的方法
+		                
 		                $.each(response, function(i, rtn) {
-		                    var row = $('<tr></tr>');
+		                    let row = $('<tr></tr>');
 		                    row.append($('<td></td>').text(rtn.rtnNo)); 
 		                    row.append($('<td></td>').text(rtn.empNo.empNo));
-		                    row.append($('<td></td>').text(rtn.ordNo.ordNo)); 
+// 		                    row.append($('<td></td>').text(rtn.ordNo.ordNo)); 
+		                    row.append($('<td></td>').text("rtn.ordNo")); 
 		                    row.append($('<td></td>').text(rtn.rtnDate)); 
 		                    row.append($('<td></td>').text(rtn.rtnWhy)); 
 		                    row.append($('<td></td>').text(rtn.refundAmount)); 
@@ -96,6 +98,7 @@
 		                    tableBody.append(row);
 		                });
 
+		                updatePaginationControls();
 		            },
 		            error: function(error) {
 		                console.log('錯誤:', error);
@@ -103,9 +106,33 @@
 		        });
 		    }
 
+		    function updatePaginationControls() {
+		        let paginationContainer = $('#pagination-container');
+		        paginationContainer.empty();
+		        
+		        let totalPages = Math.ceil(totalRecords / recordsPerPage);
+
+		        for (let i = 1; i <= totalPages; i++) {
+		            let pageLink = $('<a href="#" class="page-link"></a>')
+		                .text(i)
+		                .click((function(page) {
+		                    return function(e) {
+		                        e.preventDefault();
+		                        currentPage = page; // 更新
+		                        fetchAndDisplayData(page);
+		                    };
+		                })(i));
+
+		            if (i === currentPage) {
+		                pageLink.addClass('active');
+		            }
+
+		            paginationContainer.append(pageLink);
+		        }
+		    }
+
 		    fetchAndDisplayData(1);
 		});
-
 
 		</script>
 	</body>

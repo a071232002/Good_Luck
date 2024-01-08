@@ -1,5 +1,6 @@
 
-<div class="container-fluid p-0" th:fragment="ReturnReviewTable">
+<div class="container-fluid p-0" 
+th:fragment="ReturnReviewTable">
 	<!-- 退貨審核|表格-->
 
 	<div id="RtnTitleCtrl-div">
@@ -7,8 +8,8 @@
 			<!-- <h1>退貨單</h1> -->
 			<!-- <img src="../static/images/dog.png" th:src="@{/images/dog.png}" /> -->
 			<p>退貨單總數:</p>
-			<p th:text="${rtnCount}"></p>
-			<p>張</p>
+			<p id=totalCount th:text="${rtnCount}"></p>
+			<p >張</p>
 		</div>
 		<div id="Rtntitle-ctrl">
 			<select name="Query-btn" id="Query-btn">
@@ -54,6 +55,7 @@
 			</tr>
 		</tbody>
 	</table>
-	
+		
 		<div id="pagination-container"></div>
+</div>
 	
