@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>管理員登入</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/BackStage/loginCSS/normalize.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/BackStage/loginCSS/demo.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/BackStage/loginCSS/component.css}" />
+</head>
+<body>
+	<div class="container demo-1">
+		<div class="content">
+			<div id="large-header" class="large-header">
+				<canvas id="demo-canvas"></canvas>
+				<div class="logo_box">
+					<h3>管理員登入</h3>
+
+					<form th:action="@{/BackStage/index}" method="post">
+						<div class="input_outer">
+							<input name="userName" class="text" type="text"
+								placeholder="請輸入帳號">
+						</div>
+						<div class="input_outer">
+							<input name="userPassword" class="text" type="password"
+								placeholder="請輸入密碼">
+						</div>
+						<div class="mb2">
+							<button type="submit">登入</button>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/js/BackStage/loginCSS/TweenLite.min.js}"></script>
+	<script th:src="@{/js/BackStage/loginCSS/EasePack.min.js}"></script>
+	<script th:src="@{/js/BackStage/loginCSS/rAF.js}"></script>
+	<script th:src="@{/js/BackStage/loginCSS/demo-1.js}"></script>
+	<div style="text-align: center;"></div>
+</body>
+</html>

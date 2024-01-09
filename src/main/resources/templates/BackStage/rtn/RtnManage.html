@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		<title>租你好運 | 後台</title>
+		<!-- Font Awesome icons (free version)-->
+		<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+		<!-- Google fonts-->
+		<link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
+			type="text/css" />
+		<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+		<!-- Core theme CSS (includes Bootstrap)-->
+		<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+	
+		<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
+		
+		<link th:href="@{/css/BackStage/indexCSS/rtnCSS/rtn.css}" rel="stylesheet" />
+		<!-- 		sub特色 -->
+		<link th:href="@{/css/BackStage/indexCSS/rtnCSS/RtnManageStyles.css}" rel="stylesheet" />
+		
+		<link href="../../static/css/BackStage/indexCSS/styles.css" rel="stylesheet" />
+	</head>
+	
+		<!--     <link href="css/styles.css" rel="stylesheet" /> -->
+		
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
+	
+		*{
+			margin : 0;
+			padding : 0;
+		}
+	
+		#pagination-container{
+			display: flex;
+		    justify-content: space-between;
+		    flex-direction: row;
+		}
+	</style>
+	
+	<body id="page-top">
+		
+		<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+		<!-- Page Content-->
+			<!-- 退貨審核 -->	
+			<!-- 退貨審核|表格-->
+		<div th:replace="BackStage/HTMLTool/ReturnReview/ReturnReview :: ReturnReview"></div>
+
+		
+		
+		<div id="pagination" class="pagination"></div>
+		
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="script.js"></script>
+		
+		</div>
+		
+		
+		
+		<!-- Bootstrap core JS-->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Core theme JS-->
+		<script th:src="@{/js/BackStage/indexJS/scripts.js}"></script>
+		
+		<script th:src="@{/js/BackStage/indexJS/indexActiveColor.js}"></script>
+	
+		<script th:src="@{/js/BackStage/indexJS/navImgEvent.js}"></script>
+		<!-- 取消<a>預設行為 -->
+		<script th:src="@{/js/BackStage/indexJS/LinkCancelEvent.js}"></script>
+		
+		<script>
+		$(document).ready(function() {
+		    let currentPage = 1;
+		    let recordsPerPage = 5; 
+		    let totalRecords;
+
+		    function fetchAndDisplayData(page) {
+		        let offset = (page - 1) * recordsPerPage;
+		        $.ajax({
+		            url: `http://localhost:8081/Good_Luck/BackStage/RtnManage/Rtns?limit=${recordsPerPage}&offset=${offset}`,
+		            type: 'GET',
+		            dataType: 'json',
+		            success: function(response) {
+		                let tableBody = $('table tbody');
+		                tableBody.empty();
+		                totalRecords = parseInt(document.getElementById("totalCount").innerText);
+		                
+		                $.each(response, function(i, rtn) {
+		                    let row = $('<tr></tr>');
+		                    row.append($('<td></td>').text(rtn.rtnNo)); 
+		                    row.append($('<td></td>').text(rtn.empNo.empNo));
+// 		                    row.append($('<td></td>').text(rtn.ordNo.ordNo)); 
+		                    row.append($('<td></td>').text("rtn.ordNo")); 
+		                    row.append($('<td></td>').text(rtn.rtnDate)); 
+		                    row.append($('<td></td>').text(rtn.rtnWhy)); 
+		                    row.append($('<td></td>').text(rtn.refundAmount)); 
+		                    row.append($('<td></td>').text(rtn.rtnStatus));
+		                    row.append($('<td></td>').append($('<button class="modify-btn">修改</button>')
+		                        .attr('data-RtnNoId', rtn.rtnNo)
+		                        .click(function() {
+		                            redirectToModifyPage($(this).data('RtnNoId'));
+		                        })
+		                    ));
+		                    tableBody.append(row);
+		                });
+
+		                updatePaginationControls();
+		                updateCurrentPageDisplay(currentPage); // 更新頁碼
+		            },
+		            error: function(error) {
+		                console.log('錯誤:', error);
+		            }
+		        });
+		    }
+
+		    function updatePaginationControls() {
+		        let paginationContainer = $('#pagination-container');
+		        paginationContainer.empty();
+		        
+		        let totalPages = Math.ceil(totalRecords / recordsPerPage);
+				
+// 		        上頁
+		        let prevPageLink = $('<a href="#" class="page-link">上一页</a>')
+		        .click(function(e) {
+		            e.preventDefault();
+		            if (currentPage > 1) {
+		                fetchAndDisplayData(currentPage - 1);
+		            }
+		        });
+		        
+		        
+		        
+		        for (let i = 1; i <= totalPages; i++) {
+		            let pageLink = $('<a href="#" class="page-link"></a>')
+		                .text(i)
+		                .click((function(page) {
+		                    return function(e) {
+		                        e.preventDefault();
+		                        currentPage = page; // 更新
+		                        fetchAndDisplayData(page);
+		                    };
+		                })(i));
+
+		            if (i === currentPage) {
+		                pageLink.addClass('active');
+		            }
+					
+		            let nextPageLink = $('<a href="#" class="page-link">下一页</a>')
+		            .click(function(e) {
+		                e.preventDefault();
+		                if (currentPage < totalPages) {
+		                    fetchAndDisplayData(currentPage + 1);
+		                }
+		            });
+
+		            
+		            
+		            paginationContainer.append(pageLink);
+		        }
+		    }
+
+		    fetchAndDisplayData(1);
+		});
+		function updateCurrentPageDisplay(currentPage) {
+		    $('#current-page-display').text('當前在: ' + currentPage + " 頁");
+		}
+		</script>
+	</body>
+
+</html>
