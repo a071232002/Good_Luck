@@ -1,7 +1,13 @@
 package com.ldd.model;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LddRepository extends JpaRepository<Ldd, Integer>{
+import com.mem.model.Mem;
 
+public interface LddRepository extends JpaRepository<Ldd, Integer> {
+
+	@Transactional
+	public Ldd findByMem(Mem mem);
 }

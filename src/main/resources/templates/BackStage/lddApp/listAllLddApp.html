@@ -16,6 +16,8 @@
    </head>
    <body>
        <h1>房東申請單一覽</h1>
+       <a th:href="@{/BackStage/lddApp}"><button>前往首頁</button></a>
+       
        <table id="example" class="display" style="width: 100%">
            <thead>
                <tr>
@@ -50,7 +52,7 @@
                    <td>
                        <form method="post" th:action="@{updateLddApp}">
                            <input type="hidden" name= "lddAppNo" th:value="${lddApp.lddAppNo}">
-                           <input type="submit" value="修改" >
+                           <input type="submit" value="修改" th:disabled="${lddApp.lddAppStatus == 1 || lddApp.lddAppStatus == 2}">
                        </form>
                    </td>
                </tr>
@@ -60,8 +62,7 @@
            </tbody>
 
        </table>
-       <br>
-       <a th:href="@{/BackStage/lddApp}"><button>前往首頁</button></a>
+       
        
        <script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
          <script th:src="@{/js/BackStage/mem/the.js}"></script>
