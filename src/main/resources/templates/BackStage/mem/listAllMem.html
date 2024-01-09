@@ -58,6 +58,10 @@
 						<input type="hidden" name= "memNo" th:value="${mem.memNo}">
 						<input type="submit" value="修改" >
 					</form>
+					<form method="post" th:action="@{stopMem}">
+						<input type="hidden" name= "memNo" th:value="${mem.memNo}">
+						<input type="submit" value="停權" >
+					</form>
 				</td>
 			</tr>
 		
