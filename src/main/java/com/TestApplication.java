@@ -8,20 +8,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.emp.model.Emp;
-import com.emp.model.EmpRepository;
-import com.mem.model.Mem;
-import com.mem.model.MemRepository;
+import com.notice.model.Notice;
+import com.notice.model.NoticeRepository;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com")
 public class TestApplication implements CommandLineRunner{
 	
 	@Autowired
-	private MemRepository memRepository;
-	
-	@Autowired
-	private EmpRepository empRepository;
+	private NoticeRepository noticeRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(TestApplication.class);
@@ -29,15 +24,9 @@ public class TestApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		List<Mem> datas = memRepository.findAll();
+		List<Notice> noticeDatas = noticeRepository.findAll();
 		
-		List<Emp> empDatas = empRepository.findAll();
-		
-		for(Mem data : datas) {
-			System.out.println(data);
-		}
-		
-		for(Emp data : empDatas) {
+		for(Notice data : noticeDatas) {
 			System.out.println(data);
 		}
 	}

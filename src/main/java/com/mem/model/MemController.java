@@ -126,8 +126,6 @@ public class MemController {
 		}
 		return result;
 	}
-	
-
     
     //圖片處理
 	@GetMapping("picture")

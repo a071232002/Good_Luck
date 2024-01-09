@@ -18,7 +18,7 @@ import com.lddapp.model.LddAppService;
 import com.emp.model.Emp;
 import com.mem.model.Mem;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class Test_Application_CommandLineRunner implements CommandLineRunner {
     
 	@Autowired
