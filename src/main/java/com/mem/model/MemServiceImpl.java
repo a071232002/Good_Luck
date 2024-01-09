@@ -38,9 +38,7 @@ public class MemServiceImpl implements MemService {
 		
 		Mem getMem = memRepository.findByMemMail(memMail);
 		
-		if(memPsw.trim() != "" && memPsw != null) {
-			getMem = (hashPassword(memPsw).equals(getMem.getMemPsw())) ? getMem : null; //核對密碼
-		}
+		getMem = (hashPassword(memPsw).equals(getMem.getMemPsw())) ? getMem : null; //核對密碼
 		return getMem;
 	}
 
@@ -69,7 +67,7 @@ public class MemServiceImpl implements MemService {
 	// 信箱驗證
 	@Override
 	public boolean verifyMail(String word) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

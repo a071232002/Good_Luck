@@ -1,4 +1,4 @@
-package com.mem.model;
+package com.mem.model.uniqueAnnotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,9 +1,11 @@
-package com.mem.model;
+package com.mem.model.uniqueAnnotation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.mem.model.MemRepository;
 
 public class UniqueMemPhoneValidator implements ConstraintValidator<UniqueMemPhone, String>{
 

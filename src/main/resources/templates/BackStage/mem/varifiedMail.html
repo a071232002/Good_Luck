@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        label {
+            /* display: inline-block; */
+            width: 5em;
+        }
+
+        b {
+            color: red;
+        }
+
+        td {
+            text-align: right;
+            padding: 5px;
+        }
+
+        .toggler {
+            display: inline-block;
+            width: 500px;
+            height: 200px;
+        }
+
+        #button {
+            padding: .5em 1em;
+            text-decoration: none;
+        }
+
+        #effect {
+            width: 240px;
+            height: 100px;
+            padding: 0.4em;
+            position: relative;
+        }
+
+        #effect h3 {
+            margin: 0;
+            padding: 0.4em;
+            text-align: center;
+            background-color: red;
+        }
+    </style>
+<title>Insert title here</title>
+</head>
+<body>
+	<form th:action="@{sendGMail}" method="get">
+		<label for="mail">請到你的GMail信箱中收取驗證碼：</label>
+		<input type="text" name="sendMail" id= "mail">
+		<input type="submit" value="送出">
+	</form>
+</body>
+</html>

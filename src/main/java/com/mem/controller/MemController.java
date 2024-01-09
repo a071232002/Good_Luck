@@ -1,8 +1,7 @@
-package com.mem.model;
+package com.mem.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletOutputStream;
@@ -23,6 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.mem.model.Mem;
+import com.mem.model.MemService;
+import com.mem.model.uniqueAnnotation.Create;
 
 @Controller
 @RequestMapping("/BackStage/mem")
@@ -56,7 +59,7 @@ public class MemController {
 
 	// 前往登入頁面
 	@GetMapping("/login")
-	public String goToLogin(ModelMap model) {
+	public String goToLogin() {
 		return "BackStage/mem/loginMem";
 	}
 	
@@ -69,16 +72,22 @@ public class MemController {
 
 	// 登入處理
 	@PostMapping("loginPage")
-	public String loginPage(@ModelAttribute("mail") String memMail, @ModelAttribute("password") String memPsw) {
+	public String loginPage(@ModelAttribute("mail") String memMail, @ModelAttribute("password") String memPsw,
+							ModelMap model) {
+		
+		if(memMail.isEmpty() || memPsw.isEmpty()) {
+			model.addAttribute("message", "信箱或密碼不能空白，請重新輸入！");
+			return "BackStage/mem/loginMem";
+		}
 		Mem loginData = memservice.login(memMail, memPsw);
 		if (loginData != null) {
 			return "NewFile";
 		}
-		return "redirect:login";
+		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");
+		return "BackStage/mem/loginMem";
 	}
 
 	// 新增資料
-	// @MdelAttribute("mem")對映th:object"${mem}"和model.addAttribute("mem", mem)
 	@PostMapping("memadd")
 	public String addMem(@RequestParam("memPic") MultipartFile part, @Validated(Create.class) Mem mem,
 			BindingResult result, ModelMap model) throws IOException {
@@ -93,7 +102,7 @@ public class MemController {
 		Mem newData = memservice.register(mem);
 		model.addAttribute("successData", newData);
 
-		return "BackStage/mem/successPage";
+		return "BackStage/mem/varifiedMail";
 	}
 
 	// 修改資料
@@ -118,12 +127,22 @@ public class MemController {
 		return "BackStage/mem/successPage";
 	}
 
-	// 停權
+	// 停權(未完成)
 	@PostMapping("stopMem")
 	public String banMem(@ModelAttribute("memNo") String memNo) {
 		memservice.banMem(Integer.valueOf(memNo));
 		return "redirect:memlist";
 	}
+	
+	//信箱驗證
+	@GetMapping("/sendGMail")
+	public String sendGMail(@RequestParam("sendMail") String code, ModelMap model) {
+		System.out.println(model.get("successData"));
+		System.out.println(model.getAttribute("successData"));
+		
+		return "BackStage/mem/listAllMem";
+	}
+	
 
 	// 設置查詢全部屬性
 	@ModelAttribute("memListData")

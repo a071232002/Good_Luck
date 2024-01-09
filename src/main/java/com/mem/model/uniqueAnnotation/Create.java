@@ -1,4 +1,4 @@
-package com.mem.model;
+package com.mem.model.uniqueAnnotation;
 
 import javax.validation.groups.Default;
 
