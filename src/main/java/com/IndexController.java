@@ -33,165 +33,37 @@ import com.rtn.service.RtnService;
 
 @Validated
 @Controller
+@RequestMapping("/BackStage")
 //@ComponentScan(basePackages = "com")
 public class IndexController {
 	@Autowired
 	public RtnService rtnService;
-	
-//	後端首頁|後台|Supper
-	@GetMapping("/BackStage")
-	public String index(Model model) {
+
+//	後台登入|後台|
+	@GetMapping("/login")
+	public String login() {
+		return "BackStage/login";
+	}
+//	後台首頁|後台|Supper
+	@PostMapping("/index")
+	public String login(String userName ,
+						String userPassword ,
+						Model model) 
+	{
+		
+		System.out.println("userName 為: " + userName);
+		System.out.println("userPassword 為: " + userPassword);
+		
+		String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
+		model.addAttribute("activeNavItemId", activeNavItemId);
 		return "BackStage/index";
 	}
-//	退貨單管理|後台|Sub
+//	GET導向退會單|後台|Sub
 	@GetMapping("/Rtn")
-	public String Rtn(Model model) {
-//		注入navImg
-		String activeNavItemId = "/icon/BackStage/indexJS/shop-solid.svg";
-		model.addAttribute("activeNavItemId", activeNavItemId);
-		
-		
-//		取得所有Rtn資料
-		Integer rtnCount = rtnService.getAllRtnIdCount();
-		List<Rtn> rtn = rtnService.getAllRtnData();
-//		注入QueryButtonEven資料
-			
-		List<String> QueryButtonValue = rtnService.getAllKeepRtnWhy();
-
-		model.addAttribute("rtnCount", rtnCount);
-		model.addAttribute("rtn1", rtn);
-		model.addAttribute("QueryButtonValue", QueryButtonValue);
-		return "/BackStage/rtn/Rtn";
-	}
-	
-//	修改頁面
-	@GetMapping("/Rtnmodify")
-	public String updateProduct(@RequestParam(name = "rtnNo", required = false) Integer rtnNo, Model model) {
-		if (rtnNo != null) {
-			Rtn rtnPuting = rtnService.getProductById(rtnNo);
-			model.addAttribute("rtnPuting", rtnPuting);
-		}
-		return "BackStage/rtn/Rtnmodify";
-	}
-	
-	
-	
-	
-//	條件查詢:根據原因查詢
-	@GetMapping("/Rtns")
-	public ResponseEntity<List<Rtn>> getAllRtns(
-//		查詢條件 Filtering
-			@RequestParam(required = false) RtnCateGory rtnCateGory, @RequestParam(required = false) String search,
-//		排序條件Sorting
-			@RequestParam(defaultValue = "rtnDate") String rtnDate, @RequestParam(defaultValue = "desc") String sort,
-//		分頁Pagination
-			@RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit,
-			@RequestParam(defaultValue = "0") @Min(0) Integer offset) {
-		RtnQueryParams rtnQueryParams = new RtnQueryParams();
-//		查詢條件 Filtering		
-		rtnQueryParams.setRtnCateGory(rtnCateGory);
-		rtnQueryParams.setSearch(search);
-//		排序條件Sorting
-		rtnQueryParams.setRtnDate(rtnDate);
-		rtnQueryParams.setSort(sort);
-//		分頁Pagination
-		rtnQueryParams.setLimit(limit);
-		rtnQueryParams.setOffset(offset);
-
-		List<Rtn> RtnList = rtnService.getAllRtns(rtnQueryParams);
-
-		return ResponseEntity.status(HttpStatus.OK).body(RtnList);
-	}
-	
-//	修改 Rtnmodify.html
-	@PutMapping("/Rtnmodify/{RtnNoId}")
-	public ResponseEntity<Rtn> updateProduct(@PathVariable Integer RtnNoId,
-			@RequestBody @Valid RtnRequest rtnRequeset) {
-//    	判斷數據是否存在
-
-		Rtn rtn = rtnService.getProductById(RtnNoId);
-		System.out.println(rtn == null);
-		if (rtn == null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		} else {
-//    		修改數據
-			rtnService.updateRtn(RtnNoId, rtnRequeset);
-			Rtn updatedRtn = rtnService.getProductById(RtnNoId);
-			System.out.println(RtnNoId);
-			return ResponseEntity.status(HttpStatus.OK).body(updatedRtn);
-		}
-	}
-	
-
-
-
-	
-
-	@Autowired
-	private EmpService empService;
-
-	@PostMapping("/Emp/register")
-	public String register(@ModelAttribute @Valid EmpRegisterRequest empRegisterRequest) {
-		// 使用 empRegisterRequest 進行註冊邏輯...
-
-		Emp emp = empService.getUserById(empRegisterRequest);
-		if (emp == null) {
-			System.out.println("no");
-			return "loginF";
-		}
-		System.out.println(emp.getEmpName());
-		System.out.println(emp.getEmpPsw());
-		System.out.println(empRegisterRequest.getEmpName());
-		System.out.println(empRegisterRequest.getEmpPsw());
-		
-		System.out.println(empRegisterRequest.getEmpName() == emp.getEmpName() && empRegisterRequest.getEmpPsw() == emp.getEmpPsw());
-		
-		if (empRegisterRequest.getEmpName().equals(emp.getEmpName()) && empRegisterRequest.getEmpPsw().equals(emp.getEmpPsw())) {
-			System.out.println("ok");
-			return "loginS";
-		}
-		return "loginF";
+	public String GoRtn(Model model) {
+		model.addAttribute("activeNavItemId", "/Good_Luck/icon/BackStage/indexJS");
+		return "redirect:/BackStage/RtnManage";
 	}
 }
 
-//	public ModelAndView register() {
 
-//		Emp empName = empService.getUserById(empRegisterRequest);
-
-//		return new ModelAndView(redirectView);
-//	}
-
-//    @PutMapping("/Rtnmodify/{RtnNoId}")
-//    public ResponseEntity<Rtn> updateProduct(@PathVariable Integer RtnNoId,
-//    										 @RequestBody @Valid RtnRequest rtnRequeset){
-////    	判斷數據是否存在
-//    	Rtn rtn = rtnService.getProductById(RtnNoId);
-////    	System.out.println(rtn);
-//    	if(rtn == null) {
-//    		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//    	}else {
-////    		修改數據
-//    		rtnService.updateRtn(RtnNoId, rtnRequeset);
-//    		Rtn updatedRtn = rtnService.getProductById(RtnNoId);
-//    		return ResponseEntity.status(HttpStatus.OK).body(updatedRtn);
-//    	}
-//    	
-//    	return Rtnmodify
-//	
-//    }
-
-//    @GetMapping("/hello")
-//    public String hello() {
-//        return "hello";
-//    }
-//
-//    @PostMapping("/login")
-//    public String login(String userName,
-//                        String userPassword) {
-//
-//        System.out.println("userName 為: " + userName);
-//        System.out.println("userPassword 為: " + userPassword);
-//
-//        return "login";
-//    }
-//}
