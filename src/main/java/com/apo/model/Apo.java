@@ -17,6 +17,7 @@ import com.rent.model.Rent;
 @Entity
 @Table(name = "apo")
 public class Apo {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "apoNo", updatable = false)
@@ -127,8 +128,8 @@ public class Apo {
 	@Override
 	public String toString() {
 		return "apo [apoNo=" + apoNo + 
-				", memNo=" + null +
-				", rentNo=" + null +
+				", memNo=" + (mem == null? null :mem.getMemNo()) +
+				", rentNo=" + (rent == null? null :rent.getRentNo()) +
 				", apoCreate=" + apoCreate + 
 				", apoDate=" + apoDate + 
 				", apoTime=" + apoTime + 
