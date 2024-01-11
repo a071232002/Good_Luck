@@ -6,8 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ldd.model.Ldd;
-import com.rent.model.Rent;
+import com.mem.model.Mem;
 
 @Service
 public class ApoServiceImpl implements ApoService {
@@ -39,6 +38,21 @@ public class ApoServiceImpl implements ApoService {
 	@Override
 	public List<Apo> getListByLdd(Integer lddNo) {
 		return repository.findByLddNo(lddNo);
+	}
+
+	@Override
+	public List<Apo> getApoByMem(Mem mem) {
+		return repository.findByMem(mem);
+	}
+
+	@Override
+	public List<Apo> getApoByApoStatus(List<Byte> apoStatusList) {
+		return repository.findByApoStatusIn(apoStatusList);
+	}
+
+	@Override
+	public List<Apo> getApoByMemAndApoStatus(Mem mem, List<Byte> apoStatusList) {
+		return repository.findByMemAndApoStatusIn(mem, apoStatusList);
 	}
 
 }

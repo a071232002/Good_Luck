@@ -2,8 +2,9 @@ package com.apo.model;
 
 import java.util.List;
 
-import com.ldd.model.Ldd;
-import com.rent.model.Rent;
+import javax.transaction.Transactional;
+
+import com.mem.model.Mem;
 
 public interface ApoService {
 
@@ -15,6 +16,12 @@ public interface ApoService {
 
 	public Apo getOneApo(Integer apoNo);
 
+	public List<Apo> getApoByMem(Mem mem);
+	
+	public List<Apo> getApoByApoStatus(List<Byte> apoStatusList);
+	
+	public List<Apo> getApoByMemAndApoStatus(Mem mem, List<Byte> apoStatusList);
+	
 	public List<Apo> getAll();
 
 }
