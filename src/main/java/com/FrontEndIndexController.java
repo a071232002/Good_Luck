@@ -53,11 +53,11 @@ public class FrontEndIndexController {
 	}
 	
 	
-//	前台登入|前台|
-	@GetMapping("/login")
-	public String login() {
-		return "FrontEnd/login";
-	}
+////	前台登入|前台|
+//	@GetMapping("/login")
+//	public String login() {
+//		return "FrontEnd/login";
+//	}
 
 ////	GET導向退會單|前台|Sub
 //	@GetMapping("/Rtn")
