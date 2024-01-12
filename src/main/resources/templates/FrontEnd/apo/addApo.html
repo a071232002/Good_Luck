@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>申請預約看房</title>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+
+    form {
+      display: inline-block;
+    }
+
+    label {
+      /* display: inline-block; */
+      width: 5em;
+    }
+
+    b {
+      color: red;
+    }
+
+    td {
+      text-align: right;
+      padding: 5px;
+    }
+
+    .toggler {
+      display: inline-block;
+      width: 500px;
+      height: 200px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <form method="post" th:action="@{insert}" th:object="${apo}" enctype="multipart/form-data">
+    <table>
+      <tr>
+        <td><label for="memNo">會員編號<b>*</b>：</label></td>
+        <td><input type="text" th:field="*{mem.memNo}"></td>
+      </tr>
+      <tr>
+        <td><label for="rentNo">物件編號<b>*</b>：</label></td>
+        <td><input type="text" th:field="*{rent.rentNo}"></td>
+      </tr>
+
+      <tr>
+        <td><label for="apoDate">請選擇預約日期<b>*</b>：</label></td>
+        <td><input type="date" th:field="*{apoDate}"></td>
+      </tr>
+      <tr>
+        <td><label for="apoTime">請選擇預約時段<b>*</b>：</label></td>
+        <td>
+          <select th:field="*{apoTime}">
+            <option value="0" th:text="早上"></option>
+            <option value="1" th:text="下午"></option>
+            <option value="2" th:text="晚上"></option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+    <input type="submit" class="submit" value="預約看房">
+  </form>
+
+  <button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
+
+</body>
+
+</html>

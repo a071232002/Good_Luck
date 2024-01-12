@@ -1,5 +1,7 @@
 package com.apo.model;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,7 @@ public class ApoServiceImpl implements ApoService {
 
 	@Override
 	public void addApo(Apo apo) {
+		apo.setApoCreate(Timestamp.valueOf(LocalDateTime.now()));
 		repository.save(apo);
 	}
 
