@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -38,9 +40,9 @@ public class RentApp {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo", insertable = false)
 	private Rent rent;
-	
+	@NotEmpty(message="縣市名: 請勿空白")
 	private String rentAppCou;
-	
+	@NotEmpty(message="鄉鎮市區名: 請勿空白")
 	private String rentAppAr;
 	@NotEmpty(message="路街名: 請勿空白")
 	@Pattern(regexp = "^[(\u4e00-\u9fa5)]{2,15}$", message = "路街名: 只能是中文字, 且長度必需在2到15之間")
@@ -51,8 +53,8 @@ public class RentApp {
 	
 	private byte[] rentAppOwn;
 	
-	@NotEmpty(message="樓層: 請勿空白")
-	@Pattern(regexp = "^[(bB0-9)]{1,3}$", message = "樓層: 只能是英文字母、數字, 且長度必需在1到3之間, 地下樓層請填B開頭")
+	@NotNull(message="樓層: 請勿空白")
+	@Min(value = 1, message = "樓層: 不能小於{value}")
 	private Integer rentAppFloor;
 	
 	@NotNull(message="坪數: 請勿空白")

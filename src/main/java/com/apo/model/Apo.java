@@ -1,6 +1,7 @@
 package com.apo.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import com.rent.model.Rent;
 @Entity
 @Table(name = "apo")
 public class Apo {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "apoNo", updatable = false)
@@ -31,7 +33,7 @@ public class Apo {
 	private Rent rent;
 	
 	@Column(name = "apoCreate", updatable = false)
-	private Date apoCreate;
+	private Timestamp apoCreate;
 	
 	@Column(name = "apoDate")
 	private Date apoDate;
@@ -76,11 +78,11 @@ public class Apo {
 		this.rent = rent;
 	}
 
-	public Date getApoCreate() {
+	public Timestamp getApoCreate() {
 		return apoCreate;
 	}
 
-	public void setApoCreate(Date apoCreate) {
+	public void setApoCreate(Timestamp apoCreate) {
 		this.apoCreate = apoCreate;
 	}
 
@@ -127,8 +129,8 @@ public class Apo {
 	@Override
 	public String toString() {
 		return "apo [apoNo=" + apoNo + 
-				", memNo=" + null +
-				", rentNo=" + null +
+				", memNo=" + (mem == null? null :mem.getMemNo()) +
+				", rentNo=" + (rent == null? null :rent.getRentNo()) +
 				", apoCreate=" + apoCreate + 
 				", apoDate=" + apoDate + 
 				", apoTime=" + apoTime + 

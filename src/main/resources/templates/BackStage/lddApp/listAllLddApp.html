@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
-    <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/tableModel/try.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/tableModel/try2.css}" />
     <title>房東申請單一覽</title>
     <style>
         h1 {
@@ -16,6 +16,8 @@
    </head>
    <body>
        <h1>房東申請單一覽</h1>
+       <a th:href="@{/BackStage/lddApp}"><button>前往首頁</button></a>
+       
        <table id="example" class="display" style="width: 100%">
            <thead>
                <tr>
@@ -42,15 +44,15 @@
                     <span th:if="${lddApp.lddAppPayStatus == 1}" th:text="已付款"></span> 
                     <span th:if="${lddApp.lddAppPayStatus == 2}" th:text="無用狀態待修正"></span>
                    </td>
-                   <td>
-                    <span th:if="${lddApp.lddAppStatus == 0}" th:text="待審核"></span> 
-                    <span th:if="${lddApp.lddAppStatus == 1}" th:text="未通過"></span> 
-                    <span th:if="${lddApp.lddAppStatus == 2}" th:text="通過"></span> 
+                   <td th:switch="${lddApp.lddAppStatus}">
+                   	<span th:case="0" th:text="待審核"></span>
+                   	<span th:case="1" th:text="未通過"></span>
+                   	<span th:case="2" th:text="通過"></span>
                    </td>
                    <td>
                        <form method="post" th:action="@{updateLddApp}">
                            <input type="hidden" name= "lddAppNo" th:value="${lddApp.lddAppNo}">
-                           <input type="submit" value="修改" >
+                           <input type="submit" value="修改" th:disabled="${lddApp.lddAppStatus == 1 || lddApp.lddAppStatus == 2}">
                        </form>
                    </td>
                </tr>
@@ -60,12 +62,11 @@
            </tbody>
 
        </table>
-       <br>
-       <a th:href="@{/BackStage/lddApp}"><button>前往首頁</button></a>
+       
        
        <script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
-         <script th:src="@{/js/BackStage/mem/the.js}"></script>
-         <script th:src="@{/js/BackStage/mem/the2.js}"></script>
+         <script th:src="@{/js/public/tableModel/the.js}"></script>
+         <script th:src="@{/js/public/tableModel/the2.js}"></script>
          <script>
            let table = new DataTable("#example");
            console.log($(".test"));

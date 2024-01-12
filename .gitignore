@@ -42,3 +42,8 @@ target/
 *.iml
 hibernate.cfg.xml
 application.properties
+
+### Test by main ###
+TestApplication.java
+Test_Application_CommandLineRunner.java
+TestApplicationByMain.java

@@ -43,12 +43,15 @@
 				<label for="lddAppIDPic">身分證照片：</label>
 				<input type="file" th:field="*{lddAppIDPic}" style="border:0px ; font-weight: bold;" readonly /><br/>
 			</div>
+			<div>
+				<img th:src="@{/BackStage/lddApp/picture} + '?lddAppNo=' + ${lddApp.lddAppNo}" width="150px">
+			</div>
 
 			<div>
 				<label for="lddAppPayStatus">付款狀態:</label>
 				<select th:field="*{lddAppPayStatus}">
 					<option value="0" th:text="未付款"></option>
-					<option value="0" th:text="已付款"></option>
+					<option value="1" th:text="已付款"></option>
 				</select>
 			</div>
 
