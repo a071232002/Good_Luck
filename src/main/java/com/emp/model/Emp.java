@@ -7,13 +7,16 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
-//import com.empfun.model.EmpFun;
+import com.empfun.model.EmpFun;
 
 @Entity
 @Table(name="emp")
@@ -27,9 +30,12 @@ public class Emp implements Serializable{
 	private Integer empNo;
 	
 	@Column(name="empName")
+	@NotBlank(message = "姓名不能空白！")
+	@Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$", message = "員工姓名: 只能是中、英文字母、數字和_")
 	private String empName;
 	
 	@Column(name="empPsw", columnDefinition = "CHAR(45)")
+	@NotBlank(message = "密碼不能為空白！")
 	private String empPsw;
 	
 	@Column(name="empHireDate")
@@ -42,7 +48,7 @@ public class Emp implements Serializable{
 	private Integer empSal;
 	
 
-//	@OneToMany(mappedBy = "emp", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "emp")
 //	private Set<EmpFun> empFun;
 	
 //	@OneToMany(mappedBy = "notice")
@@ -129,6 +135,14 @@ public class Emp implements Serializable{
 	}
 
 
+
+//	@Override
+//	public String toString() {
+//		return "Emp [empNo=" + empNo + ", empName=" + empName + ", empPsw=" + empPsw + ", empHireDate=" + empHireDate
+//				+ ", empStatus=" + empStatus + ", empSal=" + empSal + ", empFun=" + empFun + "]";
+//	}
+//
+//
 //	public Set<EmpFun> getEmpFun() {
 //		return empFun;
 //	}
@@ -144,5 +158,7 @@ public class Emp implements Serializable{
 		return "Emp [empNo=" + empNo + ", empName=" + empName + ", empPsw=" + empPsw + ", empHireDate=" + empHireDate
 				+ ", empStatus=" + empStatus + ", empSal=" + empSal + "]";
 	}
+	
+	
 
 }

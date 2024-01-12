@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,8 +29,8 @@ public class Fun implements Serializable{
 	@Column(name="funName")
 	private String funName;
 	
-	@OneToMany(mappedBy = "fun")
-	private Set<EmpFun> empFun;
+//	@OneToMany(mappedBy = "fun", fetch = FetchType.LAZY)
+//	private Set<EmpFun> empFun;
 	
 	public Fun() {
 		super();
@@ -56,13 +57,21 @@ public class Fun implements Serializable{
 		this.funName =funName;
 	}
 
-	public Set<EmpFun> getEmpFun() {
-		return empFun;
+	@Override
+	public String toString() {
+		return "Fun [funNo=" + funNo + ", funName=" + funName + "]";
 	}
 
-	public void setEmpFun(Set<EmpFun> empFun) {
-		this.empFun = empFun;
-	}
+//	public Set<EmpFun> getEmpFun() {
+//		return empFun;
+//	}
+//
+//	public void setEmpFun(Set<EmpFun> empFun) {
+//		this.empFun = empFun;
+//	}
+
+	
+
 	
 	
 }

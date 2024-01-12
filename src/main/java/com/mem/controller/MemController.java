@@ -101,6 +101,8 @@ public class MemController {
 
 		Mem newData = memservice.register(mem);
 		model.addAttribute("successData", newData);
+		memservice.verifyMail(mem.getMemMail()); //發送簡訊
+		
 
 		return "BackStage/mem/varifiedMail";
 	}
@@ -137,8 +139,7 @@ public class MemController {
 	//信箱驗證
 	@GetMapping("/sendGMail")
 	public String sendGMail(@RequestParam("sendMail") String code, ModelMap model) {
-		System.out.println(model.get("successData"));
-		System.out.println(model.getAttribute("successData"));
+		
 		
 		return "BackStage/mem/listAllMem";
 	}
