@@ -43,13 +43,18 @@ public class FrontEndIndexController {
 	@GetMapping("/")
 	public String login(String userName ,
 						String userPassword ,
-						Model model) 
-	{
-		
-		
+						Model model){
 //		String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
 //		model.addAttribute("activeNavItemId", activeNavItemId);
 		return "FrontEnd/index";
+	}
+	
+//	前台首頁|前台|Supper
+	@GetMapping("/shop")
+	public String shop(){
+//		String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
+//		model.addAttribute("activeNavItemId", activeNavItemId);
+		return "FrontEnd/shop/shop";
 	}
 	
 	
