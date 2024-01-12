@@ -108,7 +108,7 @@ const database = {
 
 const county_box = document.querySelector('#county_box');
 const district_box = document.querySelector('#district_box');
-const zipcode_box = document.querySelector('#zipcode_box');
+
 let selected_county;
 
 Object.getOwnPropertyNames(database).forEach((county) => {
@@ -116,23 +116,35 @@ Object.getOwnPropertyNames(database).forEach((county) => {
 });
 
 county_box.addEventListener('change', () => {
-    selected_county = county_box.options[county_box.selectedIndex].value;
 
+    selected_county = county_box.options[county_box.selectedIndex].value;
+	
     district_box.innerHTML = '<option value="">選擇鄉鎮市區</option>';
 
-    zipcode_box.value = '';
+
 
     Object.getOwnPropertyNames(database[selected_county]).forEach((district) => {
         district_box.innerHTML += `<option value="${district}">${district}</option>`;
     });
 })
+document.addEventListener('DOMContentLoaded',()=>{
+	var select=county_box.options[county_box.selectedIndex].value
 
-district_box.addEventListener('change', () => {
-    const selected_district = district_box.options[district_box.selectedIndex].value;
-    const zipcode_value = database[selected_county][selected_district]
+	if(select==''){
+		county_box.value="基隆市"
+	    Object.getOwnPropertyNames(database["基隆市"]).forEach((district) => {
+	        district_box.innerHTML += `<option value="${district}">${district}</option>`;
+	    });
+		district_box.value="仁愛區"
+	}else{
+	    Object.getOwnPropertyNames(database[select]).forEach((district) => {
+	        district_box.innerHTML += `<option value="${district}">${district}</option>`;
+	    });
+	    district_box.value=district_box.value
 
-    zipcode_box.value = `${zipcode_value}`;
+	}
 })
+
 
 function hideContent(d) {
     document.getElementById(d).style.display = "none";
@@ -149,7 +161,7 @@ acceptedTypes = {
        'image/gif' : true
 };
 function previewImage() {
-   var upfile1 = document.getElementById("upFiles");
+   var upfile1 = document.getElementById("rentAppOwn");
    upfile1.addEventListener("change", function(event) {
        var files = event.target.files || event.dataTransfer.files;
        for (var i = 0; i < files.length; i++) {
@@ -163,8 +175,8 @@ function previewfile(file) {
        reader.onload = function(event) {
            var image = new Image();
            image.src = event.target.result;
-           image.width = 100;
-           image.height = 75;
+           image.width = 200;
+
            image.border = 2;
            if (blob_holder.hasChildNodes()) {
                blob_holder.removeChild(blob_holder.childNodes[0]);
