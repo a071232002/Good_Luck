@@ -3,6 +3,7 @@ package com.ord.service.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ord.dao.OrderDao;
+import com.ord.dto.CreateOrderRequest;
 import com.ord.service.OrderService;
 import com.product.model.ProVO;
 
@@ -19,7 +20,7 @@ public class OrderServiceImpl implements OrderService{
 	
 	
 	@Override
-	public Integer createOrder(Integer ordNo, Integer ordPrice) {
+	public Integer createOrder(Integer ordNo, CreateOrderRequest createOrderRequest) {
 		// TODO Auto-generated method stub
 		return null;
 	}
