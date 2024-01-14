@@ -41,46 +41,11 @@
 <body id="page-top">
 	<!-- Navigation-->
 	<div th:replace="FrontEnd/HTMLTool/nav :: nav"></div>
+	<div th:replace="FrontEnd/HTMLTool/login :: login"></div>
+	<div th:replace="FrontEnd/HTMLTool/cart :: cart"></div>
 
 
-	<!------------------------------------------------------------------------------------>
-	<div class="login_page">
-		<div id="container1">
-			<img src="@{/icon/FrontEnd/index/x.png}" id="close-login-div" alt="">
-			<div class="login">
-				<h3 id="login-mem">登入會員 Login</h3>
-				<form action="用戶管理">
-					<input type="text" id="username" name="username" placeholder="帳號"
-						required>
-					<div class="tab"></div>
-					<input type="text" id="password" name="password" placeholder="密碼"
-						required>
-					<div class="tab"></div>
-					<input type="submit" value="登入" class="submit" onclick="">
-				</form>
-				<h5 onclick="show_hide()">註冊帳號</h5>
-			</div>
-		</div>
-	</div>
-	<!------------------------------------------------------------------------------------>
-	<div id="shop-div">
-		<h1>歡迎來到簡單購物頁面</h1>
 	
-		<div class="product">
-			<h2 class="product-title">商品名稱 A</h2>
-			<p class="product-description">這是商品 A 的描述。</p>
-			<p class="product-price">NT$500</p>
-			<button>購買</button>
-		</div>
-	
-		<div class="product">
-			<h2 class="product-title">商品名稱 B</h2>
-			<p class="product-description">這是商品 B 的描述。</p>
-			<p class="product-price">NT$750</p>
-			<button>購買</button>
-		</div>
-
-	</div>
 	<!-- Footer-->
 	<footer class="bg-light py-5">
 		<div class="container px-4 px-lg-5">
@@ -92,7 +57,7 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- SimpleLightbox plugin JS-->
-	<!-- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script> -->
+	<!-- 	<script src="https://cdnjs.cloudfDlare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script> -->
 
 	<!-- 	<script th:src="@{/js/FrontEnd/indexJS/LinkCancelEvent}"></script> -->
 
