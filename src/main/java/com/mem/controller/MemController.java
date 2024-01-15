@@ -53,7 +53,19 @@ public class MemController {
 	public String updateData(ModelMap model, @ModelAttribute("memNo") String memNo) {
 
 		Mem oldData = memservice.findByNo(Integer.valueOf(memNo));
+		String[] add = oldData.getMemAdd().split(" ");
+		if(add.length == 1) {
+			model.addAttribute("data", oldData);
+			return "BackStage/mem/updateMem";
+		}
+		System.out.println(add.length);
+		oldData.setMemAdd(add[2]);
+		System.out.println(add[0]);
+		System.out.println(add[1]);
+		
 		model.addAttribute("data", oldData);
+		model.addAttribute("county", add[0]);
+		model.addAttribute("district", add[1]);
 		return "BackStage/mem/updateMem";
 	}
 
@@ -90,12 +102,15 @@ public class MemController {
 	// 新增資料
 	@PostMapping("memadd")
 	public String addMem(@RequestParam("memPic") MultipartFile part, @Validated(Create.class) Mem mem,
-			BindingResult result, ModelMap model) throws IOException {
-		
+			BindingResult result, ModelMap model, @RequestParam("county") String county, 
+			@RequestParam("district") String district) throws IOException {
+		String detailAdd = mem.getMemAdd();
+		mem.setMemAdd(county + " " + district + " " + detailAdd);
 		mem.setMemPic(part.isEmpty() ? null : part.getBytes());
 		result = removeFieldError(mem, result, "memPic");
 
 		if (result.hasErrors()) {
+			mem.setMemAdd(detailAdd);
 			return "BackStage/mem/addMem";
 		}
 
@@ -112,8 +127,11 @@ public class MemController {
 	// oldData)
 	@PostMapping("memupdate")
 	public String updateMem(@RequestParam("memPic") MultipartFile part, @ModelAttribute("data") @Valid Mem mem,
-			BindingResult result, ModelMap model) throws IOException {
+			BindingResult result, ModelMap model, @RequestParam("county") String county, 
+			@RequestParam("district") String district) throws IOException {
 
+		String detailAdd = mem.getMemAdd();
+		mem.setMemAdd(county + " " + district + " " + detailAdd);
 		mem.setMemPic(part.isEmpty() ? memservice.findByNo(mem.getMemNo()).getMemPic() : part.getBytes());
 
 		
@@ -121,6 +139,7 @@ public class MemController {
 
 		System.out.println(result.getFieldErrorCount());
 		if (result.hasErrors()) {
+			mem.setMemAdd(detailAdd);
 			return "BackStage/mem/updateMem";
 		}
 

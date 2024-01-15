@@ -26,13 +26,15 @@ public class EmpFun implements Serializable{
 	@Column(name = "empfunNo")
 	private Integer EmpfunNo;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
+	private Emp emp;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "funNo", referencedColumnName = "funNo")
 	private Fun fun;
 	
-	@ManyToOne
-	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
-	private Emp emp;
+
 	
 	
 	public EmpFun() {
@@ -68,7 +70,7 @@ public class EmpFun implements Serializable{
 
 	@Override
 	public String toString() {
-		return "EmpFun [EmpFunNo=" + EmpfunNo + ", emp=" + emp + ", fun=" + fun + "]";
+		return "EmpFun [EmpFunNo=" + EmpfunNo + ", fun=" + fun + "]";
 	}
 
 

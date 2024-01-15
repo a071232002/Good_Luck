@@ -29,8 +29,8 @@ public class Fun implements Serializable{
 	@Column(name="funName")
 	private String funName;
 	
-//	@OneToMany(mappedBy = "fun", fetch = FetchType.LAZY)
-//	private Set<EmpFun> empFun;
+	@OneToMany(mappedBy = "fun")
+	private Set<EmpFun> empFun;
 	
 	public Fun() {
 		super();

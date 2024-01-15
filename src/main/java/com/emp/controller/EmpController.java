@@ -1,11 +1,14 @@
 package com.emp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.emp.model.Emp;
 import com.emp.service.EmpService;
@@ -29,6 +32,24 @@ public class EmpController {
 	@GetMapping("/login")
 	public String login() {
 		return "BackStage/login";
+	}
+	
+	//前往員工列表
+	@GetMapping("/EmpSelect")
+	public String empList(Model model) {
+		List<Emp> datas = empService.findAll();
+		model.addAttribute("empListData", datas);
+		return "BackStage/emp/selectEmp";
+	}
+	
+	//顯示單一員工
+	@PostMapping("oneEmp")
+	public String oneEmp(@RequestParam("getEmpNo") String empNo, Model model) {
+		System.out.println(empNo);
+		Emp emp = empService.getById(Integer.valueOf(empNo));
+		model.addAttribute("empData", emp);
+//		return "redirect:EmpSelect";
+		return "BackStage/emp/OneEmp";
 	}
 	
 	//登入處理

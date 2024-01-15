@@ -41,6 +41,11 @@ public class EmpFunServiceImpl implements EmpFunService{
 	@Override
 	public Boolean addEmpFun(Emp emp, List<Integer> funNoList) {
 		
+		List<EmpFun> empfuns = empFunRepository.findByEmpEmpNoIn(Arrays.asList(emp.getEmpNo()));
+		for(EmpFun oldFun : empfuns) {
+			empFunRepository.delete(oldFun);			
+		}
+		
 		for(Integer data : funNoList) {
 			Fun fun = funService.findByFunNo(data); //之後改redis存取
 			EmpFun empfun = new EmpFun();

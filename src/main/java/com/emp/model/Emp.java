@@ -2,17 +2,17 @@ package com.emp.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -49,7 +49,11 @@ public class Emp implements Serializable{
 	
 
 //	@OneToMany(mappedBy = "emp")
-//	private Set<EmpFun> empFun;
+	@Transient
+	private List<Integer> empFun;
+	
+//	@OneToMany(mappedBy = "emp")
+//	private Set<EmpFun> empFun1;
 	
 //	@OneToMany(mappedBy = "notice")
 //	private Set<Notice> notice;
@@ -133,7 +137,33 @@ public class Emp implements Serializable{
 	public void setEmpSal(Integer empSal) {
 		this.empSal = empSal;
 	}
+	
+	
+//	public Set<EmpFun> getEmpFun1() {
+//		return empFun1;
+//	}
+//
+//	public void setEmpFun1(Set<EmpFun> empFun1) {
+//		this.empFun1 = empFun1;
+//	}
 
+
+
+	public List<Integer> getEmpFun() {
+		return empFun;
+	}
+
+	public void setEmpFun(List<Integer> empFun) {
+		this.empFun = empFun;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Emp [empNo=" + empNo + ", empName=" + empName + ", empPsw=" + empPsw + ", empHireDate=" + empHireDate
+				+ ", empStatus=" + empStatus + ", empSal=" + empSal + ", empFun=" + empFun + "]";
+	}
 
 
 //	@Override
@@ -153,11 +183,15 @@ public class Emp implements Serializable{
 
 
 
-	@Override
-	public String toString() {
-		return "Emp [empNo=" + empNo + ", empName=" + empName + ", empPsw=" + empPsw + ", empHireDate=" + empHireDate
-				+ ", empStatus=" + empStatus + ", empSal=" + empSal + "]";
-	}
+
+
+
+
+//	@Override
+//	public String toString() {
+//		return "Emp [empNo=" + empNo + ", empName=" + empName + ", empPsw=" + empPsw + ", empHireDate=" + empHireDate
+//				+ ", empStatus=" + empStatus + ", empSal=" + empSal + "]";
+//	}
 	
 	
 
