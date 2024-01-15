@@ -66,7 +66,7 @@ public class LddAppController {
 		LddApp lddApp = new LddApp();
 		lddApp = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
 		model.addAttribute("lddApp", lddApp);
-		return "BackStage/lddApp/listOneLddApp";
+		return "BackStage/lddApp/listOneLddApp2";
 	}
 	
 	@PostMapping("insert")

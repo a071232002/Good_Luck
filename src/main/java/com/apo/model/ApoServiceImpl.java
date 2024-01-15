@@ -1,7 +1,7 @@
 package com.apo.model;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,13 +12,20 @@ import com.mem.model.Mem;
 
 @Service
 public class ApoServiceImpl implements ApoService {
-
+	
+	private static final Byte WAIT_LDD_CONFIRM = 0;
+	private static final Byte lDD_REJECT = 1;
+	private static final Byte WAIT_APO_COMPLETE = 2;
+	private static final Byte FINISH = 3;
+	private static final Byte CANCEL = 4;
+	
+	
 	@Autowired
 	ApoRepository repository;
 
 	@Override
 	public void addApo(Apo apo) {
-		apo.setApoCreate(Timestamp.valueOf(LocalDateTime.now()));
+		apo.setApoCreate(Date.valueOf(LocalDate.now()));
 		repository.save(apo);
 	}
 

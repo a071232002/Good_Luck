@@ -3,10 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>預約單修改</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+	</style>
 </head>
 <body>
-    
     <h1>這是預約修改頁面</h1>
+    <div>
+		<form method="post" th:action="@{update}" th:object="${apo}">
+			<div>
+				<label for="apoNo">預約單編號:</label>
+				<span th:text="*{apoNo}"></span><br/>
+
+				<label for="memNo">會員編號:</label>
+				<span th:text="*{mem.memNo}"></span><br/>
+
+				<label for="empNo">物件編號:</label>
+				<span th:text="*{rent.rentNo}"></span><br/>
+
+				<label for="apoCreate">申請日期:</label>
+				<span th:text="*{apoCreate}"></span><br/>
+
+				<label for="apoDate">預約日期</label>
+				<input type="date" th:field="*{apoDate}"/><br/>
+
+				<label for="apoTime">預約時段</label>
+                <select th:field="*{apoTime}">
+                    <option value="1" th:text="早上"></option>
+                    <option value="2" th:text="下午"></option>
+                    <option value="3" th:text="晚上"></option>
+                </select>
+			</div>
+
+            <input type="hidden" th:field="*{apoNo}">
+     
+     
+            <input type="hidden" th:field="*{apoStatus}">
+            <input type="hidden" th:field="*{apoWant}">
+                    
+			<input type="submit" class="submit" value="修改送出">
+		</form>
+	</div>
 </body>
 </html>

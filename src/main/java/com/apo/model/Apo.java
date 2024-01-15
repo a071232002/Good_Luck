@@ -1,7 +1,6 @@
 package com.apo.model;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +32,7 @@ public class Apo {
 	private Rent rent;
 	
 	@Column(name = "apoCreate", updatable = false)
-	private Timestamp apoCreate;
+	private Date apoCreate;
 	
 	@Column(name = "apoDate")
 	private Date apoDate;
@@ -78,11 +77,11 @@ public class Apo {
 		this.rent = rent;
 	}
 
-	public Timestamp getApoCreate() {
+	public Date getApoCreate() {
 		return apoCreate;
 	}
 
-	public void setApoCreate(Timestamp apoCreate) {
+	public void setApoCreate(Date apoCreate) {
 		this.apoCreate = apoCreate;
 	}
 
