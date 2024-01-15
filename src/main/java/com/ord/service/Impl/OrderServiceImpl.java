@@ -1,5 +1,6 @@
 package com.ord.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class OrderServiceImpl implements OrderService{
 	private ProDAO proDao;
 	
 
-//	List<>
+	List<Dtl> DtlItemList = new ArrayList<>(); 
 
 	
 	
@@ -40,7 +41,7 @@ public class OrderServiceImpl implements OrderService{
 				System.out.println("proNo: " + proNo);
 			}
 			
-			int Price = buyItem.getOrdPrice();
+			totalPrice += buyItem.getOrdPrice();
 			
 			Dtl DtlVO = new Dtl();
 			DtlVO.setOrdNo(buyItem.getOrdNo()); //訂單編號 Not Null(PK,FK)
@@ -48,10 +49,13 @@ public class OrderServiceImpl implements OrderService{
 			DtlVO.setDtlQty(buyItem.getOrdPrice()); //商品訂購數量
 //			DtlVO.setDtlSell(ordNo); //訂購單價
 			
-			
+			DtlItemList.add(DtlVO);
 		}
 		
+		Integer orderId = orderDao.createOrder(ordNo, totalPrice);
 		
+		orderDao.creteOrderItems(orderId, DtlItemList);
+				
 		return totalPrice;
 	}
 	

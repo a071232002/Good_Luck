@@ -10,5 +10,5 @@ import com.ord.dto.CreateOrderRequest;
 
 public interface OrderService {
 	
-	public Integer createOrder(Integer ordNo, CreateOrderRequest createOrderRequest);
+	public Integer createOrder(Integer ordNo,  CreateOrderRequest createOderRequest);
 }

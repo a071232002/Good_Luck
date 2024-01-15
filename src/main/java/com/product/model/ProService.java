@@ -3,6 +3,10 @@ package com.product.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+
+@Component
 public class ProService {
 
 	private ProDAO_interface dao;

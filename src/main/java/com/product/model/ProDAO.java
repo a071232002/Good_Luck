@@ -1,12 +1,21 @@
 package com.product.model;
 
-import java.util.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import org.springframework.stereotype.Component;
+
+@Component
 
 public class ProDAO implements ProDAO_interface {
 
@@ -15,7 +24,7 @@ public class ProDAO implements ProDAO_interface {
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestG2");
+//			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestG2");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
