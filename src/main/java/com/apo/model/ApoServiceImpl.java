@@ -2,8 +2,10 @@ package com.apo.model;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,14 +48,29 @@ public class ApoServiceImpl implements ApoService {
 	}
 
 	@Override
-	public List<Apo> getListByLdd(Integer lddNo) {
-		return repository.findByLddNo(lddNo);
-	}
-
-	@Override
 	public List<Apo> getApoByMem(Mem mem) {
 		return repository.findByMem(mem);
 	}
+	
+	@Override
+	public List<Apo> getListByLdd(Integer lddNo) {
+		return repository.findByLddNo(lddNo);
+	}
+	
+	@Override
+	public List<ApoDTO> getListByRentNoWithBooking(Integer rentNo) {
+		List<Byte> apoStatusList = Arrays.asList(WAIT_APO_COMPLETE, FINISH);
+		List<Apo> apoList = repository.findByRentNoAndApoStatusIn(rentNo, apoStatusList);
+		List<ApoDTO> list = apoList.stream().map(apo -> new ApoDTO(
+	                    apo.getApoNo(),
+	                    apo.getApoDate(),
+	                    apo.getApoTime()))
+						.collect(Collectors.toList());
+		
+		return list;
+		
+	}
+
 
 	@Override
 	public List<Apo> getApoByApoStatus(List<Byte> apoStatusList) {
@@ -64,5 +81,6 @@ public class ApoServiceImpl implements ApoService {
 	public List<Apo> getApoByMemAndApoStatus(Mem mem, List<Byte> apoStatusList) {
 		return repository.findByMemAndApoStatusIn(mem, apoStatusList);
 	}
+
 
 }

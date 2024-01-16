@@ -13,6 +13,8 @@ public interface ApoService {
 	public void upDateApo(Apo apo);
 
 	public List<Apo> getListByLdd(Integer lddNo);
+	
+	public List<ApoDTO> getListByRentNoWithBooking(Integer rentNo);
 
 	public Apo getOneApo(Integer apoNo);
 

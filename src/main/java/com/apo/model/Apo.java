@@ -1,5 +1,6 @@
 package com.apo.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -10,27 +11,35 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.google.gson.annotations.Expose;
 import com.mem.model.Mem;
 import com.rent.model.Rent;
 
 @Entity
 @Table(name = "apo")
-public class Apo {
+public class Apo implements Serializable{
 	
+	@Expose
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "apoNo", updatable = false)
 	private Integer apoNo;
 	
+	@Expose
+//	@Transient
 	@ManyToOne
 	@JoinColumn(name = "memNo", referencedColumnName = "memNo", updatable = false)
 	private Mem mem;
 	
+	@Expose
+//	@Transient
 	@ManyToOne
 	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo", updatable = false)
 	private Rent rent;
 	
+	@Expose
 	@Column(name = "apoCreate", updatable = false)
 	private Date apoCreate;
 	
@@ -40,12 +49,15 @@ public class Apo {
 	@Column(name = "apoTime")
 	private Byte apoTime;
 	
+	@Expose
 	@Column(name = "apoStatus", insertable = false)
 	private Byte apoStatus;
 	
+	@Expose
 	@Column(name = "apoWant", insertable = false)
 	private Byte apoWant;
 	
+	@Expose
 	@Column(name = "apoWantDate", insertable = false)
 	private Date apoWantDate;
 

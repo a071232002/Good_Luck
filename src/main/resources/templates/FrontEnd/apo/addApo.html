@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>申請預約看房</title>
     <style>
+        h1 {
+           text-align: center;
+           color: red;
+        }
+
         .container {
             text-align: center;
         }
@@ -111,7 +116,7 @@
 </head>
 
 <body>
-
+    <h1>預約看房申請</h1>
     <div class="formArea">
         <form class="formData" method="post" th:action="@{insert}" th:object="${apo}"
             onsubmit="return checkDateSelected()">
@@ -187,7 +192,6 @@
             var firstDayOfMonth = new Date(year, month, 1).getDay();
             var daysInMonth = new Date(year, month + 1, 0).getDate();
             var day = 1;
-
             //假定一月最多6週
             for (var i = 0; i < 6; i++) {
                 var row = document.createElement("tr");
@@ -202,13 +206,12 @@
                             || currentMonth > currentDate.getMonth()
                             || currentYear > currentDate.getFullYear()) {
                             var dday = String("" + day).padStart(2, '0');
-                            var labelId = year + "-" + (month + 1) + "-" + dday;
-
+                            var mmonth = String("" + month).padStart(1, '0');
+                            var labelId = year + "-" + (mmonth + 1) + "-" + dday;
                             // 產生 div 元素
                             let divElement = document.createElement("div");
                             divElement.style.display = "block";
                             divElement.style.margin = "3px";
-
                             // 產生 label 元素
                             var labelElement = document.createElement("label");
                             labelElement.setAttribute("class", "calstatus");
@@ -219,7 +222,6 @@
 
                             divElement.appendChild(labelElement);
                             cell.appendChild(divElement);
-
                             // 產生三個 button 元素，分別為上午、下午、晚上
                             for (let apoTime = 1; apoTime <= 3; apoTime++) {
 
@@ -227,14 +229,11 @@
                                 divElement.style.display = "block";
                                 divElement.style.margin = "3px";
 
-                                var buttonId = year + "-" + (month + 1) + "-"
-                                    + dday + "-" + apoTime;
+                                var buttonId = year + "-" + (mmonth + 1) + "-"+ dday + "-" + apoTime;
 
-                                var buttonElement = document
-                                    .createElement("button");
+                                var buttonElement = document.createElement("button");
                                 buttonElement.setAttribute("type", "button");
-                                buttonElement
-                                    .setAttribute("class", "calstatus");
+                                buttonElement.setAttribute("class", "calstatus");
                                 buttonElement.setAttribute("name", labelId);
                                 buttonElement.setAttribute("id", buttonId);
                                 buttonElement.setAttribute("value", apoTime);
@@ -255,27 +254,16 @@
                                 }
 
                                 // 綁定點擊事件
-                                buttonElement
-                                    .addEventListener(
-                                        "click",
-                                        function (e) {
-
+                                buttonElement.addEventListener("click",function (e) {
                                             // 內容
-                                            let btn_el = document
-                                                .querySelectorAll(".clicked");
-                                            btn_el
-                                                .forEach(function (
-                                                    btn) {
-                                                    btn.classList
-                                                        .remove("clicked");
+                                            let btn_el = document.querySelectorAll(".clicked");
+                                                btn_el.forEach(function (btn) {
+                                                    btn.classList.remove("clicked");
                                                 });
 
-                                            let apoDate_el = document
-                                                .getElementById("apoDate");
-                                            let apoTime_el = document
-                                                .getElementById("apoTime");
-                                            let apoTimeText_el = document
-                                                .getElementById("apoTimeText");
+                                            let apoDate_el = document.getElementById("apoDate");
+                                            let apoTime_el = document.getElementById("apoTime");
+                                            let apoTimeText_el = document.getElementById("apoTimeText");
 
                                             apoDate_el.value = e.target.name;
                                             apoTime_el.value = e.target.value;
@@ -293,16 +281,12 @@
                                                 default:
                                                     break;
                                             }
-
-                                            e.target.classList
-                                                .add("clicked");
-
+                                            e.target.classList.add("clicked");
                                         });
 
                                 divElement.appendChild(buttonElement);
                                 cell.appendChild(divElement);
                             }
-
                         } else {
                             cell.innerHTML += "--";
                         }
@@ -331,7 +315,7 @@
                     currentYear--;
                 }
                 renderCalendar(currentMonth, currentYear);
-                // updateCalendarDate();
+                updateCalendarDate();
             }
         });
         //下個月按鈕
@@ -342,7 +326,7 @@
                 currentYear++;
             }
             renderCalendar(currentMonth, currentYear);
-            // updateCalendarDate();
+            updateCalendarDate();
         });
 
         // 在提交表單時，解除 readonly 屬性
@@ -354,29 +338,43 @@
         renderCalendar(currentMonth, currentYear);
 
         //月曆產生後, 將已預約的時段變更成不可選
-        // $(document).ready(function() {
-        //   updateCalendarDate();
-        // });
+        $(document).ready(function() {
+          updateCalendarDate();
+        });
 
+        //TODO 改成動態get 物件元素value
+        var rentNo = 1;
+        var requestData = { rentNo: 1 };
         //  ajax 將核准的預約單帶回
         function updateCalendarDate() {
             $.ajax({
-                url: "/cha103g2/front-end/roomcalendar/getRedisCalSingle.jsp",
-                type: "GET",
+
+                url: "apoStatus/" + rentNo ,
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify(requestData),
                 //取得伺服器回傳的資料轉成json
                 success: function (response) {
-                    var jsonData = JSON.parse(response);
-                    var el = document.getElementsByName('calstatus');
-
-                    jsonData.forEach(function (item) {
-
-                        var vdate = item.vDate;
-                        var aStatus = item.aStatus;
-                        var labelId = vdate;
-                        var labelElement = document.getElementById(labelId);
-                        if (labelElement) {
-                            labelElement.innerHTML += `&nbsp;&nbsp;` + aStatus;
-                        }
+				    var jsonData = response;  // 不再需要 JSON.parse
+				    jsonData.forEach(function (item) {
+				        let bookingDate = item.apoDate;
+				        let bookingTime = item.apoTime;
+				        let el_ID = bookingDate + "-" + bookingTime;
+				        console.log(bookingDate);
+				        console.log(bookingTime);
+				        console.log(el_ID);
+				        
+				        var target = document.getElementById(el_ID);
+				        console.log(target);
+				        if (target) {
+				        	//不顯示仍占空間
+				        	target.style.visibility = "hidden";
+// 				        	不顯示不占空間
+// 				        	target.style.display = "none";
+// 				        	不能點擊
+// 				        	target.disabled = true;
+				        	
+				        }
                     });
                 },
                 error: function (error) {

@@ -19,6 +19,7 @@ import com.rent.model.Rent;
 @Entity
 @Table(name = "lse")
 public class Lse {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "lseNo", updatable = false)
@@ -173,8 +174,8 @@ public class Lse {
 	@Override
 	public String toString() {
 		return "lse [lseNo=" + lseNo + 
-				", memNo=" + null +
-				", rentNo=" + null +
+				", memNo=" + (mem == null? null :mem.getMemNo())+
+				", rentNo=" + (rent == null? null :rent.getRentNo()) +
 				", lseCreate=" + lseCreate + 
 				", lseStart=" + lseStart + 
 				", lseEnd=" + lseEnd + 
