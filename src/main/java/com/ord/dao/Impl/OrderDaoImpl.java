@@ -71,7 +71,13 @@ public class OrderDaoImpl implements OrderDao{
 			map.put("dtlQty", DtlItem.getDtlQty());
 			map.put("dtlPrice", DtlItem.getDtlQty());
 			
-			namedParameterJdbcTemplate.update(sql, map);
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+			namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder, new String[]{"dtlId"});
+			
+			 if (keyHolder.getKey() != null) {
+		            int generatedDtlId = keyHolder.getKey().intValue();
+		            // 在這裡可以使用 generatedDtlId
+		        }
 		}
 		
 	}

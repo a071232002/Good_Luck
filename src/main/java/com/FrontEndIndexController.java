@@ -61,7 +61,7 @@ public class FrontEndIndexController {
 		
 //		Mem mem = new Mem().setMemNo(1);
 		
-		System.out.println(memNo);
+		System.out.println("memNo: " + memNo);
 //		System.out.println(createOrderRequest);
 		
 		Integer orderId = orderService.createOrder(memNo , createOrderRequest);
