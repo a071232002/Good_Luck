@@ -49,6 +49,9 @@ public class OrderServiceImpl implements OrderService{
 			DtlVO.setDtlQty(buyItem.getOrdPrice()); //商品訂購數量
 //			DtlVO.setDtlSell(ordNo); //訂購單價
 			
+			System.out.println(buyItem.getOrdNo());
+			System.out.println(buyItem.getOrdPrice());
+			
 			DtlItemList.add(DtlVO);
 		}
 		

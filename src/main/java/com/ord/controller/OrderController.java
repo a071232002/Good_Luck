@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.mem.model.Mem;
 import com.ord.dto.CreateOrderRequest;
 import com.ord.service.OrderService;
 
@@ -23,13 +24,20 @@ public class OrderController {
 	private OrderService orderService;
 	
 	
-	@PostMapping("/mems/{memNo}orders")
-	public ResponseEntity<?> createOrder(@PathVariable Integer memNo,
-										 @RequestBody @Valid CreateOrderRequest createOrderRequest){
-		
-		Integer orderId = orderService.createOrder(memNo , createOrderRequest);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
-	}
+//	@PostMapping("/mems/{memNo}/orders")
+////	@PostMapping("/orders") //test
+//	public ResponseEntity<?> createOrder(@PathVariable Integer memNo,
+//										 @RequestBody @Valid CreateOrderRequest createOrderRequest){
+//	
+//		
+////		Mem mem = new Mem().setMemNo(1);
+//		
+//		System.out.println(memNo);
+//		System.out.println(createOrderRequest);
+//		
+//		Integer orderId = orderService.createOrder(memNo , createOrderRequest);
+//		
+//		return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
+//	}
 	
 }

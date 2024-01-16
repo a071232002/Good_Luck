@@ -24,7 +24,7 @@ public class ProDAO implements ProDAO_interface {
 	static {
 		try {
 			Context ctx = new InitialContext();
-//			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestG2");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestG2");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

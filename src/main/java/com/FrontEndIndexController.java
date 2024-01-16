@@ -3,6 +3,7 @@ package com;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ord.dto.CreateOrderRequest;
+import com.ord.service.OrderService;
 import com.rtn.service.RtnService;
 
 @Validated
@@ -22,7 +24,12 @@ import com.rtn.service.RtnService;
 public class FrontEndIndexController {
 	@Autowired
 	public RtnService rtnService;
-
+	
+	
+	
+	@Autowired
+	private OrderService orderService;
+	
 //	前台首頁|前台|Supper
 	@GetMapping("/")
 	public String login(String userName ,
@@ -40,13 +47,30 @@ public class FrontEndIndexController {
 //		model.addAttribute("activeNavItemId", activeNavItemId);
 		return "FrontEnd/shop/shop";
 	}
+		
 	
-//	@PostMapping("")
-//	public ResponseEntity<?> createOrder(@PathVariable Integer usedId,
-//										 @RequestBody @Valid CreateOrderRequest createOrderRequest){
-//		Integer orderId = OrderService.
-//	}
+	@PostMapping("/mems/{memNo}/orders")
+//	@GetMapping("/mems/{memNo}/orders")
+//	@PostMapping("/orders") //test
+//	@GetMapping("/orders")
+	public ResponseEntity<?> createOrder(@PathVariable Integer memNo,
+//	public String createOrder(@PathVariable Integer memNo,
+							  @RequestBody CreateOrderRequest createOrderRequest){
+//										@RequestBody @Valid CreateOrderRequest createOrderRequest){
 	
+		
+//		Mem mem = new Mem().setMemNo(1);
+		
+		System.out.println(memNo);
+//		System.out.println(createOrderRequest);
+		
+		Integer orderId = orderService.createOrder(memNo , createOrderRequest);
+		
+		
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
+//		return "123";
+	}
 	
 	
 ////	前台登入|前台|

@@ -1,5 +1,6 @@
 package com.ord.dto;
 
+
 public class BuyItem {
 	private Integer ordNo;
 
