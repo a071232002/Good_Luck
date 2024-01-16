@@ -11,8 +11,8 @@ import com.ord.dao.OrderDao;
 import com.ord.dto.BuyItem;
 import com.ord.dto.CreateOrderRequest;
 import com.ord.service.OrderService;
-import com.product.model.ProDAO;
 import com.product.model.ProVO;
+import com.product.model.Impl.ProJDBCDAO;
 @Service
 public class OrderServiceImpl implements OrderService{
 	
@@ -20,9 +20,9 @@ public class OrderServiceImpl implements OrderService{
 	private OrderDao orderDao;
 	
 	@Autowired
-	private ProDAO proDao;
+//	private ProDAO proDao;
+	private ProJDBCDAO proDao;
 	
-
 	List<Dtl> DtlItemList = new ArrayList<>(); 
 
 	
