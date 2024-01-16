@@ -66,7 +66,7 @@ public class OrderDaoImpl implements OrderDao{
 			Map<String , Object> map = new HashMap<>();
 			map.put("ordNo", orderId);
 //			map.put("proNo", DtlItem.getProNo());
-			map.put("proNo", "2");
+			map.put("proNo", 1);//要從會員來
 			
 			map.put("dtlQty", DtlItem.getDtlQty());
 			map.put("dtlPrice", DtlItem.getDtlQty());
