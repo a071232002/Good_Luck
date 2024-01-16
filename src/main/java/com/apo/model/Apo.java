@@ -21,25 +21,19 @@ import com.rent.model.Rent;
 @Table(name = "apo")
 public class Apo implements Serializable{
 	
-	@Expose
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "apoNo", updatable = false)
 	private Integer apoNo;
 	
-	@Expose
-//	@Transient
 	@ManyToOne
 	@JoinColumn(name = "memNo", referencedColumnName = "memNo", updatable = false)
 	private Mem mem;
 	
-	@Expose
-//	@Transient
 	@ManyToOne
 	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo", updatable = false)
 	private Rent rent;
 	
-	@Expose
 	@Column(name = "apoCreate", updatable = false)
 	private Date apoCreate;
 	
@@ -49,15 +43,12 @@ public class Apo implements Serializable{
 	@Column(name = "apoTime")
 	private Byte apoTime;
 	
-	@Expose
 	@Column(name = "apoStatus", insertable = false)
 	private Byte apoStatus;
 	
-	@Expose
 	@Column(name = "apoWant", insertable = false)
 	private Byte apoWant;
 	
-	@Expose
 	@Column(name = "apoWantDate", insertable = false)
 	private Date apoWantDate;
 

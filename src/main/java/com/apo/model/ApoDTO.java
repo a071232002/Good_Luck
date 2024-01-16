@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 public class ApoDTO {
 	
 	
-	private static final SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static final SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-M-dd");
 	private Integer apoNo;
 	private String apoDate;
 	private Byte apoTime;
@@ -22,10 +22,8 @@ public class ApoDTO {
 	}
 	
     private String formatApoDate(Date apoDate) {
-        // 将 SQL Date 转换为字符串
         return sqlDateFormat.format(apoDate);
     }
-	
 	
 	@Override
 	public String toString() {

@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/public/bottonModel/rejectAndApprove.css}"/>
     <title>申請預約看房</title>
     <style>
+    
         h1 {
            text-align: center;
            color: red;
@@ -112,6 +114,7 @@
             background-color: #005680;
             color: white;
         }
+        
     </style>
 </head>
 
@@ -122,7 +125,7 @@
             onsubmit="return checkDateSelected()">
 
             <label class="formEl" for="memNo">會員編號<b>*</b>：</label>
-            <input class="formEl" type="text" th:field="*{mem.memNo}"><br> 
+            <input class="formEl" type="text" th:field="*{mem.memNo}"><br>
 
             <label class="formEl" for="rentNo">物件編號<b>*</b>：</label>
             <input type="text" th:field="*{rent.rentNo}"><br> 
@@ -132,7 +135,8 @@
             <input type="hidden" id="apoTime" th:field="*{apoTime}"> 
             <span class="formEl" id="apoTimeText"></span><br><br>
 
-            <input type="submit" class="submit" value="預約看房"><br>
+            <input type="submit" value="預約看房" class="approve_button">
+            <a th:href="@{/}"><button type="button" class="reject_button">取消</button></a>
         </form>
     </div>
     <div class="container text-center my-4">
@@ -206,8 +210,8 @@
                             || currentMonth > currentDate.getMonth()
                             || currentYear > currentDate.getFullYear()) {
                             var dday = String("" + day).padStart(2, '0');
-                            var mmonth = String("" + month).padStart(1, '0');
-                            var labelId = year + "-" + (mmonth + 1) + "-" + dday;
+                            // var mmonth = String("" + month).padStart(1, '0');
+                            var labelId = year + "-" + (month + 1) + "-" + dday;
                             // 產生 div 元素
                             let divElement = document.createElement("div");
                             divElement.style.display = "block";
@@ -229,7 +233,7 @@
                                 divElement.style.display = "block";
                                 divElement.style.margin = "3px";
 
-                                var buttonId = year + "-" + (mmonth + 1) + "-"+ dday + "-" + apoTime;
+                                var buttonId = year + "-" + (month + 1) + "-"+ dday + "-" + apoTime;
 
                                 var buttonElement = document.createElement("button");
                                 buttonElement.setAttribute("type", "button");
@@ -329,11 +333,6 @@
             updateCalendarDate();
         });
 
-        // 在提交表單時，解除 readonly 屬性
-        function enableReadonly() {
-            document.getElementById('apoDate').readOnly = false;
-        }
-
         //進入網頁時產生月曆
         renderCalendar(currentMonth, currentYear);
 
@@ -348,11 +347,10 @@
         //  ajax 將核准的預約單帶回
         function updateCalendarDate() {
             $.ajax({
-
                 url: "apoStatus/" + rentNo ,
                 type: "POST",
                 dataType: "json",
-                data: JSON.stringify(requestData),
+
                 //取得伺服器回傳的資料轉成json
                 success: function (response) {
 				    var jsonData = response;  // 不再需要 JSON.parse
@@ -360,20 +358,16 @@
 				        let bookingDate = item.apoDate;
 				        let bookingTime = item.apoTime;
 				        let el_ID = bookingDate + "-" + bookingTime;
-				        console.log(bookingDate);
-				        console.log(bookingTime);
-				        console.log(el_ID);
 				        
-				        var target = document.getElementById(el_ID);
-				        console.log(target);
+				        let target = document.getElementById(el_ID);
+
 				        if (target) {
 				        	//不顯示仍占空間
 				        	target.style.visibility = "hidden";
 // 				        	不顯示不占空間
 // 				        	target.style.display = "none";
 // 				        	不能點擊
-// 				        	target.disabled = true;
-				        	
+// 				        	target.disabled = true;	        	
 				        }
                     });
                 },

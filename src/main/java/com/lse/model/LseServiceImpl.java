@@ -2,9 +2,12 @@ package com.lse.model;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.mem.model.Mem;
 import com.rent.model.Rent;
 
+@Service
 public class LseServiceImpl implements LseService{
 
 	@Override

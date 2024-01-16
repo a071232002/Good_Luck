@@ -13,11 +13,11 @@ import com.rent.model.Rent;
 public interface ApoRepository extends JpaRepository<Apo, Integer>{
 	
 	@Transactional
-	@Query("FROM Apo apo WHERE apo.rent.ldd.lddNo = :lddNo")
+	@Query("FROM Apo apo WHERE apo.rent.ldd.lddNo = :lddNo ORDER BY apo.apoCreate DESC")
 	public List<Apo> findByLddNo(Integer lddNo);
 	
 	@Transactional
-	public List<Apo> findByMem(Mem mem);
+	public List<Apo> findByMemOrderByApoCreateDesc(Mem mem);
 	
 	@Transactional
 	@Query("FROM Apo apo WHERE apo.rent.rentNo = :rentNo AND apo.apoStatus IN :apoStatusList")

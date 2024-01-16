@@ -1,5 +1,6 @@
 package com.lse.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ import com.rent.model.Rent;
 
 @Entity
 @Table(name = "lse")
-public class Lse {
+public class Lse implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
