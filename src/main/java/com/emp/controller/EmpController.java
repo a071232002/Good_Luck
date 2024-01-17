@@ -2,6 +2,8 @@ package com.emp.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,12 +36,19 @@ public class EmpController {
 		return "BackStage/login";
 	}
 	
-	//前往員工列表
+	//前往單一員工查詢
 	@GetMapping("/EmpSelect")
 	public String empList(Model model) {
 		List<Emp> datas = empService.findAll();
 		model.addAttribute("empListData", datas);
 		return "BackStage/emp/selectEmp";
+	}
+	
+	//前往新增員工
+	@GetMapping("/addEmp")
+	public String register(Model model) {
+		model.addAttribute("newData", new Emp());
+		return "";
 	}
 	
 	//顯示單一員工
@@ -54,7 +63,7 @@ public class EmpController {
 	
 	//登入處理
 	@PostMapping("/index")
-	public String login(String userNo ,String userPassword ,Model model) {
+	public String login(String userNo ,String userPassword ,Model model, HttpSession session) {
 		
 		
 		System.out.println("userName 為: " + userNo);
@@ -67,6 +76,7 @@ public class EmpController {
 		if (loginData != null) {
 			String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
 			model.addAttribute("activeNavItemId", activeNavItemId);
+			session.setAttribute("EmpSuccess", loginData);
 			return "BackStage/index";
 		}
 		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");

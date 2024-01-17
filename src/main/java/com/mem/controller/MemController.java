@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,7 @@ public class MemController {
 	// 登入處理
 	@PostMapping("loginPage")
 	public String loginPage(@ModelAttribute("mail") String memMail, @ModelAttribute("password") String memPsw,
-							ModelMap model) {
+							ModelMap model, HttpSession session) {
 		
 		if(memMail.isEmpty() || memPsw.isEmpty()) {
 			model.addAttribute("message", "信箱或密碼不能空白，請重新輸入！");
@@ -93,7 +94,8 @@ public class MemController {
 		}
 		Mem loginData = memservice.login(memMail, memPsw);
 		if (loginData != null) {
-			return "NewFile";
+			session.setAttribute("logsuccess", loginData);
+			return "BackStage/mem/listAllMem";
 		}
 		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");
 		return "BackStage/mem/loginMem";

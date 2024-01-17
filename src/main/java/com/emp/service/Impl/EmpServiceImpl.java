@@ -45,11 +45,10 @@ public class EmpServiceImpl implements EmpService {
 		return empRepository.findAll();
 	}
 
-	// 員工編輯資料((有權限才可改)姓名、密碼)
+	// 員工編輯資料
 	@Override
 	public Emp editEmp(Emp newEmp) {
 		
-		//比對權限是否符合
 		newEmp.setEmpPsw(hashPassword(newEmp.getEmpPsw())); //加密
 		return empRepository.save(newEmp);
 	}

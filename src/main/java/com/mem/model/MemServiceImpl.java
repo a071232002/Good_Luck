@@ -86,8 +86,8 @@ public class MemServiceImpl implements MemService {
 			props.put("mail.smtp.auth", "true");
 			props.put("mail.smtp.port", "465");
 
-			final String myGmail = "we23rt45600@gmail.com";
-			final String myGmail_password = "nizxuqukthtrxbxb";
+			final String myGmail = "cha104G2GoodLuck@gmail.com";
+			final String myGmail_password = "fmoolreuwsxrzdyz";
 			Session session = Session.getInstance(props, new Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(myGmail, myGmail_password);
