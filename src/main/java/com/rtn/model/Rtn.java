@@ -1,53 +1,44 @@
 package com.rtn.model;
 
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import org.hibernate.criterion.Order;
-
 import com.emp.model.Emp;
+import com.ord.model.OrderNo;
 
 @Entity
 @Table(name = "Rtn")
 public class Rtn {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "rtnNo", updatable = false)
-	private Integer rtnNo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rtnNo", updatable = false)
+    private Integer rtnNo;
 
-	// FK員工
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
-	private Emp empNo;
-//	// FK訂單
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "orderNo", referencedColumnName = "ordNo")
-//	private Order orderNo;
-	
-	@Column(name = "rtnDate")
-	private Date rtnDate;
+    // FK員工
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "empNo", referencedColumnName = "empNo")
+    private Emp empNo;
 
-	@Column(name = "rtnWhy")
-	private String rtnWhy;
+    // FK訂單
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderNo", referencedColumnName = "ordNo")
+    private OrderNo orderNo;
+    
+    @Column(name = "rtnDate")
+    private Date rtnDate;
 
-	@Column(name = "refundAmount")
-	private int refundAmount;
-	
-	@Max(3)
-	@Min(0)
-	@Column(name = "rtnStatus")
-	private int rtnStatus;
+    @Column(name = "rtnWhy")
+    private String rtnWhy;
+
+    @Column(name = "refundAmount")
+    private int refundAmount;
+    
+    @Max(3)
+    @Min(0)
+    @Column(name = "rtnStatus")
+    private int rtnStatus;
 
 	public Integer getRtnNo() {
 		return rtnNo;
@@ -55,6 +46,22 @@ public class Rtn {
 
 	public void setRtnNo(Integer rtnNo) {
 		this.rtnNo = rtnNo;
+	}
+
+	public Emp getEmpNo() {
+		return empNo;
+	}
+
+	public void setEmpNo(Emp empNo) {
+		this.empNo = empNo;
+	}
+
+	public OrderNo getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(OrderNo orderNo) {
+		this.orderNo = orderNo;
 	}
 
 	public Date getRtnDate() {
@@ -88,21 +95,6 @@ public class Rtn {
 	public void setRtnStatus(int rtnStatus) {
 		this.rtnStatus = rtnStatus;
 	}
-
-	public Emp getEmpNo() {
-		return empNo;
-	}
-
-	public void setEmpNo(Emp empNo) {
-		this.empNo = empNo;
-	}
-
-//	public Order getOrderNo() {
-//		return orderNo;
-//	}
-//
-//	public void setOrderNo(Order orderNo) {
-//		this.orderNo = orderNo;
-//	}
-
+    
+    
 }
