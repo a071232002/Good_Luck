@@ -40,29 +40,26 @@ public class IndexController {
 	public RtnService rtnService;
 
 //	後台登入|後台|
-	@GetMapping("/login")
-	public String login() {
-		return "BackStage/login";
-	}
+//	@GetMapping("/login")
+//	public String login() {
+//		return "BackStage/login";
+//	}
 //	後台首頁|後台|Supper
-	@PostMapping("/index")
-	public String login(String userName ,
-						String userPassword ,
-						Model model) 
-	{
-		
-		System.out.println("userName 為: " + userName);
-		System.out.println("userPassword 為: " + userPassword);
-		
-		String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
-		model.addAttribute("activeNavItemId", activeNavItemId);
-		return "BackStage/index";
-	}
+//	@PostMapping("/index")
+//	public String login(String userName ,
+//						String userPassword ,
+//						Model model) 
+//	{
+//		
+//		System.out.println("userName 為: " + userName);
+//		System.out.println("userPassword 為: " + userPassword);
+//		
+//		String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
+//		model.addAttribute("activeNavItemId", activeNavItemId);
+//		return "BackStage/index";
+//	}
 	
 
-	
-	
-	
 //	GET導向退會單|後台|Sub
 	@GetMapping("/Rtn")
 	public String GoRtn(Model model) {

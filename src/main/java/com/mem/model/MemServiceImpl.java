@@ -7,6 +7,16 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,8 +74,42 @@ public class MemServiceImpl implements MemService {
 
 	// 信箱驗證
 	@Override
-	public boolean verifyMail(String word) {
-		
+	public boolean verifyMail(String mail) {
+		String verifyID = genAuthCode();
+//		Jedis jedis = new Jedis("localhost", 6379);
+		try {
+			// 設定使用SSL連線至 Gmail smtp Server
+			Properties props = new Properties();
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.socketFactory.port", "465");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.port", "465");
+
+			final String myGmail = "cha104G2GoodLuck@gmail.com";
+			final String myGmail_password = "fmoolreuwsxrzdyz";
+			Session session = Session.getInstance(props, new Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(myGmail, myGmail_password);
+				}
+			});
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(myGmail));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail));
+
+			// 設定信中的主旨
+			message.setSubject("租你好運感謝您的註冊！");
+			// 設定信中的內容
+			message.setText("驗證碼為：" + verifyID);
+
+			Transport.send(message);
+			System.out.println("傳送成功!");
+			return true;
+		} catch (MessagingException e) {
+			System.out.println("傳送失敗!");
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -109,6 +153,35 @@ public class MemServiceImpl implements MemService {
 		// 其他停權動作
 		data.setMemStatus(Byte.valueOf("2")); // 2為停權狀態
 		edit(data);
+	}
+	
+	//取得隨機亂數
+	private String genAuthCode() {
+		// A~Z   unicode 65~90
+		// a~z   unicode 97~122
+		String randomStr = "";
+		for(int i = 1; i <= 8; i++) {
+			int getChose = (int)(Math.random()*3);
+			switch (getChose) {
+				case 0:
+					int getNumber = getRandom(0, 9);
+					randomStr += String.valueOf(getNumber);
+					break;
+				case 1:
+					char getEnUp = (char)getRandom(65, 90);
+					randomStr += String.valueOf(getEnUp);
+					break;
+				case 2:
+					char getEnDown = (char)getRandom(97, 122);
+					randomStr += String.valueOf(getEnDown);
+					break;
+			}
+		}
+		return randomStr;
+	}
+	
+	private int getRandom(int min, int max) {
+		return (int)(Math.random()*(max - min + 1) + min);
 	}
 
 }

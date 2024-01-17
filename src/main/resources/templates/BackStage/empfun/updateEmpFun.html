@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        label {
+            /* display: inline-block; */
+            width: 5em;
+        }
+
+        b {
+            color: red;
+        }
+
+        td {
+            text-align: right;
+            padding: 5px;
+        }
+
+        .toggler {
+            display: inline-block;
+            width: 500px;
+            height: 200px;
+        }
+
+        #button {
+            padding: .5em 1em;
+            text-decoration: none;
+        }
+
+        #effect {
+            width: 240px;
+            height: 100px;
+            padding: 0.4em;
+            position: relative;
+        }
+
+        #effect h3 {
+            margin: 0;
+            padding: 0.4em;
+            text-align: center;
+            background-color: red;
+        }
+    </style>
+<title>Insert title here</title>
+</head>
+<body>
+	<form method="post" th:action="@{funUpdate}" th:object="${empFunData}" >
+		<table>
+			<tr>
+				<td><label for="Number">員工編號<b>*</b>：</label></td>
+				<td>
+					<span id="Number" th:text="${empFunData.empNo}"></span>
+					<input type="hidden" th:field="*{empNo}">
+				</td>
+<!-- 				<td><input id="Number" title="請輸入信箱帳號" th:field="*{empNo}" ></td> -->
+			</tr>
+			<tr>
+				<td><label for="name">員工姓名<b>*</b>：</label></td>
+				<td><span id="name" th:text="${empFunData.empName}"></span></td>
+<!-- 				<td><input id="name" title="請輸入信箱帳號" th:field="*{memMail}" ></td> -->
+			</tr>
+			<tr>
+				<td><label for="fun">會員管理<b>*</b>：</label></td>
+				<td><input type="checkbox" id="fun" th:field="*{empFun}" th:value="1"></td>
+			</tr>
+			<tr>
+				<td><label for="product">商品管理<b>*</b>：</label></td>
+				<td><input type="checkbox" id="product" th:field="*{empFun}" th:value="2"></td>
+			</tr>
+			<tr>
+				<td><label for="notice">公告管理<b>*</b>：</label></td>
+				<td><input type="checkbox" id="notice" th:field="*{empFun}" th:value="3"></td>
+			</tr>
+			<tr>
+				<td><label for="rent">物件管理<b>*</b>：</label></td>
+				<td><input type="checkbox" id="rent" th:field="*{empFun}" th:value="4"></td>
+			</tr>
+			<tr>
+				<td><label for="report">申訴管理<b>*</b>：</label></td>
+				<td><input type="checkbox" id="report" th:field="*{empFun}" th:value="5"></td>
+			</tr>
+			<tr>
+				<td><label for="emp">員工管理<b>*</b>：</label></td>
+				<td><input type="checkbox" id="emp" th:field="*{empFun}" th:value="6"></td>
+			</tr>
+		</table>
+		<input type="submit" class="submit" value="修改資料">
+	</form>
+
+	<button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
+</body>
+</html>
