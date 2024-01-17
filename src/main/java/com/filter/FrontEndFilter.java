@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import com.mem.model.Mem;
 
 @Component
-@WebFilter("*.html")
+//@WebFilter("*.html")
 public class FrontEndFilter implements Filter{
 
 	private ServletContext sc;
@@ -27,13 +27,14 @@ public class FrontEndFilter implements Filter{
 	private static HashSet<String> path = new HashSet<>();
 	
 	static {
-		//設定過濾器經過的網頁
+		//設定前台過濾器經過的網頁
 		path.add("addMem");
+		path.add("updateMem");
 	}
 	
 	public void init(FilterConfig fig) {
 		sc = fig.getServletContext();
-		System.out.println("test");
+		System.out.println("前台過濾器 -> 啟動");
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class FrontEndFilter implements Filter{
 		System.out.println("uri:" + uri);
 		System.out.println();
 		
-		if(uri.contains("/BackStage") && path.contains(htmlName)) {
+		if(!uri.contains("/BackStage") && path.contains(htmlName)) {
 			final Mem member = getClassFromSession(httpRequest, "logsuccess", Mem.class);
 			System.out.println(member);
 			
@@ -69,6 +70,7 @@ public class FrontEndFilter implements Filter{
 		sc = null;
 	}
 	
+	//透過Session取得參數
 	private <T> T getClassFromSession(final HttpServletRequest req, final String attrKey, final Class<T> clazz) {
 		final Object obj = req.getSession().getAttribute(attrKey);
 		if(obj != null && clazz.isInstance(obj)) {

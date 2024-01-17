@@ -35,15 +35,7 @@ public class EmpController {
 	public String login() {
 		return "BackStage/login";
 	}
-	
-	//前往單一員工查詢
-	@GetMapping("/EmpSelect")
-	public String empList(Model model) {
-		List<Emp> datas = empService.findAll();
-		model.addAttribute("empListData", datas);
-		return "BackStage/emp/selectEmp";
-	}
-	
+
 	//前往新增員工
 	@GetMapping("/addEmp")
 	public String register(Model model) {
@@ -51,12 +43,23 @@ public class EmpController {
 		return "";
 	}
 	
+	//前往單一員工查詢
+	@GetMapping("/EmpSelect")
+	public String empList(Model model, HttpSession session) {
+//		List<Emp> datas = empService.findAll();
+//		model.addAttribute("empListData", datas);
+		Emp emp = (Emp)session.getAttribute("EmpSuccess");
+		model.addAttribute("empData", emp);
+		return "BackStage/emp/OneEmp";
+//		return "BackStage/emp/selectEmp";
+	}
+	
 	//顯示單一員工
 	@PostMapping("oneEmp")
-	public String oneEmp(@RequestParam("getEmpNo") String empNo, Model model) {
-		System.out.println(empNo);
-		Emp emp = empService.getById(Integer.valueOf(empNo));
-		model.addAttribute("empData", emp);
+	public String oneEmp(Model model) {
+//		System.out.println(empNo);
+//		Emp emp = empService.getById(Integer.valueOf(empNo));
+//		model.addAttribute("empData", emp);
 //		return "redirect:EmpSelect";
 		return "BackStage/emp/OneEmp";
 	}
@@ -76,7 +79,7 @@ public class EmpController {
 		if (loginData != null) {
 			String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
 			model.addAttribute("activeNavItemId", activeNavItemId);
-			session.setAttribute("EmpSuccess", loginData);
+			session.setAttribute("EmpSuccess", loginData); //資料存入Session內
 			return "BackStage/index";
 		}
 		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");

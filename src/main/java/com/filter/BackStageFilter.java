@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import com.emp.model.Emp;
 
 @Component
-@WebFilter("*.html")
+//@WebFilter("*.html")
 public class BackStageFilter implements Filter{
 
 	private ServletContext sc;
@@ -27,15 +27,20 @@ public class BackStageFilter implements Filter{
 	private static HashSet<String> path = new HashSet<>();
 	
 	static {
-		//設定過濾器經過的網頁
+		//設定後台過濾器網頁
 		path.add("addEmp");
 		path.add("funlist");
 		path.add("goEditFun");
+		path.add("memlist");
+		path.add("addLddApp");
+		path.add("listAllLddApp");
+		path.add("EmpSelect");
+		
 	}
 	
 	public void init(FilterConfig fig) {
 		sc = fig.getServletContext();
-		System.out.println("BackStageFilter -> start");
+		System.out.println("後台過濾器 -> 啟動");
 	}
 	
 	@Override
@@ -52,10 +57,10 @@ public class BackStageFilter implements Filter{
 		System.out.println();
 		
 		if(uri.contains("/BackStage") && path.contains(htmlName)) {
-			final Emp member = getClassFromSession(httpRequest, "EmpSuccess", Emp.class);
-			System.out.println(member);
+			final Emp emp = getClassFromSession(httpRequest, "EmpSuccess", Emp.class);
+			System.out.println(emp);
 			
-			if(member == null) {
+			if(emp == null) {
 				httpResponse.sendRedirect("/BackStage/login");
 				return;
 			}
@@ -71,6 +76,7 @@ public class BackStageFilter implements Filter{
 		sc = null;
 	}
 	
+	//透過Session取得參數
 	private <T> T getClassFromSession(final HttpServletRequest req, final String attrKey, final Class<T> clazz) {
 		final Object obj = req.getSession().getAttribute(attrKey);
 		if(obj != null && clazz.isInstance(obj)) {
