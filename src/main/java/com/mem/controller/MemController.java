@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +35,13 @@ public class MemController {
 	@Autowired
 	private MemService memservice;
 
-	// 前往新增頁面
-	@GetMapping("/addMem")
-	public String addData(ModelMap model) {
-		Mem mem = new Mem();
-		model.addAttribute("mem", mem);
-		return "BackStage/mem/addMem";
-	}
+//	// 前往註冊會員頁面
+//	@GetMapping("/addMem")
+//	public String addData(ModelMap model) {
+//		Mem mem = new Mem();
+//		model.addAttribute("mem", mem);
+//		return "BackStage/mem/addMem";
+//	}
 
 	// 前往查詢頁面
 	@GetMapping("/memlist")
@@ -48,84 +49,106 @@ public class MemController {
 		return "BackStage/mem/listAllMem";
 	}
 
-	// 前往修改頁面
-	@PostMapping("updateMem")
-	public String updateData(ModelMap model, @ModelAttribute("memNo") String memNo) {
+//	// 前往修改會員頁面
+//	@PostMapping("updateMem")
+//	public String updateData(ModelMap model, @ModelAttribute("memNo") String memNo) {
+//
+//		Mem oldData = memservice.findByNo(Integer.valueOf(memNo));
+//		String[] add = oldData.getMemAdd().split(" ");
+//		if(add.length == 1) {
+//			model.addAttribute("data", oldData);
+//			return "BackStage/mem/updateMem";
+//		}
+//		System.out.println(add.length);
+//		oldData.setMemAdd(add[2]);
+//		System.out.println(add[0]);
+//		System.out.println(add[1]);
+//		
+//		model.addAttribute("data", oldData);
+//		model.addAttribute("county", add[0]);
+//		model.addAttribute("district", add[1]);
+//		return "BackStage/mem/updateMem";
+//	}
 
-		Mem oldData = memservice.findByNo(Integer.valueOf(memNo));
-		model.addAttribute("data", oldData);
-		return "BackStage/mem/updateMem";
-	}
-
-	// 前往登入頁面
-	@GetMapping("/login")
-	public String goToLogin() {
-		return "BackStage/mem/loginMem";
-	}
+//	// 前往登入頁面
+//	@GetMapping("/login")
+//	public String goToLogin() {
+//		return "BackStage/mem/loginMem";
+//	}
 	
-	//前往忘記密碼
-	@GetMapping("/forgetPsw")
-	public String goToForgetPsw(ModelMap model) {
-		//未完成
-		return "redirect:login";
-	}
+//	//前往忘記密碼
+//	@GetMapping("/forgetPsw")
+//	public String goToForgetPsw(ModelMap model) {
+//		//未完成
+//		return "redirect:login";
+//	}
 
-	// 登入處理
-	@PostMapping("loginPage")
-	public String loginPage(@ModelAttribute("mail") String memMail, @ModelAttribute("password") String memPsw,
-							ModelMap model) {
-		
-		if(memMail.isEmpty() || memPsw.isEmpty()) {
-			model.addAttribute("message", "信箱或密碼不能空白，請重新輸入！");
-			return "BackStage/mem/loginMem";
-		}
-		Mem loginData = memservice.login(memMail, memPsw);
-		if (loginData != null) {
-			return "NewFile";
-		}
-		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");
-		return "BackStage/mem/loginMem";
-	}
+//	// 登入處理
+//	@PostMapping("loginPage")
+//	public String loginPage(@ModelAttribute("mail") String memMail, @ModelAttribute("password") String memPsw,
+//							ModelMap model, HttpSession session) {
+//		
+//		if(memMail.isEmpty() || memPsw.isEmpty()) {
+//			model.addAttribute("message", "信箱或密碼不能空白，請重新輸入！");
+//			return "BackStage/mem/loginMem";
+//		}
+//		Mem loginData = memservice.login(memMail, memPsw);
+//		if (loginData != null) {
+//			session.setAttribute("logsuccess", loginData);
+//			return "BackStage/mem/listAllMem";
+//		}
+//		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");
+//		return "BackStage/mem/loginMem";
+//	}
 
-	// 新增資料
-	@PostMapping("memadd")
-	public String addMem(@RequestParam("memPic") MultipartFile part, @Validated(Create.class) Mem mem,
-			BindingResult result, ModelMap model) throws IOException {
-		
-		mem.setMemPic(part.isEmpty() ? null : part.getBytes());
-		result = removeFieldError(mem, result, "memPic");
+//	// 新增資料
+//	@PostMapping("memadd")
+//	public String addMem(@RequestParam("memPic") MultipartFile part, @Validated(Create.class) Mem mem,
+//			BindingResult result, ModelMap model, @RequestParam("county") String county, 
+//			@RequestParam("district") String district) throws IOException {
+//		String detailAdd = mem.getMemAdd();
+//		mem.setMemAdd(county + " " + district + " " + detailAdd);
+//		mem.setMemPic(part.isEmpty() ? null : part.getBytes());
+//		result = removeFieldError(mem, result, "memPic");
+//
+//		if (result.hasErrors()) {
+//			mem.setMemAdd(detailAdd);
+//			return "BackStage/mem/addMem";
+//		}
+//
+//		Mem newData = memservice.register(mem);
+//		model.addAttribute("successData", newData);
+//		memservice.verifyMail(mem.getMemMail()); //發送簡訊
+//		
+//
+//		return "BackStage/mem/varifiedMail";
+//	}
 
-		if (result.hasErrors()) {
-			return "BackStage/mem/addMem";
-		}
-
-		Mem newData = memservice.register(mem);
-		model.addAttribute("successData", newData);
-
-		return "BackStage/mem/varifiedMail";
-	}
-
-	// 修改資料
-	// @MdelAttribute("data")對映th:object"${data}"和model.addAttribute("data",
-	// oldData)
-	@PostMapping("memupdate")
-	public String updateMem(@RequestParam("memPic") MultipartFile part, @ModelAttribute("data") @Valid Mem mem,
-			BindingResult result, ModelMap model) throws IOException {
-
-		mem.setMemPic(part.isEmpty() ? memservice.findByNo(mem.getMemNo()).getMemPic() : part.getBytes());
-
-		
-		result = removeFieldError(mem, result, "memPic");
-
-		System.out.println(result.getFieldErrorCount());
-		if (result.hasErrors()) {
-			return "BackStage/mem/updateMem";
-		}
-
-		Mem newData = memservice.edit(mem);
-		model.addAttribute("successData", newData);
-		return "BackStage/mem/successPage";
-	}
+//	// 修改資料
+//	// @MdelAttribute("data")對映th:object"${data}"和model.addAttribute("data",
+//	// oldData)
+//	@PostMapping("memupdate")
+//	public String updateMem(@RequestParam("memPic") MultipartFile part, @ModelAttribute("data") @Valid Mem mem,
+//			BindingResult result, ModelMap model, @RequestParam("county") String county, 
+//			@RequestParam("district") String district) throws IOException {
+//
+//		String detailAdd = mem.getMemAdd();
+//		mem.setMemAdd(county + " " + district + " " + detailAdd);
+//		mem.setMemPic(part.isEmpty() ? memservice.findByNo(mem.getMemNo()).getMemPic() : part.getBytes());
+//
+//		
+//		result = removeFieldError(mem, result, "memPic");
+//
+//		System.out.println(result.getFieldErrorCount());
+//		if (result.hasErrors()) {
+//			mem.setMemAdd(detailAdd);
+//			return "BackStage/mem/updateMem";
+//		}
+//
+//		Mem newData = memservice.edit(mem);
+//		model.addAttribute("successData", newData);
+//		return "BackStage/mem/successPage";
+//	}
 
 	// 停權(未完成)
 	@PostMapping("stopMem")
@@ -134,14 +157,13 @@ public class MemController {
 		return "redirect:memlist";
 	}
 	
-	//信箱驗證
-	@GetMapping("/sendGMail")
-	public String sendGMail(@RequestParam("sendMail") String code, ModelMap model) {
-		System.out.println(model.get("successData"));
-		System.out.println(model.getAttribute("successData"));
-		
-		return "BackStage/mem/listAllMem";
-	}
+//	//信箱驗證
+//	@GetMapping("/sendGMail")
+//	public String sendGMail(@RequestParam("sendMail") String code, ModelMap model) {
+//		
+//		
+//		return "BackStage/mem/listAllMem";
+//	}
 	
 
 	// 設置查詢全部屬性
@@ -151,16 +173,16 @@ public class MemController {
 		return list;
 	}
 
-	// 去除BindingResult中某個欄位的FieldError紀錄
-	public BindingResult removeFieldError(Mem mem, BindingResult result, String removedFieldname) {
-		List<FieldError> errorsListToKeep = result.getFieldErrors().stream()
-				.filter(fieldname -> !fieldname.getField().equals(removedFieldname)).collect(Collectors.toList());
-		result = new BeanPropertyBindingResult(mem, "mem");
-		for (FieldError fieldError : errorsListToKeep) {
-			result.addError(fieldError);
-		}
-		return result;
-	}
+//	// 去除BindingResult中某個欄位的FieldError紀錄
+//	public BindingResult removeFieldError(Mem mem, BindingResult result, String removedFieldname) {
+//		List<FieldError> errorsListToKeep = result.getFieldErrors().stream()
+//				.filter(fieldname -> !fieldname.getField().equals(removedFieldname)).collect(Collectors.toList());
+//		result = new BeanPropertyBindingResult(mem, "mem");
+//		for (FieldError fieldError : errorsListToKeep) {
+//			result.addError(fieldError);
+//		}
+//		return result;
+//	}
 
 	// 圖片處理
 	@GetMapping("picture")

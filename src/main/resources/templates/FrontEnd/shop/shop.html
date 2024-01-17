@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>租你好運</title>
+<!-- Favicon-->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+<!-- Bootstrap Icons-->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+	rel="stylesheet" />
+<!-- Google fonts-->
+<link
+	href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700"
+	rel="stylesheet" />
+<link
+	href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic"
+	rel="stylesheet" type="text/css" />
+<!-- SimpleLightbox plugin CSS-->
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css"
+	rel="stylesheet" />
+<!-- Core theme CSS (includes Bootstrap)-->
+<link th:href="@{/css/FrontEnd/indexCSS/styles.css}" rel="stylesheet" />
+<link th:href="@{/css/FrontEnd/indexCSS/style2.css}" rel="stylesheet" />
+<link th:href="@{/css/FrontEnd/shop/shop.css}" rel="stylesheet" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<style>
+	#shop-div{
+		position : absolute;
+	
+	}
+</style>
+
+
+</head>
+<div id="filter"></div>
+<body id="page-top">
+	<!-- Navigation-->
+	<div th:replace="FrontEnd/HTMLTool/nav :: nav"></div>
+	<div th:replace="FrontEnd/HTMLTool/login :: login"></div>
+	<div th:replace="FrontEnd/HTMLTool/cart :: cart"></div>
+
+
+	
+	<!-- Footer-->
+	<footer class="bg-light py-5">
+		<div class="container px-4 px-lg-5">
+			<div class="small text-center text-muted">Copyright &copy; 2024
+				- CHA104G2-GOOD_LUCK</div>
+		</div>
+	</footer>
+	<!-- Bootstrap core JS-->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- SimpleLightbox plugin JS-->
+	<!-- 	<script src="https://cdnjs.cloudfDlare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script> -->
+
+	<!-- 	<script th:src="@{/js/FrontEnd/indexJS/LinkCancelEvent}"></script> -->
+
+	<script>
+		const memlogin_a = document.querySelector("#memlogin-a");
+		const login_page = document.querySelector(".login_page");
+		const filter = document.querySelector("#filter");
+		
+		let displayTF = false;
+		login_page.style.display = "none";
+		memlogin_a.addEventListener("click", () => {
+		    if (displayTF){
+		        login_page.style.display = "none";
+		        filter.style.display = "none";
+		        memlogin_a.innerText = "會員登入";
+		        memlogin_a.style.color = "white";
+		    }else{
+		        login_page.style.display = "block"; 
+		        filter.style.display = "block"; 
+		        memlogin_a.innerText = "離開會員登入";
+		        memlogin_a.style.color = "red";
+		    }
+		    displayTF = !displayTF;
+		});
+		
+	</script>
+</body>
+</html>

@@ -111,11 +111,6 @@ public class Mem implements Serializable{
 	
 	public Mem() {
 	}
-	
-
-
-
-
 
 	public Integer getMemNo() {
 		return memNo;

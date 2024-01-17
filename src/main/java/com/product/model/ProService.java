@@ -3,13 +3,20 @@ package com.product.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.product.model.Impl.ProJDBCDAO;
+
+
+@Service
 public class ProService {
 
-	private ProDAO_interface dao;
+//	private ProDAO_interface dao;
+	private ProJDBCDAO dao;
 
-	public ProService() {
-		dao = new ProDAO();
-	}
+//	public ProService() {
+//		dao = new ProDAO();
+//	}
 
 	public ProVO addProduct(String proName, String proMean, int proPrice, int proQty, byte[] proImg,
 			LocalDateTime proCreateTime, int proStatus, int tagNo, int empNo) {
