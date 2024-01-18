@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
+	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+	<title>物件申請單一覽</title>
+	<style>
+		h1 {
+			text-align: center;
+			color: red;
+		}
+		 /* 燈箱樣式 */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2147483647; /* 設定 z-index 值為較大的數字 */
+        }
+
+        .lightbox textarea {
+            width: 300px; /* 固定寬度 */
+
+            font-size: 16px;
+        }
+		tfoot { 
+			display: table-row-group; 	
+		}
+		
+
+
+
+	</style>
+</head>
+<body>
+	<h1>檢舉投訴一覽</h1>
+
+	<table id="example" class="display" style="width: 100%">
+		<thead>
+			<tr>
+				<th>檢舉投訴編號</th>
+				<th>會員編號</th>
+				<th>員工編號</th>
+				<th>投訴日期</th>
+				<th>投訴內容</th>
+				<th>投訴單狀態</th>
+
+			</tr>
+		</thead>
+		
+<!-- 		<tfoot> -->
+<!--             <tr> -->
+<!--                 <th></th> -->
+<!-- 				<th></th> -->
+<!-- 				<th></th> -->
+<!-- 				<th></th> -->
+<!-- 				<th></th> -->
+<!-- 				<th></th> -->
+<!-- 				<th></th> -->
+<!--             </tr> -->
+<!--         </tfoot> -->
+
+        
+		<tbody>
+			<th:block th:each="report : ${reportListDataById}">
+				
+				<tr>
+					<td th:text="${report.reportNo}"></td>
+					<td th:text="${report.mem?.memNo}"></td>
+					<td th:text="${report.emp?.empNo}"></td>
+					<td th:text="${report.reportDate}"></td>
+					
+					<td>
+					<button onclick="showLightbox(this)">顯示內容</button>
+					<!-- 燈箱 -->
+					<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
+					    <textarea readonly id="enlarged-textarea" th:text="${report.reportCon}" oninput="autoExpand(this)"></textarea>
+					</div>
+					</td>
+
+
+<!-- 					<td><span th:if="${report.reportSt == 0}" th:text="審核中"></span> -->
+<!-- 						<span th:if="${report.reportSt == 1}" th:text="成立"></span> <span -->
+<!-- 						th:if="${report.reportSt == 2}" th:text="不成立"></span></td> -->
+					
+					<td th:if="${report.reportSt == 0}" th:text="審核中"></td>
+					<td th:if="${report.reportSt == 1}" th:text="成立"></td>
+					<td th:if="${report.reportSt == 2}" th:text="不成立"></td>
+					
+
+					
+				</tr>
+
+			</th:block>
+			
+
+		</tbody>
+
+	</table>
+	<br>
+	<a th:href="@{/BackStage/report}"><button>前往首頁</button></a>
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/BackStage/mem/the.js}"></script>
+	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
+	<script>
+	
+	
+
+    new DataTable('#example', {
+    	"stateSave": true,
+        initComplete: function () {
+        	var table = this.api();
+
+            // Get the current value of stateSave
+            var currentStateSaveValue = table.settings()[0].oFeatures.bStateSave;
+//             console.log("Current stateSave value:", currentStateSaveValue);
+            table.columns(5).every( function () {
+                    let column = this;
+//                     console.log("stateSave="+table.settings()[0].oFeatures.bStateSave)
+
+                    // Create select element
+                    let select = document.createElement('select');
+                    select.add(new Option(''));
+                    column.header().append(select);
+				  
+                    // Apply listener for user change in value
+                    select.addEventListener('change', function () {
+                        var val = DataTable.util.escapeRegex(select.value);
+
+                        column
+                            .search(val ? '^' + val + '$' : '', true, false)
+                            .draw();
+                    });
+     
+                    // Add list of options
+                    column.data().unique().sort().each( function ( d, j ) {
+//                     	console.log('^' + d + '$')
+//                     	console.log(table.settings()[0].oFeatures.bStateSave)
+// 						console.log(column.search())
+                        if(column.search() === '^' + d + '$'){
+                        	console.log("OK")
+                        	var newOption = document.createElement("option");
+						    newOption.text = d;
+						    newOption.value = d;
+						    newOption.selected="selected"
+                            select.append(newOption);
+                        
+                            
+                        } else {
+                        	select.add(new Option(d));
+                        }
+
+//                     	if(column.search() === ""){
+                    		
+//                     		console.log("column.search()=null")
+// 							console.log("stateSave="+table.settings()[0].oFeatures.bStateSave)
+//                     		table.settings().stateSave = false;
+//                     		console.log("stateSave="+table.settings()[0].oFeatures.bStateSave)
+//                     	}
+                    } );
+                });
+        	
+
+        }
+    });
+    
+    
+//     new DataTable('#example', {
+//         initComplete: function () {
+//         	this.api().columns([0,1,2]).every( function () {
+//                     let column = this;
+//                     let title = column.footer().textContent;
+     
+//                     // Create input element
+//                     let input = document.createElement('input');
+//                     input.placeholder = title;
+//                     column.footer().replaceChildren(input);
+     
+//                     // Event listener for user input
+//                     input.addEventListener('keyup', () => {
+//                         if (column.search() !== this.value) {
+//                             column.search(input.value).draw();
+//                         }
+//                     });
+//                 });
+//         }
+//     });
+
+	// Setup - add a text input to each header cell
+	$('#example thead th:lt(3)').each(function() {
+		
+	    var title = $('#example thead th').eq($(this).index()).text();
+
+	    $(this).html(title+'<input type="text" placeholder="請輸入' + title + '" />');
+
+	});
+	 
+	// DataTable
+	var table = $('#example').DataTable();
+	 
+	// Apply the search
+	table.columns(':lt(3)').eq(0).each(function(colIdx) {
+// 		console.log("藍="+colIdx+"值="+table.column(colIdx).search(this.value))
+		var searchval=table.column(colIdx).search(this.value)
+		if(searchval!==""){
+			console.log(searchval)
+			$('#example thead th').eq(colIdx).find('input').val(searchval);
+	    }
+		
+		
+	    $('input', table.column(colIdx).header()).on('keyup', function() {
+	    	table
+	            .column(colIdx)
+	            .search(this.value)
+	            .draw();
+// 	    	console.log("藍="+colIdx+"值="+this.value)
+	    	
+	    });
+	 
+	    $('input, select', table.column(colIdx).header()).on('click', function(e) {
+	        e.stopPropagation();
+	    });
+	});
+	</script>
+
+
+	<script>
+    function showLightbox(element) {
+        // 顯示燈箱
+        element.parentNode.querySelector('div').style.display = 'flex';
+        
+        // 自動調整放大的 textarea 的高度
+       autoExpand( element.parentNode.querySelector('div').firstElementChild)
+
+    }
+
+    function hideLightbox(event) {
+        // 檢查點擊位置是否在 textarea 內，是的話不關閉燈箱
+
+        var textarea = event.target.firstElementChild
+        if (event.currentTarget.contains(textarea)) {
+            // 隱藏燈箱
+            event.currentTarget.style.display = 'none';
+        }
+            return;
+    }
+
+    function autoExpand(textarea) {
+        
+        // 克隆 textarea，以便計算內容的大小
+        var clone = textarea.cloneNode(true);
+        clone.style.width = textarea.offsetWidth + 'px'; // 設置克隆的寬度與原始 textarea 相同
+        clone.style.height = 'auto'; // 先將高度設置為 auto，以便根據內容計算實際高度
+
+        // 將克隆的 textarea 放入 body 中，以便計算實際高度
+        document.body.appendChild(clone);
+
+        // 設置克隆的內容為原始 textarea 的內容
+        clone.value = textarea.value;
+
+        // 計算實際高度
+        var height = clone.scrollHeight;
+
+        // 從 body 中移除克隆的 textarea
+        document.body.removeChild(clone);
+
+        // 將原始 textarea 的高度設置為實際高度
+        textarea.style.height = height + 'px';
+    }
+    
+    
+    
+    function setDataValue(buttonElement, newValue) {
+    	//到時候要更新memid
+ 		// 找到按钮的父级元素
+        var parent = buttonElement.parentElement;
+
+        // 找到隐藏字段（前一个兄弟元素）
+        var hiddenField = parent.previousElementSibling;
+
+        // 如果找到了隐藏字段，修改其值
+        if (hiddenField && hiddenField.type === 'hidden' && hiddenField.name === 'reportSt') {
+            hiddenField.value = newValue;
+        }
+        parent.parentElement.submit();
+        
+    }
+
+</script>
+</body>
+</html>

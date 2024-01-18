@@ -38,7 +38,8 @@
 			
 			<div>
 				<label>路街:</label> <input type="text" th:field="*{rentAppRo}"
-					onclick="hideContent('rentAppRo.errors');" /><br /> <span
+					onclick="hideContent('rentAppRo.errors');" /><br /> 
+					<span
 					th:if="${#fields.hasErrors('rentAppRo')}" th:errors="*{rentAppRo}"
 					class="error" id="rentAppRo.errors"></span>
 			</div>
@@ -56,7 +57,7 @@
 				<!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
 				<span class="error" th:utext="${errorMessage}" id="rentAppOwn.errors">${errorMessage}</span>
 				<!-- 			<h2 id="errorMessage">${errorMessage}</h2>  -->
-				<div id="blob_holder"><img th:src="@{/BackStage/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}" width="100px" ></div>
+				<div id="blob_holder"><img th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}" width="100px" ></div>
 			</div>
 			
 			
