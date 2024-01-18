@@ -3,10 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/public/bottonModel/rejectAndApprove.css}"/>
+    <title>預約單修改</title>
+	<style>
+        h1 {
+           text-align: center;
+           color: red;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .flex-container {
+            display: flexbox;
+        }
+
+        .formArea {
+            text-align: center;
+            margin: 10px;
+        }
+
+        /* th {
+            text-align: center;
+        }
+
+        th.scope {
+            background-color: red;
+            color: white;
+        } */
+
+        label.formEl {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        span.formEl {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 3px 15px;
+            margin: 0px;
+            width: 150px;
+            font-size: 20px;
+            font-weight: bold;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            color: #333;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        input.submit {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: #005680;
+            color: white;
+        }
+
+        label.calstatus {
+            display: block;
+            padding: 5px;
+            background-color: orange;
+            color: black;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button.calstatus {
+            width: 100%;
+            display: block;
+            padding: 5px;
+            background-color: lightgray;
+            color: black;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button.calstatus:hover {
+            background-color: #005680;
+            color: white;
+        }
+
+        button.calstatus.clicked {
+            background-color: #005680;
+            color: white;
+        }
+    </style>
+    
 </head>
 <body>
+    <h1>修改預約修時間</h1>
+    <div class="formArea">
+		<form class="formData" method="post" th:action="@{update}" th:object="${apo}">
+		
+				<label class="formEl" for="apoNo">預約單編號:</label>
+				<span class="formEl" th:text="*{apoNo}"></span><br/>
+
+				<label class="formEl" for="memNo">會員編號:</label>
+				<span class="formEl" th:text="*{mem.memNo}"></span><br/>
+
+				<label class="formEl" for="empNo">物件編號:</label>
+				<span class="formEl" th:text="*{rent.rentNo}"></span><br/>
+
+				<label class="formEl" for="apoCreate">申請日期:</label>
+				<span class="formEl" th:text="*{apoCreate}"></span><br/>
+
+				<label class="formEl" for="apoDate">請選擇預約日期及時段<b>*</b>：</label><br>
+				<input type="text" id="apoDate" th:field="*{apoDate}"/>
+                <input type="hidden" id="apoTime" th:field="*{apoTime}"> 
+                <span th:switch="*{apoTime}">
+            	<span th:case="1" class="formEl" id="apoTimeText">早上</span>
+            	<span th:case="2" class="formEl" id="apoTimeText">下午</span>
+            	<span th:case="3" class="formEl" id="apoTimeText">晚上</span>
+            	</span><br><br>
+            	
+            <input type="hidden" th:field="*{apoNo}">
+            <input type="hidden" th:field="*{apoStatus}">
+            <input type="hidden" th:field="*{apoWant}">
+			<input type="submit" value="修改送出" class="approve_button">
+            <a th:href="@{/apo/listAllApo}"><button type="button" class="reject_button">取消</button></a>
+			
+		</form>
+	</div>
+	<div class="container text-center my-4">
+        <button id="prevMonth" class="btn btn-primary">上個月</button>
+        <span id="currentMonthYear" class="h4 mx-4"></span>
+        <button id="nextMonth" class="btn btn-primary">下個月</button>
+    </div>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="scope">日</th>
+                    <th>一</th>
+                    <th>二</th>
+                    <th>三</th>
+                    <th>四</th>
+                    <th>五</th>
+                    <th class="scope">六</th>
+                </tr>
+            </thead>
+            <tbody id="calendarBody">
+                <!-- Calendar body content here -->
+            </tbody>
+        </table>
+    </div>
     
-    <h1>這是預約修改頁面</h1>
+       <script>
+        function checkDateSelected() {
+            var apoDateInput = document.getElementById("apoDate");
+            // 假設日期格式為非空字串
+            if (apoDateInput.value.trim() === "") {
+                // 如果日期未選擇，顯示錯誤訊息
+                alert("請選擇日期及時段")
+                return false; // 阻止表單提交
+            } else {
+                // 如果日期已選擇，清空錯誤訊息
+                apoDateText.innerHTML = "";
+                return true; // 允許表單提交
+            }
+        }
+
+        var prevMonthButton = document.getElementById("prevMonth");
+        var nextMonthButton = document.getElementById("nextMonth");
+        var currentMonthYear = document.getElementById("currentMonthYear");
+        var calendarBody = document.getElementById("calendarBody");
+
+        var currentDate = new Date();
+        var currentDay = currentDate.getDate() + 1;
+        var currentMonth = currentDate.getMonth();
+        var currentYear = currentDate.getFullYear();
+		
+        //產生月例
+        function renderCalendar(month, year) {
+            calendarBody.innerHTML = "";
+            currentMonthYear.innerHTML = getMonthName(month) + " " + year;
+            var firstDayOfMonth = new Date(year, month, 1).getDay();
+            var daysInMonth = new Date(year, month + 1, 0).getDate();
+            var day = 1;
+            //假定一月最多6週
+            for (var i = 0; i < 6; i++) {
+                var row = document.createElement("tr");
+                //一週7天
+                for (var j = 0; j < 7; j++) {
+                    var cell = document.createElement("td");
+                    if (i === 0 && j < firstDayOfMonth) {
+                        cell.textContent = "";
+                    } else if (day <= daysInMonth) {
+                        //當天+2天之前的日期不顯示
+                        if (day > currentDay || currentMonth > currentDate.getMonth() || currentYear > currentDate.getFullYear()) {
+                            var dday = String("" + day).padStart(2, '0');
+                            // var mmonth = String("" + month).padStart(1, '0');
+                            var labelId = year + "-" + (month + 1) + "-" + dday;
+                            // 產生 div 元素
+                            let divElement = document.createElement("div");
+                            divElement.style.display = "block";
+                            divElement.style.margin = "3px";
+                            // 產生 label 元素
+                            var labelElement = document.createElement("label");
+                            labelElement.setAttribute("class", "calstatus");
+                            labelElement.setAttribute("name", "calstatus");
+                            labelElement.setAttribute("id", labelId);
+                            labelElement.setAttribute("pointer-events", "none");
+                            labelElement.innerHTML = day;
+
+                            divElement.appendChild(labelElement);
+                            cell.appendChild(divElement);
+                            // 產生三個 button 元素，分別為上午、下午、晚上
+                            for (let apoTime = 1; apoTime <= 3; apoTime++) {
+
+                                let divElement = document.createElement("div");
+                                divElement.style.display = "block";
+                                divElement.style.margin = "3px";
+
+                                var buttonId = year + "-" + (month + 1) + "-"+ dday + "-" + apoTime;
+
+                                var buttonElement = document.createElement("button");
+                                buttonElement.setAttribute("type", "button");
+                                buttonElement.setAttribute("class", "calstatus");
+                                buttonElement.setAttribute("name", labelId);
+                                buttonElement.setAttribute("id", buttonId);
+                                buttonElement.setAttribute("value", apoTime);
+								
+                                // 依照 apoTime 的值設定按鈕內容
+                                switch (apoTime) {
+                                    case 1:
+                                        buttonElement.innerHTML = "上午";
+                                        break;
+                                    case 2:
+                                        buttonElement.innerHTML = "下午";
+                                        break;
+                                    case 3:
+                                        buttonElement.innerHTML = "晚上";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                // 綁定點擊事件
+                                buttonElement.addEventListener("click",function (e) {
+                                            // 內容
+                                            let btn_el = document.querySelectorAll(".clicked");
+                                                btn_el.forEach(function (btn) {
+                                                    btn.classList.remove("clicked");
+                                                });
+
+                                            let apoDate_el = document.getElementById("apoDate");
+                                            let apoTime_el = document.getElementById("apoTime");
+                                            let apoTimeText_el = document.getElementById("apoTimeText");
+
+                                            apoDate_el.value = e.target.name;
+                                            apoTime_el.value = e.target.value;
+
+                                            switch (e.target.value) {
+                                                case '1':
+                                                    apoTimeText_el.innerHTML = "上午";
+                                                    break;
+                                                case '2':
+                                                    apoTimeText_el.innerHTML = "下午";
+                                                    break;
+                                                case '3':
+                                                    apoTimeText_el.innerHTML = "晚上";
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                            e.target.classList.add("clicked");
+                                        });
+
+                                divElement.appendChild(buttonElement);
+                                cell.appendChild(divElement);
+                            }
+                        } else {
+                            cell.innerHTML += "--";
+                        }
+                        day++;
+                    }
+                    row.appendChild(cell);
+                }
+                calendarBody.appendChild(row);
+            }
+        }
+
+        function getMonthName(month) {
+            var months = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月",
+                "7月", "10月", "11月", "12月"];
+            return months[month];
+        }
+
+        //上個月按鈕
+        prevMonthButton.addEventListener("click", function () {
+
+            if (currentMonth > currentDate.getMonth()
+                || currentYear > currentDate.getFullYear()) {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar(currentMonth, currentYear);
+                updateCalendarDate();
+            }
+        });
+        //下個月按鈕
+        nextMonthButton.addEventListener("click", function () {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar(currentMonth, currentYear);
+            updateCalendarDate();
+        });
+
+        //進入網頁時產生月曆
+        renderCalendar(currentMonth, currentYear);
+
+        //月曆產生後, 將已預約的時段變更成不可選
+        $(document).ready(function() {
+          updateCalendarDate();
+        });
+
+        //TODO 改成動態get 物件元素value
+        var rentNo = 1;
+        var requestData = { rentNo: 1 };
+        //  ajax 將核准的預約單帶回
+        function updateCalendarDate() {
+            $.ajax({
+                url: "apoStatus/" + rentNo ,
+                type: "POST",
+                dataType: "json",
+
+                //取得伺服器回傳的資料轉成json
+                success: function (response) {
+				    var jsonData = response;  // 不再需要 JSON.parse
+				    jsonData.forEach(function (item) {
+				        let bookingDate = item.apoDate;
+				        let bookingTime = item.apoTime;
+				        let el_ID = bookingDate + "-" + bookingTime;
+				        
+				        let target = document.getElementById(el_ID);
+
+				        if (target) {
+				        	//不顯示仍占空間
+				        	target.style.visibility = "hidden";
+// 				        	不顯示不占空間
+// 				        	target.style.display = "none";
+// 				        	不能點擊
+// 				        	target.disabled = true;	        	
+				        }
+                    });
+                },
+                error: function (error) {
+                }
+            });
+        }
+    </script>
+    
 </body>
 </html>

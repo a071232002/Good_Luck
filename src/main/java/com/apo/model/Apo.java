@@ -1,7 +1,7 @@
 package com.apo.model;
 
+import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,13 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.google.gson.annotations.Expose;
 import com.mem.model.Mem;
 import com.rent.model.Rent;
 
 @Entity
 @Table(name = "apo")
-public class Apo {
+public class Apo implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +35,7 @@ public class Apo {
 	private Rent rent;
 	
 	@Column(name = "apoCreate", updatable = false)
-	private Timestamp apoCreate;
+	private Date apoCreate;
 	
 	@Column(name = "apoDate")
 	private Date apoDate;
@@ -78,11 +80,11 @@ public class Apo {
 		this.rent = rent;
 	}
 
-	public Timestamp getApoCreate() {
+	public Date getApoCreate() {
 		return apoCreate;
 	}
 
-	public void setApoCreate(Timestamp apoCreate) {
+	public void setApoCreate(Date apoCreate) {
 		this.apoCreate = apoCreate;
 	}
 
