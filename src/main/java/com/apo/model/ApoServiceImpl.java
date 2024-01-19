@@ -90,10 +90,11 @@ public class ApoServiceImpl implements ApoService {
 	}
 	
 	//for 前端ajax回傳 JPA查詢結果傳入ApoDto物件再回傳至UC 
+	//回傳內容 apoStatus為 0:待房東審核 2:房東同意待會員看屋
 	//考慮導入Redis需再改寫
 	@Override
 	public List<ApoDTO> getListWithBookingByRentNo(Integer rentNo) {
-		List<Byte> apoStatusList = Arrays.asList(APPROVE_AND_WAIT_COMPLETE, COMPLETE);
+		List<Byte> apoStatusList = Arrays.asList(WAIT_LDD_CONFIRM, APPROVE_AND_WAIT_COMPLETE);
 		List<Apo> apoList = repository.findByRentNoAndApoStatusIn(rentNo, apoStatusList);
 		
 		List<ApoDTO> list = apoList.stream().map(aApo -> new ApoDTO(
