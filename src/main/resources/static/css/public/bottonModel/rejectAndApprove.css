@@ -1,3 +1,16 @@
+.warning {
+	color: #ffc107;
+}
+
+.success {
+	color: #28a745;
+}
+
+.cancel {
+	color: #dc3545;
+}
+
+
 .reject_button {
     padding: 10px 15px;
     margin: 5px 5px;
