@@ -1,5 +1,7 @@
 package com.ldd.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +16,7 @@ import com.mem.model.Mem;
 
 @Entity
 @Table(name = "ldd")
-public class Ldd {
+public class Ldd implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "lddNo", updatable = false)

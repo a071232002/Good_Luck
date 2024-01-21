@@ -68,20 +68,22 @@
 					<td th:text="${rentApp.rentAppRo}"></td>
 					<td th:text="${rentApp.rentAppAdd}"></td>
 					<td><img
-						th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}"
+						th:src="@{/BackStage/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}"
 						width="150px" class="myImage"></td>
 
 
 					<td th:text="${rentApp.rentAppFloor}"></td>
 					<td th:text="${rentApp.rentAppSize}"></td>
 
-					<td><span th:if="${rentApp.rentAppSt == 0}" th:text="不通過"></span>
-						<span th:if="${rentApp.rentAppSt == 1}" th:text="通過"></span> <span
-						th:if="${rentApp.rentAppSt == 2}" th:text="無用狀態待修正"></span></td>
+
+						
+					<td th:if="${rentApp.rentAppSt == 0}" th:text="不通過"></td>
+					<td th:if="${rentApp.rentAppSt == 1}" th:text="通過"></td>
+					<td th:if="${rentApp.rentAppSt == 2}" th:text="無用狀態待修正"></td>
 
 
 					<td>
-						<form method="post" th:action="@{/rentApp/getOne_For_Update}">
+						<form method="post" th:action="@{/BackStage/rentApp/getOne_For_Update}">
 							<input type="hidden" name="rentAppNo"
 								th:value="${rentApp.rentAppNo}"> <input type="submit"
 								value="修改">
@@ -95,13 +97,17 @@
 
 	</table>
 	<br>
-	<a th:href="@{/rentApp/addRentApp}"><button>前往首頁</button></a>
+	<a th:href="@{/BackStage/rentApp/addRentApp}"><button>前往首頁</button></a>
 
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
 	<script th:src="@{/js/BackStage/rentapp/listAllRentApp.js}"></script>
 	<script>
+	
+	$('#example').dataTable( {
+		  stateSave: true
+		} );
 	let table = new DataTable("#example");
 	console.log($(".test"));
 	// table.on("click", "tbody tr", function () {

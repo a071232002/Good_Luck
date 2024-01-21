@@ -11,12 +11,22 @@ public interface ApoService {
 	public void addApo(Apo apo);
 
 	public void upDateApo(Apo apo);
+	
+	public void cancelApo(Apo apo);
+	
+	public void rejectApo(Apo apo);
+	
+	public void approveApo(Apo apo); 
+	
+	public void completeApo(Apo apo);	
 
-	public List<Apo> getListByLdd(Integer lddNo);
+	public List<Apo> getApoListByLdd(Integer lddNo);
+	
+	public List<ApoDTO> getListWithBookingByRentNo(Integer rentNo);
 
 	public Apo getOneApo(Integer apoNo);
 
-	public List<Apo> getApoByMem(Mem mem);
+	public List<Apo> getApoListByMem(Mem mem);
 	
 	public List<Apo> getApoByApoStatus(List<Byte> apoStatusList);
 	

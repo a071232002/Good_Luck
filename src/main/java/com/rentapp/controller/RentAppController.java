@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.rentapp.model.*;
 
 @Controller
-@RequestMapping("/rentApp")
+@RequestMapping("/BackStage/rentApp")
 public class RentAppController {
 	
 	@Autowired
