@@ -190,32 +190,29 @@
 </style>
 
 <body>
-
   <header class="header">
     <button type="button" class="btn_hamburger">按鈕</button>
     這是 header
   </header>
+ <div th:fragment="aside-nav">
   <aside class="aside">
     
-    <a id="addLddApp" th:href="@{lddApp/addLddApp}">
+    <a id="addLddApp" th:href="@{/BackStage/lddApp/addLddApp}">
       <h1>新增</h1>
     </a>
-    <form method="post" th:action="@{lddApp/get_one_display}">
+    <form method="post" th:action="@{/BackStage/lddApp/get_one_display}">
       <label for="lddAppNo">請輸入申請單編號</label>
       <input type="text" name="lddAppNo">
       <input type="submit" value="送出">
     </form>
-    <a th:href="@{lddApp/listAllLddApp}">
+    <a th:href="@{/BackStage/lddApp/listAllLddApp}">
       <h1>getAll</h1>
     </a>
 
   </aside>
 
-<main id="main" class="main">
+</div>
 
-<div th:insert="~{/BackStage/lddApp/addLddApp :: addLddApp-div}"></div>
-
-</main>
 
 <!-- <script>
   document.addEventListener('DOMContentLoaded', function () {

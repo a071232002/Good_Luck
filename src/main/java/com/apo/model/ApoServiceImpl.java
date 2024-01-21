@@ -23,10 +23,11 @@ public class ApoServiceImpl implements ApoService {
 	
 	//for apoWant
 	private static final Byte WANT_WAIT_MEMBER_CONFIRM = 0;
-	private static final Byte WANT_DISAGREE = 1;
-	private static final Byte WANT_WAIT_LDD_CHECK = 2;
+	private static final Byte WANT_REJECT = 1;
+	private static final Byte WANT_WAIT_LDD_CONFIRM = 2;
 	private static final Byte WANT_DATE_CHANGE_WAIT_RECONFIRM = 3;
 	private static final Byte WANT_AGREE = 4;
+	private static final Byte WANT_CANCEL = 5;
 	
 	
 	@Autowired
@@ -67,7 +68,26 @@ public class ApoServiceImpl implements ApoService {
 		apo.setApoStatus(COMPLETE);
 		repository.save(apo);
 	}
-
+	
+	@Override
+	public void want(Apo apo) {
+		apo.setApoWant(WANT_WAIT_LDD_CONFIRM);
+		repository.save(apo);
+	}
+	
+	@Override
+	public void updateWantDate(Apo apo) {
+		apo.setApoWant(WANT_WAIT_LDD_CONFIRM);
+		repository.save(apo);
+	}
+	
+	@Override
+	public void cancelWant(Apo apo) {
+		apo.setApoWant(WANT_CANCEL);
+		apo.setApoWantDate(null);
+		repository.save(apo);
+	}
+	
 	@Override
 	public Apo getOneApo(Integer apoNo) {
 		Optional<Apo> optional = repository.findById(apoNo);

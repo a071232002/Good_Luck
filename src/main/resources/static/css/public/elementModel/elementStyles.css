@@ -1,5 +1,18 @@
+*{
+  font-weight: bold;
+}
+
+h1 {
+  text-align: center;
+  color: red;
+}
+form {
+	display: inline-block;
+}
+
+/* for 狀態描述文字顏色分級 */
 .warning {
-	color: #ffc107;
+  color: goldenrod;
 }
 
 .success {
@@ -10,7 +23,7 @@
 	color: #dc3545;
 }
 
-
+/* for 功能按鈕顏色分級 */
 .reject_button {
     padding: 10px 15px;
     margin: 5px 5px;
@@ -39,4 +52,18 @@
 .approve_button:hover {
     background-color: rgb(232, 206, 40);
     color: black;
+}
+
+/* for 日期輸入樣式美化 */
+input[type="date"] {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="date"]:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
 }
