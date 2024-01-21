@@ -74,8 +74,9 @@ public class MemServiceImpl implements MemService {
 
 	// 信箱驗證
 	@Override
-	public boolean verifyMail(String mail) {
-		String verifyID = genAuthCode();
+	public boolean verifyMail(String mail, String subject, String text, String verifyID) {
+		verifyID = (verifyID == null) ? getAuthCode() : verifyID;
+//		String verifyID = genAuthCode();
 //		Jedis jedis = new Jedis("localhost", 6379);
 		try {
 			// 設定使用SSL連線至 Gmail smtp Server
@@ -138,9 +139,17 @@ public class MemServiceImpl implements MemService {
 
 	// 忘記密碼
 	@Override
-	public String forgetPsw(String memMail) {
+	public boolean forgetPsw(String memMail) {
+		
+		if(memRepository.existsByMemMail(memMail)) {
+			String authCode = getAuthCode();
+			Mem mem = memRepository.findByMemMail(memMail);
+			mem.setMemPsw(authCode);
+			edit(mem);
+			return verifyMail(memMail, "租你好運發送新密碼！", "你的新密碼為：", authCode);
+		}
 		// 發送隨機密碼簡訊
-		return null;
+		return false;
 	}
 
 	// 停權會員
@@ -155,8 +164,9 @@ public class MemServiceImpl implements MemService {
 		edit(data);
 	}
 	
+	
 	//取得隨機亂數
-	private String genAuthCode() {
+	private String getAuthCode() {
 		// A~Z   unicode 65~90
 		// a~z   unicode 97~122
 		String randomStr = "";

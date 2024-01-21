@@ -37,7 +37,6 @@ public class EmpFunController {
 	//處理修改權限
 	@PostMapping("funUpdate")
 	public String fun(@ModelAttribute("empFunData") Emp emp, ModelMap model) {
-		System.out.println("getggg");
 		System.out.println(emp);
 		List<Integer> funList = emp.getEmpFun();
 		emp = empService.getById(emp.getEmpNo());

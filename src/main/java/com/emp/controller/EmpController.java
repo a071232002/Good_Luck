@@ -1,7 +1,5 @@
 package com.emp.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.emp.model.Emp;
 import com.emp.service.EmpService;
@@ -43,7 +40,7 @@ public class EmpController {
 		return "";
 	}
 	
-	//前往單一員工查詢
+	//前往員工個人資料
 	@GetMapping("/EmpSelect")
 	public String empList(Model model, HttpSession session) {
 //		List<Emp> datas = empService.findAll();
@@ -68,6 +65,8 @@ public class EmpController {
 	@PostMapping("/index")
 	public String login(String userNo ,String userPassword ,Model model, HttpSession session) {
 		
+//		String uri = session.getAttribute("oldUri").toString();
+		String projectUri = session.getServletContext().getContextPath();
 		
 		System.out.println("userName 為: " + userNo);
 		System.out.println("userPassword 為: " + userPassword);
@@ -77,9 +76,12 @@ public class EmpController {
 		}
 		Emp loginData = empService.empLogin(Integer.valueOf(userNo), userPassword);
 		if (loginData != null) {
-			String activeNavItemId = "/Good_Luck/icon/BackStage/indexJS";
+			String activeNavItemId = projectUri + "/icon/BackStage/indexJS";
 			model.addAttribute("activeNavItemId", activeNavItemId);
 			session.setAttribute("EmpSuccess", loginData); //資料存入Session內
+			
+//			System.out.println(uri.replace(projectUri, "") + " <---");
+//			System.out.println(projectUri + " <---");
 			return "BackStage/index";
 		}
 		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");

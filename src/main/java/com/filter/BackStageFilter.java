@@ -2,6 +2,7 @@ package com.filter;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,32 +15,29 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Component;
-
 import com.emp.model.Emp;
 
-@Component
-//@WebFilter("*.html")
+@WebFilter(urlPatterns = {"/BackStage/*"})
 public class BackStageFilter implements Filter{
 
 	private ServletContext sc;
 	
 	private static HashSet<String> path = new HashSet<>();
-	
 	static {
 		//設定後台過濾器網頁
-		path.add("addEmp");
-		path.add("funlist");
-		path.add("goEditFun");
-		path.add("memlist");
-		path.add("addLddApp");
-		path.add("listAllLddApp");
-		path.add("EmpSelect");
+		path.add("/js/");
+		path.add("/css/");
+		path.add("/icon/");
+		path.add("/images/");
+		path.add("/jquery/");
 		
+		path.add("/login");
+		path.add("/index");
 	}
 	
 	public void init(FilterConfig fig) {
 		sc = fig.getServletContext();
+
 		System.out.println("後台過濾器 -> 啟動");
 	}
 	
@@ -48,22 +46,29 @@ public class BackStageFilter implements Filter{
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		
 		final String uri = httpRequest.getRequestURI();
-		final String htmlName = uri.substring(uri.lastIndexOf("/") + 1);
-		
-		System.out.println("htmlName:" + htmlName);
+//		final String[] htmlName = uri.split("/");
 		System.out.println("uri:" + uri);
-		System.out.println();
 		
-		if(uri.contains("/BackStage") && path.contains(htmlName)) {
+		System.out.println(!urlStaticValidator(uri));
+		System.out.println(!uri.contains("login"));
+		System.out.println(!uri.contains("index"));
+		System.out.println();
+		System.out.println(httpRequest.getContextPath());
+		
+		
+		
+		//靜態檔案及登入會跳過
+		if(!urlStaticValidator(uri)) {
 			final Emp emp = getClassFromSession(httpRequest, "EmpSuccess", Emp.class);
 			System.out.println(emp);
 			
 			if(emp == null) {
-				httpResponse.sendRedirect("/BackStage/login");
+				httpResponse.sendRedirect(httpRequest.getContextPath() + "/BackStage/login");
 				return;
 			}
+			
+			//寫權限驗證
 		}
 		
 		chain.doFilter(request, response);
@@ -83,6 +88,15 @@ public class BackStageFilter implements Filter{
 			return clazz.cast(obj);
 		}
 		return null;
+	}
+	
+	//路徑是否包含靜態及登入檔案
+	public boolean urlStaticValidator(String uri) {
+		Iterator<String> it = path.iterator();
+		while(it.hasNext()) {
+			if(uri.contains(it.next())) return true;
+		}
+		return false;
 	}
 
 }

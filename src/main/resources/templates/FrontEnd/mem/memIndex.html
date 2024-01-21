@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+ <style>
+ 	h1 {
+		text-align: center;
+      	color: red;
+		}
+ </style>
+<title>會員中心</title>
+</head>
+<body>
+	<h1>會員中心</h1>
+	
+	<a th:href="@{addMem}"><button>前往註冊會員</button></a>
+	<br>
+	<br>
+	<a th:href="@{memData}"><button>會員詳細資料</button></a>
+	<br>
+	<br>
+	<a th:href="@{forgetPsw}"><button>忘記密碼</button></a>
+	<br>
+	<br>
+	<a th:href="@{logOut}"><button>登出</button></a>
+	
+	
+
+</body>
+</html>
