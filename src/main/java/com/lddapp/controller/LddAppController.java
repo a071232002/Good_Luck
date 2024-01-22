@@ -71,7 +71,6 @@ public class LddAppController {
 	@PostMapping("insert")
 	public String insert (@RequestParam("lddAppIDPic") MultipartFile part, 
 			@Valid LddApp lddApp, BindingResult result, ModelMap model) throws IOException {
-		System.out.println("UC OK");
 		lddApp.setLddAppIDPic(part.isEmpty() ? null : part.getBytes());
 		lddAppSvc.addLddApp(lddApp);
 		return "redirect:/BackStage/lddApp/listAllLddApp";

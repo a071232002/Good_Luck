@@ -89,6 +89,21 @@ public class ApoServiceImpl implements ApoService {
 	}
 	
 	@Override
+	public void rejectWant(Apo apo) {
+		apo.setApoWant(WANT_REJECT);
+		apo.setApoWantDate(null);
+		repository.save(apo);
+	}
+	
+	@Override
+	public void approveWant(Integer apoNo) {
+		Optional<Apo> optional = repository.findById(apoNo);
+		Apo apo = optional.get();
+		apo.setApoWant(WANT_AGREE);
+		repository.save(apo);
+	}
+	
+	@Override
 	public Apo getOneApo(Integer apoNo) {
 		Optional<Apo> optional = repository.findById(apoNo);
 		return optional.orElse(null);

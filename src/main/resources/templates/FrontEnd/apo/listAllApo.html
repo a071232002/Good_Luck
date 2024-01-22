@@ -7,8 +7,16 @@
     <link rel="stylesheet" th:href="@{/css/public/tableModel/try2.css}" />
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}"/>
     <title>預約單一覽</title>
-
+<style>
+ img{ 
+    vertical-align: middle; 
+ } 
+span{
+vertical-align: middle; 
+}
+</style>
 </head>
+
 <body>
 
     <h1>這是會員預約/租屋意願一覽</h1>
@@ -39,8 +47,8 @@
                 <td th:text="${apo.apoCreate}"></td>
                 <td th:text="${apo.apoDate}" id="apoDate"></td>
                 <td th:switch="${apo.apoTime}">
-                    <span th:case="1">
-                    <span>上午</span>
+                    <span th:case="1" >
+                    <span style="vertical-align: middle;">上午</span>
                     <img th:src="@{/icon/FrontEnd/dayMode/day.png}" width="20px">
                     </span>
                     <span th:case="2">

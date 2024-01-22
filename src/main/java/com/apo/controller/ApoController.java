@@ -2,7 +2,6 @@ package com.apo.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -17,13 +16,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.apo.model.Apo;
 import com.apo.model.ApoDTO;
 import com.apo.model.ApoService;
 import com.google.gson.Gson;
 import com.mem.model.Mem;
-import com.rent.model.Rent;
+
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("/apo")
@@ -126,8 +127,21 @@ public class ApoController {
 	
 	@PostMapping("complete")
 	public String complete(ModelMap model, @ModelAttribute("apoNo")String apoNo) {
-		Apo apo = apoSvc.getOneApo(Integer.valueOf(apoNo)); 
+		Apo apo = apoSvc.getOneApo(Integer.valueOf(apoNo));
 		apoSvc.completeApo(apo);
+		return "redirect:/apo/reviewApo";
+	}
+	
+	@PostMapping("approveWant")
+	public String approveWant(RedirectAttributes redirect, @ModelAttribute("apoNo")String apoNo) {
+		redirect.addAttribute("apoNo", apoNo);
+		return "redirect:/lse/addLse";
+	}
+	
+	@PostMapping("rejectWant")
+	public String rejiectWant(ModelMap model, @ModelAttribute("apoNo")String apoNo) {
+		Apo apo = apoSvc.getOneApo(Integer.valueOf(apoNo));
+		apoSvc.rejectWant(apo);
 		return "redirect:/apo/reviewApo";
 	}
 	
