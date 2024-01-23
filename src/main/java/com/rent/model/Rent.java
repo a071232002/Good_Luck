@@ -27,7 +27,7 @@ public class Rent {
 	private Integer rentNo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "lddNo", referencedColumnName = "lddNo")
+	@JoinColumn(name = "lddNo", referencedColumnName = "lddNo", updatable = false)
 	private Ldd ldd;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -35,36 +35,67 @@ public class Rent {
 	private Lse lse;
 	
 	private Timestamp rentUpTime;
+	
+	@Column(insertable = false)
 	private byte rentSt;
+	@Column(insertable = false)
 	private byte rentRefrigerator;
+	@Column(insertable = false)
 	private byte rentAC;
+	@Column(insertable = false)
 	private byte rentTV;
+	@Column(insertable = false)
 	private byte rentWashMachine;
+	@Column(insertable = false)
 	private byte rentHeater;
+	@Column(insertable = false)
 	private byte rentBed;
+	@Column(insertable = false)
 	private byte rentWardrobe;
+	@Column(insertable = false)
 	private byte rentInternet;
+	@Column(insertable = false)
 	private byte rentCableTV;
+	@Column(insertable = false)
 	private byte rentSofa;
+	@Column(insertable = false)
 	private byte rentBalcony;
+	@Column(insertable = false)
 	private byte rentElev;
+	@Column(insertable = false)
 	private byte rentParking;
+	@Column(insertable = false)
 	private byte rentWaterBill;
+	@Column(insertable = false)
 	private byte rentElectricityBill;
+	@Column(insertable = false)
 	private Integer rentRent;
+	@Column(insertable = false)
 	private String rentPostTitle;
+	@Column(insertable = false)
 	private String rentIntr;
-	private byte rentLayout;
+	@Column(insertable = false)
+	private Byte rentLayout;
+	@Column(insertable = false)
 	private byte[] rentImg;
+	@Column(updatable = false)
 	private String rentAppCou;
+	@Column(updatable = false)
 	private String rentAppAr;
+	@Column(updatable = false)
 	private String rentAppRo;
+	@Column(updatable = false)
 	private String rentAppAdd;
+	@Column(updatable = false)
 	private byte[] rentAppOwn;
+	@Column(updatable = false)
 	private Integer rentAppFloor;
+	@Column(updatable = false)
 	private Double rentAppSize;
-	private Double rentLat;
-	private Double rentLon;
+	@Column(updatable = false)
+	private String rentLat;
+	@Column(updatable = false)
+	private String rentLon;
 	
 	public Integer getRentNo() {
 		return rentNo;
@@ -207,7 +238,7 @@ public class Rent {
 	public byte getRentLayout() {
 		return rentLayout;
 	}
-	public void setRentLayout(byte rentLayout) {
+	public void setRentLayout(Byte rentLayout) {
 		this.rentLayout = rentLayout;
 	}
 	public byte[] getRentImg() {
@@ -258,16 +289,16 @@ public class Rent {
 	public void setRentAppSize(Double rentAppSize) {
 		this.rentAppSize = rentAppSize;
 	}
-	public Double getRentLat() {
+	public String getRentLat() {
 		return rentLat;
 	}
-	public void setRentLat(Double rentLat) {
+	public void setRentLat(String rentLat) {
 		this.rentLat = rentLat;
 	}
-	public Double getRentLon() {
+	public String getRentLon() {
 		return rentLon;
 	}
-	public void setRentLon(Double rentLon) {
+	public void setRentLon(String rentLon) {
 		this.rentLon = rentLon;
 	}
 	@Override

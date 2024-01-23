@@ -31,7 +31,7 @@ public class ReportController {
 	
 	// 測試索引頁
 	@GetMapping("")
-	public String indexOfLddApp(ModelMap model) {
+	public String indexOfReport(ModelMap model) {
 		return "BackStage/report/select";
 	}
 	

@@ -11,5 +11,9 @@ public interface RentAppService {
 	public RentApp getOneRentApp(Integer rentAppNo);
 	
 	public List<RentApp> getAll();
+	
+	public RentApp updateRentAppSt(Integer rentAppNo, byte rentAppSt);
+	
+	public String[] getLatAndLon(String rentAppCou, String rentAppAr, String rentAppRo, String rentAppAdd)throws Exception;
 
 }
