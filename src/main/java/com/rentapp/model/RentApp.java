@@ -38,7 +38,7 @@ public class RentApp {
 	private Emp emp;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo", insertable = false)
+	@JoinColumn(name = "rentNo", referencedColumnName = "rentNo")
 	private Rent rent;
 	@NotEmpty(message="縣市名: 請勿空白")
 	private String rentAppCou;

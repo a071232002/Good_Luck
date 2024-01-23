@@ -3,6 +3,7 @@ package com.rentapp.controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletOutputStream;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rentapp.model.*;
 
@@ -32,6 +35,12 @@ public class RentAppController {
 	
 	@Autowired
 	RentAppServiceImpl rentAppSvc;
+	
+	// 測試索引頁
+	@GetMapping("")
+	public String indexOfRentApp(ModelMap model) {
+		return "BackStage/rentApp/select";
+	}
 	
 	//前往新增頁面
 	@GetMapping("/addRentApp")
@@ -48,7 +57,14 @@ public class RentAppController {
 
 		return "BackStage/rentapp/listAllRentApp";
 	}
-	
+    
+  //前往review
+    @GetMapping("/reviewRentApp")
+	public String reviewRentApp(Model model) {
+
+		return "BackStage/rentapp/reviewRentApp";
+	}
+	//第一次送申請
 	@PostMapping("insert")
 	public String insert(@Valid RentApp rentApp, BindingResult result, ModelMap model,
 			@RequestParam("rentAppOwn") MultipartFile[] parts ) throws IOException {
@@ -69,6 +85,7 @@ public class RentAppController {
 		if (result.hasErrors() || parts[0].isEmpty()) {
 			return "BackStage/rentapp/addRentApp";
 		}
+
 		/*************************** 2.開始新增資料 *****************************************/
 		// EmpService empSvc = new EmpService();
 		rentAppSvc.addRentApp(rentApp);
@@ -93,6 +110,26 @@ public class RentAppController {
 		return "BackStage/rentapp/update_rentApp_input"; // 查詢完成後轉交update_emp_input.html
 	}
 
+	//狀態修改
+	@PostMapping("updateRentAppSt")
+	public String  updateRentAppSt(ModelMap model,@RequestParam("rentAppNo") Integer rentAppNo, @RequestParam("rentAppSt") byte rentAppSt) {
+		
+		
+		rentAppSvc.updateRentAppSt(rentAppNo,rentAppSt);
+		
+		 // 获取模型中的所有键值对
+//	    for (Map.Entry<String, Object> entry : model.entrySet()) {
+//	        String key = entry.getKey();
+//	        Object value = entry.getValue();
+//	        System.out.println("Key: " + key + ", Value: " + value);
+//	    }
+
+		return "redirect:reviewRentApp";
+	}
+	
+	
+	
+	
 	@PostMapping("update")
 	public String update(@Valid RentApp rentApp, BindingResult result, ModelMap model,
 			@RequestParam("rentAppOwn") MultipartFile[] parts) throws IOException {
@@ -111,7 +148,6 @@ public class RentAppController {
 			for (MultipartFile multipartFile : parts) {
 				byte[] upFiles = multipartFile.getBytes();
 				rentApp.setRentAppOwn(upFiles);
-				System.out.println("setimg");
 
 			}
 		}
