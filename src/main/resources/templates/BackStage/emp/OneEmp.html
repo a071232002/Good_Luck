@@ -22,7 +22,7 @@
 				<th>員工姓名</th>
 				<th>員工狀態</th>
 				<th>雇用日期</th>
-				<th>員工薪水</th>
+				<th>員工性別</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -34,7 +34,10 @@
 					<span th:if="${empData.empStatus == 1}" th:text="在職"></span>
 				</td>
 				<td th:text="${empData.empHireDate}"></td>
-				<td th:text="${empData.empSal}"></td>
+				<td>
+					<span th:if="${empData.empSex == 0}" th:text="男性"></span>
+					<span th:if="${empData.empSex == 1}" th:text="女性"></span>
+				</td>
 			</tr>
 		</tbody>
 	</table>

@@ -1,16 +1,21 @@
 package com.emp.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.emp.model.Emp;
 import com.emp.service.EmpService;
+import com.mem.model.Mem;
 
 @Controller
 @RequestMapping("/BackStage")
@@ -27,6 +32,18 @@ public class EmpController {
 //		return ResponseEntity.status(HttpStatus.CREATED).body(empName);
 //	}
 	
+	//前往首頁
+	@GetMapping("/empHome")
+	public String index() {
+		return "BackStage/index";
+	}
+	
+	//前往後臺管理(暫定)
+	@GetMapping("/tempHome")
+	public String tempHome() {
+		return "BackStage/emp/empIndex";
+	}
+	
 	//前往登入頁面
 	@GetMapping("/login")
 	public String login() {
@@ -36,8 +53,8 @@ public class EmpController {
 	//前往新增員工
 	@GetMapping("/addEmp")
 	public String register(Model model) {
-		model.addAttribute("newData", new Emp());
-		return "";
+		model.addAttribute("emp", new Emp());
+		return "BackStage/emp/addEmp";
 	}
 	
 	//前往員工個人資料
@@ -81,14 +98,28 @@ public class EmpController {
 			session.setAttribute("EmpSuccess", loginData); //資料存入Session內
 			
 //			System.out.println(uri.replace(projectUri, "") + " <---");
-//			System.out.println(projectUri + " <---");
-			return "BackStage/index";
+			System.out.println(projectUri + " <---");
+			return "redirect:/BackStage/empHome";
 		}
 		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");
 		return "BackStage/login";
 
+	}
+	
+	//新增員工
+	@PostMapping("empRegister")
+	public String empRegister(@Valid Emp emp, BindingResult result, ModelMap model, HttpSession session) {
+		System.out.println("Mem：" + emp);
+		if(emp.getEmpHireDate() == null) {
+			model.addAttribute("errorDate", "請輸入入職日期！");
+		}
+		if(result.hasErrors()) {
+			return "BackStage/emp/addEmp";
+		}
 		
-
+		empService.registerEmp(emp);
+		
+		return "redirect:/BackStage/login";
 	}
 	
 }

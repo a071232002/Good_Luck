@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -19,6 +20,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 @Service("service")
@@ -26,6 +29,9 @@ public class MemServiceImpl implements MemService {
 
 	@Autowired
 	private MemRepository memRepository;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 	// 註冊會員
 	@Override
@@ -45,7 +51,7 @@ public class MemServiceImpl implements MemService {
 	public Mem login(String memMail, String memPsw) {
 		
 		Mem getMem = memRepository.findByMemMail(memMail);
-		
+		if(getMem == null) return getMem;
 		getMem = (hashPassword(memPsw).equals(getMem.getMemPsw())) ? getMem : null; //核對密碼
 		return getMem;
 	}
@@ -77,7 +83,6 @@ public class MemServiceImpl implements MemService {
 	public boolean verifyMail(String mail, String subject, String text, String verifyID) {
 		verifyID = (verifyID == null) ? getAuthCode() : verifyID;
 //		String verifyID = genAuthCode();
-//		Jedis jedis = new Jedis("localhost", 6379);
 		try {
 			// 設定使用SSL連線至 Gmail smtp Server
 			Properties props = new Properties();
@@ -106,6 +111,12 @@ public class MemServiceImpl implements MemService {
 
 			Transport.send(message);
 			System.out.println("傳送成功!");
+			
+			//設置驗證碼到redis(20秒)
+			ValueOperations<String, String> vo = redisTemplate.opsForValue();
+			vo.set("templateID", verifyID);
+			redisTemplate.expire("templateID", 20, TimeUnit.SECONDS);
+			System.out.println("yes");
 			return true;
 		} catch (MessagingException e) {
 			System.out.println("傳送失敗!");
@@ -192,6 +203,25 @@ public class MemServiceImpl implements MemService {
 	
 	private int getRandom(int min, int max) {
 		return (int)(Math.random()*(max - min + 1) + min);
+	}
+	
+	//redis測試
+	@Override
+	public String redisTest() {
+		String redisText = getAuthCode();
+		ValueOperations<String, String> vo = redisTemplate.opsForValue();
+		vo.set("redisTest", redisText);
+		redisTemplate.expire("redisTest", 20, TimeUnit.SECONDS);
+		
+		System.out.println("20秒前驗證碼 --> " + vo.get("redisTest"));
+		try {
+			Thread.sleep(20000);
+		}catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("20秒後驗證碼 --> " + vo.get("redisTest"));
+		return vo.get("redisTest");
 	}
 
 }

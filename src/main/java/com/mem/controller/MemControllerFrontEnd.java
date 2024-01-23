@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -35,6 +36,9 @@ public class MemControllerFrontEnd {
 
 	@Autowired
 	private MemService memservice;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 	// 前往註冊會員頁面
 	@GetMapping("/addMem")
@@ -146,12 +150,12 @@ public class MemControllerFrontEnd {
 		}
 
 		Mem newData = memservice.register(mem);
-		model.addAttribute("successData", newData);
+//		model.addAttribute("successData", newData);
 		session.setAttribute("logsuccess", newData);
 		memservice.verifyMail(mem.getMemMail(), "租你好運感謝您的註冊！", "驗證碼為：", null); //發送簡訊
 		
 
-		return "FrontEnd/mem/varifiedMail";
+		return "redirect:/mem/varifyMail";
 	}
 
 	// 修改資料
@@ -180,17 +184,42 @@ public class MemControllerFrontEnd {
 		return "FrontEnd/mem/successPage";
 	}
 	
+	//前往信箱驗證
+	@GetMapping("/varifyMail")
+	public String varifyMail(ModelMap model) {
+		return "FrontEnd/mem/varifiedMail";
+	}
+	
 	//信箱驗證
 	@GetMapping("/sendGMail")
 	public String sendGMail(@RequestParam("sendMail") String code, ModelMap model, HttpSession session) {
 		String uri = session.getAttribute("goURI") == null ? "/" : session.getAttribute("goURI").toString();
-		//使用Redis
+		
+		//使用Redis讀取資料
+		String getCode = redisTemplate.opsForValue().get("templateID");
+		System.out.println("redis Data：" + getCode);
+		if(getCode == null) {
+			model.addAttribute("errorCode", "驗證碼已超時，請重新發送驗證碼！");
+			return "FrontEnd/mem/varifiedMail";
+		}else if(!code.equals(getCode)) {
+			model.addAttribute("errorCode", "驗證碼錯誤，請重新輸入！");
+			return "FrontEnd/mem/varifiedMail";
+		}
+		
 		System.out.println("get Code：" + code);
 		Mem varifyData = (Mem)session.getAttribute("logsuccess");
 		varifyData.setMemStatus((byte)1); 
 		varifyData = memservice.edit(varifyData);
 		session.setAttribute("logsuccess", varifyData);
 		return "redirect:" + uri;
+	}
+	
+	//重新發送驗證碼
+	@GetMapping("/reSendMail")
+	public String reSendMail(ModelMap model, HttpSession session) {
+		Mem mem = (Mem)session.getAttribute("logsuccess");
+		memservice.verifyMail(mem.getMemMail(), "租你好運感謝您的註冊！", "驗證碼為：", null); //發送簡訊
+		return"redirect:/mem/varifyMail";
 	}
 
 	// 去除BindingResult中某個欄位的FieldError紀錄

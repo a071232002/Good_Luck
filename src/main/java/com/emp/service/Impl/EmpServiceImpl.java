@@ -64,7 +64,8 @@ public class EmpServiceImpl implements EmpService {
 	// 新增員工
 	@Override
 	public Emp registerEmp(Emp newEmp) {
-		newEmp.setEmpStatus(Byte.valueOf("0")); //0為在職狀態
+		newEmp.setEmpPsw("GoodLuck"); //新員工預設密碼
+		newEmp.setEmpStatus(Byte.valueOf("1")); //1為在職狀態
 		newEmp.setEmpPsw(hashPassword(newEmp.getEmpPsw())); //加密
 		return empRepository.save(newEmp);
 	}

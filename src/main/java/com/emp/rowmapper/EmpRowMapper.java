@@ -18,7 +18,7 @@ public class EmpRowMapper implements RowMapper<Emp>{
 		emp.setEmpPsw(rs.getString("empPsw"));
 		emp.setEmpHireDate(rs.getDate("empHireDate"));
 		emp.setEmpStatus(rs.getByte("empStatus"));
-		emp.setEmpSal(rs.getInt("empSal"));
+//		emp.setEmpSex(rs.getInt("empSal"));
 	
 		return emp;
 	}

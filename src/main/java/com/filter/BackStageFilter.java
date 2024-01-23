@@ -61,7 +61,7 @@ public class BackStageFilter implements Filter{
 		//靜態檔案及登入會跳過
 		if(!urlStaticValidator(uri)) {
 			final Emp emp = getClassFromSession(httpRequest, "EmpSuccess", Emp.class);
-			System.out.println(emp);
+			System.out.println("後台Session資料：" + emp);
 			
 			if(emp == null) {
 				httpResponse.sendRedirect(httpRequest.getContextPath() + "/BackStage/login");

@@ -67,6 +67,9 @@ public class FrontEndFilter implements Filter{
 		System.out.println("uri:" + uri);
 		System.out.println();
 		
+//		path.stream().filter(s -> !uri.contains(s) && !uri.contains("/BackStage") && !"/".equals(uri))
+//					   .findFirst();
+		
 		if(!urlValidator(uri, path) && !uri.contains("/BackStage") && !"/".equals(uri)) {
 			final Mem member = getClassFromSession(httpRequest, "logsuccess", Mem.class);
 			System.out.println("Member為：" + member);
@@ -79,6 +82,7 @@ public class FrontEndFilter implements Filter{
 			}
 			Ldd ldd = lddservice.getOneByMem(member);
 			System.out.println(ldd + "<-- ldd");
+			httpRequest.getSession().setAttribute("ldd", ldd);
 			//未指定過濾房東權限網頁
 //			if(ldd == null || ldd.getLddStatus() == 1) {
 //				httpResponse.sendRedirect(contextPath + "/mem/memCenter");

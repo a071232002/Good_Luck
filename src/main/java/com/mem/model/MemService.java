@@ -31,5 +31,6 @@ public interface MemService {
 	// 停權會員
 	public void banMem(Integer memNo);
 	
+	public String redisTest();
 
 }
