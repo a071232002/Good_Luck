@@ -19,6 +19,16 @@ public interface ApoService {
 	public void approveApo(Apo apo); 
 	
 	public void completeApo(Apo apo);	
+	
+	public void want(Apo apo);
+	
+	public void updateWantDate(Apo apo);
+	
+	public void cancelWant(Apo apo);
+		
+	public void rejectWant(Apo apo);
+	
+	public void approveWant(Integer apoNo);
 
 	public List<Apo> getApoListByLdd(Integer lddNo);
 	
