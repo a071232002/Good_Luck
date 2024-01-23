@@ -3,20 +3,17 @@ package com.emp.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
-import com.empfun.model.EmpFun;
 
 @Entity
 @Table(name="emp")
@@ -35,7 +32,6 @@ public class Emp implements Serializable{
 	private String empName;
 	
 	@Column(name="empPsw", columnDefinition = "CHAR(45)")
-	@NotBlank(message = "密碼不能為空白！")
 	private String empPsw;
 	
 	@Column(name="empHireDate")
@@ -44,8 +40,9 @@ public class Emp implements Serializable{
 	@Column(name="empStatus")
 	private Byte empStatus;
 	
-	@Column(name="empSal")
-	private Integer empSal;
+	@Column(name="empSex")
+	@NotNull(message= "請輸入性別！")
+	private Byte empSex;
 	
 
 //	@OneToMany(mappedBy = "emp")
@@ -79,13 +76,13 @@ public class Emp implements Serializable{
 	
 	
 	
-	public Emp(String empName, String empPsw, Date empHireDate, Byte empStatus, Integer empSal) {
+	public Emp(String empName, String empPsw, Date empHireDate, Byte empStatus, Byte empSex) {
 		super();
 		setEmpName(empName);
 		setEmpPsw(empPsw);
 		setEmpHireDate(empHireDate);
 		setEmpStatus(empStatus);
-		setEmpSal(empSal);
+		setEmpSex(empSex);
 	}
 
 
@@ -130,12 +127,12 @@ public class Emp implements Serializable{
 		this.empStatus = empStatus;
 	}
 	
-	public Integer getEmpSal() {
-		return empSal;
+	public Byte getEmpSex() {
+		return empSex;
 	}
 	
-	public void setEmpSal(Integer empSal) {
-		this.empSal = empSal;
+	public void setEmpSex(Byte empSex) {
+		this.empSex = empSex;
 	}
 	
 	
@@ -162,7 +159,7 @@ public class Emp implements Serializable{
 	@Override
 	public String toString() {
 		return "Emp [empNo=" + empNo + ", empName=" + empName + ", empPsw=" + empPsw + ", empHireDate=" + empHireDate
-				+ ", empStatus=" + empStatus + ", empSal=" + empSal + ", empFun=" + empFun + "]";
+				+ ", empStatus=" + empStatus + ", empSex=" + empSex + ", empFun=" + empFun + "]";
 	}
 
 

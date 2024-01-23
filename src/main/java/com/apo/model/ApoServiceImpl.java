@@ -23,10 +23,11 @@ public class ApoServiceImpl implements ApoService {
 	
 	//for apoWant
 	private static final Byte WANT_WAIT_MEMBER_CONFIRM = 0;
-	private static final Byte WANT_DISAGREE = 1;
-	private static final Byte WANT_WAIT_LDD_CHECK = 2;
+	private static final Byte WANT_REJECT = 1;
+	private static final Byte WANT_WAIT_LDD_CONFIRM = 2;
 	private static final Byte WANT_DATE_CHANGE_WAIT_RECONFIRM = 3;
 	private static final Byte WANT_AGREE = 4;
+	private static final Byte WANT_CANCEL = 5;
 	
 	
 	@Autowired
@@ -67,7 +68,41 @@ public class ApoServiceImpl implements ApoService {
 		apo.setApoStatus(COMPLETE);
 		repository.save(apo);
 	}
-
+	
+	@Override
+	public void want(Apo apo) {
+		apo.setApoWant(WANT_WAIT_LDD_CONFIRM);
+		repository.save(apo);
+	}
+	
+	@Override
+	public void updateWantDate(Apo apo) {
+		apo.setApoWant(WANT_WAIT_LDD_CONFIRM);
+		repository.save(apo);
+	}
+	
+	@Override
+	public void cancelWant(Apo apo) {
+		apo.setApoWant(WANT_CANCEL);
+		apo.setApoWantDate(null);
+		repository.save(apo);
+	}
+	
+	@Override
+	public void rejectWant(Apo apo) {
+		apo.setApoWant(WANT_REJECT);
+		apo.setApoWantDate(null);
+		repository.save(apo);
+	}
+	
+	@Override
+	public void approveWant(Integer apoNo) {
+		Optional<Apo> optional = repository.findById(apoNo);
+		Apo apo = optional.get();
+		apo.setApoWant(WANT_AGREE);
+		repository.save(apo);
+	}
+	
 	@Override
 	public Apo getOneApo(Integer apoNo) {
 		Optional<Apo> optional = repository.findById(apoNo);
@@ -90,10 +125,11 @@ public class ApoServiceImpl implements ApoService {
 	}
 	
 	//for 前端ajax回傳 JPA查詢結果傳入ApoDto物件再回傳至UC 
+	//回傳內容 apoStatus為 0:待房東審核 2:房東同意待會員看屋
 	//考慮導入Redis需再改寫
 	@Override
 	public List<ApoDTO> getListWithBookingByRentNo(Integer rentNo) {
-		List<Byte> apoStatusList = Arrays.asList(APPROVE_AND_WAIT_COMPLETE, COMPLETE);
+		List<Byte> apoStatusList = Arrays.asList(WAIT_LDD_CONFIRM, APPROVE_AND_WAIT_COMPLETE);
 		List<Apo> apoList = repository.findByRentNoAndApoStatusIn(rentNo, apoStatusList);
 		
 		List<ApoDTO> list = apoList.stream().map(aApo -> new ApoDTO(

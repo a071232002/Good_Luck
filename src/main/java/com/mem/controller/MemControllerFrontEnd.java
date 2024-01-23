@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -35,6 +36,9 @@ public class MemControllerFrontEnd {
 
 	@Autowired
 	private MemService memservice;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 	// 前往註冊會員頁面
 	@GetMapping("/addMem")
@@ -44,11 +48,29 @@ public class MemControllerFrontEnd {
 		return "FrontEnd/mem/addMem";
 	}
 
-//	// 前往查詢頁面
-//	@GetMapping("/BackStage/mem/memlist")
-//	public String showList(ModelMap model) {
-//		return "BackStage/mem/listAllMem";
-//	}
+	// 前往會員個人資料頁面
+	@GetMapping("/memData")
+	public String memData(ModelMap model, HttpSession session) {
+		Mem myData = (Mem)session.getAttribute("logsuccess");
+		model.addAttribute("myData", myData);
+		return "FrontEnd/mem/OneMem";
+	}
+	
+	//前往會員中心
+	@GetMapping("/memCenter")
+	public String memCenter() {
+		return "FrontEnd/mem/memIndex";
+	}
+	
+	//登出處理
+	@GetMapping("/logOut")
+	public String logOut(HttpSession session, ModelMap model) {
+		session.removeAttribute("logsuccess");
+		session.removeAttribute("goURI");
+		System.out.println("登出成功");
+		return "redirect:/";
+	}
+
 
 	// 前往修改會員頁面
 	@GetMapping("/updateMem")
@@ -60,36 +82,13 @@ public class MemControllerFrontEnd {
 			model.addAttribute("data", oldData);
 			return "FrontEnd/mem/updateMem";
 		}
-		System.out.println(add.length);
 		oldData.setMemAdd(add[2]);
-		System.out.println(add[0]);
-		System.out.println(add[1]);
 		
 		model.addAttribute("data", oldData);
 		model.addAttribute("county", add[0]);
 		model.addAttribute("district", add[1]);
 		return "FrontEnd/mem/updateMem";
 	}
-//	// 前往修改會員頁面
-//	@PostMapping("updateMem")
-//	public String updateData(ModelMap model, @ModelAttribute("memNo") String memNo) {
-//		
-//		Mem oldData = memservice.findByNo(Integer.valueOf(memNo));
-//		String[] add = oldData.getMemAdd().split(" ");
-//		if(add.length == 1) {
-//			model.addAttribute("data", oldData);
-//			return "FrontEnd/mem/updateMem";
-//		}
-//		System.out.println(add.length);
-//		oldData.setMemAdd(add[2]);
-//		System.out.println(add[0]);
-//		System.out.println(add[1]);
-//		
-//		model.addAttribute("data", oldData);
-//		model.addAttribute("county", add[0]);
-//		model.addAttribute("district", add[1]);
-//		return "FrontEnd/mem/updateMem";
-//	}
 
 	// 前往登入頁面
 	@GetMapping("/login")
@@ -100,8 +99,19 @@ public class MemControllerFrontEnd {
 	//前往忘記密碼
 	@GetMapping("/forgetPsw")
 	public String goToForgetPsw(ModelMap model) {
-		//未完成
-		return "redirect:login";
+		return "FrontEnd/mem/pswForget";
+	}
+	
+	//處理忘記密碼
+	@GetMapping("/varify")
+	public String varify(@RequestParam("forgetPsw") String mail, ModelMap model) {
+
+		if(memservice.forgetPsw(mail)) {
+			return "redirect:login";
+		}
+		
+		model.addAttribute("failMessage", "不存在的信箱，請重新輸入！");
+		return "FrontEnd/mem/pswForget";
 	}
 
 	// 登入處理
@@ -109,14 +119,16 @@ public class MemControllerFrontEnd {
 	public String loginPage(@ModelAttribute("mail") String memMail, @ModelAttribute("password") String memPsw,
 							ModelMap model, HttpSession session) {
 		
+		String uri = session.getAttribute("goURI") == null ? "/" : session.getAttribute("goURI").toString();
 		if(memMail.isEmpty() || memPsw.isEmpty()) {
 			model.addAttribute("message", "信箱或密碼不能空白，請重新輸入！");
 			return "FrontEnd/mem/loginMem";
 		}
 		Mem loginData = memservice.login(memMail, memPsw);
 		if (loginData != null) {
+			System.out.println("登入成功");
 			session.setAttribute("logsuccess", loginData);
-			return "FrontEnd/index";
+			return "redirect:" + uri;
 		}
 		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");
 		return "FrontEnd/mem/loginMem";
@@ -126,7 +138,7 @@ public class MemControllerFrontEnd {
 	@PostMapping("memadd")
 	public String addMem(@RequestParam("memPic") MultipartFile part, @Validated(Create.class) Mem mem,
 			BindingResult result, ModelMap model, @RequestParam("county") String county, 
-			@RequestParam("district") String district) throws IOException {
+			@RequestParam("district") String district, HttpSession session) throws IOException {
 		String detailAdd = mem.getMemAdd();
 		mem.setMemAdd(county + " " + district + " " + detailAdd);
 		mem.setMemPic(part.isEmpty() ? null : part.getBytes());
@@ -138,20 +150,20 @@ public class MemControllerFrontEnd {
 		}
 
 		Mem newData = memservice.register(mem);
-		model.addAttribute("successData", newData);
-		memservice.verifyMail(mem.getMemMail()); //發送簡訊
+//		model.addAttribute("successData", newData);
+		session.setAttribute("logsuccess", newData);
+		memservice.verifyMail(mem.getMemMail(), "租你好運感謝您的註冊！", "驗證碼為：", null); //發送簡訊
 		
 
-		return "FrontEnd/mem/varifiedMail";
+		return "redirect:/mem/varifyMail";
 	}
 
 	// 修改資料
-	// @MdelAttribute("data")對映th:object"${data}"和model.addAttribute("data",
-	// oldData)
+	// @MdelAttribute("data")對映th:object"${data}"和model.addAttribute("data",oldData)
 	@PostMapping("memupdate")
 	public String updateMem(@RequestParam("memPic") MultipartFile part, @ModelAttribute("data") @Valid Mem mem,
 			BindingResult result, ModelMap model, @RequestParam("county") String county, 
-			@RequestParam("district") String district) throws IOException {
+			@RequestParam("district") String district, HttpSession session) throws IOException {
 
 		String detailAdd = mem.getMemAdd();
 		mem.setMemAdd(county + " " + district + " " + detailAdd);
@@ -168,31 +180,47 @@ public class MemControllerFrontEnd {
 
 		Mem newData = memservice.edit(mem);
 		model.addAttribute("successData", newData);
+		session.setAttribute("logsuccess", newData);
 		return "FrontEnd/mem/successPage";
 	}
-
-//	// 停權(未完成)
-//	@PostMapping("stopMem")
-//	public String banMem(@ModelAttribute("memNo") String memNo) {
-//		memservice.banMem(Integer.valueOf(memNo));
-//		return "redirect:memlist";
-//	}
+	
+	//前往信箱驗證
+	@GetMapping("/varifyMail")
+	public String varifyMail(ModelMap model) {
+		return "FrontEnd/mem/varifiedMail";
+	}
 	
 	//信箱驗證
 	@GetMapping("/sendGMail")
-	public String sendGMail(@RequestParam("sendMail") String code, ModelMap model) {
+	public String sendGMail(@RequestParam("sendMail") String code, ModelMap model, HttpSession session) {
+		String uri = session.getAttribute("goURI") == null ? "/" : session.getAttribute("goURI").toString();
+		
+		//使用Redis讀取資料
+		String getCode = redisTemplate.opsForValue().get("templateID");
+		System.out.println("redis Data：" + getCode);
+		if(getCode == null) {
+			model.addAttribute("errorCode", "驗證碼已超時，請重新發送驗證碼！");
+			return "FrontEnd/mem/varifiedMail";
+		}else if(!code.equals(getCode)) {
+			model.addAttribute("errorCode", "驗證碼錯誤，請重新輸入！");
+			return "FrontEnd/mem/varifiedMail";
+		}
 		
 		System.out.println("get Code：" + code);
-		return "FrontEnd/index";
+		Mem varifyData = (Mem)session.getAttribute("logsuccess");
+		varifyData.setMemStatus((byte)1); 
+		varifyData = memservice.edit(varifyData);
+		session.setAttribute("logsuccess", varifyData);
+		return "redirect:" + uri;
 	}
 	
-
-//	// 設置查詢全部屬性
-//	@ModelAttribute("memListData")
-//	protected List<Mem> referenceListData() {
-//		List<Mem> list = memservice.findAll();
-//		return list;
-//	}
+	//重新發送驗證碼
+	@GetMapping("/reSendMail")
+	public String reSendMail(ModelMap model, HttpSession session) {
+		Mem mem = (Mem)session.getAttribute("logsuccess");
+		memservice.verifyMail(mem.getMemMail(), "租你好運感謝您的註冊！", "驗證碼為：", null); //發送簡訊
+		return"redirect:/mem/varifyMail";
+	}
 
 	// 去除BindingResult中某個欄位的FieldError紀錄
 	public BindingResult removeFieldError(Mem mem, BindingResult result, String removedFieldname) {

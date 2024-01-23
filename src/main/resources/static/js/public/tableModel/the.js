@@ -2457,7 +2457,7 @@
                 (r =
                   (n = l[(o = c[u]).col]) < (a = s[o.col]) ? -1 : a < n ? 1 : 0)
               )
-                return "asc" === o.dir ? r : -r;
+                return "desc" === o.dir ? r : -r;
             return (n = f[t]) < (a = f[e]) ? -1 : a < n ? 1 : 0;
           })
         : i.sort(function (t, e) {

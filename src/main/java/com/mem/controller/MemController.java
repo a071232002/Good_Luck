@@ -48,6 +48,13 @@ public class MemController {
 	public String showList(ModelMap model) {
 		return "BackStage/mem/listAllMem";
 	}
+	
+	//redis測試
+	@GetMapping("/redis")
+	public String redisTest() {
+		String test = memservice.redisTest();
+		return "BackStage/mem/listAllMem";
+	}
 
 //	// 前往修改會員頁面
 //	@PostMapping("updateMem")
