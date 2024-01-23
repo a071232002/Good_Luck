@@ -51,7 +51,7 @@
 					<span th:if="${mem.memStatus ==2}" th:text="停權"></span>				
 				</td>
 				<td th:if="${mem.lastLoginTime != null}" th:text="${#dates.format(mem.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td>
-				<td ><img th:src="@{/BackStage/mem/picture} + '?memno=' + ${mem.memNo}" width="100px" height="100px"></td>
+				<td ><img th:src="@{/mem/picture} + '?memno=' + ${mem.memNo}" width="100px" height="100px"></td>
 			</tr>
 		
 		</th:block>
@@ -74,7 +74,7 @@
 <!-- 		</tfoot> -->
 	</table>
 	<br>
-	<a th:href="@{/BackStage/mem/memlist}"><button>返回會員列表</button></a>
+	<a th:href="@{memCenter}"><button>返回會員中心</button></a>
 	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
   	<script th:src="@{/js/BackStage/mem/the.js}"></script>

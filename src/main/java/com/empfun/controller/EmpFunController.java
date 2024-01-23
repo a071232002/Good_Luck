@@ -2,6 +2,8 @@ package com.empfun.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,7 +39,6 @@ public class EmpFunController {
 	//處理修改權限
 	@PostMapping("funUpdate")
 	public String fun(@ModelAttribute("empFunData") Emp emp, ModelMap model) {
-		System.out.println("getggg");
 		System.out.println(emp);
 		List<Integer> funList = emp.getEmpFun();
 		emp = empService.getById(emp.getEmpNo());
@@ -48,11 +49,12 @@ public class EmpFunController {
 	
 	//前往修改權限
 	@PostMapping("goEditFun")
-	public String goEditFun(@RequestParam("oneEmpNo") String EmpNo, ModelMap model) {
+	public String goEditFun(@RequestParam("oneEmpNo") String EmpNo, ModelMap model, HttpSession session) {
 		
 		Emp oldData = empService.getById(Integer.valueOf(EmpNo));
 		oldData.setEmpFun(empFunService.findByEmpNo(oldData.getEmpNo()));
 		model.addAttribute("empFunData", oldData);
+		session.setAttribute("EmpSuccess", oldData);
 		return "BackStage/empfun/updateEmpFun";
 	}
 	

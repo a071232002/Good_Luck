@@ -20,16 +20,17 @@ public interface MemService {
 	public List<Mem> findAll();
 
 	// 信箱驗證
-	public boolean verifyMail(String word);
+	public boolean verifyMail(String word, String subject, String text, String verifyID);
 
 	// 密碼加密
 	public String hashPassword(String memPsw);
 
 	// 忘記密碼
-	public String forgetPsw(String memMail);
+	public boolean forgetPsw(String memMail);
 
 	// 停權會員
 	public void banMem(Integer memNo);
 	
+	public String redisTest();
 
 }

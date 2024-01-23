@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+ <style>
+ 	h1 {
+		text-align: center;
+      	color: red;
+		}
+ </style>
+<title>忘記密碼</title>
+</head>
+<body>
+	<h1>忘記密碼</h1>
+	
+	<form th:action="@{varify}" method="get">
+		<label for="mail">輸入信箱帳號：</label>
+		<input id="mail" title="請輸入信箱帳號" name="forgetPsw" >
+	
+	<input type="submit" class="submit" value="確認">
+	</form>
+	<span th:text="*{failMessage}" class="error" id="ename.errors"></span>
+	<br>
+	<a th:href="@{login}"><button>取消</button></a>
+	
+	
+
+</body>
+</html>
