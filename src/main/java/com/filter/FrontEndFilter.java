@@ -3,6 +3,7 @@ package com.filter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -67,15 +68,16 @@ public class FrontEndFilter implements Filter{
 		System.out.println("uri:" + uri);
 		System.out.println();
 		
-//		path.stream().filter(s -> !uri.contains(s) && !uri.contains("/BackStage") && !"/".equals(uri))
-//					   .findFirst();
-		
-		if(!urlValidator(uri, path) && !uri.contains("/BackStage") && !"/".equals(uri)) {
+		boolean validator =path.stream()
+					  		.allMatch(s -> !uri.contains(s) && !uri.contains("/BackStage") && !"/".equals(uri));
+//		System.out.println("stream：" + validator);
+//		System.out.println(!urlValidator(uri, path) && !uri.contains("/BackStage") && !"/".equals(uri));
+		if(validator) {
 			final Mem member = getClassFromSession(httpRequest, "logsuccess", Mem.class);
 			System.out.println("Member為：" + member);
 			
 			if(member == null) {
-				System.out.println("儲存uri：" + uri);
+				System.out.println("儲存uri到Session：" + uri);
 				httpRequest.getSession().setAttribute("goURI", uri);
 				httpResponse.sendRedirect( contextPath + "/mem/login");
 				return;
@@ -109,11 +111,11 @@ public class FrontEndFilter implements Filter{
 	}
 	
 	//是否包含需過慮的路徑
-	public boolean urlValidator(String uri, HashSet<String> path) {
-		Iterator<String> it = path.iterator();
-		while(it.hasNext()) {
-			if(uri.contains(it.next())) return true;
-		}
-		return false;
-	}
+//	public boolean urlValidator(String uri, HashSet<String> path) {
+//		Iterator<String> it = path.iterator();
+//		while(it.hasNext()) {
+//			if(uri.contains(it.next())) return true;
+//		}
+//		return false;
+//	}
 }

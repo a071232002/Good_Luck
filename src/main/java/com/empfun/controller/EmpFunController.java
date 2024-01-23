@@ -62,6 +62,10 @@ public class EmpFunController {
 	@ModelAttribute("allfunList")
 	public List<Emp> empfunList(ModelMap model){
 		List<Emp> emps = empService.findAll();
+//										  .stream()
+//										  .map(null)
+										  
+		
 		for(Emp emp : emps) {
 			emp.setEmpFun(empFunService.findByEmpNo(emp.getEmpNo()));
 		}
