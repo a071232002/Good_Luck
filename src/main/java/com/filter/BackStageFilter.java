@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.emp.model.Emp;
 
-@Component
+//@Component
 //@WebFilter("*.html")
 public class BackStageFilter implements Filter{
 

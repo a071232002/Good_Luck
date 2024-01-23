@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
-	<title>物件申請單一覽</title>
+	<title>檢舉投訴一覽</title>
 	<style>
 		h1 {
 			text-align: center;
@@ -160,8 +160,9 @@
                             .search(val ? '^' + val + '$' : '', true, false)
                             .draw();
                     });
-                  
-                    
+                    select.addEventListener('click', function (e) {
+                    	e.stopPropagation();
+                    });
      
                     // Add list of options
                     column.data().unique().sort().each( function ( d, j ) {
@@ -180,7 +181,7 @@
                         } else {
                         	select.add(new Option(d));
                         }
-
+                        
 //                     	if(column.search() === ""){
                     		
 //                     		console.log("column.search()=null")
@@ -248,7 +249,7 @@
 	    	
 	    });
 	 
-	    $('input, select', table.column(colIdx).header()).on('click', function(e) {
+	    $('input', table.column(colIdx).header()).on('click', function(e) {
 	        e.stopPropagation();
 	    });
 	});

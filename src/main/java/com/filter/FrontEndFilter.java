@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.mem.model.Mem;
 
-@Component
+//@Component
 //@WebFilter("*.html")
 public class FrontEndFilter implements Filter{
 

@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
-	<title>物件申請單一覽</title>
+	<title>物件申請單審核</title>
 	<style>
 		h1 {
 			text-align: center;
@@ -34,7 +34,7 @@
 	</style>
 </head>
 <body>
-	<h1>物件申請單一覽</h1>
+	<h1>物件申請單審核</h1>
 	<div class="lightbox" id="lightbox">
 	    <img src="" alt="放大顯示的圖片" id="lightbox-img">
 	</div>
@@ -53,7 +53,7 @@
 				<th>樓層</th>
 				<th>坪數</th>
 				<th>審核狀態</th>
-				<th>修改</th>
+				<th>審核</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -83,10 +83,24 @@
 
 
 					<td>
-						<form method="post" th:action="@{/BackStage/rentApp/getOne_For_Update}">
-							<input type="hidden" name="rentAppNo"
-								th:value="${rentApp.rentAppNo}"> <input type="submit"
-								value="修改">
+						<form id='myForm' th:action="@{updateRentAppSt}" method="post" enctype="multipart/form-data">
+					
+								<input type="hidden" th:value="${rentApp.rentAppNo}" name="rentAppNo">
+
+								<input type="hidden" th:value="${rentApp.rentAppSt}" name="rentAppSt">
+						
+							
+							<div th:switch="${rentApp.rentAppSt}">
+								<th:block th:case="0">
+							        <!-- 处理值为0的情况 -->
+							        <button type="button" onclick="setDataValue(this,'1')"> 通過 </button>
+									<button type="button" onclick="setDataValue(this,'2')"> 不通過 </button>
+							    </th:block>
+<!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->
+<!-- 								<button th:case="0" type="submit" id="submit"> 不成立 </button> -->
+							</div>
+<!-- 							<input type="hidden" name="rentAppNo"th:value="${rentApp.rentAppNo}">  -->
+<!-- 							<input type="submit"value="修改"> -->
 						</form>
 					</td>
 				</tr>
@@ -117,6 +131,23 @@
 
 	//   alert("You clicked on " + data[3] + "'s row");
 		// });
+	
+    function setDataValue(buttonElement, newValue) {
+
+   		console.log(newValue);
+		// 找到按钮的父级元素
+       var parent = buttonElement.parentElement;
+
+       // 找到隐藏字段（前一个兄弟元素）
+       var hiddenField = parent.previousElementSibling;
+
+       // 如果找到了隐藏字段，修改其值
+       if (hiddenField && hiddenField.type === 'hidden' && hiddenField.name === 'rentAppSt') {
+           hiddenField.value = newValue;
+       }
+       parent.parentElement.submit();
+       
+   }
 	</script>
 </body>
 </html>
