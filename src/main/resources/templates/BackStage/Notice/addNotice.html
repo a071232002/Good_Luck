@@ -1,75 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <style>
-        * {
-    box-sizing: border-box;
-}
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
+
+<style>
 body {
-    background-color: #FDF5E6; 
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; 
+	box-sizing: border-box;
 }
 
-.dropdown {
-    margin: 20px;
+form {
+	display: inline-block;
 }
 
-.dropdown select,
-.dropdown input {
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.5;
-    color: #555;
-    background-color: #fff; 
-    border: 2px solid #ccc; 
-    border-radius: 4px;
-    margin-right: 4px;
+label {
+	/* display: inline-block; */
+	width: 5em;
 }
 
-.dropdown select:focus,
-.dropdown input:focus {
-    outline: none;
-    border-color: #66afe9;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+b {
+	color: red;
 }
-.title {
-    font-family: "Arial Black", sans-serif;
-    font-size: 45px;
-    text-shadow: 3px 5px 2px #FFFFFF;
-    color: #555;
+
+td {
+	text-align: right;
+	padding: 5px;
 }
-    </style>
+
+.toggler {
+	display: inline-block;
+	width: 500px;
+	height: 200px;
+}
+
+#button {
+	padding: .5em 1em;
+	text-decoration: none;
+}
+
+#effect {
+	width: 240px;
+	height: 100px;
+	padding: 0.4em;
+	position: relative;
+}
+
+#effect h3 {
+	margin: 0;
+	padding: 0.4em;
+	text-align: center;
+	background-color: red;
+}
+</style>
+<title>最新消息公告</title>
 </head>
 <body>
-    <div class="title">
-        GOODLUCK.com<br>
-        <h1 style="color:#87CEEB; font-family: Arial; font-size: 25px; font-weight: bold;line-height: 1.2;">最新消息管理</h1>
-    </div>
-    <div class="dropdown">
-        <select name="noticeNo" id="noticeNo_box">
-            <option value="">最新消息編號</option>
-        </select><br>
-        <select name="empNo" id="empNo_box">
-            <option value="">員工編號</option>
-        </select><br>
-        <input type="datetime-local" id="noticeTime_input" placeholder="最新消息時間">
-    </div>
-    <div class="dropdown">
-        <select name="noticecontent" id="noticecontent_box">
-            <option value="">最新消息內容</option>
-        </select><br>
-        <select name="noticestatus" id="noticestatus_box">
-            <option value="">最新消息狀態</option>
-            <option value="0">下架(Default)</option>
-            <option value="1">上架</option>
-        </select><br>
-    </div>
+<h1> 最新消息公告</h1>
+	<form method="post" th:action="@{noticeadd}" th:object="${noticeVO}"enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><label for="noticeNo">最新消息編號：</label></td>
+				<td><span th:if="${#fields.hasErrors('noticeNo')}"
+					th:errors="*{noticeNo}" class="error" id="ename.errors"></span></td>
+			</tr>
+
+			<tr>
+				<td><label for="empNo">員工編號：</label></td>
+				<td><input id="empNo" title="請輸入員工編號" th:field="*{empNo}"></td>
+				<td><span th:if="${#fields.hasErrors('empNo')}"
+					th:errors="*{empNo}" class="error" id="ename.errors"></span></td>
+			</tr>
+
+			<tr>
+				<td><label for="noticeTime">最新消息時間：</label></td>
+				<input type="datetime-local" id="noticeTime_input" placeholder="最新消息時間 ">
+			</tr>
+
+			<tr>
+				<td><label for="noticeContent">最新消息內容：</label></td>
+				<td><textarea title="請輸入最新消息內容"
+						th:field="*{noticeContent}" rows="4" cols="50"></textarea></td>
+				<td><span th:if="${#fields.hasErrors('noticeContent')}"
+					th:errors="*{noticeContent}" class="error" id="ename.errors"></span></td>
+			</tr>
+
+			<tr>
+				<td><label for="noticeStatus">最新消息狀態：</label></td>
+				<td><select id="noticeStatus" title="最新消息狀態" th:field="*{noticeStatus}">
+						<option value="0">下架</option>
+						<option value="1">上架</option>
+				</select></td>
+				<td><span th:if="${#fields.hasErrors('noticeStatus')}"
+					th:errors="*{noticeStatus}" class="error" id="ename.errors"></span></td>
+			</tr>
+			
+			<div>
+				<button type="submit" id="submit">送出新增</button>
+			</div>
+		
+		</table>
 </body>
 </html>

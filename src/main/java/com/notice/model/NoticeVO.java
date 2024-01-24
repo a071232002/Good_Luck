@@ -1,8 +1,9 @@
 package com.notice.model;
 
-import java.sql.Date;
+import java.io.Serializable;
 import java.sql.Timestamp;
-
+import java.util.Date;
+//import java.sql.Timbestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,15 +13,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import com.emp.model.Emp;
 
 @Entity
 @Table(name = "notice")
-public class Notice {
+public class NoticeVO implements java.io.Serializable{
+	private static final long serialVersionUID=1L;
+	//new 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "noticeNo", updatable = false)
 	private Integer noticeNo;
 	
+//	@ManyToOne
+//	@JoinColumn(name = "empNo", referencedColumnName = "empNo")
 	@Column(name = "empNo")
 	private Integer empNo;
 	
@@ -31,41 +37,32 @@ public class Notice {
 	private String noticeContent;
 	
 	@Column(name = "noticeStatus")
-	private Integer noticeStatus;
+	private Byte noticeStatus;
 
-	    
-	
 	    // Many-to-One relationship with Employee entity
 	    
-	    public Notice() {
+	    public NoticeVO() {
 	    }
-		
-		
-	    public Integer getNoticeno() {
+	    public Integer getNoticeNo() {
 			return noticeNo;
 		}
-
-		public void setNoticeno(Integer noticeNo) {
+		public void setNoticeNo(Integer noticeNo) {
 			this.noticeNo = noticeNo;
 		}
-
-		public Integer getEmpno() {
+		public Integer getEmpNo() {
 			return empNo;
 		}
 
-		public void setEmpno(Integer empNo) {
+		public void setEmpNo(Integer empNo) {
 			this.empNo = empNo;
 		}
-
-		public Timestamp getNoticetime() {
+		public Date getNoticeTime() {
 			return noticeTime;
 		}
-
-		public void setNoticetime(Timestamp noticeTime) {
+		public void setNoticeTime(Timestamp noticeTime) {
 			this.noticeTime = noticeTime;
 		}
-
-		public String getNoticecontent() {
+		public String getNoticeContent() {
 			return noticeContent;
 		}
 
@@ -73,18 +70,18 @@ public class Notice {
 			this.noticeContent = noticeContent;
 		}
 
-		public Integer getNoticeStatus() {
+		public Byte getNoticeStatus() {
 			return noticeStatus;
 		}
 
-		public void setNoticestatus(Integer noticeStatus) {
+		public void setNoticeStatus(Byte noticeStatus) {
 			this.noticeStatus = noticeStatus;
 		}
-
+		
 		@Override
 		public String toString() {
-			return "Notice [noticeNo=" + noticeNo + ", empNo=" + empNo + ", noticeTime=" + noticeTime + ",noticeContent =" + noticeContent + ", noticeContent=" + noticeStatus
-					+ "]";
-		}	
+			return "NoticeVO [noticeNo=" + noticeNo + ", empNo=" + empNo + ", noticeTime=" + noticeTime
+					+ ", noticeContent=" + noticeContent + ", noticeStatus=" + noticeStatus + "]";
+		}
 }
 		
