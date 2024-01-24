@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        label {
+            /* display: inline-block; */
+            width: 5em;
+        }
+
+        b {
+            color: red;
+        }
+
+        td {
+            text-align: right;
+            padding: 5px;
+        }
+
+        .toggler {
+            display: inline-block;
+            width: 500px;
+            height: 200px;
+        }
+
+        #button {
+            padding: .5em 1em;
+            text-decoration: none;
+        }
+
+        #effect {
+            width: 240px;
+            height: 100px;
+            padding: 0.4em;
+            position: relative;
+        }
+
+        #effect h3 {
+            margin: 0;
+            padding: 0.4em;
+            text-align: center;
+            background-color: red;
+        }
+    </style>
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>新增員工</h1>
+	<form method="post" th:action="@{empRegister}" th:object="${emp}" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><label for="name">姓名<b>*</b>：</label></td>
+				<td><input id="name" title="請輸入姓名" th:field="*{empName}"></td>
+				<td><span th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></span></td>
+			</tr>
+			<tr>
+				<td><label for="password">密碼<b>*</b>：</label></td>
+				<td><span >不須輸入密碼，自動生成</span></td>
+			</tr>
+			<tr>
+                <td><label for="memsex">性別<b>*</b>：</label></td>
+                <td>
+                    <input type="radio" th:field="*{empSex}" id="man" th:value="0"><label for="man">男性</label>
+                    <input type="radio" th:field="*{empSex}" id="femal" th:value="1"><label for="femal">女性</label>
+                </td>
+                <td><span th:if="${#fields.hasErrors('empSex')}" th:errors="*{empSex}"></span></td>
+            </tr>
+			<tr>
+				<td><label for="date">員工到職日<b>*</b>：</label></td>
+				<td><input type="date" th:field="*{empHireDate}" title="請輸入員工到職日" name="date"></td>
+				<td><span th:text="${errorDate}"></span></td>
+			</tr>
+
+
+		</table>
+		
+		<input type="submit" class="submit" value="註冊會員">
+	</form>
+
+	<button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
+
+</body>
+</html>

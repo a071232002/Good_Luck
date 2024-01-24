@@ -1,38 +1,21 @@
 package com.lddapp.model;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+public interface LddAppService {
 
-import com.ldd.model.LddRepository;
+	public void addLddApp(LddApp lddApp);
 
-@Service("lddAppService")
-public class LddAppService {
+	public void upDateLddApp(LddApp lddApp);
 
-	@Autowired
-	LddAppRepository repository;
+	public void pay(LddApp lddApp);
 
-	@Autowired
-	private SessionFactory sessionFactory;
+	public void notApproved(LddApp lddApp);
 
-	public void addLddApp(LddApp lddApp) {
-		repository.save(lddApp);
-	}
+	public void approved(LddApp lddApp);
 
-	public void upDateLddApp(LddApp lddApp) {
-		repository.save(lddApp);
-	}
+	public LddApp getOneLddApp(Integer lddAppNo);
 
-	public LddApp getOneLddApp(Integer lddAppNo) {
-		Optional<LddApp> optional = repository.findById(lddAppNo);
-		return optional.orElse(null);
-	}
-
-	public List<LddApp> getAll() {
-		return repository.findAll();
-	}
+	public List<LddApp> getAll();
 
 }

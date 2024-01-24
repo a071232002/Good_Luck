@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成為房東</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<div th:replace="~{/BackStage/lddApp/select :: aside}"></div>
+<body>
+  <div align="center" th:fragment="addLddApp-div"> 
+    <h1>成為房東</h1>
+	<form method="post" th:action="@{insert}" th:object="${lddApp}" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><label for="memNo">會員編號<b>*</b>：</label></td>
+ 				<td><input id="memNo" title="請輸入會員編號" th:field="*{mem.memNo}" ></td>
+			</tr>
+			<tr>
+				<td><label for="lddAppIDPic">身分證照片：</label></td>
+				<td><input type="file" th:field= "*{lddAppIDPic}"></td>
+			</tr>
+		</table>
+		
+		<input type="submit" class="submit" value="送出">
+	</form>
+	</div>
+</body>
+
+</html>

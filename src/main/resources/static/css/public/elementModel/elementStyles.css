@@ -1,0 +1,110 @@
+* {
+	font-weight: bold;
+}
+
+h1 {
+	text-align: center;
+	color: red;
+}
+
+form {
+	display: inline-block;
+}
+
+/* for 狀態描述文字顏色分級 */
+.warning {
+	color: goldenrod;
+}
+
+.success {
+	color: #28a745;
+}
+
+.cancel {
+	color: #dc3545;
+}
+
+/* for 功能按鈕顏色分級 */
+.reject_button {
+	padding: 10px 15px;
+	margin: 5px 5px;
+	font-size: 16px;
+	font-weight: bold;
+	background-color: rgb(158, 20, 20);
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.approve_button {
+	padding: 10px 15px;
+	margin: 5px 5px;
+	font-size: 16px;
+	font-weight: bold;
+	background-color: rgb(24, 36, 117);
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.reject_button:hover, .approve_button:hover {
+	background-color: rgb(232, 206, 40);
+	color: black;
+}
+
+/* for input元素 */
+input[type="date"] {
+	padding: 10px;
+	font-size: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	outline: none;
+}
+
+input[type="date"]:focus {
+	border-color: #3498db;
+	box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+input[type="radio"] {
+	margin-right: 3px;
+}
+
+input[type="text"] {
+	padding: 3px 15px;
+	margin: 0px;
+	width: 150px;
+	font-size: 16px;
+	font-weight: bold;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #fff;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+	color: #333;
+}
+
+input[type="text"]:focus {
+	outline: none;
+	border-color: #007bff;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* for select元素 */
+select {
+	width: 80%;
+	padding: 10px;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+select:focus {
+	outline: none;
+	border-color: #007bff;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+

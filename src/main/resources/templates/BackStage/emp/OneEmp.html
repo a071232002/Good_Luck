@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
+ <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+ <style>
+ 	h1 {
+		text-align: center;
+      	color: red;
+		}
+ </style>
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>員工管理</h1>
+	<table id="example" class="display" style="width: 100%">
+		<thead>
+			<tr>
+				<th>員工編號</th>
+				<th>員工姓名</th>
+				<th>員工狀態</th>
+				<th>雇用日期</th>
+				<th>員工性別</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td th:text="${empData.empNo}"></td>
+				<td th:text="${empData.empName}"></td>
+				<td>
+					<span th:if="${empData.empStatus == 0}" th:text="離職"></span>
+					<span th:if="${empData.empStatus == 1}" th:text="在職"></span>
+				</td>
+				<td th:text="${empData.empHireDate}"></td>
+				<td>
+					<span th:if="${empData.empSex == 0}" th:text="男性"></span>
+					<span th:if="${empData.empSex == 1}" th:text="女性"></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<form method="post" th:action="@{updateEmpPsw}">
+		<input type="hidden" name= "empNo" th:value="${empData.empNo}">
+		<input type="submit" value="密碼修改" >
+	</form>
+	
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+  	<script th:src="@{/js/BackStage/mem/the.js}"></script>
+  	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
+  	<script>
+    	let table = new DataTable("#example");
+    	console.log($(".test"));
+    // table.on("click", "tbody tr", function () {
+    //   let data = table.row(this).data();
+
+    //   alert("You clicked on " + data[3] + "'s row");
+    // });
+  	</script>
+</body>
+</html>

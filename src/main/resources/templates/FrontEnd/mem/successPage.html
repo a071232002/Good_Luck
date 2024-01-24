@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
+ <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+ <style>
+ 	h1 {
+		text-align: center;
+      	color: red;
+		}
+ </style>
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>成功</h1>
+	<table id="example" class="display" style="width: 100%">
+		<thead>
+			<tr>
+				<th>會員編號</th>
+				<th>信箱帳號</th>
+				<th>姓名</th>
+				<th>性別</th>
+				<th>手機號碼</th>
+				<th>聯絡地址</th>
+				<th>身分證號碼</th>
+				<th>註冊日期</th>
+				<th>帳號狀態</th>
+				<th>最後上線時間</th>
+				<th>會員大頭照</th>
+			</tr>
+		</thead>
+		<tbody>
+		<th:block th:each="mem : ${successData}">
+			<tr>
+				<td th:text="${mem.memNo}"></td>
+				<td th:text="${mem.memMail}"></td>
+				<td th:text="${mem.memName}"></td>
+				<td>
+					<span th:if="${mem.memSex == 0}" th:text="男性"></span>
+					<span th:if="${mem.memSex == 1}" th:text="女性"></span>
+				</td>
+				<td th:text="${mem.memPhone}"></td>
+				<td th:text="${mem.memAdd}"></td>
+				<td th:text="${mem.memID}"></td>
+				<td th:text="${mem.memReg}"></td>
+				<td>
+					<span th:if="${mem.memStatus == 0}" th:text="未驗證"></span>
+					<span th:if="${mem.memStatus == 1}" th:text="正常"></span>
+					<span th:if="${mem.memStatus ==2}" th:text="停權"></span>				
+				</td>
+				<td th:if="${mem.lastLoginTime != null}" th:text="${#dates.format(mem.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td>
+				<td ><img th:src="@{/mem/picture} + '?memno=' + ${mem.memNo}" width="100px" height="100px"></td>
+			</tr>
+		
+		</th:block>
+
+		</tbody>
+<!-- 		<tfoot> -->
+<!-- 			<tr> -->
+<!-- 				<th>會員編號</th> -->
+<!-- 				<th>信箱帳號</th> -->
+<!-- 				<th>姓名</th> -->
+<!-- 				<th>性別</th> -->
+<!-- 				<th>手機號碼</th> -->
+<!-- 				<th>聯絡地址</th> -->
+<!-- 				<th>身分證號碼</th> -->
+<!-- 				<th>註冊日期</th> -->
+<!-- 				<th>帳號狀態</th> -->
+<!-- 				<th>最後上線時間</th> -->
+<!-- 				<th>會員大頭照</th> -->
+<!-- 			</tr> -->
+<!-- 		</tfoot> -->
+	</table>
+	<br>
+	<a th:href="@{memCenter}"><button>返回會員中心</button></a>
+	
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+  	<script th:src="@{/js/BackStage/mem/the.js}"></script>
+  	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
+  	<script>
+    	let table = new DataTable("#example");
+    	console.log($(".test"));
+    // table.on("click", "tbody tr", function () {
+    //   let data = table.row(this).data();
+
+    //   alert("You clicked on " + data[3] + "'s row");
+    // });
+  	</script>
+</body>
+</html>

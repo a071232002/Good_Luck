@@ -1,5 +1,6 @@
 package com.lddapp.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -17,7 +18,7 @@ import com.emp.model.Emp;
 
 @Entity
 @Table(name = "lddapp")
-public class LddApp {
+public class LddApp implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "lddappNo", updatable = false)
@@ -34,7 +35,7 @@ public class LddApp {
 	@Column(name = "lddAppCreate", updatable = false)
 	private Date lddAppCreate;
 	
-	@Column(name = "lddAppIDPic", columnDefinition = "longblob")
+	@Column(name = "lddAppIDPic")
 	private byte[] lddAppIDPic;
 	
 	@Column(name = "lddAppPayStatus", insertable = false)

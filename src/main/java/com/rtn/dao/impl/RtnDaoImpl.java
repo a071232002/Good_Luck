@@ -31,7 +31,18 @@ public class RtnDaoImpl implements RtnDao {
 		
 		sql = addFilteringSQL(sql, map, rtnQueryParams);
 		
-		System.out.println("addFilteringSQL: " + (sql));
+		
+		if (rtnQueryParams.getLimit() != null) {
+		    sql += " limit :limit";
+		    map.put("limit", rtnQueryParams.getLimit());
+		}
+
+		if (rtnQueryParams.getLimit() != null) {
+			sql += " offset :offset";
+			map.put("offset", rtnQueryParams.getOffset());
+		}
+		
+//		System.out.println("addFilteringSQL: " + (sql));
 		
 		List<Rtn> RtnList = namedParameterJdbcTemplate.query(sql, map, new RtnRowMapper());
 
@@ -41,7 +52,7 @@ public class RtnDaoImpl implements RtnDao {
 //	Rtn選單value注入功能
 	@Override
 	public List<String> getAllKeepRtnWhy() {
-		String sql = "SELECT DISTINCT rtnWhy FROM rtn";
+		String sql = "SELECT DISTINCT rtnWhy FROM rtn ORDER BY rtnWhy ASC;";
 
 		return namedParameterJdbcTemplate.queryForList(sql, new HashMap<>(), String.class);
 	}

@@ -1,5 +1,7 @@
 package com.ldd.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +16,7 @@ import com.mem.model.Mem;
 
 @Entity
 @Table(name = "ldd")
-public class Ldd {
+public class Ldd implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "lddNo", updatable = false)
@@ -22,7 +24,7 @@ public class Ldd {
 	
 	@ManyToOne
 	@JoinColumn(name = "memNo", referencedColumnName = "memNo", updatable = false)
-	private Mem memNo;
+	private Mem mem;
 	
 	@Column(name = "lddStatus", insertable = false)
 	private Byte lddStatus;
@@ -39,12 +41,12 @@ public class Ldd {
 		this.lddNo = lddNo;
 	}
 
-	public Mem getMemNo() {
-		return memNo;
+	public Mem getMem() {
+		return mem;
 	}
 
-	public void setMemNo(Mem memNo) {
-		this.memNo = memNo;
+	public void setMem(Mem mem) {
+		this.mem = mem;
 	}
 
 	public Byte getLddStatus() {
@@ -58,7 +60,7 @@ public class Ldd {
 	@Override
 	public String toString() {
 		return "ldd [lddNo=" + lddNo + 
-				", memNo=" + null + 
+				", memNo=" + (mem == null? null :mem.getMemNo()) + 
 				", lddStatus=" + lddStatus + 
 				"]";
 	}
