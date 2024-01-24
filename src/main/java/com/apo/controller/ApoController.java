@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.apo.model.Apo;
@@ -160,12 +161,21 @@ public class ApoController {
 	}
 	
 	//接收ajax 以JSON回傳物件已booking的時段 查出物件被booking的時段
+//	@PostMapping("/apoStatus/{rentNo}")
+//	public ResponseEntity<String> alreadyApoData(@PathVariable String rentNo){
+//		List<ApoDTO> apoList = apoSvc.getListWithBookingByRentNo(Integer.valueOf(rentNo));
+//		Gson gson = new Gson();
+//	    String response = gson.toJson(apoList);
+//		return new ResponseEntity<>(response, HttpStatus.OK);
+//	}
+	
 	@PostMapping("/apoStatus/{rentNo}")
-	public ResponseEntity<String> alreadyApoData(@PathVariable String rentNo){
-		List<ApoDTO> apoList = apoSvc.getListWithBookingByRentNo(Integer.valueOf(rentNo));
-		Gson gson = new Gson();
-	    String response = gson.toJson(apoList);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+	public @ResponseBody List<ApoDTO> alreadyApoData(@PathVariable String rentNo){
+//		List<ApoDTO> apoList = apoSvc.getListWithBookingByRentNo(Integer.valueOf(rentNo));
+//		Gson gson = new Gson();
+//		String response = gson.toJson(apoList);
+		System.out.println(apoSvc.getListWithBookingByRentNo(Integer.valueOf(rentNo)));
+		return apoSvc.getListWithBookingByRentNo(Integer.valueOf(rentNo));
 	}
 
 	//接收ajax 以JSON回傳物件已booking的時段 查出房東已被booking的時段

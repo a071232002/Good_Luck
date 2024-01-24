@@ -30,6 +30,7 @@ public class Rent {
 	@JoinColumn(name = "lddNo", referencedColumnName = "lddNo", updatable = false)
 	private Ldd ldd;
 	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lseNo", referencedColumnName = "lseNo")
 	private Lse lse;
