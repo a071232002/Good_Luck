@@ -33,7 +33,7 @@ import com.rtn.service.RtnService;
 
 @Validated
 @Controller
-@RequestMapping("/BackStage")
+//@RequestMapping("/BackStage")
 //@ComponentScan(basePackages = "com")
 public class IndexController {
 	@Autowired
