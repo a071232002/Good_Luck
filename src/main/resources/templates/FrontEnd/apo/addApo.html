@@ -123,10 +123,7 @@
     <div class="formArea">
         <form class="formData" method="post" th:action="@{insert}" th:object="${apo}"
             onsubmit="return checkDateSelected()">
-
-            <label class="formEl" for="memNo">會員編號<b>*</b>：</label>
-            <input class="formEl" type="text" th:field="*{mem.memNo}"><br>
-
+		
             <label class="formEl" for="rentNo">物件編號<b>*</b>：</label>
             <input type="text" th:field="*{rent.rentNo}"><br> 
 
@@ -134,7 +131,9 @@
             <input type="text" id="apoDate" th:field="*{apoDate}" readonly>
             <input type="hidden" id="apoTime" th:field="*{apoTime}"> 
             <span class="formEl" id="apoTimeText"></span><br><br>
-
+            
+			<input type="hidden" name="mem.memNo" th:value="${session.logsuccess.memNo}">
+			
             <input type="submit" value="預約看房" class="approve_button">
             <a th:href="@{/}"><button type="button" class="reject_button">取消</button></a>
         </form>
