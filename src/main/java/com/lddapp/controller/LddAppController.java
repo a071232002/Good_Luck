@@ -34,18 +34,12 @@ public class LddAppController {
 	@Autowired
 	LddService lddSvc;
 
-	// 測試索引頁
-	@GetMapping("")
-	public String indexOfLddApp(ModelMap model) {
-		return "BackStage/lddApp/select";
-	}
-
 	// 測試前台新增
 	@GetMapping("/addLddApp")
 	public String addLddApp(ModelMap model) {
 		LddApp lddApp = new LddApp();
 		model.addAttribute("lddApp", lddApp);
-		return "BackStage/lddApp/addLddApp";
+		return "FrontEnd/lddApp/addLddApp";
 	}
 
 	@GetMapping("/listAllLddApp")

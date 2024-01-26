@@ -1,5 +1,8 @@
 package com.lse.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.apo.model.Apo;
 import com.apo.model.ApoService;
+import com.ldd.model.Ldd;
 import com.lse.model.Lse;
 import com.lse.model.LseService;
-
-import oracle.jdbc.proxy.annotation.Post;
+import com.mem.model.Mem;
 
 @Controller
 @RequestMapping("/lse")
@@ -29,11 +32,6 @@ public class LseController {
 	
 	@Autowired
 	LseService lseSvc;
-	
-	//TODO for test
-	public String indexOfLse(ModelMap model) {
-		return"";
-	}
 	
 	@GetMapping("/addLse")
 	public String addLse(ModelMap model, @ModelAttribute("apoNo")String apoNo) {
@@ -54,18 +52,38 @@ public class LseController {
 	}
 	
 	@GetMapping("/listAllLse")
-	public String getAll(ModelMap model) {
-		return "FrontEnd/apo/listAllLse";
+	public String queryLseByMember(ModelMap model) {
+		return "FrontEnd/lse/listAllLse";
 	}
 	
+	@GetMapping("/reviewLse")
+	public String reviewLseByLdd(ModelMap model) {
+		return "FrontEnd/lse/reviewLse";
+	}
+	
+	//TODO 新增尚未完工
 	@PostMapping("insert")
 	public String insert(@RequestParam("lseSend") MultipartFile part,@Valid Lse lse,
 			BindingResult result, ModelMap model, @ModelAttribute("apoNo") String apoNo) {
 		
 		System.out.println(lse);
 		System.out.println(apoNo);
+		// 產生合約後才變更租屋單狀態
 //		apoSvc.approveWant(Integer.valueOf(apoNo));
 		return "redirect:/apo/reviewApo";
 	}
+	
+	@ModelAttribute("lseListData")
+	public List<Lse> referenceListDataByMem(HttpSession session) {
+		Mem mem = (Mem)session.getAttribute("logsuccess");
+		return lseSvc.getListByMem(mem);
+	}
+	
+	@ModelAttribute("lseListDataByLdd")
+	public List<Lse> referenceListDataByLdd(HttpSession session) {
+		Ldd ldd = (Ldd)session.getAttribute("Ldd");
+		return lseSvc.getListByLdd(ldd);
+	}
+	
 	
 }

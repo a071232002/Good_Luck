@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/public/tableModel/try.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/tableModel/try2.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+    <title>合約一覽</title>
+</head>
+
+<body>
+    <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+    <main>
+    <h1>這是會員合約一覽</h1>
+
+    <table id="example" class="display" style="width: 100%">
+        <thead>
+            <tr>
+                <th>合約編號</th>
+                <th>會員編號</th>
+                <th>物件編號</th>
+                <th>建立日期</th>
+                <th>起始日期</th>
+                <th>終止日期</th>
+                <th>合約書</th>
+                <th>合約書回傳</th>
+                <th>押金金額</th>
+                <th>匯款帳號</th>
+                <th>付款狀態</th>
+                <th>合約狀態</th>
+                <th>續約狀態</th>
+                <th>管理選項</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="lse : ${lseListData}">
+                <tr>
+                    <td th:text="${lse.lseNo}"></td>
+                    <td th:text="${lse.mem.memNo}"></td>
+                    <td th:text="${lse.rent.rentNo}"></td>
+                    <td th:text="${lse.lseCreate}"></td>
+                    <td th:text="${lse.lseStart}"></td>
+                    <td th:text="${lse.lseEnd}"></td>
+                    <td th:text="${lse.lseSend}"></td>
+                    <td th:text="${lse.lseSign}"></td>
+                    <td th:text="${lse.lsePay}"></td>
+                    <th:block
+                        th:if="${lse.lseStatus == 3 || lse.lseStatus == 4 || lse.lseStatus == 5 || lse.lseStatus == 6}">
+                        <td th:text="${lse.lsePayAccount}"></td>
+                        <td th:switch="${lse.lsePayStatus}">
+                            <span th:case="0" class="cancel" th:text="尚未付款"></span>
+                            <span th:case="1" class="success" th:text="已付款"></span>
+                        </td>
+                    </th:block>
+                    <th:block
+                        th:unless="${lse.lseStatus == 3 || lse.lseStatus == 4 || lse.lseStatus == 5 || lse.lseStatus == 6}">
+                        <td>-</td>
+                        <td>-</td>
+                    </th:block>
+                    <td th:switch="${lse.lseStatus}">
+                        <span th:case="0" class="warning" th:text="請回傳合約"></span>
+                        <span th:case="1" class="cancel" th:text="待房東修改內容"></span>
+                        <span th:case="2" class="warning" th:text="已回傳待房東確認"></span>
+                        <span th:case="3" class="warning">房東同意, 請繳押金</span>
+                        <span th:case="4" class="warning" th:text="待房東確認金額"></span>
+                        <span th:case="5" class="success" th:text="合約中"></span>
+                        <span th:case="6" class="cancel" th:text="合約期滿"></span>
+                        <span th:case="7" class="cancel" th:text="終止簽立"></span>
+                    </td>
+                    <th:block
+                        th:with="today=${#dates.createNow()}, oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
+                        <th:block th:if="${oneMonthLater >= lse.lseEnd.toLocalDate()}">
+                            <td>
+                                <span th:switch="${lse.lseRenew}">
+                                    <span th:case="0" class="warning" th:text="請確認是否續約"></span>
+                                    <span th:case="1" class="cancel" th:text="不續約"></span>
+                                    <span th:case="2" class="warning" th:text="待房東確認"></span>
+                                    <span th:case="3" class="success" th:text="續約"></span>
+                                </span>
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${oneMonthLater >= lse.lseEnd.toLocalDate()}">
+                            <td>-</td>
+                        </th:block>
+                    </th:block>
+
+                    <!-- 操作part -->
+                    <td>-</td>
+
+                </tr>
+
+            </th:block>
+
+        </tbody>
+
+    </table>
+</main>
+
+
+
+
+
+
+
+    <script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+    <script th:src="@{/js/public/tableModel/the.js}"></script>
+    <script th:src="@{/js/public/tableModel/the2.js}"></script>
+    <script>
+        let table = new DataTable("#example");
+    </script>
+
+</body>
+
+</html>
