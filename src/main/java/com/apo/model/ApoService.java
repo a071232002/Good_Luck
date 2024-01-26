@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.ldd.model.Ldd;
 import com.mem.model.Mem;
 
 public interface ApoService {
@@ -32,7 +33,10 @@ public interface ApoService {
 
 	public List<Apo> getApoListByLdd(Integer lddNo);
 	
+//	TODO 改用房東查詢已booking時段
 	public List<ApoDTO> getListWithBookingByRentNo(Integer rentNo);
+	
+	public List<ApoDTO> getListWithBookingByLdd(Ldd ldd);
 
 	public Apo getOneApo(Integer apoNo);
 

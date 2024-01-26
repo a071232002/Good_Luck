@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ldd.model.Ldd;
 import com.mem.model.Mem;
 import com.rent.model.Rent;
 
@@ -24,6 +25,6 @@ public interface LseRepository extends JpaRepository<Lse, Integer>{
 	public Lse findFirstByRentOrderByLseCreateDesc(Rent rent);
 	
 	@Transactional
-	@Query("FROM Lse lse WHERE lse.rent.ldd.lddNo = :lddNo")
-	public List<Lse> findByLddNo(Integer lddNo);
+	@Query("FROM Lse lse WHERE lse.rent.ldd = :ldd")
+	public List<Lse> findByLdd(Ldd ldd);
 }
