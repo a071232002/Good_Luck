@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+</head>
+
+<body>
+    <div class="div_header" th:fragment="nav">
+        <header class="header">
+            <div class="logo-container">
+                <img src="" alt="Your Logo">
+            </div>
+            <nav class="navbar navbar-inverse">
+                <ul class="nav navbar-nav">
+                    <li><a class="hoverable" href="#">最新消息</a></li>
+                    <li><a class="hoverable" href="#">租賃服務</a></li>
+                    <li><a class="hoverable" href="#">購物商城</a></li>
+                    <li><a class="hoverable" href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <!-- Your login information and logout option go here -->
+                <span th:text="${session.logsuccess.memName}">XXX</span>
+                <img th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}" width="30px" height="30px">
+                <a th:href="@{/mem/logOut}">登出</a>
+            </div>
+        </header>
+
+        <aside class="aside">
+            <nav class="nav">
+                <ul class="nav_list">
+                    <!-- 一般會員 -->
+                    <li><a th:href="@{/mem/memData}"><button type="button">會員詳細資料</button></a></li>
+                    <li><a th:href="@{/apo/listAllApo}"><button type="button">查看預約</button></a></li>
+                    <li><a th:href="@{/lse/listAllLse}"><button type="button">查看合約</button></a></li>
+                    <li><a th:href="@{/lddApp/addLddApp}"><button type="button">成為房東</button></a></li>
+
+                    <!-- 房東功能 -->
+                    <th:block th:if="${session.ldd}">
+                        <li><a th:href="@{/BackStage/rentApp/addRentApp}"><button type="button"
+                                    value="">申請物件</button></a></li>
+                        <li><a th:href="@{/BackStage/rentApp/listAllRentApp}"><button type="button"
+                                    value="">物件申請單管理</button></a></li>
+                        <li><a th:href="@{/ldd/reviewLdd}"><button type="button" value="">物件管理</button></a></li>
+                        <li><a th:href="@{/apo/reviewApo}"><button type="button" value="">預約管理</button></a></li>
+                        <li><a th:href="@{/apo/reviewLse}"><button type="button" value="">合約管理</button></a></li>
+                    </th:block>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">檢舉投訴</button></a>
+                    </li>
+
+
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
+                    </li>
+
+
+                </ul>
+            </nav>
+        </aside>
+    </div>
+
+    <!--     測試用不會引入 -->
+    <main>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+    </main>
+</body>
+
+</html>

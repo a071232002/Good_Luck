@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}"/>
+    <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
     <title>申請預約看房</title>
     <style>
-    
         h1 {
-           text-align: center;
-           color: red;
+            text-align: center;
+            color: red;
         }
 
         .container {
@@ -114,7 +113,6 @@
             background-color: #005680;
             color: white;
         }
-        
     </style>
 </head>
 
@@ -123,17 +121,17 @@
     <div class="formArea">
         <form class="formData" method="post" th:action="@{insert}" th:object="${apo}"
             onsubmit="return checkDateSelected()">
-		
+
             <label class="formEl" for="rentNo">物件編號<b>*</b>：</label>
-            <input type="text" th:field="*{rent.rentNo}"><br> 
+            <input type="text" th:field="*{rent.rentNo}"><br>
 
             <label class="formEl" for="apoDate">請選擇預約日期及時段<b>*</b>：</label><br>
             <input type="text" id="apoDate" th:field="*{apoDate}" readonly>
-            <input type="hidden" id="apoTime" th:field="*{apoTime}"> 
+            <input type="hidden" id="apoTime" th:field="*{apoTime}">
             <span class="formEl" id="apoTimeText"></span><br><br>
-            
-			<input type="hidden" name="mem.memNo" th:value="${session.logsuccess.memNo}">
-			
+
+            <input type="hidden" name="mem.memNo" th:value="${session.logsuccess.memNo}">
+
             <input type="submit" value="預約看房" class="approve_button">
             <a th:href="@{/}"><button type="button" class="reject_button">取消</button></a>
         </form>
@@ -232,7 +230,7 @@
                                 divElement.style.display = "block";
                                 divElement.style.margin = "3px";
 
-                                var buttonId = year + "-" + (month + 1) + "-"+ dday + "-" + apoTime;
+                                var buttonId = year + "-" + (month + 1) + "-" + dday + "-" + apoTime;
 
                                 var buttonElement = document.createElement("button");
                                 buttonElement.setAttribute("type", "button");
@@ -257,35 +255,35 @@
                                 }
 
                                 // 綁定點擊事件
-                                buttonElement.addEventListener("click",function (e) {
-                                            // 內容
-                                            let btn_el = document.querySelectorAll(".clicked");
-                                                btn_el.forEach(function (btn) {
-                                                    btn.classList.remove("clicked");
-                                                });
+                                buttonElement.addEventListener("click", function (e) {
+                                    // 內容
+                                    let btn_el = document.querySelectorAll(".clicked");
+                                    btn_el.forEach(function (btn) {
+                                        btn.classList.remove("clicked");
+                                    });
 
-                                            let apoDate_el = document.getElementById("apoDate");
-                                            let apoTime_el = document.getElementById("apoTime");
-                                            let apoTimeText_el = document.getElementById("apoTimeText");
+                                    let apoDate_el = document.getElementById("apoDate");
+                                    let apoTime_el = document.getElementById("apoTime");
+                                    let apoTimeText_el = document.getElementById("apoTimeText");
 
-                                            apoDate_el.value = e.target.name;
-                                            apoTime_el.value = e.target.value;
+                                    apoDate_el.value = e.target.name;
+                                    apoTime_el.value = e.target.value;
 
-                                            switch (e.target.value) {
-                                                case '1':
-                                                    apoTimeText_el.innerHTML = "上午";
-                                                    break;
-                                                case '2':
-                                                    apoTimeText_el.innerHTML = "下午";
-                                                    break;
-                                                case '3':
-                                                    apoTimeText_el.innerHTML = "晚上";
-                                                    break;
-                                                default:
-                                                    break;
-                                            }
-                                            e.target.classList.add("clicked");
-                                        });
+                                    switch (e.target.value) {
+                                        case '1':
+                                            apoTimeText_el.innerHTML = "上午";
+                                            break;
+                                        case '2':
+                                            apoTimeText_el.innerHTML = "下午";
+                                            break;
+                                        case '3':
+                                            apoTimeText_el.innerHTML = "晚上";
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    e.target.classList.add("clicked");
+                                });
 
                                 divElement.appendChild(buttonElement);
                                 cell.appendChild(divElement);
@@ -336,8 +334,8 @@
         renderCalendar(currentMonth, currentYear);
 
         //月曆產生後, 將已預約的時段變更成不可選
-        $(document).ready(function() {
-          updateCalendarDate();
+        $(document).ready(function () {
+            updateCalendarDate();
         });
 
         //TODO 改成動態get 物件元素value
@@ -346,28 +344,28 @@
         //  ajax 將核准的預約單帶回
         function updateCalendarDate() {
             $.ajax({
-                url: "apoStatus/" + rentNo ,
+                url: "apoStatus/" + rentNo,
                 type: "POST",
                 dataType: "json",
 
                 //取得伺服器回傳的資料轉成json
                 success: function (response) {
-				    var jsonData = response;  // 不再需要 JSON.parse
-				    jsonData.forEach(function (item) {
-				        let bookingDate = item.apoDate;
-				        let bookingTime = item.apoTime;
-				        let el_ID = bookingDate + "-" + bookingTime;
-				        let target = document.getElementById(el_ID);
-				        
-				        if (target) {
-				        	
-				        	//不顯示仍占空間
-				        	target.style.visibility = "hidden";
-// 				        	不顯示不占空間
-// 				        	target.style.display = "none";
-// 				        	不能點擊
-// 				        	target.disabled = true;	        	
-				        }
+                    var jsonData = response;  // 不再需要 JSON.parse
+                    jsonData.forEach(function (item) {
+                        let bookingDate = item.apoDate;
+                        let bookingTime = item.apoTime;
+                        let el_ID = bookingDate + "-" + bookingTime;
+                        let target = document.getElementById(el_ID);
+
+                        if (target) {
+
+                            //不顯示仍占空間
+                            target.style.visibility = "hidden";
+                            // 				        	不顯示不占空間
+                            // 				        	target.style.display = "none";
+                            // 				        	不能點擊
+                            // 				        	target.disabled = true;	        	
+                        }
                     });
                 },
                 error: function (error) {
