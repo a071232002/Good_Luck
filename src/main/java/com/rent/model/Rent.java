@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ldd.model.Ldd;
 import com.lse.model.Lse;
 
@@ -26,12 +27,13 @@ public class Rent {
 	@Column(name = "rentNo", updatable = false)
 	private Integer rentNo;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+
+	@ManyToOne
 	@JoinColumn(name = "lddNo", referencedColumnName = "lddNo", updatable = false)
 	private Ldd ldd;
 	
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToOne
 	@JoinColumn(name = "lseNo", referencedColumnName = "lseNo")
 	private Lse lse;
 	

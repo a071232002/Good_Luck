@@ -1,9 +1,9 @@
 package com.rent.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletOutputStream;
@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -21,12 +22,15 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.rent.model.*;
-import com.rent.model.*;
+import com.google.gson.Gson;
+import com.rent.model.Rent;
+import com.rent.model.RentServiceImpl;
 
 
 @Controller
@@ -47,11 +51,23 @@ public class RentController {
 	//前往listall
     @GetMapping("/listAllRent")
 	public String listAllRent(ModelMap model) {
-    	List<Rent> rentList =(List<Rent>) model.getAttribute("rentListData");
-    	for (Rent rent : rentList) {
-    	    System.out.println(rent);
-    	}
 		return "BackStage/rent/listAllRent";
+	}
+    
+	//前往listall
+    @ResponseBody
+    @PostMapping("/QueryRentList")
+	public List<Rent>QueryRentList(@RequestBody Map<String, Object> data) {
+
+    	List<Rent> rentList = rentSvc.getAll();
+//    	System.out.println(data.get("all"));
+//    	System.out.println("SSSSS");
+    	for (Rent rent : rentList) {
+    		System.out.println(rent);
+    	}
+
+    	
+		return rentList;
 	}
 	
 //    @PostMapping("insert")
