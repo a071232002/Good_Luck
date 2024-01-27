@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ldd.model.Ldd;
 import com.ldd.model.LddService;
 import com.lddapp.model.LddApp;
 import com.lddapp.model.LddAppService;
