@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ldd.model.Ldd;
 import com.mem.model.Mem;
 
 @Service
@@ -137,6 +138,18 @@ public class ApoServiceImpl implements ApoService {
 						aApo.getApoDate(),
 						aApo.getApoTime()))
 						.collect(Collectors.toList());
+		return list;
+	}
+	
+	@Override
+	public List<ApoDTO> getListWithBookingByLdd(Ldd ldd) {
+		List<Byte> apoStatusList = Arrays.asList(WAIT_LDD_CONFIRM, APPROVE_AND_WAIT_COMPLETE);
+		List<Apo> apoList = repository.findByLddAndApoStatusIn(ldd, apoStatusList);
+		List<ApoDTO> list = apoList.stream().map(aApo -> new ApoDTO(
+				aApo.getApoNo(),
+				aApo.getApoDate(),
+				aApo.getApoTime()))
+				.collect(Collectors.toList());
 		return list;
 	}
 

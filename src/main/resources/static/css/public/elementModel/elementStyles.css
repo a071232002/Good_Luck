@@ -26,8 +26,8 @@ form {
 
 /* for 功能按鈕顏色分級 */
 .reject_button {
-	padding: 10px 15px;
-	margin: 5px 5px;
+	padding: 5px 5px;
+	margin: 3px 3px;
 	font-size: 16px;
 	font-weight: bold;
 	background-color: rgb(158, 20, 20);
@@ -38,8 +38,8 @@ form {
 }
 
 .approve_button {
-	padding: 10px 15px;
-	margin: 5px 5px;
+	padding: 5px 5px;
+	margin: 3px 3px;
 	font-size: 16px;
 	font-weight: bold;
 	background-color: rgb(24, 36, 117);
@@ -56,7 +56,7 @@ form {
 
 /* for input元素 */
 input[type="date"] {
-	padding: 10px;
+	padding: 5px;
 	font-size: 1rem;
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -93,7 +93,7 @@ input[type="text"]:focus {
 }
 
 /* for select元素 */
-select {
+.customA {
 	width: 80%;
 	padding: 10px;
 	box-sizing: border-box;
