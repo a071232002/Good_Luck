@@ -12,4 +12,5 @@ public interface EmpFunRepository extends JpaRepository<EmpFun, Integer>{
 	
 	@Transactional
 	public List<EmpFun> findByEmpEmpNoIn(List<Integer> empNoList);
+	
 }

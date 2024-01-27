@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>員工/權限管理</h1>
+	<h1>員工查詢</h1>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
@@ -22,34 +22,42 @@
 				<th>員工姓名</th>
 				<th>員工狀態</th>
 				<th>雇用日期</th>
-				<th>員工權限</th>
-				<th>修改權限</th>
+				<th>員工性別</th>
+				<th>修改員工基本資料</th>
+				<th>員工離職</th>
+				<th>重置員工密碼</th>
 			</tr>
 		</thead>
 		<tbody>
-		<th:block th:each="empfun : ${allfunList}">
+		<th:block th:each="emp : ${allEmpList}">
 			<tr>
-				<td th:text="${empfun.empNo}"></td>
-				<td th:text="${empfun.empName}"></td>
+				<td th:text="${emp.empNo}"></td>
+				<td th:text="${emp.empName}"></td>
 				<td>
-					<span th:if="${empfun.empStatus == 0}" th:text="離職"></span>
-					<span th:if="${empfun.empStatus == 1}" th:text="在職"></span>
+					<span th:if="${emp.empStatus == 0}" th:text="離職"></span>
+					<span th:if="${emp.empStatus == 1}" th:text="在職"></span>
 				</td>
-				<td th:text="${empfun.empHireDate}"></td>
+				<td th:text="${emp.empHireDate}"></td>
 				<td>
-				<th:block th:each="fun : ${empfun.empFun}">
-					<span  th:if="${fun == 1}" th:text="會員管理"></span>
-					<span  th:if="${fun == 2}" th:text="物件管理"></span>
-					<span  th:if="${fun == 3}" th:text="購物管理"></span>
-					<span  th:if="${fun == 4}" th:text="公告管理"></span>
-					<span  th:if="${fun == 5}" th:text="投訴管理"></span>
-					<span  th:if="${fun == 6}" th:text="後台管理"></span>
-				</th:block>
+					<span th:if="${emp.empSex == 0}" th:text="男性"></span>
+					<span th:if="${emp.empSex == 1}" th:text="女性"></span>
+				</td>
+				<td>
+					<form method="get" th:action="@{/BackStage/emp/updateEmp}">
+						<input type="hidden" name= "updateNo" th:value="${emp.empNo}">
+						<input type="submit" value="修改">
+					</form>
+				</td>
+				<td>
+					<form method="post" th:action="@{/BackStage/emp/resign}">
+						<input type="hidden" name= "resignEmp" th:value="${emp.empNo}">
+						<input type="submit" value="離職" th:disabled="${emp.empStatus == 0}">
+					</form>
 				</td>
 				<td>
 					<form method="post" th:action="@{goEditFun}">
-						<input type="hidden" name= "oneEmpNo" th:value="${empfun.empNo}">
-						<input type="submit" value="修改" th:disabled="${empfun.empNo == 1 || empfun.empStatus == 0}">
+						<input type="hidden" name= "oneEmpNo" th:value="${emp.empNo}">
+						<input type="submit" value="重置密碼">
 					</form>
 				</td>
 			</tr>
@@ -59,7 +67,7 @@
 		</tbody>
 	</table>
 	<br>
-	
+	<a th:href="@{/BackStage/emp/addEmp}"><button>前往新增員工</button></a>
 	<a th:href="@{/BackStage/tempCenter}"><button>返回索引</button></a>
 	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>

@@ -16,16 +16,25 @@
 <body>
 	<h1>員工索引</h1>
 
-	<a th:href="@{addMem}"><button>修改密碼</button></a>
+	<a th:href="@{/BackStage/myData}"><button>員工個人資料</button></a>
 	<br>
 	<br>
-	<a th:href="@{EmpSelect}"><button>員工個人資料</button></a>
+
+	<a th:href="@{/BackStage/changePsw}"><button>更改個人密碼</button></a>
 	<br>
 	<br>
-	<a th:href="@{/BackStage/funManager/funlist}"><button>員工資料管理</button></a>
+	<a th:href="@{/BackStage/logout}"><button>登出</button></a>
+	
 	<br>
 	<br>
-	<a th:href="@{logOut}"><button>登出</button></a>
+	<br>
+	<br>
+	<a th:href="@{/BackStage/emp/listAllEmp}"><button>員工資料管理</button></a>
+	<br>
+	<br>
+	<a th:href="@{/BackStage/funManager/funlist}"><button>員工權限管理</button></a>
+	<br>
+	<br>
 	
 	
 </body>
