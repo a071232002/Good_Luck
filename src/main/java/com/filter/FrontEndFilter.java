@@ -3,6 +3,7 @@ package com.filter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -42,6 +43,7 @@ public class FrontEndFilter implements Filter{
 		path.add("/icon/");
 		path.add("/images/");
 		path.add("/jquery/");
+		path.add(".ico");
 		
 		path.add("/login");
 		path.add("/forgetPsw");
@@ -63,27 +65,25 @@ public class FrontEndFilter implements Filter{
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 	
-		final String uri = httpRequest.getRequestURI();
+		String uri = httpRequest.getRequestURI();
 		String contextPath = httpRequest.getServletContext().getContextPath();
-		System.out.println("uri:" + uri);
-		System.out.println();
-		
-//		path.stream().filter(s -> !uri.contains(s) && !uri.contains("/BackStage") && !"/".equals(uri))
-//					   .findFirst();
-		
-		if(!urlValidator(uri, path) && !uri.contains("/BackStage") && !"/".equals(uri)) {
-			final Mem member = getClassFromSession(httpRequest, "logsuccess", Mem.class);
+//		System.out.println("uri:" + uri);
+//		System.out.println();
+		String newUri = uri.replace("/Good_Luck/", "/");
+		boolean validator =path.stream()
+					  		.allMatch(s -> !uri.contains(s) && !uri.contains("/BackStage") && !"/".equals(uri));
+
+		if(validator && !"/Good_Luck/".equals(uri)) {
+			final Mem member = getClassFromSession(httpRequest, "logsuccess", Mem.class); //取得Session資料
 			System.out.println("Member為：" + member);
 			
 			if(member == null) {
-				System.out.println("儲存uri：" + uri);
-				httpRequest.getSession().setAttribute("goURI", uri);
+//				System.out.println("儲存uri到Session：" + newUri);
+				httpRequest.getSession().setAttribute("goURI", newUri);
 				httpResponse.sendRedirect( contextPath + "/mem/login");
 				return;
 			}
-			Ldd ldd = lddservice.getOneByMem(member);
-			System.out.println(ldd + "<-- ldd");
-			httpRequest.getSession().setAttribute("ldd", ldd);
+
 			//未指定過濾房東權限網頁
 //			if(ldd == null || ldd.getLddStatus() == 1) {
 //				httpResponse.sendRedirect(contextPath + "/mem/memCenter");
@@ -107,14 +107,5 @@ public class FrontEndFilter implements Filter{
 			return clazz.cast(obj);
 		}
 		return null;
-	}
-	
-	//是否包含需過慮的路徑
-	public boolean urlValidator(String uri, HashSet<String> path) {
-		Iterator<String> it = path.iterator();
-		while(it.hasNext()) {
-			if(uri.contains(it.next())) return true;
-		}
-		return false;
 	}
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link th:href="@{/css/BackStage/rentapp/addRentApp.css}"
+	rel="stylesheet" />
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        label {
+            /* display: inline-block; */
+            width: 5em;
+        }
+
+        b {
+            color: red;
+        }
+
+        td {
+            text-align: right;
+            padding: 5px;
+        }
+
+        .toggler {
+            display: inline-block;
+            width: 500px;
+            height: 200px;
+        }
+
+        #button {
+            padding: .5em 1em;
+            text-decoration: none;
+        }
+
+        #effect {
+            width: 240px;
+            height: 100px;
+            padding: 0.4em;
+            position: relative;
+        }
+
+        #effect h3 {
+            margin: 0;
+            padding: 0.4em;
+            text-align: center;
+            background-color: red;
+        }
+    </style>
+<title>Insert title here</title>
+</head>
+<body>
+	<form method="post" th:action="@{/BackStage/emp/changeEmp}" th:object="${empData}" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><label for="name">編號：</label></td>
+				<td><span th:text="*{empNo}"></span></td>
+			</tr>
+			<tr>
+				<td><label for="name">姓名<b>*</b>：</label></td>
+				<td><input id="name" title="請輸入姓名" th:field="*{empName}"></td>
+				<td><span th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></span></td>
+			</tr>
+			<tr>
+                <td><label for="memsex">性別<b>*</b>：</label></td>
+                <td>
+                    <input type="radio" th:field="*{empSex}" id="man" th:value="0"><label for="man">男性</label>
+                    <input type="radio" th:field="*{empSex}" id="femal" th:value="1"><label for="femal">女性</label>
+                </td>
+                <td><span th:if="${#fields.hasErrors('empSex')}" th:errors="*{empSex}"></span></td>
+            </tr>
+			<tr>
+				<td><label for="date">員工到職日：</label></td>
+				<td><input type="date" th:field="*{empHireDate}" title="請輸入員工到職日" name="date" readonly></td>
+			</tr>
+			<tr>
+				<td><label for="status">員工狀態：</label></td>
+				<td>
+					<span th:if="*{empStatus} == 0" th:text="離職"></span>
+					<span th:if="*{empStatus} == 1" th:text="在職"></span>
+                </td>	
+			</tr>
+		</table>
+		<input type="hidden" th:field="*{empNo}">
+		<input type="hidden" th:field="*{empPsw}">
+		<input type="hidden" th:field="*{empStatus}">
+<!-- 		<input type="hidden" th:field="*{lastLoginTime}"> -->
+		<input type="submit" class="submit" value="修改資料">
+	</form>
+
+	<button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
+	<script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script>
+</body>
+</html>

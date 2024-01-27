@@ -42,7 +42,7 @@
 		</tbody>
 	</table>
 	<br>
-	<form method="post" th:action="@{updateEmpPsw}">
+	<form method="get" th:action="@{/BackStage/changePsw}">
 		<input type="hidden" name= "empNo" th:value="${empData.empNo}">
 		<input type="submit" value="密碼修改" >
 	</form>

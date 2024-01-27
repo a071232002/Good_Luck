@@ -63,5 +63,13 @@ public class EmpFunServiceImpl implements EmpFunService{
 
 		return null;
 	}
+	
+	//刪除員工全部的權限
+	public Boolean removeFun(Emp emp) {
+		
+		List<EmpFun> empfun = empFunRepository.findByEmpEmpNoIn(List.of(emp.getEmpNo()));
+		empFunRepository.deleteAll(empfun);
+		return true;
+	}
 
 }
