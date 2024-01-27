@@ -38,7 +38,7 @@ public class EmpFunController {
 	
 	//處理修改權限
 	@PostMapping("funUpdate")
-	public String fun(@ModelAttribute("empFunData") Emp emp, ModelMap model) {
+	public String fun(@ModelAttribute("empFunData") Emp emp, ModelMap model, HttpSession session) {
 		System.out.println(emp);
 		List<Integer> funList = emp.getEmpFun();
 		emp = empService.getById(emp.getEmpNo());
@@ -54,21 +54,23 @@ public class EmpFunController {
 		Emp oldData = empService.getById(Integer.valueOf(EmpNo));
 		oldData.setEmpFun(empFunService.findByEmpNo(oldData.getEmpNo()));
 		model.addAttribute("empFunData", oldData);
-		session.setAttribute("EmpSuccess", oldData);
+//		session.setAttribute("EmpSuccess", oldData);
 		return "BackStage/empfun/updateEmpFun";
 	}
 	
 	//設置全部員工權限資料
 	@ModelAttribute("allfunList")
 	public List<Emp> empfunList(ModelMap model){
-		List<Emp> emps = empService.findAll();
-//										  .stream()
-//										  .map(null)
-										  
-		
-		for(Emp emp : emps) {
-			emp.setEmpFun(empFunService.findByEmpNo(emp.getEmpNo()));
-		}
+		List<Emp> emps = empService.findAll()
+										  .stream()
+										  .map(emp -> {
+											  emp.setEmpFun(empFunService.findByEmpNo(emp.getEmpNo()));
+											  return emp;
+										  })
+										  .toList();
+//		for(Emp emp : emps) {
+//			emp.setEmpFun(empFunService.findByEmpNo(emp.getEmpNo()));
+//		}
 		model.addAttribute("editFun", new Emp());
 		return emps;
 	}
