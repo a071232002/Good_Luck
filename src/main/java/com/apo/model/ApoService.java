@@ -37,6 +37,8 @@ public interface ApoService {
 	public List<ApoDTO> getListWithBookingByRentNo(Integer rentNo);
 	
 	public List<ApoDTO> getListWithBookingByLdd(Ldd ldd);
+	
+	public List<ApoDTO> getListWithApproveByLdd(Ldd ldd);
 
 	public Apo getOneApo(Integer apoNo);
 

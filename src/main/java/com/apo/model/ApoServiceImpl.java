@@ -152,7 +152,19 @@ public class ApoServiceImpl implements ApoService {
 				.collect(Collectors.toList());
 		return list;
 	}
-
+	
+	@Override
+	public List<ApoDTO> getListWithApproveByLdd(Ldd ldd) {
+		List<Byte> apoStatusList = Arrays.asList(APPROVE_AND_WAIT_COMPLETE, COMPLETE);
+		List<Apo> apoList = repository.findByLddAndApoStatusIn(ldd, apoStatusList);
+		List<ApoDTO> list = apoList.stream().map(aApo -> new ApoDTO(
+				aApo.getApoNo(),
+				aApo.getApoDate(),
+				aApo.getApoTime()))
+				.collect(Collectors.toList());
+		return list;
+	}
+	
 	@Override
 	public List<Apo> getApoByApoStatus(List<Byte> apoStatusList) {
 		return repository.findByApoStatusIn(apoStatusList);

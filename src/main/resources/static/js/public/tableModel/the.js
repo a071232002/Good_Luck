@@ -4271,7 +4271,7 @@
         aaSorting: [[0, "asc"]],
         aaSortingFixed: [],
         ajax: null,
-        aLengthMenu: [5, 25, 50, 100],
+        aLengthMenu: [3, 5, 10, 25],
         aoColumns: null,
         aoColumnDefs: null,
         aoSearchCols: [],

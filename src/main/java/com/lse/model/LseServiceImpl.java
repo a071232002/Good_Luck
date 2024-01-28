@@ -26,9 +26,9 @@ public class LseServiceImpl implements LseService{
 
 	@Override
 	public void updateLse(Lse lse) {
-		// TODO Auto-generated method stub	
+
 	}
-	
+	//for 物件管理找到最新的合約
 	@Override
 	public Lse getNewOneByRent(Rent rent) {
 		return repository.findFirstByRentOrderByLseCreateDesc(rent);
@@ -46,7 +46,7 @@ public class LseServiceImpl implements LseService{
 
 	@Override
 	public List<Lse> getListByRent(Rent rent) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 	
