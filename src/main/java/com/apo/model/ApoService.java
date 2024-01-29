@@ -31,12 +31,16 @@ public interface ApoService {
 	
 	public void approveWant(Integer apoNo);
 
+	public List<Apo> getApoListByLdd(Ldd ldd);
+	
 	public List<Apo> getApoListByLdd(Integer lddNo);
 	
 //	TODO 改用房東查詢已booking時段
 	public List<ApoDTO> getListWithBookingByRentNo(Integer rentNo);
 	
 	public List<ApoDTO> getListWithBookingByLdd(Ldd ldd);
+	
+	public List<ApoDTO> getListWithApproveByLdd(Ldd ldd);
 
 	public Apo getOneApo(Integer apoNo);
 

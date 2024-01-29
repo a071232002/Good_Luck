@@ -1,5 +1,6 @@
 package com.lse.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -57,16 +58,23 @@ public class LseController {
 	}
 	
 	@GetMapping("/reviewLse")
-	public String reviewLseByLdd(ModelMap model) {
-		return "FrontEnd/lse/reviewLse";
+	public String reviewLseByLdd(ModelMap model, HttpSession session) {
+		Ldd ldd = (Ldd)session.getAttribute("ldd");
+		if (ldd != null) {
+			return "FrontEnd/lse/reviewLse";
+		} else {
+			return "redirect:/lddApp/listAllLddApp";
+		}
 	}
 	
 	//TODO 新增尚未完工
 	@PostMapping("insert")
 	public String insert(@RequestParam("lseSend") MultipartFile part,@Valid Lse lse,
-			BindingResult result, ModelMap model, @ModelAttribute("apoNo") String apoNo) {
+			BindingResult result, ModelMap model, @ModelAttribute("apoNo") String apoNo) throws IOException {
 		
+		lse.setLseSend(part.isEmpty() ? null : part.getBytes());
 		System.out.println(lse);
+		lseSvc.addLse(lse);
 		System.out.println(apoNo);
 		// 產生合約後才變更租屋單狀態
 //		apoSvc.approveWant(Integer.valueOf(apoNo));

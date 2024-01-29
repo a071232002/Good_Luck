@@ -9,13 +9,20 @@
     <!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
     <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
-    <title>預約單修改</title>
+    <title>修改預約時間</title>
     <style>
         h1 {
             text-align: center;
             color: red;
         }
-
+        
+		b {
+			color: red;
+			font-size: 24px;
+            font-weight: bold;
+            vertical-align: middle
+		}
+		
         .container {
             text-align: center;
         }
@@ -43,6 +50,7 @@
             margin: 10px;
             font-size: 20px;
             font-weight: bold;
+            vertical-align: middle
         }
 
         span.formEl {
@@ -121,7 +129,12 @@
             margin-top: 20px;
             text-align: center;
         }
-
+		
+		.monthDisplay{
+			font-size: 20px;
+            font-weight: bold;
+            
+		}
 
         .table {
             width: 100%;
@@ -159,17 +172,17 @@
 <body>
     <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
     <main>
-        <h1>修改預約修時間</h1>
+        <h1>修改預約時間</h1>
         <div class="formArea">
             <form class="formData" method="post" th:action="@{update}" th:object="${apo}">
 
                 <label class="formEl" for="apoNo">預約單編號:</label>
-                <span class="formEl" th:text="*{apoNo}"></span><br />
+                <span class="formEl" th:text="*{apoNo}"></span><br>
 
                 <label class="formEl" for="empNo">物件編號:</label>
-                <span class="formEl" th:text="*{rent.rentNo}"></span><br />
+                <span class="formEl" th:text="*{rent.rentNo}"></span><br>
 
-                <label class="formEl" for="apoDate">請選擇預約日期及時段<b>*</b>：</label><br>
+                <label class="formEl" for="apoDate">請選擇預約日期及時段<b> *</b>：</label><br><br>
                 <input type="text" id="apoDate" th:field="*{apoDate}" />
                 <input type="hidden" id="apoTime" th:field="*{apoTime}">
                 <span th:switch="*{apoTime}">
@@ -177,7 +190,7 @@
                     <span th:case="2" class="formEl" id="apoTimeText">下午</span>
                     <span th:case="3" class="formEl" id="apoTimeText">晚上</span>
                 </span><br><br>
-
+				
                 <input type="hidden" th:field="*{apoNo}">
                 <input type="hidden" th:field="*{mem.memNo}">
                 <input type="hidden" th:field="*{apoStatus}">
@@ -189,7 +202,7 @@
         </div>
         <div class="container text-center my-4">
             <button id="prevMonth" class="approve_button">上個月</button>
-            <span id="currentMonthYear" class="h4 mx-4"></span>
+            <span id="currentMonthYear" class="monthDisplay"></span>
             <button id="nextMonth" class="approve_button">下個月</button>
         </div>
         <div class="container">
