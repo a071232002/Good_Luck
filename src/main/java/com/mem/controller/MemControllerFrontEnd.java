@@ -132,6 +132,10 @@ public class MemControllerFrontEnd {
 		}
 		Mem loginData = memservice.login(memMail, memPsw);
 		if (loginData != null) {
+			if(loginData.getMemStatus() == 2) {
+				model.addAttribute("noFun", "此帳號已無權限，請洽詢相關工作人員！");
+				return "FrontEnd/mem/loginMem";
+			}
 			Ldd ldd = lddservice.getOneByMem(loginData);
 			System.out.println("登入成功");
 			session.setAttribute("logsuccess", loginData);

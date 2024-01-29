@@ -3,79 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
- <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
- <style>
- 	h1 {
-		text-align: center;
-      	color: red;
-		}
- </style>
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!--  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" /> -->
+<!--  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" /> -->
+ <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+ <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
 <title>會員基本資料</title>
+    <style>
+        body {
+/*             font-family: Arial, sans-serif; */
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0px;
+            display: flex;
+            flex-direction: row;
+/*             text-align: center; */
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 0px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50vw;
+            text-align: right;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #333;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ddd;
+        }
+        
+        .fly {
+        	display: flex;
+
+        }
+        
+        .imgflex {
+        	max-width: 70%;
+            max-height: 70%;
+            border-radius: 50%;
+        }
+        
+        div.memPicture {
+        	width: 30%;
+        	height: 30%;
+        	text-align: center;
+        }
+
+    </style>
 </head>
 <body>
+	<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+	<main>
 	<h1>會員基本資料</h1>
-	<table id="example" class="display" style="width: 100%">
+	<div class="fly">
+	<div class="memPicture">
+		<img th:src="@{/mem/picture} + '?memno=' + ${myData.memNo}" width="100%" height="100%" class="imgflex">
+		<br>
+		<input type="file" id="the_file" multiple accept="image/*" />
+	  	<br>
+	  	<button type="button" id="choose_file">選圖</button>
+	  	<br>
+	  	<ul class="picture_list"></ul>	
+	</div>
+	
+	<table id="example" class="display">
 		<thead>
 			<tr>
-				<th>會員編號</th>
-				<th>信箱帳號</th>
-				<th>姓名</th>
-				<th>性別</th>
-				<th>手機號碼</th>
-				<th>聯絡地址</th>
-				<th>身分證號碼</th>
-				<th>註冊日期</th>
-<!-- 				<th>帳號狀態</th> -->
-				<th>最後上線時間</th>
-				<th>會員大頭照</th>
-				<th>修改</th>
+			    <th>項目</th>
+            	<th>資料</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
+				<td>會員編號</td>
 				<td th:text="${myData.memNo}"></td>
+			</tr>
+			<tr>
+				<td>信箱帳號</td>
 				<td th:text="${myData.memMail}"></td>
+			</tr>
+			<tr>
+				<td>姓名</td>
 				<td th:text="${myData.memName}"></td>
+			</tr>
+			<tr>
+				<td>性別</td>
 				<td>
 					<span th:if="${myData.memSex == 0}" th:text="男性"></span>
 					<span th:if="${myData.memSex == 1}" th:text="女性"></span>
 				</td>
+			</tr>
+			<tr>
+				<td>手機號碼</td>
 				<td th:text="${myData.memPhone}"></td>
+			</tr>
+			<tr>
+				<td>聯絡地址</td>
 				<td th:text="${myData.memAdd}"></td>
+			</tr>
+			<tr>
+				<td>身分證號碼</td>
 				<td th:text="${myData.memID}"></td>
+			</tr>
+			<tr>
+				<td>註冊日期</td>
 				<td th:text="${myData.memReg}"></td>
 <!-- 				<td> -->
 <!-- 					<span th:if="${myData.memStatus == 0}" th:text="未驗證"></span> -->
 <!-- 					<span th:if="${myData.memStatus == 1}" th:text="正常"></span> -->
 <!-- 					<span th:if="${myData.memStatus ==2}" th:text="停權"></span>				 -->
 <!-- 				</td> -->
+			</tr>
+			<tr>
+				<td>最後上線時間</td>
 				<td th:if="${myData.lastLoginTime != null}" th:text="${#dates.format(myData.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td>
-				<td ><img th:src="@{/mem/picture} + '?memno=' + ${myData.memNo}" width="100px" height="100px"></td>
-				<td>
+			</tr>
+			<tr>
+<!-- 				<td>會員大頭照</td> -->
+<!-- 				<td ><img th:src="@{/mem/picture} + '?memno=' + ${myData.memNo}" width="100px" height="100px"></td> -->
+				<td>修改會員資料</td>
+				<td >
 					<form method="get" th:action="@{updateMem}">
 						<input type="hidden" name= "memNo" th:value="${myData.memNo}">
 						<input type="submit" value="修改" >
 					</form>
 				</td>
 			</tr>
-
 		</tbody>
 	</table>
+	
+	</div>
 	<br>
-	<a th:href="@{memCenter}"><button>返回會員中心</button></a>
 	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
-  	<script th:src="@{/js/BackStage/mem/the.js}"></script>
-  	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
+<!--   	<script th:src="@{/js/BackStage/mem/the.js}"></script> -->
+<!--   	<script th:src="@{/js/BackStage/mem/the2.js}"></script> -->
+  	<script th:src="@{/js/public/tableModel/dateInput.js}"></script>
   	<script>
-    	let table = new DataTable("#example");
-    	console.log($(".test"));
-    // table.on("click", "tbody tr", function () {
-    //   let data = table.row(this).data();
-
-    //   alert("You clicked on " + data[3] + "'s row");
-    // });
+//     	let table = new DataTable("#example");
+//     	console.log($(".test"));
   	</script>
+  	</main>
 </body>
 </html>
