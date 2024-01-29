@@ -2,10 +2,12 @@ package com.lddapp.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,48 +24,62 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ldd.model.LddService;
 import com.lddapp.model.LddApp;
 import com.lddapp.model.LddAppService;
+import com.mem.model.Mem;
 
 @Controller
-@RequestMapping("/BackStage/lddApp")
-public class LddAppController {
-
+@RequestMapping("/lddApp")
+public class LddAppControllerFront {
+	
 	@Autowired
 	LddAppService lddAppSvc;
 
 	@Autowired
 	LddService lddSvc;
-
-	@GetMapping("/listAllLddApp")
-	public String getAll(ModelMap model) {
-		return "BackStage/lddApp/listAllLddApp";
+	
+	@GetMapping("/addLddApp")
+	public String addLddApp(ModelMap model, HttpSession session) {
+		Mem mem = (Mem)session.getAttribute("logsuccess");
+		List<LddApp> list = lddAppSvc.getAllByMem(mem)
+									 .stream()
+									 .filter(lddApp -> lddApp.getLddAppStatus() == 0 || lddApp.getLddAppStatus() == 2)
+									 .collect(Collectors.toList());
+		System.out.println(list);
+		System.out.println(list.isEmpty());
+		
+		if (list.isEmpty()) {
+			LddApp lddApp = new LddApp();
+			model.addAttribute("lddApp", lddApp);
+			return "FrontEnd/lddApp/addLddApp";			
+		} else {			
+			return "redirect:/lddApp/listAllLddApp";
+		}
 	}
-
+	
 	@PostMapping("/updateLddApp")
 	public String updateData(ModelMap model, @ModelAttribute("lddAppNo") String lddAppNo) {
 		LddApp dataORI = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
 		model.addAttribute("lddApp", dataORI);
-		return "BackStage/lddApp/updateLddApp";
+		return "FrontEnd/lddApp/updateLddApp";
 	}
 	
-	@PostMapping("/get_one_display")
-	public String getOneDisplay(ModelMap model, @RequestParam("lddAppNo") String lddAppNo) {
-		LddApp lddApp = new LddApp();
-		lddApp = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
-		model.addAttribute("lddApp", lddApp);
-		return "BackStage/lddApp/listOneLddApp2";
+	@GetMapping("/listAllLddApp")
+	public String getAllByMem() {
+		return "FrontEnd/lddApp/listAllLddApp";
 	}
 	
-	@PostMapping("update")
-	public String update (@RequestParam("lddAppIDPic") MultipartFile part,
-			@Valid LddApp lddApp, BindingResult result, ModelMap model) throws IOException {
-		if (part.isEmpty()){
-			byte[] dataORI = lddAppSvc.getOneLddApp(lddApp.getLddAppNo()).getLddAppIDPic();
-			lddApp.setLddAppIDPic(dataORI);
-		} else {
-			lddApp.setLddAppIDPic(part.getBytes());
-		}
-		lddAppSvc.upDateLddApp(lddApp);
-		return "redirect:/BackStage/lddApp/listAllLddApp";
+	@PostMapping("insert")
+	public String insert (@RequestParam("lddAppIDPic") MultipartFile part, 
+			@Valid LddApp lddApp, BindingResult result, HttpSession session) throws IOException {
+		lddApp.setLddAppIDPic(part.isEmpty() ? null : part.getBytes());
+		lddApp.setMem((Mem)session.getAttribute("logsuccess"));
+		lddAppSvc.addLddApp(lddApp);
+		return "redirect:/lddApp/listAllLddApp";
+	}
+	
+	@ModelAttribute("lddAppListData")
+	public List<LddApp> referenceListData(HttpSession session) {
+		Mem mem = (Mem)session.getAttribute("logsuccess");
+		return lddAppSvc.getAllByMem(mem);
 	}
 	
 	@GetMapping("picture")
@@ -79,9 +95,5 @@ public class LddAppController {
 		}	
 	}
 	
-	// getAll 傳回 for th讀取
-	@ModelAttribute("lddAppListData")
-	public List<LddApp> referenceListData() {
-		return lddAppSvc.getAll();
-	}
+	
 }

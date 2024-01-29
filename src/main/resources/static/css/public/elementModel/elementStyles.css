@@ -1,5 +1,8 @@
-* {
+b {
+	color: red;
+	font-size: 24px;
 	font-weight: bold;
+	vertical-align: middle
 }
 
 h1 {
@@ -9,6 +12,20 @@ h1 {
 
 form {
 	display: inline-block;
+}
+
+label.formEl {
+	padding: 10px;
+	margin: 10px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+span.formEl {
+	padding: 10px;
+	margin: 10px;
+	font-size: 20px;
+	font-weight: bold;
 }
 
 /* for 狀態描述文字顏色分級 */
@@ -107,4 +124,3 @@ select:focus {
 	border-color: #007bff;
 	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-

@@ -17,6 +17,10 @@ public interface ApoRepository extends JpaRepository<Apo, Integer>{
 	public List<Apo> findByLddNo(Integer lddNo);
 	
 	@Transactional
+	@Query("FROM Apo apo WHERE apo.rent.ldd = :ldd ORDER BY apo.apoCreate DESC")
+	public List<Apo> findByLdd(Ldd ldd);
+	
+	@Transactional
 	public List<Apo> findByMemOrderByApoCreateDesc(Mem mem);
 	
 	@Transactional

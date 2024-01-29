@@ -11,22 +11,25 @@
 <body>
     <div class="div_header" th:fragment="nav">
         <header class="header">
-            <div class="logo-container">
-                <img src="" alt="Your Logo">
+            <div class="logo">
+                <img th:src="@{/icon/FrontEnd/memCenter/memCenter.png}">
+<!--                 <span>會員中心</span> -->
             </div>
             <nav class="navbar navbar-inverse">
                 <ul class="nav navbar-nav">
+                    <li><a class="hoverable" th:href="@{/}">首頁</a></li>
                     <li><a class="hoverable" href="#">最新消息</a></li>
                     <li><a class="hoverable" href="#">租賃服務</a></li>
-                    <li><a class="hoverable" href="#">購物商城</a></li>
-                    <li><a class="hoverable" href="#">聯絡我們</a></li>
+                    <li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
                 </ul>
             </nav>
             <div class="user-info">
-                <!-- Your login information and logout option go here -->
+<!--                 <th:block th:if="${session.ldd}"> -->
+<!--                 	<img th:src="@{/icon/FrontEnd/memCenter/lddIcon.png}" class="lddIcon" width=25px> -->
+<!--                 </th:block> -->
                 <span th:text="${session.logsuccess.memName}">XXX</span>
                 <img th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}" width="30px" height="30px">
-                <a th:href="@{/mem/logOut}">登出</a>
+                <a th:href="@{/mem/logOut}"><button type="button" class="logOut">登出</button></a>
             </div>
         </header>
 
@@ -34,71 +37,100 @@
             <nav class="nav">
                 <ul class="nav_list">
                     <!-- 一般會員 -->
-                    <li><a th:href="@{/mem/memData}"><button type="button">會員詳細資料</button></a></li>
-                    <li><a th:href="@{/apo/listAllApo}"><button type="button">查看預約</button></a></li>
-                    <li><a th:href="@{/lse/listAllLse}"><button type="button">查看合約</button></a></li>
-                    <li><a th:href="@{/lddApp/addLddApp}"><button type="button">成為房東</button></a></li>
+                    <li><div class="notice-board"><img th:src="@{/icon/FrontEnd/memCenter/memData.png}" width=25px><span>會員功能</span></div></li>
+                    <li><a th:href="@{/mem/memData}"><button type="button" class="memFunction">會員詳細資料</button></a></li>
+                    <li><a th:href="@{/apo/listAllApo}"><button type="button" class="memFunction">我的預約</button></a></li>
+                    <li><a th:href="@{/lse/listAllLse}"><button type="button" class="memFunction">我的合約</button></a></li>
+                    <li>
+	                    <div class="subBoard"><span>成為房東</span><br>
+	               			<a th:href="${session.ldd} ? null : @{/lddApp/addLddApp}">
+		               			<button type="button" class="memFunction" th:disabled="${session.ldd}" 
+			               			th:classappend="${session.ldd} ? 'disabled-button' : ''" >填寫申請單
+		               			</button>
+	               			</a>
+	                   		<a th:href="@{/lddApp/listAllLddApp}"><button type="button" class="memFunction">查詢/編輯</button></a>     
+                   		</div>          
+                    </li>
+                    <li>
+                    	<div class="subBoard"><span>檢舉投訴</span><br>
+                    	<a th:href="@{/BackStage/report/addReport}"><button type="button" class="memFunction">填寫投訴單</button></a>
+                    	<a th:href="@{/BackStage/report/addReport}"><button type="button" class="memFunction">查詢/編輯</button></a>
+                    	</div>
+                    </li>
 
                     <!-- 房東功能 -->
                     <th:block th:if="${session.ldd}">
-                        <li><a th:href="@{/BackStage/rentApp/addRentApp}"><button type="button"
-                                    value="">申請物件</button></a></li>
-                        <li><a th:href="@{/BackStage/rentApp/listAllRentApp}"><button type="button"
-                                    value="">物件申請單管理</button></a></li>
-                        <li><a th:href="@{/ldd/reviewLdd}"><button type="button" value="">物件管理</button></a></li>
-                        <li><a th:href="@{/apo/reviewApo}"><button type="button" value="">預約管理</button></a></li>
-                        <li><a th:href="@{/apo/reviewLse}"><button type="button" value="">合約管理</button></a></li>
+                    	<li><div class="notice-board"><img th:src="@{/icon/FrontEnd/memCenter/rent.png}" width=25px><span>房東管理</span></div></li>
+                    	<li><div class="subBoard"><span>申請物件</span><br>
+	                        <a th:href="@{/BackStage/rentApp/addRentApp}"><button type="button" class="lddFunction">填寫申請單</button></a>
+	                       	<a th:href="@{/BackStage/rentApp/listAllRentApp}"><button type="button" class="lddFunction">查詢/編輯</button></a>
+                        </div></li>
+                        <li><a href="#"><button type="button" class="lddFunction">我的物件</button></a></li>
+                        <li><a th:href="@{/apo/reviewApo}"><button type="button" class="lddFunction">預約/租屋管理</button></a></li>
+                        <li><a th:href="@{/lse/reviewLse}"><button type="button" class="lddFunction">合約管理</button></a></li>
                     </th:block>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">檢舉投訴</button></a>
-                    </li>
 
 
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
-                    <li><a th:href="@{/BackStage/report/addReport}"><button type="button" value="">test</button></a>
-                    </li>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                    <li><a href=""><button type="button" value="">test</button></a>
+                  
 
 
                 </ul>
