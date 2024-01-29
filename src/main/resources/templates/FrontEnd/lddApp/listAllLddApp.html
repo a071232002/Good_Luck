@@ -14,6 +14,31 @@
            text-align: center;
            color: red;
         }
+        
+        input {
+			vertical-align: middle;
+		}
+		
+		#lddAppIDPic {
+			margin-right: 0;
+		}
+		
+		.preview_img{
+			max-width:200px;
+		}
+		
+		.picArea{
+			background-color: #f0f0f0;
+		    padding: 10px;
+		    border-radius: 8px;
+		    margin-right:5px;
+		    border: 1px solid darkblue;
+		}
+		
+		.picArea label{
+			margin:0px;
+			padding:0px;
+		}
     </style>
    </head>
    <body>
@@ -30,8 +55,8 @@
 	                   <th>申請日期</th>
 	                   <th>身分證圖片</th>
 	                   <th>付款狀態</th>
-	                   <th>進度/結案</th>
-	                   <th>修改</th>
+	                   <th>進度</th>
+	                   <th>修改編輯</th>
 	               </tr>
 	           </thead>
 	           <tbody>
@@ -41,22 +66,43 @@
 	                   <td th:text="${lddApp.mem.memNo}"></td>
 	                   <td th:text="${lddApp.emp?.empNo}"></td>
 	                   <td th:text="${lddApp.lddAppCreate}"></td>
-	                   <td ><img th:src="@{/lddApp/picture} + '?lddAppNo=' + ${lddApp.lddAppNo}" width="150px"></td>
 	                   <td>
-		                    <span th:if="${lddApp.lddAppPayStatus == 0}" th:text="未付款"></span> 
-		                    <span th:if="${lddApp.lddAppPayStatus == 1}" th:text="已付款"></span> 
-		                    <span th:if="${lddApp.lddAppPayStatus == 2}" th:text="無用狀態待修正"></span>
-	                   </td>
+							<img th:src="@{/lddApp/picture} + '?lddAppNo=' + ${lddApp.lddAppNo}" width="200px">
+		        	   </td>
+	                   <td th:switch="${lddApp.lddAppPayStatus}">
+		                    <form th:case="0" method="post" th:action="@{pay}">
+			                    <span class="cancel" th:text="未付款"></span>
+		                        <input type="hidden" name= "lddAppNo" th:value="${lddApp.lddAppNo}">
+		                        <input th:if="${lddApp.lddAppStatus == 0}" type="submit" value="前往付款" class="approve_button">
+		                    </form>
+		                    <span th:case="1" class="success" th:text="付款完成"></span>
+		                    <span th:case="2" class="warning" th:text="無用狀態待修正"></span> 
+	                   </td>               				
 	                   <td th:switch="${lddApp.lddAppStatus}">
-	                   	<span th:case="0" th:text="待審核"></span>
-	                   	<span th:case="1" th:text="未通過"></span>
-	                   	<span th:case="2" th:text="通過"></span>
+		                   	<span th:case="0" class="warning" th:text="待審核"></span>
+		                   	<span th:case="1" class="cancel" th:text="未通過"></span>
+		                   	<span th:case="2" class="success" th:text="通過"></span>
 	                   </td>
 	                   <td>
-	                       <form method="post" th:action="@{updateLddApp}">
-	                           <input type="hidden" name= "lddAppNo" th:value="${lddApp.lddAppNo}">
-	                           <input type="submit" value="修改" th:disabled="${lddApp.lddAppStatus == 1 || lddApp.lddAppStatus == 2}">
+	                   <th:block th:if="${lddApp.lddAppStatus == 0}">
+	                       <form method="post" th:action="@{updateLddApp}" enctype="multipart/form-data">
+	                           <input type="hidden" name="lddAppNo" th:value="${lddApp.lddAppNo}">
+	                           <div class="picArea">
+		                           <label class="formEl" for="lddAppIDPic">請選擇身分證照片 <b>*</b>：</label><br>
+		                           <input type="file" class="formEl" id="lddAppIDPic" name="lddAppIDPic" required accept=".png, .jpg">
+		                           <span id="preview">
+			          					<span class="imgBoard"></span>
+			        			   </span>
+		                           <input type="submit" value="修改圖片" class="approve_button">
+	                           </div>
 	                       </form>
+	                   </th:block>
+	                   <th:block th:if="${lddApp.lddAppStatus == 0 && lddApp.lddAppPayStatus == 0}">
+	                       <form method="post" th:action="@{cancel}">
+	                           <input type="hidden" name="lddAppNo" th:value="${lddApp.lddAppNo}">
+	                           <input type="submit" value="取消申請" class="reject_button">
+	                       </form>
+	                   </th:block>
 	                   </td>
 	               </tr>
 	           
@@ -74,5 +120,32 @@
            let table = new DataTable("#example");
            console.log($(".test"));
          </script>
+         
+          <script>
+	  
+	  	  var p_file_el = document.getElementById("lddAppIDPic");
+	  	  var preview_el = document.getElementById("preview");
+	  	
+		  var preview_img = function(file){
+	
+	          var reader = new FileReader(); 
+	          reader.readAsDataURL(file);
+	          reader.addEventListener("load", function () {
+	
+	            let img_str = '<img src="' + reader.result + '" class="preview_img">';
+	            preview_el.innerHTML = img_str;
+	          });
+	        };
+	
+	        p_file_el.addEventListener("change", function(e){
+	          if(this.files.length > 0){
+	            preview_img(this.files[0]);
+	          }else{
+	            preview_el.innerHTML = '<span class="imgBoard"></span>';
+	          }
+	        });
+	        
+   	</script>
+    
    </body>
    </html>
