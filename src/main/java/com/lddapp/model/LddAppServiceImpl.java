@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ldd.model.Ldd;
 import com.ldd.model.LddRepository;
+import com.mem.model.Mem;
 
 @Service("lddAppService")
 public class LddAppServiceImpl implements LddAppService {
@@ -69,8 +70,14 @@ public class LddAppServiceImpl implements LddAppService {
 	}
 
 	@Override
+	public List<LddApp> getAllByMem(Mem mem) {
+		return repository.findByMem(mem);
+	}
+	
+	@Override
 	public List<LddApp> getAll() {
 		return repository.findAll();
 	}
+
 
 }

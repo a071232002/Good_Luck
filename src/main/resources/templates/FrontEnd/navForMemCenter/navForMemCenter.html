@@ -43,8 +43,12 @@
                     <li><a th:href="@{/lse/listAllLse}"><button type="button" class="memFunction">我的合約</button></a></li>
                     <li>
 	                    <div class="subBoard"><span>成為房東</span><br>
-	               			<a href="#"><button type="button" class="memFunction">填寫申請單</button></a>
-	                   		<a href="#"><button type="button" class="memFunction">查詢/編輯</button></a>     
+	               			<a th:href="${session.ldd} ? null : @{/lddApp/addLddApp}">
+		               			<button type="button" class="memFunction" th:disabled="${session.ldd}" 
+			               			th:classappend="${session.ldd} ? 'disabled-button' : ''" >填寫申請單
+		               			</button>
+	               			</a>
+	                   		<a th:href="@{/lddApp/listAllLddApp}"><button type="button" class="memFunction">查詢/編輯</button></a>     
                    		</div>          
                     </li>
                     <li>

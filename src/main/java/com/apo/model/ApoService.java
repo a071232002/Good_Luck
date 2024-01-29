@@ -31,6 +31,8 @@ public interface ApoService {
 	
 	public void approveWant(Integer apoNo);
 
+	public List<Apo> getApoListByLdd(Ldd ldd);
+	
 	public List<Apo> getApoListByLdd(Integer lddNo);
 	
 //	TODO 改用房東查詢已booking時段

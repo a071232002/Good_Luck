@@ -58,8 +58,13 @@ public class LseController {
 	}
 	
 	@GetMapping("/reviewLse")
-	public String reviewLseByLdd(ModelMap model) {
-		return "FrontEnd/lse/reviewLse";
+	public String reviewLseByLdd(ModelMap model, HttpSession session) {
+		Ldd ldd = (Ldd)session.getAttribute("ldd");
+		if (ldd != null) {
+			return "FrontEnd/lse/reviewLse";
+		} else {
+			return "redirect:/lddApp/listAllLddApp";
+		}
 	}
 	
 	//TODO 新增尚未完工

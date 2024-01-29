@@ -125,6 +125,12 @@ public class ApoServiceImpl implements ApoService {
 		return repository.findByLddNo(lddNo);
 	}
 	
+	@Override
+	public List<Apo> getApoListByLdd(Ldd ldd) {
+		
+		return repository.findByLdd(ldd);
+	}
+	
 	//for 前端ajax回傳 JPA查詢結果傳入ApoDto物件再回傳至UC 
 	//回傳內容 apoStatus為 0:待房東審核 2:房東同意待會員看屋
 	//考慮導入Redis需再改寫

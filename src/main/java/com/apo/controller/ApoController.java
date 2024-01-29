@@ -61,8 +61,13 @@ public class ApoController {
 
 	//房東瀏覽
 	@GetMapping("/reviewApo")
-	public String reviewApoByLdd(ModelMap model) {
-		return "FrontEnd/apo/reviewApo";
+	public String reviewApoByLdd(ModelMap model, HttpSession session) {
+		Ldd ldd = (Ldd)session.getAttribute("ldd");
+		if (ldd != null) {
+			return "FrontEnd/apo/reviewApo";
+		} else {
+			return "redirect:/lddApp/listAllLddApp";
+		}
 	}
 	
 	//會員-預約操作********************************************************************************************
@@ -157,7 +162,7 @@ public class ApoController {
 	@ModelAttribute("apoListDataByLdd")
 	public List<Apo> referenceListDataByLdd(HttpSession session) {
 		Ldd ldd = (Ldd)session.getAttribute("ldd");
-		return apoSvc.getApoListByLdd(ldd.getLddNo());
+		return apoSvc.getApoListByLdd(ldd);
 	}
 	
 	//接收ajax ResponseEntity<String> 寫法當參考

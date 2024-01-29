@@ -245,6 +245,7 @@ aside.aside nav.nav ul.nav_list>li a {
 	text-decoration: none;
 	display: inline-block;
 	text-align: center;
+	margin: 3px 0px;
 }
 
 /* aside 功能區隔看板*/
@@ -291,8 +292,6 @@ aside.aside nav.nav ul.nav_list>li a {
 	font-size: 18px;
 	font-weight: bold;
 	padding: 10px 20px;
-	/* 設定按鈕的內間距 */
-	margin: 5px 0px;
 	background-color: lightblue;
 	border: none;
 	border-radius: 5px;
@@ -318,8 +317,6 @@ aside.aside nav.nav ul.nav_list>li a {
 	font-size: 18px;
 	font-weight: bold;
 	padding: 10px 20px;
-	/* 設定按鈕的內間距 */
-	margin: 5px 0px;
 	background-color: rgb(255, 196, 0);
 	border: none;
 	border-radius: 5px;
@@ -335,6 +332,19 @@ aside.aside nav.nav ul.nav_list>li a {
 	background-color: darkgoldenrod;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+.disabled-button {
+    color: #7f8c8d;
+    background-color: #dcdcdc; 
+    cursor: not-allowed;
+}
+
+.disabled-button:hover {
+	color: #7f8c8d;
+    background-color: #dcdcdc; 
+    cursor: not-allowed;
+}
+
 
 main {
 	margin-left: var(--aside-width);
