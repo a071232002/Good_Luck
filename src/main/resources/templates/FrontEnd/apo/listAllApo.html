@@ -111,8 +111,7 @@
                                 <input type="date" class="apoWantDate" name="apoWantDate" required>
                                 <input type="submit" value="變更租屋日期" class="approve_button">
                             </form>
-                            <form
-                                th:if="${apo.apoStatus == 3 && (apo.apoWant == 0 || apo.apoWant == 2 || apo.apoWant == 3)}"
+                            <form th:if="${apo.apoStatus == 3 && (apo.apoWant == 0 || apo.apoWant == 2 || apo.apoWant == 3)}"
                                 method="post" th:action="@{cancelWant}">
                                 <input type="hidden" name="apoNo" th:value="${apo.apoNo}">
                                 <input type="submit" value="取消租屋" class="reject_button">
