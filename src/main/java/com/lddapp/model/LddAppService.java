@@ -12,9 +12,9 @@ public interface LddAppService {
 
 	public void pay(LddApp lddApp);
 
-	public void notApproved(LddApp lddApp);
-
 	public void approved(LddApp lddApp);
+	
+	public void reject(LddApp lddApp);
 
 	public LddApp getOneLddApp(Integer lddAppNo);
 	

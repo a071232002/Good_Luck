@@ -10,6 +10,28 @@ h1 {
 	color: red;
 }
 
+.tittleBoard {
+	text-align: center;
+	width: 100%;
+	padding: 0px 200px;
+	border-radius: 8px;
+	margin: 15px 0px;
+}
+
+.tittleBoard span {
+	font-size: 30px;
+	font-weight: bold;
+	color: #1a2a35;
+	background-color: lightyellow;
+	padding: 10px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	display: inline-block;
+	margin: 0px;
+		}
+	    
+
+
 form {
 	display: inline-block;
 }

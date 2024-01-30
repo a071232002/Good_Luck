@@ -62,6 +62,7 @@ header.header {
 .header {
 	display: flex !important;
 	justify-content: center;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .hoverable a {

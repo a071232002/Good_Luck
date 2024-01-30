@@ -16,7 +16,27 @@
 			color: red;
 			margin: 5px;
 		}
-
+		
+		.tittleBoard {
+			  text-align: center;
+			  width:100%;
+			  padding: 0px 200px;
+			  border-radius: 8px;
+			  margin: 15px 0px;
+		}
+		
+		.tittleBoard span {
+		  	  font-size: 30px;
+	          font-weight: bold;
+			  color: #1a2a35;
+			  background-color: lightyellow;
+			  padding: 10px;
+			  border-radius: 8px;
+			  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			  display: inline-block;
+			  margin: 0px;
+		}
+	    
 		form {
 			display: inline-block;
 		}
@@ -28,7 +48,8 @@
 		span {
 			vertical-align: middle;
 		}
-		        label.formEl {
+		
+		label.formEl {
             padding: 10px;
             margin: 10px;
             font-size: 20px;
@@ -119,14 +140,16 @@
             
 		}
 		
-		.sticky {
-			background-color: white;
-			position: sticky;
-			top: 60px;
-		}
+/* 		.sticky { */
+/* 			background-color: white; */
+/* 			position: sticky; */
+/* 			top: 60px; */
+/* 		} */
+		
 		.dispaly {
 			max-height: 200px;
 		}
+		
         .table {
             width: 100%;
             border-collapse: collapse;
@@ -143,7 +166,7 @@
         th,
         td {
             text-align: center;
-            padding: 10px;
+            padding: 5px;
             border: 1px solid #dee2e6;
             width: 80px;
         }
@@ -165,7 +188,7 @@
 	<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
 	<main>
 		<div class="sticky">
-			<h1>預約/租屋管理</h1>
+			<div class="tittleBoard"><span class="tittleBoard">預約/租屋管理</span></div>
 			<table id="example" class="display" style="width: 100%">
 				<thead>
 					<tr>
@@ -263,7 +286,8 @@
 					</th:block>
 				</tbody>
 			</table>
-			<h1>預約行程一覽</h1>
+			
+			<div class="tittleBoard"><span class="tittleBoard">預約行程一覽</span></div>
 			<div class="container text-center my-4">
 	            <button id="prevMonth" class="approve_button">上個月</button>
 	            <span id="currentMonthYear" class="monthDisplay"></span>

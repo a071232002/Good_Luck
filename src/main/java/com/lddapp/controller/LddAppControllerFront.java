@@ -53,14 +53,7 @@ public class LddAppControllerFront {
 		} else {			
 			return "redirect:/lddApp/listAllLddApp";
 		}
-	}
-	
-	@PostMapping("/updateLddApp")
-	public String updateData(ModelMap model, @ModelAttribute("lddAppNo") String lddAppNo) {
-		LddApp dataORI = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
-		model.addAttribute("lddApp", dataORI);
-		return "FrontEnd/lddApp/updateLddApp";
-	}
+	}	
 	
 	@GetMapping("/listAllLddApp")
 	public String getAllByMem() {
@@ -69,10 +62,35 @@ public class LddAppControllerFront {
 	
 	@PostMapping("insert")
 	public String insert (@RequestParam("lddAppIDPic") MultipartFile part, 
-			@Valid LddApp lddApp, BindingResult result, HttpSession session) throws IOException {
+			              @Valid LddApp lddApp, BindingResult result,
+			              HttpSession session) throws IOException {
 		lddApp.setLddAppIDPic(part.isEmpty() ? null : part.getBytes());
 		lddApp.setMem((Mem)session.getAttribute("logsuccess"));
 		lddAppSvc.addLddApp(lddApp);
+		return "redirect:/lddApp/listAllLddApp";
+	}
+	
+	@PostMapping("pay")
+	public String payLddApp (@ModelAttribute("lddAppNo") String lddAppNo) {
+		LddApp lddApp = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
+		lddAppSvc.pay(lddApp);
+		return "redirect:/lddApp/listAllLddApp";
+	}
+	
+	@PostMapping("updateLddApp")
+	public String updateLddAppIDPic(@ModelAttribute("lddAppNo") String lddAppNo,
+			@RequestParam("lddAppIDPic") MultipartFile part) 
+					throws IOException {
+		LddApp dataORI = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
+		dataORI.setLddAppIDPic(part.isEmpty() ? null : part.getBytes());
+		lddAppSvc.upDateLddApp(dataORI);
+		return "redirect:/lddApp/listAllLddApp";
+	}
+	
+	@PostMapping("cancel")
+	public String cancelLddApp (@ModelAttribute("lddAppNo") String lddAppNo) {
+		LddApp lddApp = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
+		lddAppSvc.reject(lddApp);
 		return "redirect:/lddApp/listAllLddApp";
 	}
 	
