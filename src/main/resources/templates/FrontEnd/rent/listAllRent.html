@@ -138,6 +138,21 @@
 	    	font-size: 14px;
 	    }
 		
+		.disabled {
+		    pointer-events: none;
+		    opacity: 0.5;
+		}
+		.rent ,.map{
+            cursor: default; /* 设置默认鼠标样式 */
+            background-color: #fff; /* 设置默认背景颜色 */
+            transition: background-color 0.3s ease; /* 添加过渡效果 */
+        }
+
+        /* 悬停和移入时的样式 */
+        .rent:hover, .rent.active ,.map:hover, .map.active{
+            cursor: pointer; /* 设置悬停时和移入时的鼠标样式 */
+            background-color: #F5F5F5; /* 设置悬停时和移入时的背景颜色 */
+        }
 
 
     </style>
@@ -148,76 +163,21 @@
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
-<!--                 <nav class="navbar navbar-default navbar-static-top" role="navigation"> -->
-<!--                     <div class="navbar-header"> -->
-<!--                          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">租你好運</a> -->
-<!--                     </div> -->
-                    
-<!--                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> -->
-<!--                         <ul class="nav navbar-nav"> -->
-
-<!--                             <li> -->
-<!--                                  <a href="#"></a> -->
-<!--                             </li> -->
-<!--                             <li class="dropdown" id="aaa"> -->
-<!--                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">選擇縣市<strong class="caret"></strong></a> -->
-<!--                                 <ul class="dropdown-menu" id="bbb"> -->
-<!--                                     <li> -->
-<!--                                          <a href="#">Action</a> -->
-<!--                                     </li> -->
-<!--                                     <li> -->
-<!--                                          <a href="#">Another action</a> -->
-<!--                                     </li> -->
-<!--                                     <li> -->
-<!--                                          <a href="#">Something else here</a> -->
-<!--                                     </li> -->
-<!--                                     <li class="divider"> -->
-<!--                                     </li> -->
-
-<!--                                 </ul> -->
-<!--                             </li> -->
-<!--                         </ul> -->
-<!--                         <form class="navbar-form navbar-left" role="search"> -->
-<!--                             <div class="form-group"> -->
-<!--                                 <input type="text" class="form-control" /> -->
-<!--                             </div> <button type="submit" class="btn btn-default">Submit</button> -->
-<!--                         </form> -->
-<!--                         <ul class="nav navbar-nav navbar-right"> -->
-<!--                             <li> -->
-<!--                                  <a href="#">Link</a> -->
-<!--                             </li> -->
-<!--                             <li class="dropdown"> -->
-<!--                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a> -->
-<!--                                 <ul class="dropdown-menu"> -->
-<!--                                     <li> -->
-<!--                                          <a href="#">Action</a> -->
-<!--                                     </li> -->
-<!--                                     <li> -->
-<!--                                          <a href="#">Another action</a> -->
-<!--                                     </li> -->
-<!--                                     <li> -->
-<!--                                          <a href="#">Something else here</a> -->
-<!--                                     </li> -->
-<!--                                     <li class="divider"> -->
-<!--                                     </li> -->
-<!--                                     <li> -->
-<!--                                          <a href="#">Separated link</a> -->
-<!--                                     </li> -->
-<!--                                 </ul> -->
-<!--                             </li> -->
-<!--                         </ul> -->
-<!--                     </div> -->
-                    
-<!--                 </nav> -->
 <!-- 下拉 -->
 
                 <div class="dropdown" margin="20px" id="check_rentAppCou">
-                	<div style="text-align: center;">
+                	<div style="text-align: center;padding-top: 30px;">
                     <select name="rentAppCou" id="county_box" box-sizing="border-box">
                     </select>
-                    <input type="text" name="additionalInput" style="width: 100px; margin-left: 10px;">
-    				<button type="button" id="additionalBtn">查詢</button>
+                    <input type="text" name="additionalInput" style="width: 180px; margin-left: 10px;height: 34px;">
+    				<button type="button" id="additionalBtn" style="height: 34px;">查詢</button>
+    				<div class="map" style="display: inline-block; font-size: 16px; font-weight: bold; margin: 10px 10px 10px 30px;width: 120px; height: 40px;" onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)"onclick="listAllRentInMap()">
+						 <img src="/icon/FrontEnd/rent/map.png"width="30px" height="30px" style="vertical-align: bottom;margin-right:5px;">
+						 地圖找房
+    				</div>
 					</div>
+
+					
                     
                     <div id="check_rentAppAr">
                     </div>
@@ -234,19 +194,19 @@
 					        <span class="radio-label">不限</span>
 					    </label>
 					    <label class="custom-radio">
-					        <input type="radio" name="rentLayout" value="雅房">
+					        <input type="radio" name="rentLayout" value="0">
 					        <span class="radio-label">雅房</span>
 					    </label>
 					    <label class="custom-radio">
-					        <input type="radio" name="rentLayout" value="分租套房">
+					        <input type="radio" name="rentLayout" value="1">
 					        <span class="radio-label">分租套房</span>
 					    </label>
 					    <label class="custom-radio">
-					        <input type="radio" name="rentLayout" value="獨立套房">
+					        <input type="radio" name="rentLayout" value="2">
 					        <span class="radio-label">獨立套房</span>
 					    </label>
 					    <label class="custom-radio">
-					        <input type="radio" name="rentLayout" value="整層住家">
+					        <input type="radio" name="rentLayout" value="3">
 					        <span class="radio-label">整層住家</span>
 					    </label>
 					</div>
@@ -257,39 +217,39 @@
 					        <span class="radio-label" style="color: blue">租金</span>
 					    </label>
 	                    <label class="custom-radio">
-					        <input type="radio" name="rentRent" value="" checked>
+					        <input type="radio" name="rentRent" value="" checked onchange="clearInputs()">
 					        <span class="radio-label">不限</span>
 					    </label>
 					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="5000元以下">
+					        <input type="checkbox" name="rentRent" value="5000元以下" onchange="clearInputs()">
 					        <span class="checkbox-label">5000元以下</span>
 					    </label>
 					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="5000-10000元">
+					        <input type="checkbox" name="rentRent" value="5000-10000元" onchange="clearInputs()">
 					        <span class="checkbox-label">5000-10000元</span>
 					    </label>
 					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="10000-20000元">
+					        <input type="checkbox" name="rentRent" value="10000-20000元" onchange="clearInputs()">
 					        <span class="checkbox-label">10000-20000元</span>
 					    </label>
 					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="20000-30000元">
+					        <input type="checkbox" name="rentRent" value="20000-30000元" onchange="clearInputs()">
 					        <span class="checkbox-label">20000-30000元</span>
 					    </label>
 					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="30000-40000元">
+					        <input type="checkbox" name="rentRent" value="30000-40000元" onchange="clearInputs()">
 					        <span class="checkbox-label">30000-40000元</span>
 					    </label>
 					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="40000元以上">
+					        <input type="checkbox" name="rentRent" value="40000元以上" onchange="clearInputs()">
 					        <span class="checkbox-label">40000元以上</span>
 					    </label>
 					    <label class="minRent">
-					    	<input type="text" name="minRent" style="width: 50px;height: 20px;margin-left: 10px;">
+					    	<input type="text" name="minRent" style="width: 80px;height: 20px;margin-left: 10px;">
 					    </label>
 					    <span class="filter-custom-line" style="margin-left: 10px; margin-right: 10px;">-</span>
 					    <label class="maxRent">
-    						<input type="text" name="maxRent" style="width: 50px;height: 20px;">
+    						<input type="text" name="maxRent" style="width: 80px;height: 20px;">
     					</label>
     					<span class="filter-custom-line" style="margin-left: 10px;">元</span>
 						<button type="button" id="RentSubmit" style="margin-left: 10px; height: 20px; text-align: center; display: flex; align-items: center;">確定</button>
@@ -436,45 +396,30 @@
                 <hr style="margin-top: 10px;margin-bottom: 10px;">
                 </div>
 
-<!-- 分頁 -->
-                <ul class="pagination">
-                    <li>
-                         <a href="#">Prev</a>
-                    </li>
-                    <li>
-                         <a href="#">1</a>
-                    </li>
-                    <li>
-                         <a href="#">2</a>
-                    </li>
-                    <li>
-                         <a href="#">3</a>
-                    </li>
-                    <li>
-                         <a href="#">4</a>
-                    </li>
-                    <li>
-                         <a href="#">5</a>
-                    </li>
-                    <li>
-                         <a href="#">Next</a>
-                    </li>
-                </ul>
+
             </div>
         </div>
     </div>
     <!-- <script src="./vendors/jquery/jquery-3.7.1.min.js"></script> -->
 <script>
 
+// 初始化變數
+var itemsPerPage = 3;
+var rentList = []; // 你的 rentList 數據
+var currentPage = 1;
+var totalPages = Math.ceil(rentList.length / itemsPerPage);
+
 //定義全局對象 data
 const data = {
-    all: "1"
+//     all: "1"
     // 其他屬性...
 };
 
 function addData(key, value) {
     data[key] = value;
-    console.log(data)
+    getRentList()
+    changePage(1)
+//     console.log(data)
 }
     // Cities of Taiwan
 const database = {
@@ -700,27 +645,13 @@ county_box.addEventListener('change', (event) => {
 
 window.addEventListener("load", function () {
 	
-	getRentList();
+// 	getRentList();
 	 // 获取 select 元素
     var countySelect = document.getElementById('county_box');
 
     // 设置选中项为 "基隆市"
     countySelect.value = '基隆市';
-//  	// 创建并初始化事件
-//     var changeEvent = new Event('change');
 
-//     // 手动触发 change 事件
-//     countySelect.dispatchEvent(changeEvent);
-    
-//     var rentLayoutInit = document.querySelector('input[name="rentLayout"]:checked');
-//     if (rentLayoutInit) {
-//     	rentLayoutInit.dispatchEvent(new Event('change'));
-//     }
-    
-//     var rentAppFloorInit = document.querySelector('input[name="rentAppFloor"]:checked');
-//     if (rentAppFloorInit) {
-//     	rentAppFloorInit.dispatchEvent(new Event('change'));
-//     }
 
     function initEvents() {
         // 创建并初始化事件
@@ -743,26 +674,45 @@ window.addEventListener("load", function () {
         dispatchChangeEvent('input[name="feature"]:checked');
         dispatchChangeEvent('input[name="rentRent"]:checked');
         dispatchChangeEvent('input[name="equipment"]:checked');
+        dispatchChangeEvent('input[name="rentAppAr"]:checked');
         
     }
 
     // 调用 initEvents 函数
     initEvents();
-    
-    
 
-    
-    
-    
 
 })
+
+
+// 變更當前頁面的函數
+function changePage(pageNumber) {
+    currentPage = pageNumber;
+    showRents();
+}
+
+// 前一頁的函數
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        showRents();
+    }
+}
+
+// 下一頁的函數
+function nextPage() {
+    if (currentPage < totalPages) {
+        currentPage++;
+        showRents();
+    }
+}
 
 async function getRentList() { 
 	
 	
 
 	// 使用Fetch API發送POST請求
-	fetch('/BackStage/rent/QueryRentList', {
+	fetch('/rent/QueryRentList', {
 	    method: 'POST',
 	    headers: {
 	        'Content-Type': 'application/json',
@@ -774,6 +724,7 @@ async function getRentList() {
 	    // 處理後端返回的數據
 // 	    console.log(responseData);
 	    rentList=responseData
+	    totalPages = Math.ceil(rentList.length / itemsPerPage);
 	    showRents()
 	})
 	.catch(error => {
@@ -783,15 +734,35 @@ async function getRentList() {
 }
 
 function showRents(){ 
-
+    
 	
 	if (rentList.length === 0) {
-		html = "<tr><td colspan='4' align='center'>尚無物件資料</td></tr>";
+		var html = `<div>
+					<span style='display: block; text-align: center; font-size: x-large; color: red; font-weight: bold;'>尚無物件資料</span>
+			    </div>`;
+		var dropdownElement = document.querySelector('.dropdown');
+		// 移除 dropdownElement 之後的所有元素
+        var nextElement = dropdownElement.nextElementSibling;
+        while (nextElement) {
+            nextElement.remove();
+            nextElement = dropdownElement.nextElementSibling;
+        }
+
+        // 使用 combinedHTML 替換 dropdownElement 之後的所有元素
+        dropdownElement.insertAdjacentHTML('afterend', html);
 	} else {
 			var dropdownElement = document.querySelector('.dropdown');
+			
+			 // 計算起始和結束索引，用於提取當前頁面的資料
+	        var startIndex = (currentPage - 1) * itemsPerPage;
+	        var endIndex = Math.min(startIndex + itemsPerPage, rentList.length);
+	        console.log("currentPage="+currentPage)
+	        console.log("startIndex="+startIndex)
+	        console.log("endIndex="+endIndex)
+	        
 // 			console.log(dropdownElement)
 			var combinedHTML = '';
-			for (let i=0; i<rentList.length; i++) {
+			for (let i=startIndex; i<endIndex; i++) {
 				
 // 				console.log(rentList[i].rentPostTitle)
 				// 假设您有一些动态数据
@@ -807,7 +778,7 @@ function showRents(){
 
 				// 使用模板字符串拼接 HTML
 				var html =`
-				    <div class="row clearfix rent" id="rentNo">
+				    <div class="row clearfix rent" id="${rentNo}"onclick="getOneById(this.id)"onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)"style="margin-top: 10px; margin-bottom: 10px;">
 				    <div class="col-md-3 column">
 				        <div class="carousel slide" id="carousel-2">
 				            <!-- Remove unnecessary indicators -->
@@ -824,7 +795,7 @@ function showRents(){
 				        ${propertyTitle}
 				        </h3>
 				        <ul class="text-left">
-				        	<img src="/icon/BackStage/rent/house.png"width="20px" height="20px" style="vertical-align: bottom;margin-right:10px;margin-top:2px">
+				        	<img src="/icon/FrontEnd/rent/house.png"width="20px" height="20px" style="vertical-align: bottom;margin-right:10px;margin-top:2px">
 				            <li class="vertical-line"> ${	rentLayout === 0 ? '雅房' :
 				                	rentLayout === 1 ? '分租套房' :
 				                    rentLayout === 2 ? '獨立套房' :
@@ -834,7 +805,7 @@ function showRents(){
 				        </ul>
 				        
 				        <ul class="text-left">
-				        <img src="/icon/BackStage/rent/placeholder.png"width="20px" height="20px" style="vertical-align: bottom;margin-right:10px;margin-top:2px">
+				        <img src="/icon/FrontEnd/rent/placeholder.png"width="20px" height="20px" style="vertical-align: bottom;margin-right:10px;margin-top:2px">
 				            <li>${rentAppArAndtAppRo}</li>
 			            
 			        	</ul>
@@ -844,17 +815,86 @@ function showRents(){
 			        <span id="rentText">元/月</span>
 			        </div>
 				</div>
-				<hr>
+				<hr style="margin-top: 0; margin-bottom: 0;">
 				`;
 				
 				combinedHTML += html;
 
 			}
 			// 将拼接的 HTML 插入到页面中
-			dropdownElement.insertAdjacentHTML('afterend', combinedHTML);
+// 			dropdownElement.insertAdjacentHTML('afterend', combinedHTML);
+			 // 添加分頁 HTML
+// 			 console.log(totalPages)
+	        var paginationHTML = `
+	            <nav aria-label="Page navigation">
+	                <ul class="pagination">
+	                    <li>
+	                        <a id="prevButton" href="#" aria-label="Previous" onclick="prevPage()">
+	                            <span aria-hidden="true">&laquo;</span>
+	                        </a>
+	                    </li>
+	                    <!-- 根據 totalPages 動態生成頁碼 -->
+	                    ${generatePageNumbers(totalPages)}
+	                    <li>
+	                        <a id="nextButton" href="#" aria-label="Next" onclick="nextPage()">
+	                            <span aria-hidden="true">&raquo;</span>
+	                        </a>
+	                    </li>
+	                </ul>
+	            </nav>
+	        `;
+	        combinedHTML += paginationHTML;
+// 	        dropdownElement.insertAdjacentHTML('afterend', combinedHTML);
+	     // 移除 dropdownElement 之後的所有元素
+	        var nextElement = dropdownElement.nextElementSibling;
+	        while (nextElement) {
+	            nextElement.remove();
+	            nextElement = dropdownElement.nextElementSibling;
+	        }
+
+	        // 使用 combinedHTML 替換 dropdownElement 之後的所有元素
+// 	        console.log(combinedHTML);
+	        dropdownElement.insertAdjacentHTML('afterend', combinedHTML);
+	        updatePaginationButtons(); // 在每次顯示頁面時更新按鈕狀態
 	}
+	// 生成頁碼的函數
+    function generatePageNumbers(totalPages) {
+        var pageNumbersHTML = '';
+        for (var i = 1; i <= totalPages; i++) {
+            pageNumbersHTML += `
+                <li class="${i === currentPage ? 'active' : ''}">
+                    <a href="#" onclick="changePage(${i})">${i}</a>
+                </li>
+            `;
+        }
+        return pageNumbersHTML;
+    }
+
+    
 
 }
+
+//更新分頁按鈕狀態的函數
+function updatePaginationButtons() {
+    var prevButton = document.querySelector('#prevButton');
+    var nextButton = document.querySelector('#nextButton');
+
+    // 如果當前頁面是第一頁，將上一頁按鈕設為不可點擊
+    if (currentPage === 1) {
+        prevButton.classList.add('disabled');
+    } else {
+        prevButton.classList.remove('disabled');
+    }
+
+    // 如果當前頁面是最後一頁，將下一頁按鈕設為不可點擊
+    if (currentPage === totalPages) {
+        nextButton.classList.add('disabled');
+    } else {
+        nextButton.classList.remove('disabled');
+    }
+}
+
+
 
 //不限跟複選框互綁
 function radioAndCheck(radioName, checkboxes) {
@@ -928,40 +968,38 @@ function maxSelection(Id, maxCount) {
 maxSelection('check_rentAppSize',3)
 
 
+document.getElementById('additionalBtn').addEventListener('click', function() {
+	var additionalInput = document.querySelector('input[name="additionalInput"]').value;
+	data["additionalInput"]=[additionalInput]
+// 	console.log(data)
+    getRentList();
+	changePage(1)
+})
 
 
-
-//選到哪個印哪個
-function addChangeEventListener(elements, label) {
-    elements.forEach(function (radioButton) {
-        radioButton.addEventListener('change', function () {
-            console.log('選擇的' + label + '是：', this.value);
-        });
-    });
-}
-
-// var selectRentLayout = document.querySelectorAll('input[name="rentLayout"]');
-// addChangeEventListener(selectRentLayout, 'rentLayout');
-
-// var selectRentAppSize = document.querySelectorAll('input[name="rentAppSize"]');
-// addChangeEventListener(selectRentAppSize, 'rentAppSize');
-
-// var selectRentAppFloor = document.querySelectorAll('input[name="rentAppFloor"]');
-// addChangeEventListener(selectRentAppFloor, 'rentAppFloor');
-
-// var selectfeature = document.querySelectorAll('input[name="feature"]');
-// addChangeEventListener(selectfeature, 'feature');
-
-// var selectrentRent = document.querySelectorAll('input[name="rentRent"]');
-// addChangeEventListener(selectrentRent, 'rentRent');
-
-// var selectequipment = document.querySelectorAll('input[name="equipment"]');
-// addChangeEventListener(selectequipment, 'equipment');
 
 
 
 
 document.getElementById('RentSubmit').addEventListener('click', function() {
+	 // 取得 minRent 和 maxRent 兩個 input 元素的值
+    var minRentValue = document.querySelector('#check_rentRent .minRent input[name="minRent"]').value;
+    var maxRentValue = document.querySelector('#check_rentRent .maxRent input[name="maxRent"]').value;
+
+    // 將值轉換為數字進行比較
+    var minRent = parseFloat(minRentValue);
+    var maxRent = parseFloat(maxRentValue);
+
+    // 檢查 maxRent 是否小於 minRent
+    if (isNaN(minRent) || isNaN(maxRent) || maxRent < minRent) {
+        alert('最大值不能小於最小值');
+        // 或者你可以進行其他處理，比如阻止提交表單
+        return;
+    }
+
+    // 如果通過檢查，繼續你的邏輯...
+    // 這裡可以添加你想要執行的其他邏輯
+//     console.log('minRent:', minRent, 'maxRent:', maxRent);
     // 清空所有 checkbox 選取
     var checkboxes = document.querySelectorAll('#check_rentRent input[type="checkbox"]');
     checkboxes.forEach(function(checkbox) {
@@ -972,12 +1010,16 @@ document.getElementById('RentSubmit').addEventListener('click', function() {
     var radioButton = document.querySelector('input[type="radio"][name="rentRent"]');
 
         radioButton.checked = false;
+        data["rentRent"]=[]
 
 
     // 獲取 minRent 和 maxRent 的 input 元素
     var minRentInput = document.querySelector('#check_rentRent .minRent input[name="minRent"]');
     var maxRentInput = document.querySelector('#check_rentRent .maxRent input[name="maxRent"]');
-
+    data["rentRent"]=[minRentInput.value,maxRentInput.value]
+//     console.log(data)
+    getRentList();
+    changePage(1)
     // 印出 minRent 和 maxRent 的值
 //     console.log('最小租金:', minRentInput.value);
 //     console.log('最大租金:', maxRentInput.value);
@@ -1006,9 +1048,27 @@ maxRentInput.addEventListener('input', function() {
     }
 });
 
+
+function clearInputs() {
+    // 取得 minRent 和 maxRent 兩個 input 元素
+    var minRentInput = document.querySelector('input[name="minRent"]');
+    var maxRentInput = document.querySelector('input[name="maxRent"]');
+
+    // 清空 input 內容
+    if (minRentInput.value.trim() !== '') {
+        minRentInput.value = '';
+        data["rentRent"]=[]
+    }
+
+    if (maxRentInput.value.trim() !== '') {
+        maxRentInput.value = '';
+        data["rentRent"]=[]
+    }
+}
+
 function logAllValues() {
     // 获取所有需要监听的元素
-    var elementsToWatch = document.querySelectorAll('select, input[type="checkbox"], input[type="radio"], input[type="text"]');
+    var elementsToWatch = document.querySelectorAll('select, input[type="checkbox"], input[type="radio"]');
 
     // 创建一个对象来存储元素的值
     var values = data;
@@ -1041,13 +1101,16 @@ function logAllValues() {
                     } else {
                         values[element.name] = [];
                     }
-                } else {
-                    values[element.name] = element.value;
+                }else {
+                	
+                    values[element.name] = [element.value];
                 }
 
                 // 输出所有被选中元素的值
 //                 console.log('All Selected Values:', values);
-                console.log(data)
+                getRentList();
+                changePage(1)
+//                 console.log(data)
             }, 0);
         });
     });
@@ -1056,50 +1119,27 @@ function logAllValues() {
 // 调用函数以初始化监听
 logAllValues();
 
+function getOneById(divId) {
+    var backendControllerUrl = '/rent/rentDetail';  // 修改为您的后端Controller的URL
+    var urlWithParams = backendControllerUrl + '?rentNo=' + divId;
+
+    // 将用户重定向到带参数的后端Controller
+    window.location.href = urlWithParams;
+}
 
 
+function activateDiv(div) {
+    div.classList.add('active');
+}
 
+function deactivateDiv(div) {
+    div.classList.remove('active');
+}
 
-
-// var SelectrentLayout = document.querySelectorAll('input[name="rentLayout"]');
-
-// SelectrentLayout.forEach(function(radioButton) {
-//     radioButton.addEventListener('change', function() {
-//         console.log('選擇的rentLayout是：', this.value);
-//     });
-// });
-// var SelectrentAppFloor = document.querySelectorAll('input[name="rentAppFloor"]');
-
-// SelectrentAppFloor.forEach(function(radioButton) {
-//     radioButton.addEventListener('change', function() {
-//         console.log('選擇的rentAppFloor是：', this.value);
-//     });
-// });
-
-
-// var checkboxes = document.querySelectorAll('#check_rentAppSize input[type="checkbox"]');
-// var maxChecked = 3;
-
-// checkboxes.forEach(function (checkbox) {
-//     checkbox.addEventListener('change', function () {
-//         var checkedCheckboxes = document.querySelectorAll('#check_rentAppSize input[type="checkbox"]:checked');
-
-//         if (checkedCheckboxes.length > maxChecked) {
-//             // 如果選擇的數量超過最大值，取消當前 checkbox 的選擇
-//             checkbox.checked = false;
-//             alert('最多只能選擇三個');
-//         } else {
-//             // 印出被選中的 checkbox 的值
-//             var selectedValues = Array.from(checkedCheckboxes).map(function (checkbox) {
-//                 return checkbox.value;
-//             });
-
-//             console.log('選中的值：', selectedValues);
-//         }
-//     });
-// });
-
-
+function listAllRentInMap() {
+	
+    window.location.href = "/rent/listAllRentInMap";
+  }
 </script>
 </body>
 </html>
