@@ -34,40 +34,51 @@ import com.rent.model.RentServiceImpl;
 
 
 @Controller
-@RequestMapping("/BackStage/rent")
+@RequestMapping("/rent")
 public class RentController {
 	@Autowired
 	RentServiceImpl rentSvc;
 	
-	//前往新增頁面
-	@GetMapping("/addRent")
-	public String addRent(ModelMap model) {
-		Rent rent = new Rent();
-		model.addAttribute("rent", rent);
-
-		return "BackStage/rent/addRent";
-	}
+//	//前往新增頁面
+//	@GetMapping("/addRent")
+//	public String addRent(ModelMap model) {
+//		Rent rent = new Rent();
+//		model.addAttribute("rent", rent);
+//
+//		return "BackStage/rent/addRent";
+//	}
 	
 	//前往listall
     @GetMapping("/listAllRent")
 	public String listAllRent(ModelMap model) {
-		return "BackStage/rent/listAllRent";
+		return "FrontEnd/rent/listAllRent";
 	}
+    //前往listallinmap
+    @GetMapping("/listAllRentInMap")
+    public String listAllRentInMap(ModelMap model) {
+    	return "FrontEnd/rent/listAllRentInMap";
+    }
     
 	//前往listall
     @ResponseBody
     @PostMapping("/QueryRentList")
-	public List<Rent>QueryRentList(@RequestBody Map<String, Object> data) {
+	public List<Rent>QueryRentList(@RequestBody Map<String, String[]> data) {
+
+//    	List<Rent> rentList = rentSvc.getAll();
+
+    	List<Rent> getRentByCompositeQuery = rentSvc.getByCompositeQuery(data);
+    	
+		return getRentByCompositeQuery;
+	}
+    
+  //前往listallinmap
+    @ResponseBody
+    @PostMapping("/QueryRentListInMap")
+	public List<Rent>QueryRentListInMap(@RequestBody Map<String, String[]> data) {
 
     	List<Rent> rentList = rentSvc.getAll();
-//    	System.out.println(data.get("all"));
-//    	System.out.println("SSSSS");
-    	for (Rent rent : rentList) {
-    		System.out.println(rent);
-    	}
-
-    	
-		return rentList;
+    	List<Rent> getRentByCompositeQuery = rentSvc.getByCompositeQuery(data);
+    	return getRentByCompositeQuery;
 	}
 	
 //    @PostMapping("insert")
@@ -109,56 +120,56 @@ public class RentController {
 //
 //		return "BackStage/rent/listAllRent"; // 新增成功後重導至IndexController_inSpringBoot.java的第50行@GetMapping("/emp/listAllEmp")
 //	}
-	
-	@PostMapping("getOne_For_Update")
-	public String getOne_For_Update(@RequestParam("rentNo") String rentNo, ModelMap model) {
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		/*************************** 2.開始查詢資料 *****************************************/
-		// EmpService empSvc = new EmpService();
+    
+	//至物件詳情
+	@GetMapping("rentDetail")
+	public String rentDetail(@RequestParam("rentNo") String rentNo, ModelMap model) {
 
+		System.out.println("rentDetail");
+		System.out.println(rentNo);
 		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
-
+		System.out.println(rent);
 		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
 		model.addAttribute("rent", rent);
-		return "BackStage/rent/update_rent_input"; // 查詢完成後轉交update_emp_input.html
+		return "FrontEnd/rent/update_rent_input"; // 查詢完成後轉交update_emp_input.html
 	}
 
-	@PostMapping("update")
-	public String update(@Valid Rent rent, BindingResult result, ModelMap model,
-			@RequestParam("rentOwn") MultipartFile[] parts) throws IOException {
-
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
-
-		result = removeFieldError(rent, result, "rentOwn");
-
-		if (parts[0].isEmpty()) { // 使用者未選擇要上傳的新圖片時
-			// EmpService empSvc = new EmpService();
-
-			byte[] upFiles = rentSvc.getOneRent(rent.getRentNo()).getRentAppOwn();
-			rent.setRentAppOwn(upFiles);
-		} else {
-			for (MultipartFile multipartFile : parts) {
-				byte[] upFiles = multipartFile.getBytes();
-				rent.setRentAppOwn(upFiles);
-				System.out.println("setimg");
-
-			}
-		}
-		if (result.hasErrors()) {
-			return "BackStage/rent/update_rent_input";
-			
-		}
-		/*************************** 2.開始修改資料 *****************************************/
-		// EmpService empSvc = new EmpService();
-		rentSvc.updateRent(rent);
-
-		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
-		model.addAttribute("success", "- (修改成功)");
-		rent = rentSvc.getOneRent(Integer.valueOf(rent.getRentNo()));
-		model.addAttribute("rent", rent);
-		return "BackStage/rent/listOneRent"; // 修改成功後轉交listOneEmp.html
-	}
+//	@PostMapping("update")
+//	public String update(@Valid Rent rent, BindingResult result, ModelMap model,
+//			@RequestParam("rentOwn") MultipartFile[] parts) throws IOException {
+//
+//		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+//		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
+//
+//		result = removeFieldError(rent, result, "rentOwn");
+//
+//		if (parts[0].isEmpty()) { // 使用者未選擇要上傳的新圖片時
+//			// EmpService empSvc = new EmpService();
+//
+//			byte[] upFiles = rentSvc.getOneRent(rent.getRentNo()).getRentAppOwn();
+//			rent.setRentAppOwn(upFiles);
+//		} else {
+//			for (MultipartFile multipartFile : parts) {
+//				byte[] upFiles = multipartFile.getBytes();
+//				rent.setRentAppOwn(upFiles);
+//				System.out.println("setimg");
+//
+//			}
+//		}
+//		if (result.hasErrors()) {
+//			return "BackStage/rent/update_rent_input";
+//			
+//		}
+//		/*************************** 2.開始修改資料 *****************************************/
+//		// EmpService empSvc = new EmpService();
+//		rentSvc.updateRent(rent);
+//
+//		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
+//		model.addAttribute("success", "- (修改成功)");
+//		rent = rentSvc.getOneRent(Integer.valueOf(rent.getRentNo()));
+//		model.addAttribute("rent", rent);
+//		return "BackStage/rent/listOneRent"; // 修改成功後轉交listOneEmp.html
+//	}
 	
 	
 	
