@@ -104,8 +104,8 @@
 		<img th:src="@{/mem/picture} + '?memno=' + ${myData.memNo}" width="100%" height="100%" class="imgflex" id="memImg">
 		<br>
 		<br>
-		<form action="" method="post" th:object="${data}" enctype="multipart/form-data">
-			<input type="file" id="the_file" multiple accept="image/*" />
+		<form th:action="@{newPic}" method="post" enctype="multipart/form-data">
+			<input type="file" name="chaPic" id="the_file" multiple accept="image/*" />
 		  	<button type="button" id="choose_file">變更大頭照</button>
 		  	<ul class="picture_list"></ul>
 		</form>
@@ -216,8 +216,8 @@
             // li_html += "</li>";
             //寫法2
             let li_html2 = `<li>
-                                            <img src = "${this.result}" class = "preview">
-                                            <input type="submit" class="submit" value="修改資料">
+                                            
+                                            <input type="submit" class="submit" value="儲存">
                                     </li>`;
 
                                     let html_img = document.getElementById("pic");
@@ -226,13 +226,13 @@
                                     html_newImg.id = "changeImg";
                                     let html_oldImg = document.getElementById("memImg");
                                     if(html_oldImg === null){
-                                    	html_oldImg = document.getElementById("changeImg");
+                                    	html_oldImg = document.getElementById("changeImg")
                                     }
-//                                     console.log(html_oldImg);
+                                    console.log(html_oldImg);
 
                                     html_img.replaceChild(html_newImg, html_oldImg);
 
-//             ul_el.insertAdjacentHTML("beforeend", li_html2);
+            ul_el.insertAdjacentHTML("beforeend", li_html2);
           });
         }
       });

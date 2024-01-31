@@ -47,6 +47,10 @@
         span.error {
         	color: red;
         }
+        
+        #the_file {
+        	display: none;
+        }
 
     </style>
 <title>Insert title here</title>
@@ -128,16 +132,14 @@
 					<span th:if="${#fields.hasErrors('memID')}" th:errors="*{memID}" class="error"></span>
 				</td>
 			</tr>
-			<tr>
-				<td><label for="upfile">圖片：</label></td>
-				<td><input type="file" th:field= "*{memPic}"></td>
-			</tr>
 		</table>
+		<input type="file" th:field= "*{memPic}" id="the_file">
 		<input type="hidden" th:field="*{memMail}">
 		<input type="hidden" th:field="*{memNo}">
 		<input type="hidden" th:field="*{memReg}">
 		<input type="hidden" th:field="*{memStatus}">
-<!-- 		<input type="hidden" th:field="*{lastLoginTime}"> -->
+<!-- 		<input type="hidden" th:field="*{memPic}"> -->
+		<input type="hidden" th:field="*{lastLoginTime}">
 		<input type="submit" class="submit" value="修改資料">
 	</form>
 	</main>

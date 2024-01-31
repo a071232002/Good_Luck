@@ -183,6 +183,7 @@ public class MemControllerFrontEnd {
 			BindingResult result, ModelMap model, @RequestParam("county") String county, 
 			@RequestParam("district") String district, HttpSession session) throws IOException {
 
+		
 		String detailAdd = mem.getMemAdd();
 		mem.setMemAdd(county + " " + district + " " + detailAdd);
 		mem.setMemPic(part.isEmpty() ? memservice.findByNo(mem.getMemNo()).getMemPic() : part.getBytes());
@@ -195,11 +196,25 @@ public class MemControllerFrontEnd {
 			mem.setMemAdd(detailAdd);
 			return "FrontEnd/mem/updateMem";
 		}
-
+		System.out.println("get " + mem);
 		Mem newData = memservice.edit(mem);
 		model.addAttribute("successData", newData);
 		session.setAttribute("logsuccess", newData);
 		return "FrontEnd/mem/successPage";
+	}
+	
+	//大頭照變更
+	@PostMapping("/newPic")
+	public String newPic(@RequestParam("chaPic") MultipartFile part, HttpSession session) {
+		Mem mem = (Mem)session.getAttribute("logsuccess");
+		try {
+			mem.setMemPic(part.getBytes());
+			Mem newData = memservice.edit(mem);
+			session.setAttribute("logsuccess", newData);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/mem/memData";
 	}
 	
 	//前往信箱驗證
