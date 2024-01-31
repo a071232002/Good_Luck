@@ -1,7 +1,10 @@
 package com.rentapp.model;
 
 import java.util.List;
-import java.util.Optional;
+
+import com.emp.model.Emp;
+import com.ldd.model.Ldd;
+
 
 public interface RentAppService {
 	public void addRentApp(RentApp rentApp); 
@@ -12,8 +15,9 @@ public interface RentAppService {
 	
 	public List<RentApp> getAll();
 	
-	public RentApp updateRentAppSt(Integer rentAppNo, byte rentAppSt);
+	public RentApp updateRentAppSt(Integer rentAppNo, byte rentAppSt,Emp emp);
 	
 	public String[] getLatAndLon(String rentAppCou, String rentAppAr, String rentAppRo, String rentAppAdd)throws Exception;
 
+	public List<RentApp> getAllByLdd(Ldd ldd);
 }
