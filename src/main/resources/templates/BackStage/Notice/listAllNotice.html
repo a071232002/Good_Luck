@@ -73,7 +73,7 @@
                 <tr>
                     <td th:text="${notice.noticeNo}"></td>
                     <td th:text="${notice.empNo}"></td>
-                    <td th:text="${notice.noticeTime}"></td>
+                    <td th:text="${#dates.format(notice.noticeTime, 'yyyy/MM/dd HH:mm:ss')}"></td>
                     <td th:text="${notice.noticeContent}"></td>
                     <td th:text="${notice.noticeStatus}">
                         <span th:if="${notice.noticeStatus == 0}" th:text="下架"></span>

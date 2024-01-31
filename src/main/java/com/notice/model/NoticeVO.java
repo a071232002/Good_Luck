@@ -1,19 +1,16 @@
 package com.notice.model;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
+
 //import java.sql.Timbestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import com.emp.model.Emp;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "notice")
@@ -30,8 +27,9 @@ public class NoticeVO implements java.io.Serializable{
 	@Column(name = "empNo")
 	private Integer empNo;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	@Column(name = "noticeTime")
-	private Timestamp noticeTime;
+	private Date noticeTime;
 	
 	@Column(name = "noticeContent")
 	private String noticeContent;
@@ -59,14 +57,14 @@ public class NoticeVO implements java.io.Serializable{
 		public Date getNoticeTime() {
 			return noticeTime;
 		}
-		public void setNoticeTime(Timestamp noticeTime) {
+		public void setNoticeTime(Date noticeTime) {
 			this.noticeTime = noticeTime;
 		}
 		public String getNoticeContent() {
 			return noticeContent;
 		}
 
-		public void setNoticecontent(String noticeContent) {
+		public void setNoticeContent(String noticeContent) {
 			this.noticeContent = noticeContent;
 		}
 

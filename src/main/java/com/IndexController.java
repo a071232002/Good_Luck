@@ -67,5 +67,3 @@ public class IndexController {
 		return "redirect:/BackStage/RtnManage";
 	}
 }
-
-

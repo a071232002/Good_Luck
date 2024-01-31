@@ -2,11 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 <style>
 body {
@@ -55,6 +52,7 @@ td {
 	text-align: center;
 	background-color: red;
 }
+ 	
 </style>
 <title>最新消息公告</title>
 </head>
@@ -62,11 +60,12 @@ td {
 <h1> 最新消息公告</h1>
 	<form method="post" th:action="@{noticeadd}" th:object="${noticeVO}"enctype="multipart/form-data">
 		<table>
-			<tr>
-				<td><label for="noticeNo">最新消息編號：</label></td>
-				<td><span th:if="${#fields.hasErrors('noticeNo')}"
-					th:errors="*{noticeNo}" class="error" id="ename.errors"></span></td>
-			</tr>
+<!-- 			<tr> -->
+<!-- 				<td><label for="noticeNo">最新消息編號：</label></td> -->
+<!-- 				<td><input id="noticeNo" title="請輸入最新消息編號" th:field="*{noticeNo}"></td> -->
+<!-- 				<td><span th:if="${#fields.hasErrors('noticeNo')}" -->
+<!-- 					th:errors="*{noticeNo}" class="error" id="ename.errors"></span></td> -->
+<!-- 			</tr> -->
 
 			<tr>
 				<td><label for="empNo">員工編號：</label></td>
@@ -77,15 +76,14 @@ td {
 
 			<tr>
 				<td><label for="noticeTime">最新消息時間：</label></td>
-				<input type="datetime-local" id="noticeTime_input" placeholder="最新消息時間 ">
+				<td><input type="datetime-local" id="noticeTime_input" th:field="*{noticeTime}"></td> 
 			</tr>
 
 			<tr>
 				<td><label for="noticeContent">最新消息內容：</label></td>
-				<td><textarea title="請輸入最新消息內容"
-						th:field="*{noticeContent}" rows="4" cols="50"></textarea></td>
-				<td><span th:if="${#fields.hasErrors('noticeContent')}"
-					th:errors="*{noticeContent}" class="error" id="ename.errors"></span></td>
+				<td><input title="請輸入最新消息內容" th:field="*{noticeContent}"></td>
+				<td><span th:if="${#fields.hasErrors('noticeContent')}" th:errors="*{noticeContent}" class="error" id="ename.errors"></span></td>
+		
 			</tr>
 
 			<tr>
@@ -98,10 +96,15 @@ td {
 					th:errors="*{noticeStatus}" class="error" id="ename.errors"></span></td>
 			</tr>
 			
-			<div>
-				<button type="submit" id="submit">送出新增</button>
-			</div>
+			<tr>
+				<td><input type="submit" id="submit" value="送出新增"></td>
+			</tr>
 		
 		</table>
+		</form>
+		<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	
+
 </body>
 </html>
