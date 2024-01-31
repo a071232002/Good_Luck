@@ -11,12 +11,20 @@ import org.springframework.stereotype.Service;
 import com.emp.model.Emp;
 import com.emp.model.EmpRepository;
 import com.emp.service.EmpService;
+import com.empfun.model.EmpFunRepository;
+import com.empfun.model.EmpFunService;
 
 @Service
 public class EmpServiceImpl implements EmpService {
 	
 	@Autowired
 	private EmpRepository empRepository;
+	
+	@Autowired
+	private EmpFunService empFunservice;
+	
+	@Autowired
+	private EmpFunRepository empFunRepository;
 	
 	//單一員工查詢
 	@Override
@@ -49,16 +57,18 @@ public class EmpServiceImpl implements EmpService {
 	@Override
 	public Emp editEmp(Emp newEmp) {
 		
-		newEmp.setEmpPsw(hashPassword(newEmp.getEmpPsw())); //加密
+//		newEmp.setEmpPsw(hashPassword(newEmp.getEmpPsw())); //加密
 		return empRepository.save(newEmp);
 	}
 
 	// 員工離職
 	@Override
 	public Emp resignEmp(Emp emp) {
-		emp.setEmpStatus(Byte.valueOf("1")); //1為離職狀態
+		emp.setEmpStatus(Byte.valueOf("0")); //0為離職狀態
 		//功能權限移除
-		return null;
+		empFunservice.removeFun(emp);
+		
+		return editEmp(emp);
 	}
 
 	// 新增員工

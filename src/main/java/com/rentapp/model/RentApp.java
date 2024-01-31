@@ -1,5 +1,7 @@
 package com.rentapp.model;
 
+import java.util.Arrays;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -138,9 +140,11 @@ public class RentApp {
 	}
 	@Override
 	public String toString() {
-		return "RentApp [rentAppNo=" + rentAppNo + ", rentAppCou=" + rentAppCou + ", rentAppAr=" + rentAppAr
-				+ ", rentAppRo=" + rentAppRo + ", rentAppAdd=" + rentAppAdd + ", rentAppFloor=" + rentAppFloor
-				+ ", rentAppSize=" + rentAppSize + ", rentAppSt=" + rentAppSt + "]";
+		return "RentApp [rentAppNo=" + rentAppNo + ", ldd=" + ldd + ", emp=" + emp + ", rent=" + rent + ", rentAppCou="
+				+ rentAppCou + ", rentAppAr=" + rentAppAr + ", rentAppRo=" + rentAppRo + ", rentAppAdd=" + rentAppAdd
+				+  ", rentAppFloor=" + rentAppFloor + ", rentAppSize="
+				+ rentAppSize + ", rentAppSt=" + rentAppSt + "]";
 	}
+	
 	
 }

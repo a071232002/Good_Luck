@@ -1,0 +1,1212 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link
+	href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script
+	src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>地圖查詢</title>
+
+<style>
+.dropdown select {
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-right: 4px;
+}
+
+.dropdown select:focus {
+	outline: none;
+	border-color: #66afe9;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
+		rgba(102, 175, 233, .6);
+}
+
+.text-left {
+	list-style-type: none; /* 移除默认的项目符号 */
+	display: flex; /* 使用 Flex 布局 */
+	padding: 0; /* 移除默认的内边距 */
+	font-size: 20px;
+}
+
+.text-left li {
+	margin-right: 10px; /* 调整列表项之间的间距 */
+}
+
+.vertical-line::after {
+	content: "";
+	display: inline-block;
+	width: 1px;
+	height: 14px;
+	background-color: #e6e6e6;
+	margin: 0 8px;
+	vertical-align: middle;
+	margin-bottom: 3px;
+}
+
+.row {
+	position: relative; /* 让 .row 成为相对定位的父元素 */
+}
+
+#rentRentDiv {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	color: #ff0000; /* 將文本顏色設置為紅色 */
+	font-size: 20px; /* 設置字體大小為20像素 */
+	padding: 10px;
+}
+
+#rentNum {
+	font-size: 50px;
+}
+
+#propertyTitle {
+	font-size: 40px; /* 字體大小40像素 */
+	font-weight: bold; /* 設置為粗體 */
+}
+
+#check_rentLayout {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentAppFloor {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentAppArTitle {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentAppSize {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_feature {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentRent {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_equipment {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentAppArTitle .checkbox-inline {
+	color: #ff0000;
+}
+
+.custom-checkbox {
+	margin-left: 10px;
+}
+
+.custom-radio {
+	cursor: pointer;
+	display: block;
+	margin-bottom: 10px;
+	color: #000; /* 设置初始文字颜色 */
+}
+
+.custom-radio input {
+	opacity: 0; /* 隐藏原生单选框 */
+	cursor: pointer;
+}
+
+.custom-radio input:checked+.radio-label {
+	color: #ff8c00; /* 设置选中时文字的颜色 */
+}
+
+.radio-label {
+	font-size: 14px;
+}
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.map {
+	cursor: default; /* 设置默认鼠标样式 */
+	background-color: #fff; /* 设置默认背景颜色 */
+	transition: background-color 0.3s ease; /* 添加过渡效果 */
+}
+
+/* 悬停和移入时的样式 */
+.map:hover, .map.active {
+	cursor: pointer; /* 设置悬停时和移入时的鼠标样式 */
+	background-color: #F5F5F5; /* 设置悬停时和移入时的背景颜色 */
+}
+
+/* header */
+.logo {
+	margin-right: auto;
+	width: 240px;
+	display: flex;
+	align-items: center;
+}
+
+.logo span {
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.logo img {
+	max-width: 50px;
+	margin: 95px;
+	text-align: center;
+}
+
+header.header {
+	border: 1px solid black;
+	background-color: #1a2a35;
+	height: var(--header-height);
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 10000;
+}
+
+.header nav {
+	background: none !important;
+	text-transform: uppercase;
+}
+
+.header nav li {
+	margin-top: 15px;
+}
+
+.header {
+	display: flex !important;
+	justify-content: center;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hoverable a {
+	/* 	text-decoration: none; */
+	color: white;
+}
+
+.hoverable {
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+	display: inline-block;
+	backface-visibility: hidden;
+	vertical-align: middle;
+	position: relative;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	transform: translateZ(0);
+	transition-duration: .3s;
+	transition-property: transform;
+}
+
+.hoverable:before {
+	position: absolute;
+	pointer-events: none;
+	z-index: -1;
+	content: '';
+	top: 100%;
+	left: 5%;
+	height: 10px;
+	width: 90%;
+	opacity: 0;
+	background: -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.35)
+		0%, rgba(255, 255, 255, 0) 80%);
+	background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.35)
+		0%, rgba(255, 255, 255, 0) 80%);
+	transition-duration: 0.3s;
+	transition-property: transform, opacity;
+}
+
+.hoverable:hover, .hoverable:active, .hoverable:focus {
+	transform: translateY(-3px);
+}
+
+.hoverable:hover:before, .hoverable:active:before, .hoverable:focus:before
+	{
+	opacity: 1;
+	transform: translateY(-3px);
+}
+
+.navbar {
+	display: flex !important;
+	justify-content: space-between;
+	/* 設定 navbar 寬度 */
+	width: 80%;
+}
+
+.navbar-nav {
+	display: flex !important;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.navbar ul {
+	display: flex;
+	justify-content: space-between;
+	/* 讓 ul 佔滿 navbar 的寬度 */
+	width: 100%;
+}
+
+.navbar-nav li {
+	flex: 1;
+	text-align: center;
+}
+
+.hoverable:hover {
+	color: yellow;
+}
+
+/* nav login logout */
+.user-info {
+	display: flex;
+	align-items: center;
+}
+
+.user-info img {
+	margin-right: 30px;
+}
+
+.lddIcon {
+	margin-right: 10px !important;
+}
+
+.user-info span {
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.user-info button {
+	width: 50px;
+	font-size: 14px;
+	font-weight: bold;
+	/* 設定按鈕的內間距 */
+	padding: 5px 5px;
+	background-color: #3498db;
+	color: #ffffff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-right: 30px;
+}
+
+.user-info button:hover {
+	/* 滑鼠懸停時的背景色 */
+	background-color: yellow;
+	color: red;
+	/* 滑鼠懸停時的陰影效果 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+:root {
+	--header-height: 60px;
+	--aside-width: 240px;
+}
+
+main {
+	min-height: calc(100vh - var(--header-height));
+	padding-top: var(--header-height);
+	z-index: 1;
+}
+</style>
+
+</head>
+<body>
+	<header class="header">
+		<div class="logo">
+			<img th:src="@{/icon/FrontEnd/memCenter/memCenter.png}">
+			<!--                 <span>會員中心</span> -->
+		</div>
+		<nav class="navbar navbar-inverse">
+			<ul class="nav navbar-nav">
+				<li><a class="hoverable" th:href="@{/}">首頁</a></li>
+				<li><a class="hoverable" href="#">最新消息</a></li>
+				<li><a class="hoverable" href="#">租賃服務</a></li>
+				<li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
+			</ul>
+		</nav>
+		<div class="user-info">
+			<th:block th:if="${session.logsuccess}">
+				<span th:text="${session.logsuccess.memName}"></span>
+				<img
+					th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}"
+					width="30px" height="30px">
+				<a th:href="@{/mem/logOut}"><button type="button">登出</button></a>
+			</th:block>
+			<th:block th:unless="${session.logsuccess}">
+				<a th:href="@{/mem/login}"><button type="button">登入</button></a>
+			</th:block>
+		</div>
+	</header>
+	<main>
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<!-- 下拉 -->
+
+					<div class="dropdown" margin="20px" id="check_rentAppCou">
+						<div style="text-align: center; padding-top: 30px;">
+							<select name="rentAppCou" id="county_box" box-sizing="border-box">
+							</select> <input type="text" name="additionalInput"
+								style="width: 180px; margin-left: 10px; height: 34px;">
+							<button type="button" id="additionalBtn" style="height: 34px;">查詢</button>
+							<div class="map"
+								style="display: inline-block; font-size: 16px; font-weight: bold; margin: 10px 10px 10px 30px; width: 120px; height: 40px;"
+								onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)"
+								onclick="listAllRent()">
+								<img src="/icon/FrontEnd/rent/list.png" width="30px"
+									height="30px"
+									style="vertical-align: bottom; margin-right: 5px;"> 列表找房
+							</div>
+						</div>
+
+						<div id="check_rentAppAr"></div>
+
+						<hr style="margin-top: 10px; margin-bottom: 10px;">
+
+						<div id="check_rentLayout">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">型態</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="0"> <span class="radio-label">雅房</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="1"> <span class="radio-label">分租套房</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="2"> <span class="radio-label">獨立套房</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="3"> <span class="radio-label">整層住家</span>
+							</label>
+						</div>
+
+						<div id="check_rentRent">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">租金</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentRent" value="" checked onchange="clearInputs()">
+								<span class="radio-label">不限</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="5000元以下" onchange="clearInputs()">
+								<span class="checkbox-label">5000元以下</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="5000-10000元" onchange="clearInputs()">
+								<span class="checkbox-label">5000-10000元</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="10000-20000元" onchange="clearInputs()">
+								<span class="checkbox-label">10000-20000元</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="20000-30000元" onchange="clearInputs()">
+								<span class="checkbox-label">20000-30000元</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="30000-40000元" onchange="clearInputs()">
+								<span class="checkbox-label">30000-40000元</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="40000元以上" onchange="clearInputs()">
+								<span class="checkbox-label">40000元以上</span>
+							</label> <label class="minRent"> <input type="text"
+								name="minRent"
+								style="width: 80px; height: 20px; margin-left: 10px;">
+							</label> <span class="filter-custom-line"
+								style="margin-left: 10px; margin-right: 10px;">-</span> <label
+								class="maxRent"> <input type="text" name="maxRent"
+								style="width: 80px; height: 20px;">
+							</label> <span class="filter-custom-line" style="margin-left: 10px;">元</span>
+							<button type="button" id="RentSubmit"
+								style="margin-left: 10px; height: 20px; text-align: center; display: flex; align-items: center;">確定</button>
+
+						</div>
+
+						<div id="check_rentAppFloor">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">樓層</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="1樓"> <span
+								class="radio-label">1樓</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="2-5樓"> <span
+								class="radio-label">2-5樓</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="6-11樓"> <span
+								class="radio-label">6-11樓</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="12樓以上"> <span
+								class="radio-label">12樓以上</span>
+							</label>
+						</div>
+
+						<div id="check_rentAppSize">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">坪數</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppSize" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentAppSize" value="10坪以下"> <span
+								class="checkbox-label">10坪以下</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentAppSize" value="11-20坪"> <span
+								class="checkbox-label">11-20坪</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentAppSize" value="21-30坪"> <span
+								class="checkbox-label">21-30坪</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentAppSize" value="30坪以上"> <span
+								class="checkbox-label">30坪以上</span>
+							</label>
+						</div>
+
+						<div id="check_feature">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">特色</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="feature" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentBalcony"> <span
+								class="checkbox-label">陽台</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentElev"> <span
+								class="checkbox-label">電梯</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentParking"> <span
+								class="checkbox-label">車位</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentWaterBill"> <span
+								class="checkbox-label">台水</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentElectricityBill"> <span
+								class="checkbox-label">台電</span>
+							</label>
+						</div>
+
+						<div id="check_equipment">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">設備</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="equipment" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentRefrigerator"> <span
+								class="checkbox-label">冰箱</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentAC"> <span
+								class="checkbox-label">冷氣機</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentTV"> <span
+								class="checkbox-label">電視</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentWashMachine"> <span
+								class="checkbox-label">洗衣機</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentHeater"> <span
+								class="checkbox-label">熱水器</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentBed"> <span
+								class="checkbox-label">床</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentWardrobe"> <span
+								class="checkbox-label">衣櫃</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentInternet"> <span
+								class="checkbox-label">網路</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentCableTV"> <span
+								class="checkbox-label">第四台</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentSofa"> <span
+								class="checkbox-label">沙發</span>
+							</label>
+						</div>
+
+						<hr style="margin-top: 10px; margin-bottom: 10px;">
+					</div>
+
+					<div id="map" style="height: 400px; margin-top: 20px;"></div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- <script src="./vendors/jquery/jquery-3.7.1.min.js"></script> -->
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuQxy8IWpLXa4ixgreClBMfk_TuBFfJyI&libraries=places"
+		defer></script>
+	<script>
+
+// 初始化變數
+var itemsPerPage = 3;
+var rentList = []; // 你的 rentList 數據
+var currentPage = 1;
+var totalPages = Math.ceil(rentList.length / itemsPerPage);
+
+//定義全局對象 data
+const data = {
+//     all: "1"
+    // 其他屬性...
+};
+
+function addData(key, value) {
+    data[key] = value;
+    getRentList()
+    changePage(1)
+//     console.log(data)
+}
+    // Cities of Taiwan
+const database = {
+    '基隆市': {'仁愛區': '200', '信義區': '201', '中正區': '202', '中山區': '203', '安樂區': '204', '暖暖區': '205', '七堵區': '206'},
+    '臺北市': {'中正區': '100', '大同區': '103', '中山區': '104', '松山區': '105', '大安區': '106', '萬華區': '108', '信義區': '110', '士林區': '111', '北投區': '112', '內湖區': '114', '南港區': '115', '文山區': '116'},
+    '新北市': {
+    '萬里區': '207', '金山區': '208', '板橋區': '220', '汐止區': '221', '深坑區': '222', '石碇區': '223',
+    '瑞芳區': '224', '平溪區': '226', '雙溪區': '227', '貢寮區': '228', '新店區': '231', '坪林區': '232',
+    '烏來區': '233', '永和區': '234', '中和區': '235', '土城區': '236', '三峽區': '237', '樹林區': '238',
+    '鶯歌區': '239', '三重區': '241', '新莊區': '242', '泰山區': '243', '林口區': '244', '蘆洲區': '247',
+    '五股區': '248', '八里區': '249', '淡水區': '251', '三芝區': '252', '石門區': '253'
+    },
+    '宜蘭縣': {
+    '宜蘭市': '260', '頭城鎮': '261', '礁溪鄉': '262', '壯圍鄉': '263', '員山鄉': '264', '羅東鎮': '265',
+    '三星鄉': '266', '大同鄉': '267', '五結鄉': '268', '冬山鄉': '269', '蘇澳鎮': '270', '南澳鄉': '272',
+    '釣魚臺列嶼': '290'
+    },
+    '新竹市': {'東區': '300', '北區': '300', '香山區': '300'},
+    '新竹縣': {
+    '竹北市': '302', '湖口鄉': '303', '新豐鄉': '304', '新埔鎮': '305', '關西鎮': '306', '芎林鄉': '307',
+    '寶山鄉': '308', '竹東鎮': '310', '五峰鄉': '311', '橫山鄉': '312', '尖石鄉': '313', '北埔鄉': '314',
+    '峨眉鄉': '315'
+    },
+    '桃園市': {
+    '中壢區': '320', '平鎮區': '324', '龍潭區': '325', '楊梅區': '326', '新屋區': '327', '觀音區': '328',
+    '桃園區': '330', '龜山區': '333', '八德區': '334', '大溪區': '335', '復興區': '336', '大園區': '337',
+    '蘆竹區': '338'
+    },
+    '苗栗縣': {
+    '竹南鎮': '350', '頭份市': '351', '三灣鄉': '352', '南庄鄉': '353', '獅潭鄉': '354', '後龍鎮': '356',
+    '通霄鎮': '357', '苑裡鎮': '358', '苗栗市': '360', '造橋鄉': '361', '頭屋鄉': '362', '公館鄉': '363',
+    '大湖鄉': '364', '泰安鄉': '365', '銅鑼鄉': '366', '三義鄉': '367', '西湖鄉': '368', '卓蘭鎮': '369'
+    },
+    '臺中市': {
+    '中區': '400', '東區': '401', '南區': '402', '西區': '403', '北區': '404', '北屯區': '406', '西屯區': '407', '南屯區': '408',
+    '太平區': '411', '大里區': '412', '霧峰區': '413', '烏日區': '414', '豐原區': '420', '后里區': '421',
+    '石岡區': '422', '東勢區': '423', '和平區': '424', '新社區': '426', '潭子區': '427', '大雅區': '428',
+    '神岡區': '429', '大肚區': '432', '沙鹿區': '433', '龍井區': '434', '梧棲區': '435', '清水區': '436',
+    '大甲區': '437', '外埔區': '438', '大安區': '439'
+    },
+    '彰化縣': {
+    '彰化市': '500', '芬園鄉': '502', '花壇鄉': '503', '秀水鄉': '504', '鹿港鎮': '505', '福興鄉': '506',
+    '線西鄉': '507', '和美鎮': '508', '伸港鄉': '509', '員林市': '510', '社頭鄉': '511', '永靖鄉': '512',
+    '埔心鄉': '513', '溪湖鎮': '514', '大村鄉': '515', '埔鹽鄉': '516', '田中鎮': '520', '北斗鎮': '521',
+    '田尾鄉': '522', '埤頭鄉': '523', '溪州鄉': '524', '竹塘鄉': '525', '二林鎮': '526', '大城鄉': '527',
+    '芳苑鄉': '528', '二水鄉': '530'
+    },
+    '南投縣': {
+    '南投市': '540', '中寮鄉': '541', '草屯鎮': '542', '國姓鄉': '544', '埔里鎮': '545', '仁愛鄉': '546',
+    '名間鄉': '551', '集集鎮': '552', '水里鄉': '553', '魚池鄉': '555', '信義鄉': '556', '竹山鎮': '557',
+    '鹿谷鄉': '558'
+    },
+    '嘉義市': {'東區': '600', '西區': '600'},
+    '嘉義縣': {
+    '番路鄉': '602', '梅山鄉': '603', '竹崎鄉': '604', '阿里山鄉': '605', '中埔鄉': '606', '大埔鄉': '607',
+    '水上鄉': '608', '鹿草鄉': '611', '太保市': '612', '朴子市': '613', '東石鄉': '614', '六腳鄉': '615',
+    '新港鄉': '616', '民雄鄉': '621', '大林鎮': '622', '溪口鄉': '623', '義竹鄉': '624', '布袋鎮': '625'
+    },
+    '雲林縣': {
+    '斗南鎮': '630', '大埤鄉': '631', '虎尾鎮': '632', '土庫鎮': '633', '褒忠鄉': '634', '東勢鄉': '635',
+    '臺西鄉': '636', '崙背鄉': '637', '麥寮鄉': '638', '斗六市': '640', '林內鄉': '643', '古坑鄉': '646',
+    '莿桐鄉': '647', '西螺鎮': '648', '二崙鄉': '649', '北港鎮': '651', '水林鄉': '652', '口湖鄉': '653',
+    '四湖鄉': '654', '元長鄉': '655'
+    },
+    '臺南市': {
+    '中西區': '700', '東區': '701', '南區': '702', '北區': '704', '安平區': '708', '安南區': '709',
+    '永康區': '710', '歸仁區': '711', '新化區': '712', '左鎮區': '713', '玉井區': '714', '楠西區': '715',
+    '南化區': '716', '仁德區': '717', '關廟區': '718', '龍崎區': '719', '官田區': '720', '麻豆區': '721',
+    '佳里區': '722', '西港區': '723', '七股區': '724', '將軍區': '725', '學甲區': '726', '北門區': '727',
+    '新營區': '730', '後壁區': '731', '白河區': '732', '東山區': '733', '六甲區': '734', '下營區': '735',
+    '柳營區': '736', '鹽水區': '737', '善化區': '741', '大內區': '742', '山上區': '743', '新市區': '744',
+    '安定區': '745'
+    },
+    '高雄市': {
+    '新興區': '800', '前金區': '801', '苓雅區': '802', '鹽埕區': '803', '鼓山區': '804', '旗津區': '805',
+    '前鎮區': '806', '三民區': '807', '楠梓區': '811', '小港區': '812', '左營區': '813',
+    '仁武區': '814', '大社區': '815', '東沙群島': '817', '南沙群島': '819', '岡山區': '820', '路竹區': '821',
+    '阿蓮區': '822', '田寮區': '823',
+    '燕巢區': '824', '橋頭區': '825', '梓官區': '826', '彌陀區': '827', '永安區': '828', '湖內區': '829',
+    '鳳山區': '830', '大寮區': '831', '林園區': '832', '鳥松區': '833', '大樹區': '840', '旗山區': '842',
+    '美濃區': '843', '六龜區': '844', '內門區': '845', '杉林區': '846', '甲仙區': '847', '桃源區': '848',
+    '那瑪夏區': '849', '茂林區': '851', '茄萣區': '852'
+    },
+    '屏東縣': {
+    '屏東市': '900', '三地門鄉': '901', '霧臺鄉': '902', '瑪家鄉': '903', '九如鄉': '904', '里港鄉': '905',
+    '高樹鄉': '906', '鹽埔鄉': '907', '長治鄉': '908', '麟洛鄉': '909', '竹田鄉': '911', '內埔鄉': '912',
+    '萬丹鄉': '913', '潮州鎮': '920', '泰武鄉': '921', '來義鄉': '922', '萬巒鄉': '923', '崁頂鄉': '924',
+    '新埤鄉': '925', '南州鄉': '926', '林邊鄉': '927', '東港鎮': '928', '琉球鄉': '929', '佳冬鄉': '931',
+    '新園鄉': '932', '枋寮鄉': '940', '枋山鄉': '941', '春日鄉': '942', '獅子鄉': '943', '車城鄉': '944',
+    '牡丹鄉': '945', '恆春鎮': '946', '滿州鄉': '947'
+    },
+    '臺東縣': {
+    '臺東市': '950', '綠島鄉': '951', '蘭嶼鄉': '952', '延平鄉': '953', '卑南鄉': '954', '鹿野鄉': '955',
+    '關山鎮': '956', '海端鄉': '957', '池上鄉': '958', '東河鄉': '959', '成功鎮': '961', '長濱鄉': '962',
+    '太麻里鄉': '963', '金峰鄉': '964', '大武鄉': '965', '達仁鄉': '966'
+    },
+    '花蓮縣': {
+    '花蓮市': '970', '新城鄉': '971', '秀林鄉': '972', '吉安鄉': '973', '壽豐鄉': '974', '鳳林鎮': '975',
+    '光復鄉': '976', '豐濱鄉': '977', '瑞穗鄉': '978', '萬榮鄉': '979', '玉里鎮': '981', '卓溪鄉': '982',
+    '富里鄉': '983'
+    },
+    '金門縣': {'金沙鎮': '890', '金湖鎮': '891', '金寧鄉': '892', '金城鎮': '893', '烈嶼鄉': '894', '烏坵鄉': '896'},
+    '連江縣': {'南竿鄉': '209', '北竿鄉': '210', '莒光鄉': '211', '東引鄉': '212'},
+    '澎湖縣': {'馬公市': '880', '西嶼鄉': '881', '望安鄉': '882', '七美鄉': '883', '白沙鄉': '884', '湖西鄉': '885'}
+};
+
+const county_box = document.querySelector('#county_box');
+// const district_box = document.querySelector('#district_box');
+var aaa_enter=document.querySelector('#aaa');
+var bbb_enter=document.querySelector('#bbb');
+
+
+var check_rentAppAr=document.querySelector('#check_rentAppAr');
+let selected_county;
+
+Object.getOwnPropertyNames(database).forEach((county) => {
+    county_box.innerHTML += `<option value="${county}">${county}</option>`;
+});
+
+county_box.addEventListener('change', (event) => {
+// 	console.log(event.target.value);
+    selected_county = county_box.options[county_box.selectedIndex].value;
+
+//     district_box.innerHTML = '<option value="">選擇鄉鎮市區</option>';
+	document.getElementById("check_rentAppAr").innerHTML = '';
+	
+    document.getElementById("check_rentAppAr").innerHTML = `<div id="check_rentAppArTitle">
+    														<label class="custom-radio ">
+														        <input type="radio" disabled>    
+														        <span class="radio-label" style="color: blue">位置</span>
+														    </label>
+														    <label class="custom-radio">
+														        <input type="radio" name="rentAppAr" value="9299" checked>
+															        <span class="radio-label">不限</span>
+														    </label>
+														    </div>`;
+
+
+    Object.getOwnPropertyNames(database[selected_county]).forEach((district) => {
+
+		var targetElement = document.getElementById("check_rentAppAr");
+
+        var district=district
+        
+        var newHTMLContent = `<label class="checkbox-inline "style="padding-top: 10px ;padding-bottom: 10px;">
+					            <input type="checkbox" name="rentAppAr" value="${district}">
+					            ${district}
+					        </label>`;
+        targetElement.innerHTML += newHTMLContent;
+
+
+    });
+ // 获取包含所有 checkbox 的父元素
+    var checkboxContainerTitle = document.getElementById('check_rentAppAr');
+
+    // 获取第一个 .checkbox-inline 元素
+    var firstCheckboxTitle = checkboxContainerTitle.querySelector('.checkbox-inline');
+
+    // 添加样式到第一个 .checkbox-inline 元素
+    if (firstCheckboxTitle) {
+    	firstCheckboxTitle.style.marginLeft = '10px';
+   
+    }
+
+    
+ // 获取单选框和复选框的元素
+    var radioBtn = document.querySelector('input[type="radio"][value="9299"]');
+    var checkboxes = document.querySelectorAll('input[type="checkbox"][name="rentAppAr"]');
+
+    radioBtn.addEventListener('change', function () {
+        // 當 radioBtn 被選中時，取消所有 checkboxes 的選中狀態
+        
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = false;
+        });
+    });
+    // 遍历复选框，为每个复选框添加 change 事件监听器
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            var anyCheckboxChecked = false;
+
+            // 检查是否有任何复选框被选中
+            checkboxes.forEach(function(cb) {
+                if (cb.checked) {
+                    anyCheckboxChecked = true;
+                }
+            });
+
+            // 如果没有任何复选框被选中，则选中默认的单选框；否则取消选中单选框
+            if (!anyCheckboxChecked) {
+                radioBtn.checked = true;
+            } else {
+                radioBtn.checked = false;
+            }
+        });
+    });
+    
+    var checkboxContainer = document.getElementById('check_rentAppAr');
+    var checkboxes = checkboxContainer.querySelectorAll('input[type="checkbox"]');
+    var maxCheckboxCount = 3;
+
+    checkboxContainer.addEventListener('change', function(event) {
+        var checkedCheckboxes = checkboxContainer.querySelectorAll('input[type="checkbox"]:checked');
+        var selectedValues = [];
+
+        if (checkedCheckboxes.length > maxCheckboxCount) {
+            event.target.checked = false;
+            alert('最多只能選' + maxCheckboxCount + '個選項');
+        } else {
+            checkedCheckboxes.forEach(function(checkbox) {
+                selectedValues.push(checkbox.value);
+            });
+
+//             console.log('被选中的 rentAppAr 值：', selectedValues);
+            addData("rentAppAr",selectedValues)
+        }
+    });
+    
+
+
+})
+
+
+window.addEventListener("load", function () {
+	
+// 	getRentList();
+	 // 获取 select 元素
+    var countySelect = document.getElementById('county_box');
+
+    // 设置选中项为 "基隆市"
+    countySelect.value = '基隆市';
+
+
+    function initEvents() {
+        // 创建并初始化事件
+        var changeEvent = new Event('change');
+
+        // 手动触发 change 事件
+        countySelect.dispatchEvent(changeEvent);
+
+        var dispatchChangeEvent = function (selector) {
+            var element = document.querySelector(selector);
+            if (element) {
+                element.dispatchEvent(new Event('change'));
+            }
+        };
+
+        // 初始化 rentLayout 和 rentAppFloor 的 change 事件
+        dispatchChangeEvent('input[name="rentLayout"]:checked');
+        dispatchChangeEvent('input[name="rentAppFloor"]:checked');
+        dispatchChangeEvent('input[name="rentAppSize"]:checked');
+        dispatchChangeEvent('input[name="feature"]:checked');
+        dispatchChangeEvent('input[name="rentRent"]:checked');
+        dispatchChangeEvent('input[name="equipment"]:checked');
+        dispatchChangeEvent('input[name="rentAppAr"]:checked');
+        
+    }
+
+    // 调用 initEvents 函数
+    initEvents();
+
+
+})
+
+
+// // 變更當前頁面的函數
+// function changePage(pageNumber) {
+//     currentPage = pageNumber;
+//     showRents();
+// }
+
+// // 前一頁的函數
+// function prevPage() {
+//     if (currentPage > 1) {
+//         currentPage--;
+//         showRents();
+//     }
+// }
+
+// // 下一頁的函數
+// function nextPage() {
+//     if (currentPage < totalPages) {
+//         currentPage++;
+//         showRents();
+//     }
+// }
+
+async function getRentList() { 
+	
+	
+
+	// 使用Fetch API發送POST請求
+	fetch('/rent/QueryRentListInMap', {
+	    method: 'POST',
+	    headers: {
+	        'Content-Type': 'application/json',
+	    },
+	    body: JSON.stringify(data),
+	})
+	.then(response => response.json())
+	.then(responseData => {
+	    // 處理後端返回的數據
+// 	    console.log(responseData);
+	    rentList=responseData
+	    totalPages = Math.ceil(rentList.length / itemsPerPage);
+	    showRents()
+	})
+	.catch(error => {
+	    console.error('Error:', error);
+	});
+
+}
+
+function showRents(){
+	if (rentList.length === 0) {
+	    window.alert('尚無物件資料');
+	    
+	}else {
+
+		var selectedCity = document.getElementById('county_box').value;
+	    var geocoder = new google.maps.Geocoder();
+	
+	    geocoder.geocode({ 'address': selectedCity + ', Taiwan' }, function (results, status) {
+	        if (status == google.maps.GeocoderStatus.OK) {
+	            var mapOptions = {
+	                center: results[0].geometry.location,
+	                zoom: 16
+	            };
+	            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+	
+	            // 添加标记
+	            for (let i=0; i<rentList.length; i++) {
+	            	console.log(rentList[i].rentPostTitle)
+	
+	            	var imageSource = rentList[i].rentImg;
+					var propertyTitle = rentList[i].rentPostTitle
+					var rentAppSize = rentList[i].rentAppSize
+					var rentAppFloor = rentList[i].rentAppFloor
+					var rentNo = rentList[i].rentNo
+					var rentAppArAndtAppRo=rentList[i].rentAppAr+rentList[i].rentAppRo
+					var rentAppAr=rentList[i].rentAppAr
+					var rentAppRo=rentList[i].rentAppRo
+					var rentAppCou=rentList[i].rentAppCou
+					var rentLayout=rentList[i].rentLayout
+					var rentRent=rentList[i].rentRent.toLocaleString()
+					var rentLat=rentList[i].rentLat
+					var rentLon=rentList[i].rentLon
+	            	
+		            addMarker(map, propertyTitle, rentLat, rentLon,rentAppCou,rentAppAr,rentAppRo,rentRent, rentNo);
+	            }
+	            
+	        } else {
+	            alert('Geocode was not successful for the following reason: ' + status);
+	        }
+	    });
+	}
+}
+function addMarker(map, Title, latitude, longitude,rentAppCou,rentAppAr,rentAppRo,rentRent,  rentNo) {
+    var marker = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(latitude, longitude),
+        title: Title
+    });
+
+    var infowindow = new google.maps.InfoWindow({
+        content: '<div style="position: relative;"id="'+rentNo+'"onclick="getOneById(this.id)">' +
+        			'<a href="#" style="font-size: 15px;" onclick="return false;">'+Title+'</a></div>'+
+				    '<p>' + rentAppCou + '-'+rentAppAr+'-'+rentAppRo+'</p>' +
+				    '<p style="font-size: 15px;font-weight: bold;color: red; position: absolute; bottom: 0; right: 0;margin-bottom: 1px;">' + rentRent + ' 元</p>'
+    });
+
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });
+}
+
+
+
+
+//不限跟複選框互綁
+function radioAndCheck(radioName, checkboxes) {
+	var radioBtn = document.querySelector('input[type="radio"][name="' + radioName + '"]');
+	radioBtn.addEventListener('change', function () {
+        // 當 radioBtn 被選中時，取消所有 checkboxes 的選中狀態
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = false;
+        });
+    });
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            var anyCheckboxChecked = false;
+
+            checkboxes.forEach(function(cb) {
+                if (cb.checked) {
+                    anyCheckboxChecked = true;
+                }
+            });
+
+            if (!anyCheckboxChecked) {
+                radioBtn.checked = true;
+            } else {
+                radioBtn.checked = false;
+            }
+        });
+    });
+}
+
+
+var rentAppSizecheck = document.querySelectorAll('input[type="checkbox"][name="rentAppSize"]');
+radioAndCheck('rentAppSize', rentAppSizecheck);
+
+
+var featurecheck = document.querySelectorAll('input[type="checkbox"][name="feature"]');
+radioAndCheck('feature', featurecheck);
+
+var rentRentcheck = document.querySelectorAll('input[type="checkbox"][name="rentRent"]');
+radioAndCheck('rentRent', rentRentcheck);
+
+var equipmentcheck = document.querySelectorAll('input[type="checkbox"][name="equipment"]');
+radioAndCheck('equipment', equipmentcheck);
+
+
+
+
+//複選最多3個
+function maxSelection(Id, maxCount) {
+    var checkboxes = document.querySelectorAll('#' + Id + ' input[type="checkbox"]');
+
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            var checkedCheckboxes = document.querySelectorAll('#' + Id + ' input[type="checkbox"]:checked');
+
+            if (checkedCheckboxes.length > maxCount) {
+                // 如果選擇的數量超過最大值，取消當前 checkbox 的選擇
+                checkbox.checked = false;
+                alert('最多只能選擇' + maxCount + '個');
+            } else {
+                // 印出被選中的 checkbox 的值
+                var selectedValues = Array.from(checkedCheckboxes).map(function (checkbox) {
+                    return checkbox.value;
+                });
+
+//                 console.log('選中的值：', selectedValues);
+            }
+        });
+    });
+}
+
+maxSelection('check_rentAppSize',3)
+
+
+document.getElementById('additionalBtn').addEventListener('click', function() {
+	var additionalInput = document.querySelector('input[name="additionalInput"]').value;
+	data["additionalInput"]=[additionalInput]
+// 	console.log(data)
+    getRentList();
+	changePage(1)
+})
+
+
+
+
+
+
+document.getElementById('RentSubmit').addEventListener('click', function() {
+	 // 取得 minRent 和 maxRent 兩個 input 元素的值
+    var minRentValue = document.querySelector('#check_rentRent .minRent input[name="minRent"]').value;
+    var maxRentValue = document.querySelector('#check_rentRent .maxRent input[name="maxRent"]').value;
+
+    // 將值轉換為數字進行比較
+    var minRent = parseFloat(minRentValue);
+    var maxRent = parseFloat(maxRentValue);
+
+    // 檢查 maxRent 是否小於 minRent
+    if (isNaN(minRent) || isNaN(maxRent) || maxRent < minRent) {
+        alert('最大值不能小於最小值');
+        // 或者你可以進行其他處理，比如阻止提交表單
+        return;
+    }
+
+    // 如果通過檢查，繼續你的邏輯...
+    // 這裡可以添加你想要執行的其他邏輯
+//     console.log('minRent:', minRent, 'maxRent:', maxRent);
+    // 清空所有 checkbox 選取
+    var checkboxes = document.querySelectorAll('#check_rentRent input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
+
+    // 清空 name=rentRent class=custom-radio 選取
+    var radioButton = document.querySelector('input[type="radio"][name="rentRent"]');
+
+        radioButton.checked = false;
+        data["rentRent"]=[]
+
+
+    // 獲取 minRent 和 maxRent 的 input 元素
+    var minRentInput = document.querySelector('#check_rentRent .minRent input[name="minRent"]');
+    var maxRentInput = document.querySelector('#check_rentRent .maxRent input[name="maxRent"]');
+    data["rentRent"]=[minRentInput.value,maxRentInput.value]
+//     console.log(data)
+    getRentList();
+    changePage(1)
+    // 印出 minRent 和 maxRent 的值
+//     console.log('最小租金:', minRentInput.value);
+//     console.log('最大租金:', maxRentInput.value);
+});
+
+
+
+//獲取 minRent 和 maxRent 的 input 元素
+var minRentInput = document.querySelector('#check_rentRent .minRent input[name="minRent"]');
+var maxRentInput = document.querySelector('#check_rentRent .maxRent input[name="maxRent"]');
+
+//添加 input 事件監聽器
+minRentInput.addEventListener('input', function() {
+    // 檢查是否輸入的是數字，如果不是，則顯示提示
+    if (!/^\d*$/.test(this.value)) {
+       
+        this.value = this.value.replace(/\D/g, ''); // 移除非數字字符
+    }
+});
+
+maxRentInput.addEventListener('input', function() {
+    // 檢查是否輸入的是數字，如果不是，則顯示提示
+    if (!/^\d*$/.test(this.value)) {
+       
+        this.value = this.value.replace(/\D/g, ''); // 移除非數字字符
+    }
+});
+
+
+function clearInputs() {
+    // 取得 minRent 和 maxRent 兩個 input 元素
+    var minRentInput = document.querySelector('input[name="minRent"]');
+    var maxRentInput = document.querySelector('input[name="maxRent"]');
+
+    // 清空 input 內容
+    if (minRentInput.value.trim() !== '') {
+        minRentInput.value = '';
+        data["rentRent"]=[]
+    }
+
+    if (maxRentInput.value.trim() !== '') {
+        maxRentInput.value = '';
+        data["rentRent"]=[]
+    }
+}
+
+function logAllValues() {
+    // 获取所有需要监听的元素
+    var elementsToWatch = document.querySelectorAll('select, input[type="checkbox"], input[type="radio"]');
+
+    // 创建一个对象来存储元素的值
+    var values = data;
+
+    // 遍历元素列表，为每个元素添加变化事件监听器
+    elementsToWatch.forEach(function(element) {
+        element.addEventListener('change', function() {
+            // 等待當前事件處理完畢後再執行
+            setTimeout(function() {
+                // 更新对象中的值
+                if (element.type === 'checkbox') {
+                    values[element.name] = values[element.name] || [];
+                    if (element.checked) {
+                        values[element.name].push(element.value);
+//                         console.log(element.name+":"+element.value+"check")
+//                         values[element.name] = values[element.name].filter(function(val) {
+//                             return val !== "不限";
+//                         });
+                    } else {
+//                     	console.log(element.name+":"+element.value+"取消check")
+                        values[element.name] = values[element.name].filter(function(val) {
+                            return val !== element.value;
+                        });
+                    }
+
+                } else if (element.type === 'radio') {
+                    values[element.name] = values[element.name] || [];
+                    if (element.checked) {
+                        values[element.name] = [element.value];
+                    } else {
+                        values[element.name] = [];
+                    }
+                }else {
+                	
+                    values[element.name] = [element.value];
+                }
+
+                // 输出所有被选中元素的值
+//                 console.log('All Selected Values:', values);
+                getRentList();
+                changePage(1)
+//                 console.log(data)
+            }, 0);
+        });
+    });
+}
+
+// 调用函数以初始化监听
+logAllValues();
+
+function activateDiv(div) {
+    div.classList.add('active');
+}
+
+function deactivateDiv(div) {
+    div.classList.remove('active');
+}
+function listAllRent() {
+	
+    window.location.href = "/rent/listAllRent";
+  }
+function getOneById(divId) {
+    var backendControllerUrl = '/rent/rentDetail';  // 修改为您的后端Controller的URL
+    var urlWithParams = backendControllerUrl + '?rentNo=' + divId;
+
+    // 将用户重定向到带参数的后端Controller
+    window.location.href = urlWithParams;
+}
+
+</script>
+</body>
+</html>

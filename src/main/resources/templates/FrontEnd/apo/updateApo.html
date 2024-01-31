@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}"/>
-    <title>預約單修改</title>
-	<style>
+    <!-- 影響nav css拔掉不用 -->
+    <!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+    <title>修改預約時間</title>
+    <style>
         h1 {
-           text-align: center;
-           color: red;
+            text-align: center;
+            color: red;
         }
-
+        
+		b {
+			color: red;
+			font-size: 24px;
+            font-weight: bold;
+            vertical-align: middle
+		}
+		
         .container {
             text-align: center;
         }
@@ -40,6 +50,7 @@
             margin: 10px;
             font-size: 20px;
             font-weight: bold;
+            vertical-align: middle
         }
 
         span.formEl {
@@ -112,68 +123,108 @@
             background-color: #005680;
             color: white;
         }
-    </style>
-    
-</head>
-<body>
-    <h1>修改預約修時間</h1>
-    <div class="formArea">
-		<form class="formData" method="post" th:action="@{update}" th:object="${apo}">
+
+        .container {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center;
+        }
 		
-				<label class="formEl" for="apoNo">預約單編號:</label>
-				<span class="formEl" th:text="*{apoNo}"></span><br/>
+		.monthDisplay{
+			font-size: 20px;
+            font-weight: bold;
+            
+		}
 
-				<label class="formEl" for="memNo">會員編號:</label>
-				<span class="formEl" th:text="*{mem.memNo}"></span><br/>
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-				<label class="formEl" for="empNo">物件編號:</label>
-				<span class="formEl" th:text="*{rent.rentNo}"></span><br/>
 
-				<label class="formEl" for="apoCreate">申請日期:</label>
-				<span class="formEl" th:text="*{apoCreate}"></span><br/>
+        .thead-dark th {
+            background-color: #343a40;
+            color: #fff;
+        }
 
-				<label class="formEl" for="apoDate">請選擇預約日期及時段<b>*</b>：</label><br>
-				<input type="text" id="apoDate" th:field="*{apoDate}"/>
-                <input type="hidden" id="apoTime" th:field="*{apoTime}"> 
+        th,
+        td {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            width: 80px;
+        }
+
+        th.scope {
+            background-color: darkred;
+            color: #fff;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+    <main>
+        <h1>修改預約時間</h1>
+        <div class="formArea">
+            <form class="formData" method="post" th:action="@{update}" th:object="${apo}">
+
+                <label class="formEl" for="apoNo">預約單編號:</label>
+                <span class="formEl" th:text="*{apoNo}"></span><br>
+
+                <label class="formEl" for="empNo">物件編號:</label>
+                <span class="formEl" th:text="*{rent.rentNo}"></span><br>
+
+                <label class="formEl" for="apoDate">請選擇預約日期及時段<b> *</b>：</label><br><br>
+                <input type="text" id="apoDate" th:field="*{apoDate}" />
+                <input type="hidden" id="apoTime" th:field="*{apoTime}">
                 <span th:switch="*{apoTime}">
-            	<span th:case="1" class="formEl" id="apoTimeText">早上</span>
-            	<span th:case="2" class="formEl" id="apoTimeText">下午</span>
-            	<span th:case="3" class="formEl" id="apoTimeText">晚上</span>
-            	</span><br><br>
-            	
-            <input type="hidden" th:field="*{apoNo}">
-            <input type="hidden" th:field="*{apoStatus}">
-            <input type="hidden" th:field="*{apoWant}">
-			<input type="submit" value="修改送出" class="approve_button">
-            <a th:href="@{/apo/listAllApo}"><button type="button" class="reject_button">取消</button></a>
-			
-		</form>
-	</div>
-	<div class="container text-center my-4">
-        <button id="prevMonth" class="btn btn-primary">上個月</button>
-        <span id="currentMonthYear" class="h4 mx-4"></span>
-        <button id="nextMonth" class="btn btn-primary">下個月</button>
-    </div>
-    <div class="container">
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th class="scope">日</th>
-                    <th>一</th>
-                    <th>二</th>
-                    <th>三</th>
-                    <th>四</th>
-                    <th>五</th>
-                    <th class="scope">六</th>
-                </tr>
-            </thead>
-            <tbody id="calendarBody">
-                <!-- Calendar body content here -->
-            </tbody>
-        </table>
-    </div>
-    
-       <script>
+                    <span th:case="1" class="formEl" id="apoTimeText">早上</span>
+                    <span th:case="2" class="formEl" id="apoTimeText">下午</span>
+                    <span th:case="3" class="formEl" id="apoTimeText">晚上</span>
+                </span><br><br>
+				
+                <input type="hidden" th:field="*{apoNo}">
+                <input type="hidden" th:field="*{mem.memNo}">
+                <input type="hidden" th:field="*{apoStatus}">
+                <input type="hidden" th:field="*{apoWant}">
+                <input type="submit" value="修改送出" class="approve_button">
+                <a th:href="@{/apo/listAllApo}"><button type="button" class="reject_button">取消</button></a>
+
+            </form>
+        </div>
+        <div class="container text-center my-4">
+            <button id="prevMonth" class="approve_button">上個月</button>
+            <span id="currentMonthYear" class="monthDisplay"></span>
+            <button id="nextMonth" class="approve_button">下個月</button>
+        </div>
+        <div class="container">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="scope">日</th>
+                        <th>一</th>
+                        <th>二</th>
+                        <th>三</th>
+                        <th>四</th>
+                        <th>五</th>
+                        <th class="scope">六</th>
+                    </tr>
+                </thead>
+                <tbody id="calendarBody">
+                    <!-- Calendar body content here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script>
         function checkDateSelected() {
             var apoDateInput = document.getElementById("apoDate");
             // 假設日期格式為非空字串
@@ -197,7 +248,7 @@
         var currentDay = currentDate.getDate() + 1;
         var currentMonth = currentDate.getMonth();
         var currentYear = currentDate.getFullYear();
-		
+
         //產生月例
         function renderCalendar(month, year) {
             calendarBody.innerHTML = "";
@@ -240,7 +291,7 @@
                                 divElement.style.display = "block";
                                 divElement.style.margin = "3px";
 
-                                var buttonId = year + "-" + (month + 1) + "-"+ dday + "-" + apoTime;
+                                var buttonId = year + "-" + (month + 1) + "-" + dday + "-" + apoTime;
 
                                 var buttonElement = document.createElement("button");
                                 buttonElement.setAttribute("type", "button");
@@ -248,7 +299,7 @@
                                 buttonElement.setAttribute("name", labelId);
                                 buttonElement.setAttribute("id", buttonId);
                                 buttonElement.setAttribute("value", apoTime);
-								
+
                                 // 依照 apoTime 的值設定按鈕內容
                                 switch (apoTime) {
                                     case 1:
@@ -265,35 +316,35 @@
                                 }
 
                                 // 綁定點擊事件
-                                buttonElement.addEventListener("click",function (e) {
-                                            // 內容
-                                            let btn_el = document.querySelectorAll(".clicked");
-                                                btn_el.forEach(function (btn) {
-                                                    btn.classList.remove("clicked");
-                                                });
+                                buttonElement.addEventListener("click", function (e) {
+                                    // 內容
+                                    let btn_el = document.querySelectorAll(".clicked");
+                                    btn_el.forEach(function (btn) {
+                                        btn.classList.remove("clicked");
+                                    });
 
-                                            let apoDate_el = document.getElementById("apoDate");
-                                            let apoTime_el = document.getElementById("apoTime");
-                                            let apoTimeText_el = document.getElementById("apoTimeText");
+                                    let apoDate_el = document.getElementById("apoDate");
+                                    let apoTime_el = document.getElementById("apoTime");
+                                    let apoTimeText_el = document.getElementById("apoTimeText");
 
-                                            apoDate_el.value = e.target.name;
-                                            apoTime_el.value = e.target.value;
+                                    apoDate_el.value = e.target.name;
+                                    apoTime_el.value = e.target.value;
 
-                                            switch (e.target.value) {
-                                                case '1':
-                                                    apoTimeText_el.innerHTML = "上午";
-                                                    break;
-                                                case '2':
-                                                    apoTimeText_el.innerHTML = "下午";
-                                                    break;
-                                                case '3':
-                                                    apoTimeText_el.innerHTML = "晚上";
-                                                    break;
-                                                default:
-                                                    break;
-                                            }
-                                            e.target.classList.add("clicked");
-                                        });
+                                    switch (e.target.value) {
+                                        case '1':
+                                            apoTimeText_el.innerHTML = "上午";
+                                            break;
+                                        case '2':
+                                            apoTimeText_el.innerHTML = "下午";
+                                            break;
+                                        case '3':
+                                            apoTimeText_el.innerHTML = "晚上";
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    e.target.classList.add("clicked");
+                                });
 
                                 divElement.appendChild(buttonElement);
                                 cell.appendChild(divElement);
@@ -344,8 +395,8 @@
         renderCalendar(currentMonth, currentYear);
 
         //月曆產生後, 將已預約的時段變更成不可選
-        $(document).ready(function() {
-          updateCalendarDate();
+        $(document).ready(function () {
+            updateCalendarDate();
         });
 
         //TODO 改成動態get 物件元素value
@@ -354,28 +405,28 @@
         //  ajax 將核准的預約單帶回
         function updateCalendarDate() {
             $.ajax({
-                url: "apoStatus/" + rentNo ,
+                url: "apoStatus/" + rentNo,
                 type: "POST",
                 dataType: "json",
 
                 //取得伺服器回傳的資料轉成json
                 success: function (response) {
-				    var jsonData = response;  // 不再需要 JSON.parse
-				    jsonData.forEach(function (item) {
-				        let bookingDate = item.apoDate;
-				        let bookingTime = item.apoTime;
-				        let el_ID = bookingDate + "-" + bookingTime;
-				        
-				        let target = document.getElementById(el_ID);
+                    var jsonData = response;  // 不再需要 JSON.parse
+                    jsonData.forEach(function (item) {
+                        let bookingDate = item.apoDate;
+                        let bookingTime = item.apoTime;
+                        let el_ID = bookingDate + "-" + bookingTime;
 
-				        if (target) {
-				        	//不顯示仍占空間
-				        	target.style.visibility = "hidden";
-// 				        	不顯示不占空間
-// 				        	target.style.display = "none";
-// 				        	不能點擊
-// 				        	target.disabled = true;	        	
-				        }
+                        let target = document.getElementById(el_ID);
+
+                        if (target) {
+                            //不顯示仍占空間
+                            target.style.visibility = "hidden";
+                            // 				        	不顯示不占空間
+                            // 				        	target.style.display = "none";
+                            // 				        	不能點擊
+                            // 				        	target.disabled = true;	        	
+                        }
                     });
                 },
                 error: function (error) {
@@ -383,6 +434,7 @@
             });
         }
     </script>
-    
+
 </body>
+
 </html>

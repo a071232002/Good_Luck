@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>檢舉申訴</title>
+<link th:href="@{/css/BackStage/rentapp/bootstrap/bootstrap.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/css/BackStage/rentapp/addRentApp.css}"
+	rel="stylesheet" />
+</head>
+<body>
+	<div align="center">
+		<h3>
+			<b>請輸入檢舉申訴內容</b>
+		</h3>
+
+		<form th:action="@{insert}" method="post" th:object="${report}"
+			enctype="multipart/form-data">
+			<div>
+			<textarea th:field="*{reportCon}" rows="4" cols="50" oninput="countCharacters()" placeholder="請輸入評論..."></textarea>
+			<p id="characterCount">剩餘可輸入字數: 200</p>
+			<br /> 
+
+			<span
+					th:if="${#fields.hasErrors('reportCon')}"
+					th:errors="*{reportCon}" class="error" id="reportCon.errors"></span>
+			
+			</div>
+
+
+			<div>
+				<div></div>
+				<div>
+					<button type="submit" id="submit">送出新增</button>
+				</div>
+				
+				<div></div>
+			</div>
+		</form>
+		<br>
+		<a th:href="@{/BackStage/report}"><button>前往首頁</button></a>
+
+	</div>
+
+
+	
+	
+<SCRIPT LANGUAGE="JavaScript">
+	maxLen = 200; // 字數頂限
+    function countCharacters() {
+        var textarea = document.getElementById('reportCon');
+        var characterCount = textarea.value.length;
+        var less=200-characterCount
+        var characterCount=document.getElementById('characterCount')
+        // 顯示字元數
+        characterCount.textContent = "剩餘可輸入字數:" +less;
+        characterCount.style.color = less <= 0 ? 'red' : 'black';
+     	// 檢查是否超過字元限制
+        if (less <= 0) {
+        	characterCount.textContent="已達字數上限"
+            textarea.value = textarea.value.substring(0, 200); // 截斷文字
+  
+        }
+    }
+</script>
+</body>
+</html>

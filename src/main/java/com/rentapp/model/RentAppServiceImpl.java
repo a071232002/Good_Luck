@@ -16,9 +16,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.emp.model.Emp;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ldd.model.Ldd;
 import com.lddapp.model.LddAppRepository;
 import com.rent.model.*;
 
@@ -50,38 +52,52 @@ public class RentAppServiceImpl implements RentAppService{
 		return rentAppRepository.findAll();
 	}
 	
-	public RentApp updateRentAppSt(Integer rentAppNo, byte rentAppSt) {
+	public RentApp updateRentAppSt(Integer rentAppNo, byte rentAppSt,Emp emp) {
 
-		//拿rentAppNo找物件改rentAppSt
-		RentApp rentApp=getOneRentApp(rentAppNo);
-		rentApp.setRentAppSt(rentAppSt);
-		rentAppRepository.save(rentApp);
-		
-		if(rentAppSt==1) {
-			
-			Rent rent =new Rent();
-			rent.setRentAppCou(rentApp.getRentAppCou());
-			rent.setRentAppAr(rentApp.getRentAppAr());
-			rent.setRentAppRo(rentApp.getRentAppRo());
-			rent.setRentAppAdd(rentApp.getRentAppAdd());
-			rent.setRentAppOwn(rentApp.getRentAppOwn());
-			rent.setRentAppFloor(rentApp.getRentAppFloor());
-			rent.setRentAppSize(rentApp.getRentAppSize());
-			rent.setRentUpTime(Timestamp.valueOf(LocalDateTime.now()));
-			
-			try {
-				String[] LatAndLng=getLatAndLon(rentApp.getRentAppCou(),rentApp.getRentAppAr(),rentApp.getRentAppRo(),rentApp.getRentAppAdd());
-				rent.setRentLat(LatAndLng[0]);
-				rent.setRentLon(LatAndLng[1]);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			//拿rentAppNo找物件改rentAppSt
+			RentApp rentApp=getOneRentApp(rentAppNo);
+			rentApp.setRentAppSt(rentAppSt);
+			rentApp.setEmp(emp);
+			rentAppRepository.save(rentApp);//有可能資料錯誤無法寫入
+//			System.out.println(rentApp);
+			if(rentAppSt==1) {
+				
+				Rent rent =new Rent();
+				rent.setRentAppCou(rentApp.getRentAppCou());
+				rent.setRentAppAr(rentApp.getRentAppAr());
+				rent.setRentAppRo(rentApp.getRentAppRo());
+				rent.setRentAppAdd(rentApp.getRentAppAdd());
+				rent.setRentAppOwn(rentApp.getRentAppOwn());
+				rent.setRentAppFloor(rentApp.getRentAppFloor());
+				rent.setRentAppSize(rentApp.getRentAppSize());
+				rent.setLdd(rentApp.getLdd());
+				rent.setRentUpTime(Timestamp.valueOf(LocalDateTime.now()));
+				
+				try {
+					String[] LatAndLng=getLatAndLon(rentApp.getRentAppCou(),rentApp.getRentAppAr(),rentApp.getRentAppRo(),rentApp.getRentAppAdd());
+					rent.setRentLat(LatAndLng[0]);
+					rent.setRentLon(LatAndLng[1]);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				rentRepository.save(rent);
+//				Rent newRent=rentRepository.save(rent);
+//				rentApp.setRent(newRent);
+//				rentAppRepository.save(rentApp);
+				
 			}
-			
-			rentRepository.save(rent);
+			//新增一個Rent並save
+			return rentApp;
+		} catch (Exception e) {
+			System.out.println("Exception");
+//			e.printStackTrace();
+
+			return null;
 		}
-		//新增一個Rent並save
-		return rentApp;
+		
+		
 	}
 
 //	public List<RentApp> getAll(Map<String, String[]> map) {
@@ -124,5 +140,10 @@ public class RentAppServiceImpl implements RentAppService{
 			conn.disconnect();
 			return LatAndLng;
     }
+
+	@Override
+	public List<RentApp> getAllByLdd(Ldd ldd) {
+		return rentAppRepository.findByLdd(ldd);
+	}
 
 }

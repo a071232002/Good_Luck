@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ldd.model.Ldd;
 import com.ldd.model.LddRepository;
+import com.mem.model.Mem;
 
 @Service("lddAppService")
 public class LddAppServiceImpl implements LddAppService {
@@ -24,9 +25,6 @@ public class LddAppServiceImpl implements LddAppService {
 	
 	@Autowired
 	LddRepository lddRepository;
-
-	@Autowired
-	private SessionFactory sessionFactory;
 
 	@Override
 	public void addLddApp(LddApp lddApp) {
@@ -51,17 +49,17 @@ public class LddAppServiceImpl implements LddAppService {
 	}
 
 	@Override
-	public void notApproved(LddApp lddApp) {
-		lddApp.setLddAppPayStatus(REJECT);
+	public void reject(LddApp lddApp) {
+		lddApp.setLddAppStatus(REJECT);
 		repository.save(lddApp);
 	}
 
 	@Override
 	public void approved(LddApp lddApp) {
-		lddApp.setLddAppPayStatus(PASS);
+		lddApp.setLddAppStatus(PASS);
 		repository.save(lddApp);
 	}
-
+	
 	@Override
 	public LddApp getOneLddApp(Integer lddAppNo) {
 		Optional<LddApp> optional = repository.findById(lddAppNo);
@@ -69,8 +67,15 @@ public class LddAppServiceImpl implements LddAppService {
 	}
 
 	@Override
+	public List<LddApp> getAllByMem(Mem mem) {
+		return repository.findByMem(mem);
+	}
+	
+	@Override
 	public List<LddApp> getAll() {
 		return repository.findAll();
 	}
+
+
 
 }

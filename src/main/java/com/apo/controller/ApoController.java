@@ -6,8 +6,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,15 +14,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.apo.model.Apo;
 import com.apo.model.ApoDTO;
 import com.apo.model.ApoService;
-import com.google.gson.Gson;
+import com.ldd.model.Ldd;
+import com.ldd.model.LddService;
 import com.mem.model.Mem;
-
-import oracle.jdbc.proxy.annotation.Post;
+import com.rent.model.Rent;
+import com.rent.model.RentService;
 
 @Controller
 @RequestMapping("/apo")
@@ -33,11 +33,11 @@ public class ApoController {
 	@Autowired
 	ApoService apoSvc;
 	
-	//TODO for測試index 頁面沒做
-	@GetMapping("")
-	public String indexOfApo(ModelMap model) {
-		return "";
-	}
+	@Autowired
+	RentService rentSvc;
+	
+	@Autowired
+	LddService lddSvc;
 	
 	@GetMapping("/addApo")
 	public String addApo(ModelMap model) {
@@ -61,11 +61,16 @@ public class ApoController {
 
 	//房東瀏覽
 	@GetMapping("/reviewApo")
-	public String reviewApoByLdd(ModelMap model) {
-		return "FrontEnd/apo/reviewApo";
+	public String reviewApoByLdd(ModelMap model, HttpSession session) {
+		Ldd ldd = (Ldd)session.getAttribute("ldd");
+		if (ldd != null) {
+			return "FrontEnd/apo/reviewApo";
+		} else {
+			return "redirect:/lddApp/listAllLddApp";
+		}
 	}
 	
-	//會員-預約操作
+	//會員-預約操作********************************************************************************************
 	@PostMapping("insert")
 	public String insert (@Valid Apo apo,
 			BindingResult result, ModelMap model) {
@@ -109,8 +114,9 @@ public class ApoController {
 		apoSvc.cancelWant(apo);
 		return "redirect:/apo/listAllApo";
 	}
+	//	***************************************************************************************************
 	
-	//房東-預約操作
+	//房東-預約操作********************************************************************************************
 	@PostMapping("reject")
 	public String reject(ModelMap model, @ModelAttribute("apoNo")String apoNo) {
 		Apo apo = apoSvc.getOneApo(Integer.valueOf(apoNo)); 
@@ -144,40 +150,42 @@ public class ApoController {
 		apoSvc.rejectWant(apo);
 		return "redirect:/apo/reviewApo";
 	}
+	//	***************************************************************************************************
 	
-	//TODO 根據會員編號取得對應的預約單 之後要從登入user取得
+	
 	@ModelAttribute("apoListData")
 	public List<Apo> referenceListData(HttpSession session) {
-		Mem mem = new Mem();
-		mem.setMemNo(1);
+		Mem mem = (Mem)session.getAttribute("logsuccess");
 		return apoSvc.getApoListByMem(mem);
 	}
 	
-	//TODO 根據會員編號取得對應的預約單 之後要從登入user取得
 	@ModelAttribute("apoListDataByLdd")
 	public List<Apo> referenceListDataByLdd(HttpSession session) {
-		return apoSvc.getApoListByLdd(1);
+		Ldd ldd = (Ldd)session.getAttribute("ldd");
+		return apoSvc.getApoListByLdd(ldd);
 	}
 	
-	//接收ajax 以JSON回傳物件已booking的時段 查出物件被booking的時段
-	@PostMapping("/apoStatus/{rentNo}")
-	public ResponseEntity<String> alreadyApoData(@PathVariable String rentNo){
-		List<ApoDTO> apoList = apoSvc.getListWithBookingByRentNo(Integer.valueOf(rentNo));
-		Gson gson = new Gson();
-	    String response = gson.toJson(apoList);
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
-
-	//接收ajax 以JSON回傳物件已booking的時段 查出房東已被booking的時段
-	//TODO rentSvc getone to find lddnodno
+	//接收ajax ResponseEntity<String> 寫法當參考
 //	@PostMapping("/apoStatus/{rentNo}")
 //	public ResponseEntity<String> alreadyApoData(@PathVariable String rentNo){
-//		
-//		
 //		List<ApoDTO> apoList = apoSvc.getListWithBookingByRentNo(Integer.valueOf(rentNo));
 //		Gson gson = new Gson();
 //	    String response = gson.toJson(apoList);
 //		return new ResponseEntity<>(response, HttpStatus.OK);
 //	}
+
+	//接收ajax 以JSON回傳該物件的房東已被booking時段
+	@PostMapping("/apoStatus/{rentNo}")
+	public  @ResponseBody List<ApoDTO> getDateOfBooking(@PathVariable String rentNo){
+		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
+		return apoSvc.getListWithBookingByLdd(rent.getLdd());
+	}
+	
+	//房東檢視預約行事曆 以JSON回傳該房東同意的預約時段
+	@PostMapping("/apoApprove/{lddNo}")
+	public  @ResponseBody List<ApoDTO> getDateOfApprove(@PathVariable String lddNo){
+		Ldd ldd = lddSvc.getOneLdd(Integer.valueOf(lddNo));
+		return apoSvc.getListWithApproveByLdd(ldd);
+	}
 	
 }

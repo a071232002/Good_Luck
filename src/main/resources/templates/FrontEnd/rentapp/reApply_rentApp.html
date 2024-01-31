@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>物件申請單修改</title>
+<link th:href="@{/css/BackStage/rentapp/bootstrap/bootstrap.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/css/BackStage/rentapp/addRentApp.css}"
+	rel="stylesheet" />
+</head>
+<body>
+
+	<div align="center">
+		<h3><b>所有欄位皆為必填欄位</b></h3>
+		<h3><b>請確認物件資料無誤，並重新上傳所有權狀</b></h3>
+		<form th:action="@{insert}" method="post" th:object="${rentApp}" enctype="multipart/form-data">
+		
+			<div>
+				<label>物件編號:</label>
+				
+				<input type="text" th:value="${rent.rentNo}" style="border:0px ; font-weight: bold;" readonly /><br/>
+				<input type="hidden" name="rentNo" th:value="${rent.rentNo}" />
+			</div>
+			
+			<div class="dropdown">
+				<label>縣市:</label> 
+				<select  id="county_box" name="rentAppCou">					
+					<option th:value="${rent.rentAppCou}"th:text="${rent.rentAppCou}"style="display:none;"/>				
+				</select> 
+				<span th:if="${#fields.hasErrors('rentAppCou')}" th:errors="*{rentAppCou}" class="error" id="rentAppCou.errors"></span>
+			</div>
+			
+			<div class="dropdown">
+				<label>鄉鎮市區:</label> 
+				<select  id="district_box" name="rentAppAr">					
+					<option th:value="${rent.rentAppAr}"th:text="${rent.rentAppAr}"style="display:none;"/>					
+				</select> 
+				<span th:if="${#fields.hasErrors('rentAppAr')}" th:errors="*{rentAppAr}" class="error" id="rentAppAr.errors"></span>
+			</div>
+			
+			<div>
+				<label>路街:</label> <input th:value="${rent.rentAppRo}" type="text" name="rentAppRo"
+					onclick="hideContent('rentAppRo.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('rentAppRo')}" th:errors="*{rentAppRo}"
+					class="error" id="rentAppRo.errors"></span>
+			</div>
+
+			<div>
+				<label>詳細地址:</label> <input th:value="${rent.rentAppAdd}" type="text" name="rentAppAdd"
+					onclick="hideContent('rentAppAdd.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('rentAppAdd')}"
+					th:errors="*{rentAppAdd}" class="error" id="rentAppAdd.errors"></span>
+			</div>
+			
+			<div>
+				<label>所有權狀:</label>
+				<input type="file" name="rentAppOwn" onclick="previewImage()" onchange="hideContent('rentAppOwn.errors');" />
+				<!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
+				<span class="error" th:utext="${errorMessage}" id="rentAppOwn.errors">${errorMessage}</span>
+				<!-- 			<h2 id="errorMessage">${errorMessage}</h2>  -->
+<!-- 				<div id="blob_holder"><img th:src="@{/rent/picture} + '?rentNo=' + ${rent.rentNo}" width="100px" ></div> -->
+			</div>
+			
+			
+			<div>
+				<label>樓層:</label> <input th:value="${rent.rentAppFloor}" type="text" name="rentAppFloor"
+					onclick="hideContent('rentAppFloor.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('rentAppFloor')}"
+					th:errors="*{rentAppFloor}" class="error" id="rentAppFloor.errors"></span>
+			</div>
+
+			<div>
+				<label>坪數:</label> <input th:value="${rent.rentAppSize}" type="text" name="rentAppSize"
+					onclick="hideContent('rentAppSize.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('rentAppSize')}"
+					th:errors="*{rentAppSize}" class="error" id="rentAppSize.errors"></span>
+			</div>
+
+			<div>
+				<div></div>
+				<div><button type="submit" id="submit"> 確認無誤 </button></div>
+				<div></div>
+			</div>		
+		</form>
+	
+	</div>
+
+
+<!-- JavaScript part -->
+<script th:src="@{/js/BackStage/rentapp/update_rentApp_input.js}"></script>
+<script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script>
+</body>
+</html>

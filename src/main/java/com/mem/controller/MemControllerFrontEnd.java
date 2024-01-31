@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ldd.model.Ldd;
+import com.ldd.model.LddService;
 import com.mem.model.Mem;
 import com.mem.model.MemService;
 import com.mem.model.uniqueAnnotation.Create;
@@ -36,6 +38,9 @@ public class MemControllerFrontEnd {
 
 	@Autowired
 	private MemService memservice;
+	
+	@Autowired
+	private LddService lddservice;
 	
 	@Autowired
 	private StringRedisTemplate redisTemplate;
@@ -66,7 +71,7 @@ public class MemControllerFrontEnd {
 	@GetMapping("/logOut")
 	public String logOut(HttpSession session, ModelMap model) {
 		session.removeAttribute("logsuccess");
-		session.removeAttribute("goURI");
+		session.removeAttribute("ldd");
 		System.out.println("登出成功");
 		return "redirect:/";
 	}
@@ -117,18 +122,27 @@ public class MemControllerFrontEnd {
 	// 登入處理
 	@PostMapping("loginPage")
 	public String loginPage(@ModelAttribute("mail") String memMail, @ModelAttribute("password") String memPsw,
-							ModelMap model, HttpSession session) {
+							ModelMap model, HttpSession session, HttpServletResponse res) {
 		
-		String uri = session.getAttribute("goURI") == null ? "/" : session.getAttribute("goURI").toString();
+		String uri = session.getAttribute("goURI") == null? "/" : session.getAttribute("goURI").toString();
+		String projectUri = session.getServletContext().getContextPath();
 		if(memMail.isEmpty() || memPsw.isEmpty()) {
 			model.addAttribute("message", "信箱或密碼不能空白，請重新輸入！");
 			return "FrontEnd/mem/loginMem";
 		}
 		Mem loginData = memservice.login(memMail, memPsw);
 		if (loginData != null) {
+			Ldd ldd = lddservice.getOneByMem(loginData);
 			System.out.println("登入成功");
 			session.setAttribute("logsuccess", loginData);
-			return "redirect:" + uri;
+			session.setAttribute("ldd", ldd);
+			session.removeAttribute("goURI");
+			try {
+				res.sendRedirect(projectUri + uri);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+//			return "redirect:" + uri;
 		}
 		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");
 		return "FrontEnd/mem/loginMem";
