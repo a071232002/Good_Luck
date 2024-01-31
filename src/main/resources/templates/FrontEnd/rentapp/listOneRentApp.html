@@ -20,9 +20,9 @@
 		<span>詳細地址:</span><span th:text="${rentApp.rentAppAdd}"></span><br/>
 		<span>樓層:</span><span th:text="${rentApp.rentAppFloor}"></span><br/>
 		<span>坪數:</span><span th:text="${rentApp.rentAppSize}"></span><br/>
-		<span>所有權狀:</span><span><img th:src="@{/BackStage/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}" width="100px"></span><br/>
+		<span>所有權狀:</span><span><img th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}" width="100px"></span><br/>
 	</div>
 
-<a th:href="@{/BackStage/rentApp/}"><button>前往首頁</button></a>
+
 </body>
 </html>
