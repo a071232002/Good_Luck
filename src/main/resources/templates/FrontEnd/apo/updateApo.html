@@ -172,7 +172,8 @@
 <body>
     <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
     <main>
-        <h1>修改預約時間</h1>
+        
+        <div class="tittleBoard"><span class="tittleBoard">修改預約時間</span></div>
         <div class="formArea">
             <form class="formData" method="post" th:action="@{update}" th:object="${apo}">
 
@@ -224,6 +225,12 @@
             </table>
         </div>
     </main>
+    
+    	
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+ 	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+ 	
+    
     <script>
         function checkDateSelected() {
             var apoDateInput = document.getElementById("apoDate");

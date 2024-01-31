@@ -24,8 +24,7 @@
 <body>
     <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
     <main>
-        <h1>預約/租屋一覽</h1>
-
+		<div class="tittleBoard"><span class="tittleBoard">預約/租屋一覽</span></div>
         <table id="example" class="display" style="width: 100%">
             <thead>
                 <tr>
@@ -130,6 +129,9 @@
     <script th:src="@{/js/public/tableModel/the.js}"></script>
     <script th:src="@{/js/public/tableModel/the2.js}"></script>
     <script th:src="@{/js/public/tableModel/dateInput.js}"></script>
+    	
+ 	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+ 	
     <script>
         let table = new DataTable("#example");
     </script>

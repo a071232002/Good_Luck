@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
     <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
-    <title>新增合約</title>
+    <title>修改合約</title>
     <style>
 		.error {
 			color: red;
@@ -98,60 +98,68 @@
     <main>
     <div class="displayArea">
     	<div class="formArea">
-	    <div class="tittleBoard"><span class="tittleBoard">新增合約</span></div>
+	    <div class="tittleBoard"><span class="tittleBoard">修改合約</span></div>
 	    
-	    <form method="post" th:action="@{insert}" th:object="${lse}" enctype="multipart/form-data" onsubmit="return formCheck()">
-			<label class="formEl">會員編號: </label><span class="formEl" th:text="${apo.mem.memNo}"></span><br><br>
-			<label class="formEl">物件編號: </label><span class="formEl"  th:text="${apo.rent.rentNo}"></span><br><br>
-	        <label class="formEl">起始日期: </label><span class="formEl"  id="lseStart" th:text="${apo.apoWantDate}"></span><br><br>
-	        <label class="formEl">選擇合約年限<b>*</b>: </label><br>
+	    <form method="post" th:action="@{update}" th:object="${lse}" enctype="multipart/form-data" onsubmit="return formCheck()">
+			<label class="formEl">會員編號: </label><span class="formEl" th:text="${lse.mem.memNo}"></span><br><br>
+			<label class="formEl">物件編號: </label><span class="formEl"  th:text="${lse.rent.rentNo}"></span><br><br>
+	        <label class="formEl">起始日期: </label><span class="formEl"  id="lseStart" th:text="${lse.lseStart}"></span><br><br>
+	        <label class="formEl">變更合約年限: </label><br>
 	        <label class="formEl"><input type="radio" name="contractTerms" onclick="createLseEnd('halfYear')"> 半年</label>
 	        <label class="formEl"><input type="radio" name="contractTerms" onclick="createLseEnd('oneYear')"> 一年</label>
 	        <label class="formEl"><input type="radio" name="contractTerms" onclick="createLseEnd('twoYear')"> 兩年</label><br><br>
-	        <label class="formEl">終止日期: </label><span class="formEl" id="lseEndText"></span>
-	        <input type="hidden" id="lseEnd" name="lseEnd"><br><br>
-	        <label class="formEl" for="lseSend">上傳合約<b>*</b>: </label>
-			<input type="file" th:field="*{lseSend}" required accept=".png, .jpg"><br><br>
+	        <label class="formEl">終止日期: </label><span class="formEl" id="lseEndText" th:text="${lse.lseEnd}"></span>
+	        <input type="hidden" id="lseEnd" th:field="*{lseEnd}"><br><br>
+	        <label class="formEl" for="lseSend">變更合約: </label>
+			<input type="file" id="lseSend" name="lseSend" accept=".png, .jpg"><br><br>
 	        <label class="formEl">押金金額<b>*</b>: </label>
 	        <input type="text" id="lsePay" th:field="*{lsePay}" placeholder="例:10000" required oninput="validateNumber(this)">
 	        <span id="lsePayError" class="error"></span><br><br>
 	        <div class="payAccount">
 	        <label class="formEl">匯款銀行<b>*</b>: </label><span class="formEl" id="select-container"></span><br><br>
 	        <label class="formEl">匯款帳號<b>*</b>: </label>
-	        <input type="text" id="account" name="account" style="width:200px;" placeholder="例:123-456-789" required oninput="validateAccount(this)"><br>
+	        <input type="text" id="account" name="account" th:value="${account}" 
+	        	   style="width:200px;" placeholder="例:123-456-789" required oninput="validateAccount(this)"><br>
 	        <span id="accountError" class="error" style="margin-left: 100px;"></span><br><br>
 	        </div>
-	        <input type="hidden" name="mem.memNo" th:value="${apo.mem.memNo}">
-	        <input type="hidden" name="rent.rentNo" th:value="${apo.rent.rentNo}">
-	        <input type="hidden" name="lseStart" th:value="${apo.apoWantDate}">
-	        <input type="hidden" name="apoNo" th:value="${apo.apoNo}">
-	        <input type="submit" value="產生合約" class="approve_button">
-	        <a th:href="@{/apo/reviewApo}"><button type="button" class="reject_button">取消</button></a>
+	        
+	        <input type="hidden" id="bank" th:value="${bank}">
+	        <input type="hidden" id="lseNo" name="lseNo" th:value="${lse.lseNo}">
+	        <input type="hidden" name="lsePayStatus" th:value="${lse.lsePayStatus}">
+	        <input type="hidden" name="lseStatus" th:value="${lse.lseStatus}">
+	        <input type="hidden" name="lseRenew" th:value="${lse.lseRenew}">
+	        
+	        <input type="submit" value="送出" class="approve_button">
+	        <a th:href="@{/lse/reviewLse}"><button type="button" class="reject_button">取消</button></a>
 	    </form>
 	</div>
 	<div id="preview">
-        	<span class="imgBoard"><img th:src></span>
+        	<span class="imgBoard"><img class="preview_img" th:src="@{/lse/sendPic} + '?lseNo=' + ${lse.lseNo}"></span>
     </div>
     </div>
 	</main>
 	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
- 	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
- 	
+	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+	
     <script>
         var lsePayError = document.getElementById("lsePayError");
         var accountError = document.getElementById("accountError");
     	var lsePayInput = document.getElementById("lsePay");
     	var accountInput = document.getElementById("account");
-        
+    	var lseNo = document.getElementById("lseNo");
+    	var bank = document.getElementById("bank");
+    	
+    	
+    	
         function formCheck() {
             var radioButtons = document.getElementsByName("contractTerms");
             var isChecked = Array.from(radioButtons).some(button => button.checked);
 
-            if (!isChecked) {
-                alert("請選擇合約年限!");
-                return false;
-            } 
+//             if (!isChecked) {
+//                 alert("請選擇合約年限!");
+//                 return false;
+//             } 
             
             if (lsePayError.textContent){
             	alert("押金金額格式錯誤!");
@@ -174,7 +182,7 @@
             if (/^\d+$/.test(value)) {
             	lsePayError.textContent = "";
             } else {
-            	lsePayError.textContent = "請輸入數字(0, 1, 2 ...)";
+            	lsePayError.textContent = "請輸入數字(0,1,2...)";
             }
         }
 
@@ -234,7 +242,7 @@
 	          if(this.files.length > 0){
 	            preview_img(this.files[0]);
 	          }else{
-	            preview_el.innerHTML = '<span class="imgBoard"></span>';
+	            preview_el.innerHTML = '<span class="imgBoard"><img class="preview_img" src="/lse/sendPic?lseNo='+lseNo.value.trim()+'"></span>';
 	          }
 	        });
         
@@ -364,6 +372,9 @@
         	}
 
         generateDynamicSelect();
+        var bankSelect = document.getElementById("bankSelect");
+        bankSelect.value = bank.value;
+        
         
     </script>
 
