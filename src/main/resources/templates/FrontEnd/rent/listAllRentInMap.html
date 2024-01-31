@@ -1,407 +1,573 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
-    <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    
-    
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title>地圖查詢</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link
+	href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
 
-    <style>
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 
 
-        .dropdown select{
-            height: 34px;
-            padding: 6px 12px;
-            font-size: 14px;
-            line-height: 1.5;
-            color: #555;
-            background-color: #fff;
-            background-image: none;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-right: 4px;
-        }
-        .dropdown select:focus{
-            outline: none;
-            border-color: #66afe9;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
-        }
-		.text-left {
-	        list-style-type: none; /* 移除默认的项目符号 */
-	        display: flex; /* 使用 Flex 布局 */
-	        padding: 0; /* 移除默认的内边距 */
-	        font-size: 20px; 
-	    }
-	
-	    .text-left li {
-	        margin-right: 10px; /* 调整列表项之间的间距 */
-	    }
-	    
-	    .vertical-line::after {
-	        content: "";
-	        display: inline-block;
-	        width: 1px;
-	        height: 14px;
-	        background-color: #e6e6e6;
-	        margin: 0 8px;
-	        vertical-align: middle;
-	        margin-bottom: 3px;
-    	}
-    	
-    	
-    	.row {
-		    position: relative; /* 让 .row 成为相对定位的父元素 */
-		}
-		
-		#rentRentDiv {
-		    position: absolute;
-		    bottom: 0;
-		    right: 0;
-		    color: #ff0000; /* 將文本顏色設置為紅色 */
-		    font-size: 20px; /* 設置字體大小為20像素 */
-		    padding: 10px;
-		}
-		#rentNum {
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script
+	src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>地圖查詢</title>
 
-		    font-size: 50px; 
+<style>
+.dropdown select {
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-right: 4px;
+}
 
-		}
-		
-		#propertyTitle{
-			font-size: 40px; /* 字體大小40像素 */
-	        font-weight: bold; /* 設置為粗體 */
-		}
-		
-		#check_rentLayout {
-	        display: flex;
-	        flex-direction: row;
-	    }
-	    #check_rentAppFloor {
-	        display: flex;
-	        flex-direction: row;
-	    }
-   		#check_rentAppArTitle {  
-  	        display: flex;  
-        	flex-direction: row;  
-	    }  
-     	#check_rentAppSize {    
-    	        display: flex;    
-          	flex-direction: row;    
-  	    }    
-     	#check_feature {    
-    	        display: flex;    
-          	flex-direction: row;    
-  	    }    
-     	#check_rentRent {    
-    	        display: flex;    
-          	flex-direction: row;    
-  	    }    
-     	#check_equipment {    
-    	        display: flex;    
-          	flex-direction: row;    
-  	    }    
+.dropdown select:focus {
+	outline: none;
+	border-color: #66afe9;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
+		rgba(102, 175, 233, .6);
+}
 
+.text-left {
+	list-style-type: none; /* 移除默认的项目符号 */
+	display: flex; /* 使用 Flex 布局 */
+	padding: 0; /* 移除默认的内边距 */
+	font-size: 20px;
+}
 
-    	#check_rentAppArTitle .checkbox-inline {
-    		color: #ff0000;
-    	}
-    	
-    	.custom-checkbox{
-    		margin-left: 10px;
-    	}
-		.custom-radio {
-	        cursor: pointer;
-	        display: block;
-	        margin-bottom: 10px;
-	        color: #000; /* 设置初始文字颜色 */
-	    }
-	
- 	    .custom-radio input { 
- 	        opacity: 0; /* 隐藏原生单选框 */ 
- 	        cursor: pointer; 
- 	    } 
-	
-	    .custom-radio input:checked + .radio-label {
-	        color: #ff8c00; /* 设置选中时文字的颜色 */
-	    }
-	    .radio-label{
-	    	font-size: 14px;
-	    }
-		
-		.disabled {
-		    pointer-events: none;
-		    opacity: 0.5;
-		}
-		.map{
-            cursor: default; /* 设置默认鼠标样式 */
-            background-color: #fff; /* 设置默认背景颜色 */
-            transition: background-color 0.3s ease; /* 添加过渡效果 */
-        }
+.text-left li {
+	margin-right: 10px; /* 调整列表项之间的间距 */
+}
 
-        /* 悬停和移入时的样式 */
-        .map:hover, .map.active{
-            cursor: pointer; /* 设置悬停时和移入时的鼠标样式 */
-            background-color: #F5F5F5; /* 设置悬停时和移入时的背景颜色 */
-        }
-		
+.vertical-line::after {
+	content: "";
+	display: inline-block;
+	width: 1px;
+	height: 14px;
+	background-color: #e6e6e6;
+	margin: 0 8px;
+	vertical-align: middle;
+	margin-bottom: 3px;
+}
 
+.row {
+	position: relative; /* 让 .row 成为相对定位的父元素 */
+}
 
-    </style>
+#rentRentDiv {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	color: #ff0000; /* 將文本顏色設置為紅色 */
+	font-size: 20px; /* 設置字體大小為20像素 */
+	padding: 10px;
+}
 
-  </head>
-  <body>
+#rentNum {
+	font-size: 50px;
+}
 
-    <div class="container">
-        <div class="row clearfix">
-            <div class="col-md-12 column">
-<!-- 下拉 -->
+#propertyTitle {
+	font-size: 40px; /* 字體大小40像素 */
+	font-weight: bold; /* 設置為粗體 */
+}
 
-                <div class="dropdown" margin="20px" id="check_rentAppCou">
-                	<div style="text-align: center;padding-top: 30px;">
-                    <select name="rentAppCou" id="county_box" box-sizing="border-box">
-                    </select>
-                    <input type="text" name="additionalInput" style="width: 180px; margin-left: 10px;height: 34px;">
-    				<button type="button" id="additionalBtn" style="height: 34px;">查詢</button>
-    				<div class="map" style="display: inline-block; font-size: 16px; font-weight: bold; margin: 10px 10px 10px 30px;width: 120px; height: 40px;" onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)"onclick="listAllRent()">
-						 <img src="/icon/FrontEnd/rent/list.png"width="30px" height="30px" style="vertical-align: bottom;margin-right:5px;">
-						 列表找房
-    				</div>
+#check_rentLayout {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentAppFloor {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentAppArTitle {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentAppSize {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_feature {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentRent {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_equipment {
+	display: flex;
+	flex-direction: row;
+}
+
+#check_rentAppArTitle .checkbox-inline {
+	color: #ff0000;
+}
+
+.custom-checkbox {
+	margin-left: 10px;
+}
+
+.custom-radio {
+	cursor: pointer;
+	display: block;
+	margin-bottom: 10px;
+	color: #000; /* 设置初始文字颜色 */
+}
+
+.custom-radio input {
+	opacity: 0; /* 隐藏原生单选框 */
+	cursor: pointer;
+}
+
+.custom-radio input:checked+.radio-label {
+	color: #ff8c00; /* 设置选中时文字的颜色 */
+}
+
+.radio-label {
+	font-size: 14px;
+}
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.map {
+	cursor: default; /* 设置默认鼠标样式 */
+	background-color: #fff; /* 设置默认背景颜色 */
+	transition: background-color 0.3s ease; /* 添加过渡效果 */
+}
+
+/* 悬停和移入时的样式 */
+.map:hover, .map.active {
+	cursor: pointer; /* 设置悬停时和移入时的鼠标样式 */
+	background-color: #F5F5F5; /* 设置悬停时和移入时的背景颜色 */
+}
+
+/* header */
+.logo {
+	margin-right: auto;
+	width: 240px;
+	display: flex;
+	align-items: center;
+}
+
+.logo span {
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.logo img {
+	max-width: 50px;
+	margin: 95px;
+	text-align: center;
+}
+
+header.header {
+	border: 1px solid black;
+	background-color: #1a2a35;
+	height: var(--header-height);
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 10000;
+}
+
+.header nav {
+	background: none !important;
+	text-transform: uppercase;
+}
+
+.header nav li {
+	margin-top: 15px;
+}
+
+.header {
+	display: flex !important;
+	justify-content: center;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hoverable a {
+	/* 	text-decoration: none; */
+	color: white;
+}
+
+.hoverable {
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+	display: inline-block;
+	backface-visibility: hidden;
+	vertical-align: middle;
+	position: relative;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	transform: translateZ(0);
+	transition-duration: .3s;
+	transition-property: transform;
+}
+
+.hoverable:before {
+	position: absolute;
+	pointer-events: none;
+	z-index: -1;
+	content: '';
+	top: 100%;
+	left: 5%;
+	height: 10px;
+	width: 90%;
+	opacity: 0;
+	background: -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.35)
+		0%, rgba(255, 255, 255, 0) 80%);
+	background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.35)
+		0%, rgba(255, 255, 255, 0) 80%);
+	transition-duration: 0.3s;
+	transition-property: transform, opacity;
+}
+
+.hoverable:hover, .hoverable:active, .hoverable:focus {
+	transform: translateY(-3px);
+}
+
+.hoverable:hover:before, .hoverable:active:before, .hoverable:focus:before
+	{
+	opacity: 1;
+	transform: translateY(-3px);
+}
+
+.navbar {
+	display: flex !important;
+	justify-content: space-between;
+	/* 設定 navbar 寬度 */
+	width: 80%;
+}
+
+.navbar-nav {
+	display: flex !important;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.navbar ul {
+	display: flex;
+	justify-content: space-between;
+	/* 讓 ul 佔滿 navbar 的寬度 */
+	width: 100%;
+}
+
+.navbar-nav li {
+	flex: 1;
+	text-align: center;
+}
+
+.hoverable:hover {
+	color: yellow;
+}
+
+/* nav login logout */
+.user-info {
+	display: flex;
+	align-items: center;
+}
+
+.user-info img {
+	margin-right: 30px;
+}
+
+.lddIcon {
+	margin-right: 10px !important;
+}
+
+.user-info span {
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.user-info button {
+	width: 50px;
+	font-size: 14px;
+	font-weight: bold;
+	/* 設定按鈕的內間距 */
+	padding: 5px 5px;
+	background-color: #3498db;
+	color: #ffffff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-right: 30px;
+}
+
+.user-info button:hover {
+	/* 滑鼠懸停時的背景色 */
+	background-color: yellow;
+	color: red;
+	/* 滑鼠懸停時的陰影效果 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+:root {
+	--header-height: 60px;
+	--aside-width: 240px;
+}
+
+main {
+	min-height: calc(100vh - var(--header-height));
+	padding-top: var(--header-height);
+	z-index: 1;
+}
+</style>
+
+</head>
+<body>
+	<header class="header">
+		<div class="logo">
+			<img th:src="@{/icon/FrontEnd/memCenter/memCenter.png}">
+			<!--                 <span>會員中心</span> -->
+		</div>
+		<nav class="navbar navbar-inverse">
+			<ul class="nav navbar-nav">
+				<li><a class="hoverable" th:href="@{/}">首頁</a></li>
+				<li><a class="hoverable" href="#">最新消息</a></li>
+				<li><a class="hoverable" href="#">租賃服務</a></li>
+				<li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
+			</ul>
+		</nav>
+		<div class="user-info">
+			<th:block th:if="${session.logsuccess}">
+				<span th:text="${session.logsuccess.memName}"></span>
+				<img
+					th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}"
+					width="30px" height="30px">
+				<a th:href="@{/mem/logOut}"><button type="button">登出</button></a>
+			</th:block>
+			<th:block th:unless="${session.logsuccess}">
+				<a th:href="@{/mem/login}"><button type="button">登入</button></a>
+			</th:block>
+		</div>
+	</header>
+	<main>
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<!-- 下拉 -->
+
+					<div class="dropdown" margin="20px" id="check_rentAppCou">
+						<div style="text-align: center; padding-top: 30px;">
+							<select name="rentAppCou" id="county_box" box-sizing="border-box">
+							</select> <input type="text" name="additionalInput"
+								style="width: 180px; margin-left: 10px; height: 34px;">
+							<button type="button" id="additionalBtn" style="height: 34px;">查詢</button>
+							<div class="map"
+								style="display: inline-block; font-size: 16px; font-weight: bold; margin: 10px 10px 10px 30px; width: 120px; height: 40px;"
+								onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)"
+								onclick="listAllRent()">
+								<img src="/icon/FrontEnd/rent/list.png" width="30px"
+									height="30px"
+									style="vertical-align: bottom; margin-right: 5px;"> 列表找房
+							</div>
+						</div>
+
+						<div id="check_rentAppAr"></div>
+
+						<hr style="margin-top: 10px; margin-bottom: 10px;">
+
+						<div id="check_rentLayout">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">型態</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="0"> <span class="radio-label">雅房</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="1"> <span class="radio-label">分租套房</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="2"> <span class="radio-label">獨立套房</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentLayout" value="3"> <span class="radio-label">整層住家</span>
+							</label>
+						</div>
+
+						<div id="check_rentRent">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">租金</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentRent" value="" checked onchange="clearInputs()">
+								<span class="radio-label">不限</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="5000元以下" onchange="clearInputs()">
+								<span class="checkbox-label">5000元以下</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="5000-10000元" onchange="clearInputs()">
+								<span class="checkbox-label">5000-10000元</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="10000-20000元" onchange="clearInputs()">
+								<span class="checkbox-label">10000-20000元</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="20000-30000元" onchange="clearInputs()">
+								<span class="checkbox-label">20000-30000元</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="30000-40000元" onchange="clearInputs()">
+								<span class="checkbox-label">30000-40000元</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentRent" value="40000元以上" onchange="clearInputs()">
+								<span class="checkbox-label">40000元以上</span>
+							</label> <label class="minRent"> <input type="text"
+								name="minRent"
+								style="width: 80px; height: 20px; margin-left: 10px;">
+							</label> <span class="filter-custom-line"
+								style="margin-left: 10px; margin-right: 10px;">-</span> <label
+								class="maxRent"> <input type="text" name="maxRent"
+								style="width: 80px; height: 20px;">
+							</label> <span class="filter-custom-line" style="margin-left: 10px;">元</span>
+							<button type="button" id="RentSubmit"
+								style="margin-left: 10px; height: 20px; text-align: center; display: flex; align-items: center;">確定</button>
+
+						</div>
+
+						<div id="check_rentAppFloor">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">樓層</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="1樓"> <span
+								class="radio-label">1樓</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="2-5樓"> <span
+								class="radio-label">2-5樓</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="6-11樓"> <span
+								class="radio-label">6-11樓</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppFloor" value="12樓以上"> <span
+								class="radio-label">12樓以上</span>
+							</label>
+						</div>
+
+						<div id="check_rentAppSize">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">坪數</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="rentAppSize" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentAppSize" value="10坪以下"> <span
+								class="checkbox-label">10坪以下</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentAppSize" value="11-20坪"> <span
+								class="checkbox-label">11-20坪</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentAppSize" value="21-30坪"> <span
+								class="checkbox-label">21-30坪</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="rentAppSize" value="30坪以上"> <span
+								class="checkbox-label">30坪以上</span>
+							</label>
+						</div>
+
+						<div id="check_feature">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">特色</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="feature" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentBalcony"> <span
+								class="checkbox-label">陽台</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentElev"> <span
+								class="checkbox-label">電梯</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentParking"> <span
+								class="checkbox-label">車位</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentWaterBill"> <span
+								class="checkbox-label">台水</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="feature" value="rentElectricityBill"> <span
+								class="checkbox-label">台電</span>
+							</label>
+						</div>
+
+						<div id="check_equipment">
+							<label class="custom-radio"> <input type="radio" disabled>
+								<span class="radio-label" style="color: blue">設備</span>
+							</label> <label class="custom-radio"> <input type="radio"
+								name="equipment" value="" checked> <span
+								class="radio-label">不限</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentRefrigerator"> <span
+								class="checkbox-label">冰箱</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentAC"> <span
+								class="checkbox-label">冷氣機</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentTV"> <span
+								class="checkbox-label">電視</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentWashMachine"> <span
+								class="checkbox-label">洗衣機</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentHeater"> <span
+								class="checkbox-label">熱水器</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentBed"> <span
+								class="checkbox-label">床</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentWardrobe"> <span
+								class="checkbox-label">衣櫃</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentInternet"> <span
+								class="checkbox-label">網路</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentCableTV"> <span
+								class="checkbox-label">第四台</span>
+							</label> <label class="custom-checkbox"> <input type="checkbox"
+								name="equipment" value="rentSofa"> <span
+								class="checkbox-label">沙發</span>
+							</label>
+						</div>
+
+						<hr style="margin-top: 10px; margin-bottom: 10px;">
 					</div>
-                    
-                    <div id="check_rentAppAr">
-                    </div>
-                    
-                    <hr style="margin-top: 10px;margin-bottom: 10px;">
-                    
-                    <div id="check_rentLayout" >
-                    	<label class="custom-radio">
-                    		<input type="radio"  disabled>	
-					        <span class="radio-label" style="color: blue">型態</span>
-					    </label>
-	                    <label class="custom-radio">
-					        <input type="radio" name="rentLayout" value="" checked>
-					        <span class="radio-label">不限</span>
-					    </label>
-					    <label class="custom-radio">
-					        <input type="radio" name="rentLayout" value="0">
-					        <span class="radio-label">雅房</span>
-					    </label>
-					    <label class="custom-radio">
-					        <input type="radio" name="rentLayout" value="1">
-					        <span class="radio-label">分租套房</span>
-					    </label>
-					    <label class="custom-radio">
-					        <input type="radio" name="rentLayout" value="2">
-					        <span class="radio-label">獨立套房</span>
-					    </label>
-					    <label class="custom-radio">
-					        <input type="radio" name="rentLayout" value="3">
-					        <span class="radio-label">整層住家</span>
-					    </label>
-					</div>
-					
-					<div id="check_rentRent">
-						<label class="custom-radio">
-                    		<input type="radio"  disabled>	
-					        <span class="radio-label" style="color: blue">租金</span>
-					    </label>
-	                    <label class="custom-radio">
-					        <input type="radio" name="rentRent" value="" checked onchange="clearInputs()">
-					        <span class="radio-label">不限</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="5000元以下" onchange="clearInputs()">
-					        <span class="checkbox-label">5000元以下</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="5000-10000元" onchange="clearInputs()">
-					        <span class="checkbox-label">5000-10000元</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="10000-20000元" onchange="clearInputs()">
-					        <span class="checkbox-label">10000-20000元</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="20000-30000元" onchange="clearInputs()">
-					        <span class="checkbox-label">20000-30000元</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="30000-40000元" onchange="clearInputs()">
-					        <span class="checkbox-label">30000-40000元</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentRent" value="40000元以上" onchange="clearInputs()">
-					        <span class="checkbox-label">40000元以上</span>
-					    </label>
-					    <label class="minRent">
-					    	<input type="text" name="minRent" style="width: 80px;height: 20px;margin-left: 10px;">
-					    </label>
-					    <span class="filter-custom-line" style="margin-left: 10px; margin-right: 10px;">-</span>
-					    <label class="maxRent">
-    						<input type="text" name="maxRent" style="width: 80px;height: 20px;">
-    					</label>
-    					<span class="filter-custom-line" style="margin-left: 10px;">元</span>
-						<button type="button" id="RentSubmit" style="margin-left: 10px; height: 20px; text-align: center; display: flex; align-items: center;">確定</button>
 
-					</div>
-					
-					<div id="check_rentAppFloor">
-                    	<label class="custom-radio">
-                    		<input type="radio"  disabled>	
-					        <span class="radio-label" style="color: blue">樓層</span>
-					    </label>
-	                    <label class="custom-radio">
-					        <input type="radio" name="rentAppFloor" value="" checked>
-					        <span class="radio-label">不限</span>
-					    </label>
-					    <label class="custom-radio">
-					        <input type="radio" name="rentAppFloor" value="1樓">
-					        <span class="radio-label">1樓</span>
-					    </label>
-					    <label class="custom-radio">
-					        <input type="radio" name="rentAppFloor" value="2-5樓">
-					        <span class="radio-label">2-5樓</span>
-					    </label>
-					    <label class="custom-radio">
-					        <input type="radio" name="rentAppFloor" value="6-11樓">
-					        <span class="radio-label">6-11樓</span>
-					    </label>
-					    <label class="custom-radio">
-					        <input type="radio" name="rentAppFloor" value="12樓以上">
-					        <span class="radio-label">12樓以上</span>
-					    </label>
-					</div>
-					
-					<div id="check_rentAppSize">
-						<label class="custom-radio">
-                    		<input type="radio"  disabled>	
-					        <span class="radio-label" style="color: blue">坪數</span>
-					    </label>
-	                    <label class="custom-radio">
-					        <input type="radio" name="rentAppSize" value="" checked>
-					        <span class="radio-label">不限</span>
-					    </label>
-					    
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentAppSize" value="10坪以下">
-					        <span class="checkbox-label">10坪以下</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentAppSize" value="11-20坪">
-					        <span class="checkbox-label">11-20坪</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentAppSize" value="21-30坪">
-					        <span class="checkbox-label">21-30坪</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="rentAppSize" value="30坪以上">
-					        <span class="checkbox-label">30坪以上</span>
-					    </label>
-					</div>
-					
-					<div id="check_feature">
-						<label class="custom-radio">
-                    		<input type="radio"  disabled>	
-					        <span class="radio-label" style="color: blue">特色</span>
-					    </label>
-	                    <label class="custom-radio">
-					        <input type="radio" name="feature" value="" checked>
-					        <span class="radio-label">不限</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="feature" value="rentBalcony">
-					        <span class="checkbox-label">陽台</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="feature" value="rentElev">
-					        <span class="checkbox-label">電梯</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="feature" value="rentParking">
-					        <span class="checkbox-label">車位</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="feature" value="rentWaterBill">
-					        <span class="checkbox-label">台水</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="feature" value="rentElectricityBill">
-					        <span class="checkbox-label">台電</span>
-					    </label>
-					</div>
-					
-					<div id="check_equipment">
-						<label class="custom-radio">
-                    		<input type="radio"  disabled>	
-					        <span class="radio-label" style="color: blue">設備</span>
-					    </label>
-	                    <label class="custom-radio">
-					        <input type="radio" name="equipment" value="" checked>
-					        <span class="radio-label">不限</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentRefrigerator">
-					        <span class="checkbox-label">冰箱</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentAC">
-					        <span class="checkbox-label">冷氣機</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentTV">
-					        <span class="checkbox-label">電視</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentWashMachine">
-					        <span class="checkbox-label">洗衣機</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentHeater">
-					        <span class="checkbox-label">熱水器</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentBed">
-					        <span class="checkbox-label">床</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentWardrobe">
-					        <span class="checkbox-label">衣櫃</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentInternet">
-					        <span class="checkbox-label">網路</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentCableTV">
-					        <span class="checkbox-label">第四台</span>
-					    </label>
-					    <label class="custom-checkbox">
-					        <input type="checkbox" name="equipment" value="rentSofa">
-					        <span class="checkbox-label">沙發</span>
-					    </label>
-					</div>
-
-                <hr style="margin-top: 10px;margin-bottom: 10px;">
-                </div>
-
-				<div id="map" style="height: 400px; margin-top: 20px;"></div>
-            </div>
-        </div>
-    </div>
-    <!-- <script src="./vendors/jquery/jquery-3.7.1.min.js"></script> -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuQxy8IWpLXa4ixgreClBMfk_TuBFfJyI&libraries=places" defer></script>
-<script>
+					<div id="map" style="height: 400px; margin-top: 20px;"></div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- <script src="./vendors/jquery/jquery-3.7.1.min.js"></script> -->
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuQxy8IWpLXa4ixgreClBMfk_TuBFfJyI&libraries=places"
+		defer></script>
+	<script>
 
 // 初始化變數
 var itemsPerPage = 3;
