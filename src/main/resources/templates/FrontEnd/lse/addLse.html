@@ -5,38 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
     <title>新增合約</title>
 </head>
 
 <body>
-    <h1>新增合約 </h1>
-    
-    <form method="post" th:action="@{insert}" th:object="${lse}" enctype="multipart/form-data" onsubmit="return formCheck()">
-		<label>會員編號: </label><span th:text="${apo.mem.memNo}"></span><br><br>
-		<label>物件編號: </label><span th:text="${apo.rent.rentNo}"></span><br><br>
-        <label>起始日期: </label><span id="lseStart" th:text="${apo.apoWantDate}"></span><br><br>
-        <label>選擇合約年限: </label><br>
-        <label><input type="radio" name="contractTerms" onclick="createLseEnd('halfYear')"> 半年</label>
-        <label><input type="radio" name="contractTerms" onclick="createLseEnd('oneYear')"> 一年</label>
-        <label><input type="radio" name="contractTerms" onclick="createLseEnd('twoYear')"> 兩年</label><br><br>
-        <label>終止日期: </label><span id="lseEndText"></span><br><br>
-        <input type="hidden" id="lseEnd" name="lseEnd">
-        <label for="lseSend">上傳合約: </label>
-		<input type="file" th:field="*{lseSend}" required><br><br>
-        <label>押金金額: </label><input type="text" th:field="*{lsePay}" required><br><br>
-        <label>匯款銀行: </label><span id="select-container"></span><br><br>
-       
-        <label>匯款帳號: </label><input type="text" th:field="*{lsePayAccount}" style="width:200px;" required><br><br>
-        
-        <input type="hidden" name="mem.memNo" th:value="${apo.mem.memNo}">
-        <input type="hidden" name="rent.rentNo" th:value="${apo.rent.rentNo}">
-        <input type="hidden" name="lseStart" th:value="${apo.apoWantDate}">
-    
-        <input type="hidden" name="apoNo" th:value="${apo.apoNo}">
-        <input type="submit" value="產生合約" class="approve_button">
-        <a th:href="@{/apo/reviewApo}"><button type="button" class="reject_button">取消</button></a>
-    </form>
-
+<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+    <main>
+	    <h1>新增合約 </h1>
+	    
+	    <form method="post" th:action="@{insert}" th:object="${lse}" enctype="multipart/form-data" onsubmit="return formCheck()">
+			<label>會員編號: </label><span th:text="${apo.mem.memNo}"></span><br><br>
+			<label>物件編號: </label><span th:text="${apo.rent.rentNo}"></span><br><br>
+	        <label>起始日期: </label><span id="lseStart" th:text="${apo.apoWantDate}"></span><br><br>
+	        <label>選擇合約年限: </label><br>
+	        <label><input type="radio" name="contractTerms" onclick="createLseEnd('halfYear')"> 半年</label>
+	        <label><input type="radio" name="contractTerms" onclick="createLseEnd('oneYear')"> 一年</label>
+	        <label><input type="radio" name="contractTerms" onclick="createLseEnd('twoYear')"> 兩年</label><br><br>
+	        <label>終止日期: </label><span id="lseEndText"></span><br><br>
+	        <input type="hidden" id="lseEnd" name="lseEnd">
+	        <label for="lseSend">上傳合約: </label>
+					<input type="file" th:field="*{lseSend}" required><br><br>
+	        <label>押金金額: </label><input type="text" th:field="*{lsePay}" required><br><br>
+	        <label>匯款銀行: </label><span id="select-container"></span><br><br>
+	       
+	        <label>匯款帳號: </label><input type="text" th:field="*{lsePayAccount}" style="width:200px;" required><br><br>
+	        
+	        <input type="hidden" name="mem.memNo" th:value="${apo.mem.memNo}">
+	        <input type="hidden" name="rent.rentNo" th:value="${apo.rent.rentNo}">
+	        <input type="hidden" name="lseStart" th:value="${apo.apoWantDate}">
+	    
+	        <input type="hidden" name="apoNo" th:value="${apo.apoNo}">
+	        <input type="submit" value="產生合約" class="approve_button">
+	        <a th:href="@{/apo/reviewApo}"><button type="button" class="reject_button">取消</button></a>
+	    </form>
+</main>
     <script>
         function formCheck() {
             var radioButtons = document.getElementsByName("contractTerms");
@@ -193,6 +196,7 @@
 				
         	  selectElement.id = "bankSelect";
         	  selectElement.name = "bank";
+        	  selectElement.classList.add("customA");
         	  selectElement.setAttribute("required", "required");
               
         	  var container = document.getElementById("select-container");

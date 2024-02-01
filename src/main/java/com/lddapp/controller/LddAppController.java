@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ldd.model.Ldd;
 import com.ldd.model.LddService;
 import com.lddapp.model.LddApp;
 import com.lddapp.model.LddAppService;
@@ -33,20 +32,6 @@ public class LddAppController {
 
 	@Autowired
 	LddService lddSvc;
-
-	// 測試索引頁
-	@GetMapping("")
-	public String indexOfLddApp(ModelMap model) {
-		return "BackStage/lddApp/select";
-	}
-
-	// 測試前台新增
-	@GetMapping("/addLddApp")
-	public String addLddApp(ModelMap model) {
-		LddApp lddApp = new LddApp();
-		model.addAttribute("lddApp", lddApp);
-		return "BackStage/lddApp/addLddApp";
-	}
 
 	@GetMapping("/listAllLddApp")
 	public String getAll(ModelMap model) {
@@ -66,14 +51,6 @@ public class LddAppController {
 		lddApp = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
 		model.addAttribute("lddApp", lddApp);
 		return "BackStage/lddApp/listOneLddApp2";
-	}
-	
-	@PostMapping("insert")
-	public String insert (@RequestParam("lddAppIDPic") MultipartFile part, 
-			@Valid LddApp lddApp, BindingResult result, ModelMap model) throws IOException {
-		lddApp.setLddAppIDPic(part.isEmpty() ? null : part.getBytes());
-		lddAppSvc.addLddApp(lddApp);
-		return "redirect:/BackStage/lddApp/listAllLddApp";
 	}
 	
 	@PostMapping("update")

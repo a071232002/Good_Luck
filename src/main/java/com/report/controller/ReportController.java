@@ -3,6 +3,7 @@ package com.report.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class ReportController {
 	}
     
 	@PostMapping("insert")
-	public String insert(@Valid Report report, BindingResult result,ModelMap model ) throws IOException {
+	public String insert(@Valid Report report, BindingResult result,ModelMap model ,HttpSession session) throws IOException {
 		
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行

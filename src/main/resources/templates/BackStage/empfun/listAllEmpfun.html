@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>權限管理</h1>
+	<h1>員工/權限管理</h1>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
@@ -39,17 +39,17 @@
 				<td>
 				<th:block th:each="fun : ${empfun.empFun}">
 					<span  th:if="${fun == 1}" th:text="會員管理"></span>
-					<span  th:if="${fun == 2}" th:text="商品管理"></span>
-					<span  th:if="${fun == 3}" th:text="公告管理"></span>
-					<span  th:if="${fun == 4}" th:text="物件管理"></span>
-					<span  th:if="${fun == 5}" th:text="申訴管理"></span>
-					<span  th:if="${fun == 6}" th:text="員工管理"></span>
+					<span  th:if="${fun == 2}" th:text="物件管理"></span>
+					<span  th:if="${fun == 3}" th:text="購物管理"></span>
+					<span  th:if="${fun == 4}" th:text="公告管理"></span>
+					<span  th:if="${fun == 5}" th:text="投訴管理"></span>
+					<span  th:if="${fun == 6}" th:text="後台管理"></span>
 				</th:block>
 				</td>
 				<td>
 					<form method="post" th:action="@{goEditFun}">
 						<input type="hidden" name= "oneEmpNo" th:value="${empfun.empNo}">
-						<input type="submit" value="修改" th:disabled="${empfun.empNo == 1}">
+						<input type="submit" value="修改" th:disabled="${empfun.empNo == 1 || empfun.empStatus == 0}">
 					</form>
 				</td>
 			</tr>
@@ -59,7 +59,8 @@
 		</tbody>
 	</table>
 	<br>
-	<a th:href="@{/BackStage/addEmp}"><button>前往新增員工</button></a>
+	
+	<a th:href="@{/BackStage/tempCenter}"><button>返回索引</button></a>
 	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
   	<script th:src="@{/js/BackStage/mem/the.js}"></script>

@@ -18,4 +18,7 @@ public interface EmpFunService {
 	
 	//變更員工擁有的權限
 	public Boolean editFun(Emp emp, List<Integer> funNoList);
+	
+	//刪除員工全部的權限
+	public Boolean removeFun(Emp emp);
 }

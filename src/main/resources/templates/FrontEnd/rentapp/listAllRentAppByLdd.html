@@ -68,7 +68,7 @@
 					<td th:text="${rentApp.rentAppRo}"></td>
 					<td th:text="${rentApp.rentAppAdd}"></td>
 					<td><img
-						th:src="@{/BackStage/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}"
+						th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}"
 						width="150px" class="myImage"></td>
 
 
@@ -83,11 +83,16 @@
 
 
 					<td>
-						<form method="post" th:action="@{/BackStage/rentApp/getOne_For_Update}">
-							<input type="hidden" name="rentAppNo"
-								th:value="${rentApp.rentAppNo}"> <input type="submit"
-								value="修改">
-						</form>
+						<div th:switch="${rentApp.rentAppSt}">
+							<th:block th:case="0">
+						        <!-- 处理值为0的情况 -->
+						        <form method="post" th:action="@{/rentApp/getOne_For_Update}">
+								<input type="hidden" name="rentAppNo"th:value="${rentApp.rentAppNo}">
+								<input type="submit"value="修改">
+							</form>
+						    </th:block>
+					    </div>
+						
 					</td>
 				</tr>
 
@@ -97,7 +102,7 @@
 
 	</table>
 	<br>
-	<a th:href="@{/BackStage/rentApp/}"><button>前往首頁</button></a>
+
 
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the.js}"></script>
