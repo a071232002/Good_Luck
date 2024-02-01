@@ -2,10 +2,9 @@ package com.apo.model;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import com.ldd.model.Ldd;
 import com.mem.model.Mem;
+import com.rent.model.Rent;
 
 public interface ApoService {
 
@@ -30,6 +29,8 @@ public interface ApoService {
 	public void rejectWant(Apo apo);
 	
 	public void approveWant(Integer apoNo);
+	
+	public void rejectOtherApoByRent(Rent rent);
 
 	public List<Apo> getApoListByLdd(Ldd ldd);
 	

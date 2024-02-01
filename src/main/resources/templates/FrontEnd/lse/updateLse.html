@@ -28,9 +28,26 @@
             margin-right: 10px;
         }
 
-        h1 {
-            color: #333;
-        }
+        .tittleBoard {
+			text-align: center;
+			width: 100%;
+			padding: 0px 80px;
+			border-radius: 8px;
+			margin: 15px 0px;
+			margin-bottom: 30px;
+		}
+		
+		.tittleBoard span {
+			font-size: 30px;
+			font-weight: bold;
+			color: #1a2a35;
+			background-color: Wheat;
+			padding: 10px;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			display: inline-block;
+			margin: 0px;
+		}
 
         label {
             margin-bottom: 5px;
@@ -182,7 +199,7 @@
             if (/^\d+$/.test(value)) {
             	lsePayError.textContent = "";
             } else {
-            	lsePayError.textContent = "請輸入數字(0,1,2...)";
+            	lsePayError.textContent = "請輸入數字(0-9)";
             }
         }
 
@@ -192,7 +209,7 @@
             if (/^[\d-]{1,20}$/.test(value)) {
                 accountError.textContent = "";
             } else {
-                accountError.textContent = "請輸入數字(0,1,2...) 或 -，總長度不超過 20 位";
+                accountError.textContent = "請輸入數字(0-9) 或 -，總長度不超過20位";
             }
         }
 
@@ -242,7 +259,7 @@
 	          if(this.files.length > 0){
 	            preview_img(this.files[0]);
 	          }else{
-	            preview_el.innerHTML = '<span class="imgBoard"><img class="preview_img" src="/lse/sendPic?lseNo='+lseNo.value.trim()+'"></span>';
+	            preview_el.innerHTML = '<span class="imgBoard"><img class="preview_img" src="sendPic?lseNo='+lseNo.value.trim()+'"></span>';
 	          }
 	        });
         

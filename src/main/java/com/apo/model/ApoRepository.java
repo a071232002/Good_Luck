@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ldd.model.Ldd;
 import com.mem.model.Mem;
+import com.rent.model.Rent;
 
 public interface ApoRepository extends JpaRepository<Apo, Integer>{
 	
@@ -22,6 +23,12 @@ public interface ApoRepository extends JpaRepository<Apo, Integer>{
 	
 	@Transactional
 	public List<Apo> findByMemOrderByApoCreateDesc(Mem mem);
+	
+	@Transactional
+	public List<Apo> findByRentAndApoStatusInOrApoWantIn(Rent rent,  List<Byte> apoStatusList,  List<Byte> apoWantList);
+	
+	@Transactional
+	public List<Apo> findByRent(Rent rent);
 	
 	@Transactional
 	@Query("FROM Apo apo WHERE apo.rent.rentNo = :rentNo AND apo.apoStatus IN :apoStatusList")

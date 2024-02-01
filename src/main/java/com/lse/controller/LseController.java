@@ -26,6 +26,8 @@ import com.ldd.model.Ldd;
 import com.lse.model.Lse;
 import com.lse.model.LseService;
 import com.mem.model.Mem;
+import com.rent.model.Rent;
+import com.rent.model.RentService;
 
 @Controller
 @RequestMapping("/lse")
@@ -36,6 +38,9 @@ public class LseController {
 	
 	@Autowired
 	LseService lseSvc;
+	
+	@Autowired
+	RentService rentSvc;
 	
 	@GetMapping("/addLse")
 	public String addLse(ModelMap model, @ModelAttribute("apoNo")String apoNo, HttpSession session) {
@@ -99,11 +104,12 @@ public class LseController {
 		String LsePayAccount = bank + " " + account;
 		lse.setLseSend(part.isEmpty() ? null : part.getBytes());
 		lse.setLsePayAccount(LsePayAccount);
-		System.out.println(lse);
+		
 		lseSvc.addLse(lse);
-		System.out.println(apoNo);
+		System.out.println(lse.getRent());
 		// 產生合約後才變更租屋單狀態
-//		apoSvc.approveWant(Integer.valueOf(apoNo));
+		apoSvc.rejectOtherApoByRent(lse.getRent());
+		apoSvc.approveWant(Integer.valueOf(apoNo));
 		return "redirect:/apo/reviewApo";
 	}
 	
@@ -126,6 +132,14 @@ public class LseController {
 		return "redirect:/lse/reviewLse";
 	}
 	
+	//租客操作****************************************************************************************
+	@PostMapping("cancel")
+	public String cancel(@RequestParam("lseNo") String lseNo) {
+		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		lse.setLseStatus(Byte.valueOf("1"));
+		lseSvc.updateLse(lse);
+		return "redirect:/lse/listAllLse";
+	}
 	
 	@PostMapping("sign")
 	public String sign(@RequestParam("lseSign") MultipartFile part,
@@ -137,14 +151,45 @@ public class LseController {
 		return "redirect:/lse/listAllLse";
 	}
 	
+	@PostMapping("inform")
+	public String inform(@RequestParam("lseNo") String lseNo) {
+		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		lse.setLseStatus(Byte.valueOf("4"));
+		lseSvc.updateLse(lse);
+		return "redirect:/lse/listAllLse";
+	}
+	
+	//房東操作****************************************************************************************
 	@PostMapping("reject")
 	public String reject(@RequestParam("lseNo") String lseNo) {
 		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
 		lse.setLseStatus(Byte.valueOf("1"));
 		lseSvc.updateLse(lse);
-		return "redirect:/lse/listAllLse";
+		return "redirect:/lse/reviewLse";
 	}
 	
+	@PostMapping("confirmSign")
+	public String confirmSign(@RequestParam("lseNo") String lseNo) {
+		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		lse.setLseStatus(Byte.valueOf("3"));
+		lseSvc.updateLse(lse);
+		return "redirect:/lse/reviewLse";
+	}
+	
+	@PostMapping("confirmPay")
+	public String confirmPay(@RequestParam("lseNo") String lseNo) {
+		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		//合約成立
+		lse.setLsePayStatus(Byte.valueOf("1"));
+		lse.setLseStatus(Byte.valueOf("5"));
+		lseSvc.updateLse(lse);
+		
+		//合約成立變更物件為合約中
+		Rent rent = lse.getRent();
+		rent.setRentSt(Byte.valueOf("2"));
+		rentSvc.updateRent(rent);
+		return "redirect:/lse/reviewLse";
+	}
 	
 	@ModelAttribute("lseListData")
 	public List<Lse> referenceListDataByMem(HttpSession session) {

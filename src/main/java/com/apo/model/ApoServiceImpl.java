@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ldd.model.Ldd;
 import com.mem.model.Mem;
+import com.rent.model.Rent;
 
 @Service
 public class ApoServiceImpl implements ApoService {
@@ -102,6 +103,29 @@ public class ApoServiceImpl implements ApoService {
 		Apo apo = optional.get();
 		apo.setApoWant(WANT_AGREE);
 		repository.save(apo);
+	}
+	
+	@Override
+	public void rejectOtherApoByRent(Rent rent) {
+		List<Apo> list1 = repository.findByRent(rent);
+        List<Apo> apoStatusList = list1.stream()
+        							  .filter(apo -> (apo.getApoStatus() == 0 || apo.getApoStatus() == 2))
+        							  .collect(Collectors.toList());
+        
+        for(Apo aApo : apoStatusList) {
+        	aApo.setApoStatus(REJECT);
+        	repository.save(aApo);
+        }
+        
+        List<Apo> list2 = repository.findByRent(rent);
+        List<Apo> apoWantList = list2.stream()
+        		  					.filter(apo -> (apo.getApoStatus() == 3) &&(apo.getApoWant() == 0 || apo.getApoWant() == 2))
+        		  					.collect(Collectors.toList());
+        
+        for(Apo aApo : apoWantList) {
+        	aApo.setApoWant(WANT_REJECT);
+        	repository.save(aApo);
+        }
 	}
 	
 	@Override

@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/public/tableModel/try2.css}" />
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
     <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
-    <title>合約一覽</title>
+    <title>合約管理</title>
     <style>
     	.lightbox {
             display: none;
@@ -117,14 +117,14 @@
 	                    <td th:text="${lse.lsePay}"></td>
 	                        <td th:text="${lse.lsePayAccount}"></td>
 	                        <td th:switch="${lse.lsePayStatus}">
-	                            <span th:case="0" class="cancel" th:text="尚未付款"></span>
+	                            <span th:case="0" class="cancel" th:text="尚未匯款"></span>
 	                            <span th:case="1" class="success" th:text="已付款"></span>
 	                        </td>
 	                    <td th:switch="${lse.lseStatus}">
 	                        <span th:case="0" class="warning" th:text="待租客確認"></span>
 	                        <span th:case="1" class="cancel" th:text="終止簽立"></span>
 	                        <span th:case="2" class="warning" th:text="請確認回傳資料"></span>
-	                        <span th:case="3" class="warning" th:text="待租客付款"></span>
+	                        <span th:case="3" class="warning" th:text="待租客匯款"></span>
 	                        <span th:case="4" class="warning" th:text="請確認匯款金額"></span>
 	                        <span th:case="5" class="success" th:text="合約中"></span>
 	                        <span th:case="6" class="cancel" th:text="合約期滿"></span>
@@ -153,7 +153,20 @@
                                 <input type="submit" value="修改合約" class="approve_button">
                             </form>
                         </th:block>
-						<th:block th:if="${lse.lseStatus == 0 || lse.lseStatus == 2}">                            
+	                    <th:block th:if="${lse.lseStatus == 2}">
+	                    	<form method="post" th:action="@{confirmSign}">
+                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <input type="submit" value="確認並通知付款" class="approve_button">
+                            </form>
+                        </th:block>
+	                    <th:block th:if="${lse.lseStatus == 4}">
+	                    	<form method="post" th:action="@{confirmPay}">
+                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <input type="submit" value="收到匯款並成立合約" class="approve_button">
+                            </form>
+                        </th:block>
+
+						<th:block th:if="${lse.lseStatus == 0 || lse.lseStatus == 2 || lse.lseStatus == 3}">                            
                             <form method="post" th:object="${lse}" th:action="@{reject}">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
                                 <input type="submit" value="取消簽約" class="reject_button">

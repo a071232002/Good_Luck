@@ -416,7 +416,7 @@
         //  ajax 將核准的預約單帶回
         function updateCalendarDate() {
             $.ajax({
-                url: "/apo/apoStatus/" + rentNo,
+                url: "apoStatus/" + rentNo,
                 type: "POST",
                 dataType: "json",
 
@@ -447,7 +447,7 @@
         
         function isApoRepeat(callback) {
             $.ajax({
-                url: "/apo/apoStatus/" + rentNo,
+                url: "apoStatus/" + rentNo,
                 type: "POST",
                 dataType: "json",
 
