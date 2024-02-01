@@ -58,11 +58,11 @@ public class IndexController {
 		System.out.println("userName 為: " + userNo);
 		System.out.println("userPassword 為: " + userPassword);
 		if (userNo.isEmpty() || userPassword.isEmpty()) {
-			model.addAttribute("message", "信箱或密碼不能空白，請重新輸入！");
+			model.addAttribute("message", "員工編號或密碼不能空白，請重新輸入！");
 			return "BackStage/login";
 		}
 		Emp loginData = empService.empLogin(Integer.valueOf(userNo), userPassword);
-		if (loginData != null) {
+		if (loginData != null && loginData.getEmpStatus() != 0) {
 			String activeNavItemId = projectUri + "/icon/BackStage/indexJS";
 //			String uri = session.getAttribute("goBackStageURI").toString();
 			loginData.setEmpFun(empFunService.findByEmpNo(loginData.getEmpNo()));
@@ -79,7 +79,7 @@ public class IndexController {
 				e.printStackTrace();
 			}
 		}
-		model.addAttribute("message", "信箱或密碼輸入錯誤，請重新輸入！");
+		model.addAttribute("message", "員工編號或密碼輸入錯誤，請重新輸入！");
 		return "BackStage/login";
 
 	}

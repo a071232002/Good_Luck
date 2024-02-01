@@ -64,7 +64,8 @@ public class MemControllerFrontEnd {
 	//前往會員中心
 	@GetMapping("/memCenter")
 	public String memCenter() {
-		return "FrontEnd/mem/memIndex";
+//		return "FrontEnd/mem/memIndex";
+		return "redirect:/mem/memData";
 	}
 	
 	//登出處理
@@ -132,6 +133,10 @@ public class MemControllerFrontEnd {
 		}
 		Mem loginData = memservice.login(memMail, memPsw);
 		if (loginData != null) {
+			if(loginData.getMemStatus() == 2) {
+				model.addAttribute("noFun", "此帳號已無權限，請洽詢相關工作人員！");
+				return "FrontEnd/mem/loginMem";
+			}
 			Ldd ldd = lddservice.getOneByMem(loginData);
 			System.out.println("登入成功");
 			session.setAttribute("logsuccess", loginData);
@@ -179,6 +184,7 @@ public class MemControllerFrontEnd {
 			BindingResult result, ModelMap model, @RequestParam("county") String county, 
 			@RequestParam("district") String district, HttpSession session) throws IOException {
 
+		
 		String detailAdd = mem.getMemAdd();
 		mem.setMemAdd(county + " " + district + " " + detailAdd);
 		mem.setMemPic(part.isEmpty() ? memservice.findByNo(mem.getMemNo()).getMemPic() : part.getBytes());
@@ -191,11 +197,25 @@ public class MemControllerFrontEnd {
 			mem.setMemAdd(detailAdd);
 			return "FrontEnd/mem/updateMem";
 		}
-
+		System.out.println("get " + mem);
 		Mem newData = memservice.edit(mem);
 		model.addAttribute("successData", newData);
 		session.setAttribute("logsuccess", newData);
 		return "FrontEnd/mem/successPage";
+	}
+	
+	//大頭照變更
+	@PostMapping("/newPic")
+	public String newPic(@RequestParam("chaPic") MultipartFile part, HttpSession session) {
+		Mem mem = (Mem)session.getAttribute("logsuccess");
+		try {
+			mem.setMemPic(part.getBytes());
+			Mem newData = memservice.edit(mem);
+			session.setAttribute("logsuccess", newData);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/mem/memData";
 	}
 	
 	//前往信箱驗證

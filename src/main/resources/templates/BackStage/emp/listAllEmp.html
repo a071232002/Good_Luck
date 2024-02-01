@@ -55,8 +55,8 @@
 					</form>
 				</td>
 				<td>
-					<form method="post" th:action="@{goEditFun}">
-						<input type="hidden" name= "oneEmpNo" th:value="${emp.empNo}">
+					<form method="post" th:action="@{/BackStage/emp/rePsw}">
+						<input type="hidden" name= "rePswEmpNo" th:value="${emp.empNo}">
 						<input type="submit" value="重置密碼">
 					</form>
 				</td>

@@ -79,6 +79,16 @@ public class EmpServiceImpl implements EmpService {
 		newEmp.setEmpPsw(hashPassword(newEmp.getEmpPsw())); //加密
 		return empRepository.save(newEmp);
 	}
+	
+	//重製密碼
+	@Override
+	public Emp reSetPsw(Integer empNo) {
+		Emp emp = empRepository.findById(empNo).orElse(null);
+		if(emp != null) {
+			emp.setEmpPsw("goodluck" + empNo);
+		}
+		return emp;
+	}
 
 	// 密碼加密
 	//參考網站https://jax-work-archive.blogspot.com/2015/02/java.html

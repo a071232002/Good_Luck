@@ -27,4 +27,7 @@ public interface EmpService  {
 	
 	// 密碼加密
 	public String hashPassword(String empPsw);
+	
+	//重製密碼
+	public Emp reSetPsw(Integer empNo);
 }

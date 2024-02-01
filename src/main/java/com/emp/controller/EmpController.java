@@ -155,6 +155,17 @@ public class EmpController {
 	}
 	
 	//重製密碼
+	@PostMapping("/rePsw")
+	public String rePsw(String rePswEmpNo) {
+		Emp emp = empService.reSetPsw(Integer.valueOf(rePswEmpNo));
+		System.out.println(rePswEmpNo + "ff");
+		return "redirect:/BackStage/emp/listAllEmp";
+	}
+	
+//	@ModelAttribute("goodluckPsw")
+//	public String goodluckPsw() {
+//		Emp emp = empService.getById(null)
+//	}
 
 //	// 前往修改個人密碼
 //	@GetMapping("/changePsw")
