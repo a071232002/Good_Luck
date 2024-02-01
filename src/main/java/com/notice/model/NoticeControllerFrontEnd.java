@@ -41,6 +41,5 @@ public class NoticeControllerFrontEnd {
 		NoticeVO noticeVO = new NoticeVO();
 		List<NoticeVO>notices =  noticeservice.getAll();
 		return  ResponseEntity.status(HttpStatus.OK).body(notices);
-		
 	}
 }
