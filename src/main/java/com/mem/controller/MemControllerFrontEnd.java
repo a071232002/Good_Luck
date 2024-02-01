@@ -64,7 +64,8 @@ public class MemControllerFrontEnd {
 	//前往會員中心
 	@GetMapping("/memCenter")
 	public String memCenter() {
-		return "FrontEnd/mem/memIndex";
+//		return "FrontEnd/mem/memIndex";
+		return "redirect:/mem/memData";
 	}
 	
 	//登出處理
