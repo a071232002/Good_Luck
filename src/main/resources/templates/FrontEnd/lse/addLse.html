@@ -192,7 +192,7 @@
             if (/^\d+$/.test(value)) {
             	lsePayError.textContent = "";
             } else {
-            	lsePayError.textContent = "請輸入數字(0, 1, 2 ...)";
+            	lsePayError.textContent = "請輸入數字(0-9)";
             }
         }
 
@@ -202,7 +202,7 @@
             if (/^[\d-]{1,20}$/.test(value)) {
                 accountError.textContent = "";
             } else {
-                accountError.textContent = "請輸入數字(0,1,2...) 或 -，總長度不超過 20 位";
+                accountError.textContent = "請輸入數字(0-9) 或 -，總長度不超過20位";
             }
         }
 

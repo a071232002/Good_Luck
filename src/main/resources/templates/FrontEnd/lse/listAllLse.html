@@ -55,7 +55,7 @@
 		
 		.returnSign{
 			background-color: #f0f0f0;
-			max-width:250px;
+			max-width:200px;
 		    padding: 10px;
 		    border-radius: 5px;
 		    margin-right:10px;
@@ -119,7 +119,7 @@
 	                        th:if="${lse.lseStatus == 3 || lse.lseStatus == 4 || lse.lseStatus == 5 || lse.lseStatus == 6}">
 	                        <td th:text="${lse.lsePayAccount}"></td>
 	                        <td th:switch="${lse.lsePayStatus}">
-	                            <span th:case="0" class="cancel" th:text="尚未付款"></span>
+	                            <span th:case="0" class="cancel" th:text="尚未匯款"></span>
 	                            <span th:case="1" class="success" th:text="已付款"></span>
 	                        </td>
 	                    </th:block>
@@ -132,7 +132,7 @@
 	                        <span th:case="0" class="warning" th:text="請確認合約"></span>
 	                        <span th:case="1" class="cancel" th:text="終止簽立"></span>
 	                        <span th:case="2" class="warning" th:text="已回傳待房東確認"></span>
-	                        <span th:case="3" class="warning">房東同意, 請繳押金</span>
+	                        <span th:case="3" class="warning" th:text="請繳押金"></span>
 	                        <span th:case="4" class="warning" th:text="待房東確認金額"></span>
 	                        <span th:case="5" class="success" th:text="合約中"></span>
 	                        <span th:case="6" class="cancel" th:text="合約期滿"></span>
@@ -166,8 +166,14 @@
                                 <input type="submit" value="簽約回傳" class="approve_button">
                             </form>
                         </th:block>
+	                    <th:block th:if="${lse.lseStatus == 3}">
+	                    	<form method="post" th:object="${lse}" th:action="@{inform}">
+                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <input type="submit" value="通知已匯款" class="approve_button">
+                            </form>
+                        </th:block>
 						<th:block th:if="${lse.lseStatus == 0 || lse.lseStatus == 2}">                            
-                            <form method="post" th:object="${lse}" th:action="@{reject}">
+                            <form method="post" th:object="${lse}" th:action="@{cancel}">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
                                 <input type="submit" value="取消簽約" class="reject_button">
                             </form>
