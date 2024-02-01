@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/public/tableModel/try.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/tableModel/try2.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+
+    <title>我的物件</title>
+    <style>
+        img {
+            vertical-align: middle;
+        }
+
+        span {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+    <main>
+		<div class="tittleBoard"><span class="tittleBoard">我的物件</span></div>
+        <table id="example" class="display" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>物件編號</th>
+                    <th>物件名稱</th>
+                    <th>刊登圖片</th>
+                    <th>出租金額</th>
+                    <th>承租人</th>
+                    <th>合約編號</th>
+                    <th>合約起始日</th>
+                    <th>合約終止日</th>
+                    <th>物件狀態</th>
+                    <th>操作選項</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="rent : ${rentListDataByLdd}">
+                    <tr>
+                        <td th:text="${rent.rentNo}"></td>
+                        <td th:text="${rent.rentPostTitle}"></td>
+                        <td>
+                        	<img th:src="@{/ldd/picture} + '?rentNo=' + ${rent.rentNo}" width="150px">
+                        </td>
+                        <td th:text="${rent.rentRent}"></td>
+                        <td th:text="${rent.lse?.mem.memName}"></td>
+                        <td th:text="${rent.lse?.lseNo}"></td>
+                        <td th:text="${rent.lse?.lseStart}"></td>
+                        <td th:text="${rent.lse?.lseEnd}"></td>
+                      	<td th:switch="${rent.rentSt}">
+		                   	<span th:case="0" class="cancel" th:text="下架中"></span>
+		                   	<span th:case="1" class="warning" th:text="上架中"></span>
+		                   	<span th:case="2" class="success" th:text="出租中"></span>
+		                   	<span th:case="3" class="cancel" th:text="合約期滿"></span>
+		                   	<span th:case="4" class="cancel" th:text="被檢舉下架"></span>
+	                   </td>
+	                   <td></td>
+                    </tr>
+
+                </th:block>
+
+            </tbody>
+
+        </table>
+    </main>
+
+    <script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+    <script th:src="@{/js/public/tableModel/the.js}"></script>
+    <script th:src="@{/js/public/tableModel/the2.js}"></script>
+    <script th:src="@{/js/public/tableModel/dateInput.js}"></script>
+    	
+ 	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+ 	
+    <script>
+        let table = new DataTable("#example");
+    </script>
+
+</body>
+
+</html>

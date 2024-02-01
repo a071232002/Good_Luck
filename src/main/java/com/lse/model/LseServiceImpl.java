@@ -3,10 +3,12 @@ package com.lse.model;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.apo.model.Apo;
 import com.ldd.model.Ldd;
 import com.mem.model.Mem;
 import com.rent.model.Rent;
@@ -26,8 +28,15 @@ public class LseServiceImpl implements LseService{
 
 	@Override
 	public void updateLse(Lse lse) {
-
+		repository.save(lse);
 	}
+	
+	@Override
+	public Lse getOneByLseNo(Integer lseNo) {
+		Optional<Lse> optional = repository.findById(lseNo);
+		return optional.orElse(null);
+	}
+	
 	//for 物件管理找到最新的合約
 	@Override
 	public Lse getNewOneByRent(Rent rent) {
@@ -49,5 +58,6 @@ public class LseServiceImpl implements LseService{
 
 		return null;
 	}
+
 	
 }

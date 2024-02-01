@@ -4,25 +4,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>物件申請單資料</title>
-<link th:href="@{/css/BackStage/rentapp/addRentApp.css}"
-	rel="stylesheet" />
+<title>修改結果</title>
+<!-- <link th:href="@{/css/BackStage/rentapp/addRentApp.css}"rel="stylesheet" /> -->
+<link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+<style>
+.query-result {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.result-item {
+    margin-bottom: 10px;
+}
+
+.result-item span {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.result-item img {
+    margin-top: 5px;
+}
+
+</style>
 </head>
 <body>
+<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+<main>
+
+	<div align="center" class="query-result">
+    <h3>修改結果 :</h3>
+    <div class="result-item">
+        <span>物件申請單編號:</span><span th:text="${rentApp.rentAppNo}"></span>
+    </div>
+    <div class="result-item">
+        <span>縣市:</span><span th:text="${rentApp.rentAppCou}"></span>
+    </div>
+    <div class="result-item">
+        <span>鄉鎮市區:</span><span th:text="${rentApp.rentAppAr}"></span>
+    </div>
+    <div class="result-item">
+        <span>路街:</span><span th:text="${rentApp.rentAppRo}"></span>
+    </div>
+    <div class="result-item">
+        <span>詳細地址:</span><span th:text="${rentApp.rentAppAdd}"></span>
+    </div>
+    <div class="result-item">
+        <span>樓層:</span><span th:text="${rentApp.rentAppFloor}"></span>
+    </div>
+    <div class="result-item">
+        <span>坪數:</span><span th:text="${rentApp.rentAppSize}"></span>
+    </div>
+    <div class="result-item">
+        <span>所有權狀:</span><span><img th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}" width="100px"></span>
+    </div>
+</div>
 
 
-	<div align="center"> <!-- 此div被select_page.html第128行insert用 -->
-		<h3><span>查詢結果 :</span></h3>
-		<span>物件申請單編號:</span><span th:text="${rentApp.rentAppNo}"></span><br/>
-		<span>縣市:</span><span th:text="${rentApp.rentAppCou}"></span><br/>
-		<span>鄉鎮市區:</span><span th:text="${rentApp.rentAppAr}"></span><br/>
-		<span>路街:</span><span th:text="${rentApp.rentAppRo}"></span><br/>
-		<span>詳細地址:</span><span th:text="${rentApp.rentAppAdd}"></span><br/>
-		<span>樓層:</span><span th:text="${rentApp.rentAppFloor}"></span><br/>
-		<span>坪數:</span><span th:text="${rentApp.rentAppSize}"></span><br/>
-		<span>所有權狀:</span><span><img th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}" width="100px"></span><br/>
-	</div>
-
-
+</main>
 </body>
 </html>

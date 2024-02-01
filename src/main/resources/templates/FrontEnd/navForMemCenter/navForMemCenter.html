@@ -19,29 +19,33 @@
                 <ul class="nav navbar-nav">
                     <li><a class="hoverable" th:href="@{/}">首頁</a></li>
                     <li><a class="hoverable" href="#">最新消息</a></li>
-                    <li><a class="hoverable" href="#">租賃服務</a></li>
+                    <li><a class="hoverable" th:href="@{/rent/listAllRent}">租賃服務</a></li>
                     <li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
                 </ul>
             </nav>
             <div class="user-info">
-<!--                 <th:block th:if="${session.ldd}"> -->
-<!--                 	<img th:src="@{/icon/FrontEnd/memCenter/lddIcon.png}" class="lddIcon" width=25px> -->
-<!--                 </th:block> -->
-                <span th:text="${session.logsuccess.memName}">XXX</span>
-                <img th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}" width="30px" height="30px">
-                <a th:href="@{/mem/logOut}"><button type="button" class="logOut">登出</button></a>
+				<th:block th:if="${session.logsuccess}">
+                	<span th:text="${session.logsuccess.memName}"></span>
+                	<img th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}" width="30px" height="30px">
+                	<a th:href="@{/mem/logOut}"><button type="button">登出</button></a>
+                </th:block>
+                <th:block th:unless="${session.logsuccess}">
+                	<a th:href="@{/mem/login}"><button type="button">登入</button></a>
+                </th:block>
             </div>
         </header>
 
         <aside class="aside">
+        	<div id="memArea"></div>
             <nav class="nav">
                 <ul class="nav_list">
                     <!-- 一般會員 -->
-                    <li><div class="notice-board"><img th:src="@{/icon/FrontEnd/memCenter/memData.png}" width=25px><span>會員功能</span></div></li>
-                    <li><a th:href="@{/mem/memData}"><button type="button" class="memFunction">會員詳細資料</button></a></li>
-                    <li><a th:href="@{/apo/listAllApo}"><button type="button" class="memFunction">我的預約</button></a></li>
-                    <li><a th:href="@{/lse/listAllLse}"><button type="button" class="memFunction">我的合約</button></a></li>
-                    <li>
+                    <li><div id="memBlock" class="notice-board"><img th:src="@{/icon/FrontEnd/memCenter/memData.png}" width=25px><span>會員功能</span></div></li>
+                
+                    <li class="memBlock"><a th:href="@{/mem/memData}"><button type="button" class="memFunction">會員詳細資料</button></a></li>
+                    <li class="memBlock"><a th:href="@{/apo/listAllApo}"><button type="button" class="memFunction">我的預約</button></a></li>
+                    <li class="memBlock"><a th:href="@{/lse/listAllLse}"><button type="button" class="memFunction">我的合約</button></a></li>
+                    <li class="memBlock">
 	                    <div class="subBoard"><span>成為房東</span><br>
 	               			<a th:href="${session.ldd} ? null : @{/lddApp/addLddApp}">
 		               			<button type="button" class="memFunction" th:disabled="${session.ldd}" 
@@ -51,204 +55,30 @@
 	                   		<a th:href="@{/lddApp/listAllLddApp}"><button type="button" class="memFunction">查詢/編輯</button></a>     
                    		</div>          
                     </li>
-                    <li>
+                    <li class="memBlock">
                     	<div class="subBoard"><span>檢舉投訴</span><br>
-                    	<a th:href="@{/BackStage/report/addReport}"><button type="button" class="memFunction">填寫投訴單</button></a>
-                    	<a th:href="@{/BackStage/report/addReport}"><button type="button" class="memFunction">查詢/編輯</button></a>
+                    	<a th:href="@{/report/addReport}"><button type="button" class="memFunction">填寫投訴單</button></a>
+                    	<a th:href="@{/report/listAllReport}"><button type="button" class="memFunction">查詢/編輯</button></a>
                     	</div>
                     </li>
-
+					
                     <!-- 房東功能 -->
                     <th:block th:if="${session.ldd}">
-                    	<li><div class="notice-board"><img th:src="@{/icon/FrontEnd/memCenter/rent.png}" width=25px><span>房東管理</span></div></li>
-                    	<li><div class="subBoard"><span>申請物件</span><br>
-	                        <a th:href="@{/BackStage/rentApp/addRentApp}"><button type="button" class="lddFunction">填寫申請單</button></a>
-	                       	<a th:href="@{/BackStage/rentApp/listAllRentApp}"><button type="button" class="lddFunction">查詢/編輯</button></a>
+                    	<li><div id="lddBlock" class="notice-board"><img th:src="@{/icon/FrontEnd/memCenter/rent.png}" width=25px><span>房東管理</span></div></li>
+                    	<li class="lddBlock"><div class="subBoard"><span>申請物件</span><br>
+	                        <a th:href="@{/rentApp/addRentApp}"><button type="button" class="lddFunction">填寫申請單</button></a>
+	                       	<a th:href="@{/rentApp/listAllRentAppByLdd}"><button type="button" class="lddFunction">查詢/編輯</button></a>
                         </div></li>
-                        <li><a href="#"><button type="button" class="lddFunction">我的物件</button></a></li>
-                        <li><a th:href="@{/apo/reviewApo}"><button type="button" class="lddFunction">預約/租屋管理</button></a></li>
-                        <li><a th:href="@{/lse/reviewLse}"><button type="button" class="lddFunction">合約管理</button></a></li>
+                        <li class="lddBlock"><a th:href="@{/ldd/rentManagement}"><button type="button" class="lddFunction">我的物件</button></a></li>
+                        <li class="lddBlock"><a th:href="@{/apo/reviewApo}"><button type="button" class="lddFunction">預約/租屋管理</button></a></li>
+                        <li class="lddBlock"><a th:href="@{/lse/reviewLse}"><button type="button" class="lddFunction">合約管理</button></a></li>
                     </th:block>
-
-
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                    <li><a href=""><button type="button" value="">test</button></a>
-                  
-
-
+                 
                 </ul>
             </nav>
         </aside>
     </div>
 
-    <!--     測試用不會引入 -->
-    <main>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-        test<br>
-    </main>
 </body>
 
 </html>

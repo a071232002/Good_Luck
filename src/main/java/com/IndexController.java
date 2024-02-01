@@ -157,5 +157,3 @@ public class IndexController {
 		return "BackStage/empfun/noEmpFun";
 	}
 }
-
-

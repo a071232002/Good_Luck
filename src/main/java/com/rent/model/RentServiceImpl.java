@@ -60,14 +60,14 @@ public class RentServiceImpl implements RentService{
         Root<Rent> root = criteriaQuery.from(Rent.class);
         List<Predicate> predicates = new ArrayList<>();
         ArrayList<String> rentRentBetween = new ArrayList<>();
-        System.out.println("service");
+//        System.out.println("service");
 
         for (Map.Entry<String, String[]> entry : map.entrySet()) {
             String key = entry.getKey();
             String[] values = entry.getValue();
             
             List<Predicate> orConditions = new ArrayList<>();
-            System.out.println("orConditions1="+orConditions.size());
+//            System.out.println("orConditions1="+orConditions.size());
             
             // 直接在 for 循環內處理 String[] 的轉換和輸出
             for (int i = 0; i < values.length; i++) {
@@ -86,7 +86,7 @@ public class RentServiceImpl implements RentService{
         			}
             		if ("rentAppCou".equals(key)) {
                     	predicates.add(criteriaBuilder.equal(root.get("rentAppCou"), values[i]));
-                    	System.out.println("rentAppAr="+values[i]);
+//                    	System.out.println("rentAppAr="+values[i]);
         			}
             		if ("rentLayout".equals(key)) {
                     	predicates.add(criteriaBuilder.equal(root.get("rentLayout"), Byte.valueOf(values[i])));
@@ -214,7 +214,7 @@ public class RentServiceImpl implements RentService{
             	}
                 
             }
-            System.out.println("orConditions2="+orConditions.size());
+//            System.out.println("orConditions2="+orConditions.size());
             if(orConditions.size()!=0) {
             	
             	predicates.add(criteriaBuilder.or(orConditions.toArray(new Predicate[0])));
@@ -225,22 +225,22 @@ public class RentServiceImpl implements RentService{
         }
         
         predicates.add(criteriaBuilder.equal(root.get("rentSt"), Byte.parseByte("1")));
-        System.out.println("predicates2="+predicates.size());
+//        System.out.println("predicates2="+predicates.size());
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
         criteriaQuery.orderBy(criteriaBuilder.asc(root.get("rentRent")));
         List<Rent> query = entityManager.createQuery(criteriaQuery).getResultList();
         
-        System.out.println("rentRentBetween="+rentRentBetween.size());
-        System.out.println("query="+query.size());
+//        System.out.println("rentRentBetween="+rentRentBetween.size());
+//        System.out.println("query="+query.size());
      // 將所有條件組合成一個 AND 條件
 //        Predicate finalPredicate = criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 //        criteriaQuery.where(finalPredicate);
 
         // 執行查詢
 //        return entityManager.createQuery(criteriaQuery).getResultList();
-        for (Rent rent : query) {
-            System.out.println(rent); // 假设Rent类有适当的toString方法
-        }
+//        for (Rent rent : query) {
+//            System.out.println(rent); // 假设Rent类有适当的toString方法
+//        }
 		
 		return query;
 	}
