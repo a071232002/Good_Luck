@@ -246,16 +246,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis-reactive</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>
-				0208_Maven_SpringBootMVC_JSP3_Ver8_SpringData-Jpa
-			</groupId>
-			<artifactId>
-				0208_Maven_SpringBootMVC_JSP3_Ver8_SpringData-Jpa
-			</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		
 	</dependencies>
 
 	<build>
