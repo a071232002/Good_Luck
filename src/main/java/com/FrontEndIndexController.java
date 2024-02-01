@@ -79,11 +79,11 @@ public class FrontEndIndexController {
 //		return "FrontEnd/login";//	}
 
 ////	GET導向退會單|前台|Sub
-	@GetMapping("/rent/listAllRent")
-	public String GoRtn(Model model) {
-		model.addAttribute("activeNavItemId", "/Good_Luck/icon/BackStage/indexJS");
-		return "redirect:/BackStage/RtnManage";
-	}
+//	@GetMapping("/rent/listAllRent")
+//	public String GoRtn(Model model) {
+//		model.addAttribute("activeNavItemId", "/Good_Luck/icon/BackStage/indexJS");
+//		return "redirect:/BackStage/RtnManage";
+//	}
 }
 
 
