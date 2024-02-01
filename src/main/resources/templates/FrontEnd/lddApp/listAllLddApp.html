@@ -25,7 +25,7 @@
 		}
 		
 		.preview_img{
-			max-width:200px;
+			max-width:150px;
 		}
 		
 		.picArea{
@@ -41,6 +41,11 @@
 			padding:0px;
 		}
 		
+		#picChange{
+			margin-right:10px;
+			margin-bottom:10px;
+		
+		}
 		
     </style>
     
@@ -71,7 +76,7 @@
 	                   <td th:text="${lddApp.emp?.empNo}"></td>
 	                   <td th:text="${lddApp.lddAppCreate}"></td>
 	                   <td>
-							<img th:src="@{/lddApp/picture} + '?lddAppNo=' + ${lddApp.lddAppNo}" width="200px">
+							<img th:src="@{/lddApp/picture} + '?lddAppNo=' + ${lddApp.lddAppNo}" width="150px">
 		        	   </td>
 	                   <td th:switch="${lddApp.lddAppPayStatus}">
 		                    <form th:case="0" method="post" th:action="@{pay}">

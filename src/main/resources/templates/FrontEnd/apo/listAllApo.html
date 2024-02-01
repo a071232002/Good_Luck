@@ -28,10 +28,10 @@
         <table id="example" class="display" style="width: 100%">
             <thead>
                 <tr>
-                    <th>預約單編號</th>
+                    <th>編號</th>
                     <th>會員編號</th>
                     <th>物件編號</th>
-                    <th>申請日期</th>
+<!--                     <th>申請日期</th> -->
                     <th>預約日期</th>
                     <th>預約時段</th>
                     <th>預約單進度</th>
@@ -47,7 +47,7 @@
                         <td th:text="${apo.apoNo}"></td>
                         <td th:text="${apo.mem.memNo}"></td>
                         <td th:text="${apo.rent.rentNo}"></td>
-                        <td th:text="${apo.apoCreate}"></td>
+<!--                         <td th:text="${apo.apoCreate}"></td> -->
                         <td th:text="${apo.apoDate}" id="apoDate"></td>
                         <td th:switch="${apo.apoTime}">
                             <span th:case="1">

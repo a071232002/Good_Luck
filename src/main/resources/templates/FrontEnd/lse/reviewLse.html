@@ -78,7 +78,7 @@
 	    <table id="example" class="display" style="width: 100%">
 	        <thead>
 	            <tr>
-	                <th>合約編號</th>
+	                <th>編號</th>
 	                <th>會員編號</th>
 	                <th>物件編號</th>
 	      
@@ -104,11 +104,11 @@
 	                    <td th:text="${lse.lseStart}"></td>
 	                    <td th:text="${lse.lseEnd}"></td>
 	                    <td>
-	                    	<img class="lseImage" th:src="@{/lse/sendPic} + '?lseNo=' + ${lse.lseNo}" width="150px">
+	                    	<img class="lseImage" th:src="@{/lse/sendPic} + '?lseNo=' + ${lse.lseNo}" width="120px">
 	                    </td>
 	                    <th:block th:if="${lse.lseSign}">
 		                    <td>
-		                    	<img class="lseImage" th:src="@{/lse/signPic} + '?lseNo=' + ${lse.lseNo}" width="150px">
+		                    	<img class="lseImage" th:src="@{/lse/signPic} + '?lseNo=' + ${lse.lseNo}" width="120px">
 		                    </td>
 	                    </th:block>
 	                    <th:block th:unless="${lse.lseSign}">

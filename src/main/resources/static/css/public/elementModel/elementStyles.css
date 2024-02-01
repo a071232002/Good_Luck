@@ -39,7 +39,7 @@ form {
 label.formEl {
 	padding: 10px;
 	margin: 10px;
-	font-size: 20px;
+	font-size:16px;
 	font-weight: bold;
 	vertical-align: middle;
 }
@@ -47,9 +47,17 @@ label.formEl {
 span.formEl {
 	padding: 10px;
 	margin: 10px;
-	font-size: 20px;
+	font-size: 16px;
 	font-weight: bold;
 	vertical-align: middle;
+}
+
+.display th{
+	font-size: 12px;
+	padding:10px !important;
+}
+.display td{
+	font-size: 12px;
 }
 
 /* for 狀態描述文字顏色分級 */
@@ -72,7 +80,7 @@ span.formEl {
 .reject_button {
 	padding: 5px 5px;
 	margin: 3px 3px;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: bold;
 	background-color: rgb(158, 20, 20);
 	color: white;
@@ -84,7 +92,7 @@ span.formEl {
 .approve_button {
 	padding: 5px 5px;
 	margin: 3px 3px;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: bold;
 	background-color: rgb(24, 36, 117);
 	color: white;
