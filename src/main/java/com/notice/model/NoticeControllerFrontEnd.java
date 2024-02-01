@@ -30,7 +30,7 @@ import com.rtn.model.Rtn;
 
 @Controller
 @RequestMapping("/notice")
-public class NoticeController2 {
+public class NoticeControllerFrontEnd {
 	
 	
 	@Autowired
