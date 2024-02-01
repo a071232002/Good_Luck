@@ -6,7 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
-	<title>物件申請單一覽</title>
+	<title>我的物件申請單</title>
+	<link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
 	<style>
 		h1 {
 			text-align: center;
@@ -31,17 +32,64 @@
             max-width: 80%;
             max-height: 80%;
         }
+        .queryBar {
+		    width: 130px;
+		}
+		
+		.submitButtn {
+		    background-color: #5bc0de;
+            color: #fff;
+            border: none;
+		    padding: 5px 10px;
+		    cursor: pointer;
+		    border-radius: 4px;
+		}
+		.submitButtn:hover {
+		    background-color: #0056b3;
+		}
+		h1 {
+		    color: #333;
+		}
+		body { 
+ 		    font-family: 'Arial', sans-serif; 
+		    background-color: #f7f7f7; 
+		    margin: 0; 
+		    padding: 0; 
+ 		} 
+ 		table {
+		    width: 100%;
+		    border-collapse: collapse;
+		    margin-top: 20px;
+		}
+		
+		thead {
+		    background-color: #007BFF;
+		    color: white;
+		}
+		
+		th, td {
+		    border: 1px solid #ddd;
+		    padding: 8px;
+		    text-align: left;
+		}
+		
+		tbody tr:nth-child(even) {
+		    background-color: #f2f2f2;
+		}
 	</style>
 </head>
 <body>
-	<h1>物件申請單一覽</h1>
+<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+<main>
+
+	<h1>我的物件申請單</h1>
 	<div class="lightbox" id="lightbox">
 	    <img src="" alt="放大顯示的圖片" id="lightbox-img">
 	</div>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
-				<th>物件申請單編號</th>
+				<th>申請單編號</th>
 				<th>房東編號</th>
 				<th>員工編號</th>
 				<th>物件編號</th>
@@ -53,7 +101,7 @@
 				<th>樓層</th>
 				<th>坪數</th>
 				<th>審核狀態</th>
-				<th>修改</th>
+				<th>編輯</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -69,7 +117,7 @@
 					<td th:text="${rentApp.rentAppAdd}"></td>
 					<td><img
 						th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}"
-						width="150px" class="myImage"></td>
+						width="100px" class="myImage"></td>
 
 
 					<td th:text="${rentApp.rentAppFloor}"></td>
@@ -88,7 +136,7 @@
 						        <!-- 处理值为0的情况 -->
 						        <form method="post" th:action="@{/rentApp/getOne_For_Update}">
 								<input type="hidden" name="rentAppNo"th:value="${rentApp.rentAppNo}">
-								<input type="submit"value="修改">
+								<input type="submit" class="submitButtn"value="編輯">
 							</form>
 						    </th:block>
 					    </div>
@@ -102,7 +150,7 @@
 
 	</table>
 	<br>
-
+</main>
 
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the.js}"></script>
@@ -110,18 +158,89 @@
 	<script th:src="@{/js/BackStage/rentapp/listAllRentApp.js}"></script>
 	<script>
 	
-	$('#example').dataTable( {
-		  "stateSave": true,
+	new DataTable('#example', {
+    	"stateSave": true,
+    	"iDisplayLength": 5, 
+        initComplete: function () {
+        	var table = this.api();
 
-		} );
-	let table = new DataTable("#example");
-// 	table.columns.adjust().draw();
-	console.log($(".test"));
-	// table.on("click", "tbody tr", function () {
-	//   let data = table.row(this).data();
+            // Get the current value of stateSave
+            var currentStateSaveValue = table.settings()[0].oFeatures.bStateSave;
+            table.columns(11).every( function () {
+                    let column = this;
 
-	//   alert("You clicked on " + data[3] + "'s row");
-		// });
+                    // Create select element
+                    let select = document.createElement('select');
+                    select.add(new Option(''));
+                    column.header().append(select);
+				  
+                    // Apply listener for user change in value
+                    select.addEventListener('change', function () {
+                        var val = DataTable.util.escapeRegex(select.value);
+
+                        column
+                            .search(val ? '^' + val + '$' : '', true, false)
+                            .draw();
+                    });
+     
+                    // Add list of options
+                    column.data().unique().sort().each( function ( d, j ) {
+                        if(column.search() === '^' + d + '$'){
+                        	console.log("OK")
+                        	var newOption = document.createElement("option");
+						    newOption.text = d;
+						    newOption.value = d;
+						    newOption.selected="selected"
+                            select.append(newOption);
+                        
+                            
+                        } else {
+                        	select.add(new Option(d));
+                        }
+
+                    } );
+                });
+        	
+
+        }
+    });
+    
+    
+
+	// Setup - add a text input to each header cell
+	$('#example thead th:lt(1)').each(function() {
+		
+	    var title = $('#example thead th').eq($(this).index()).text();
+
+	    $(this).html(title+'<input type="text" class="queryBar" placeholder="請輸入' + title + '" />');
+
+	});
+	 
+	// DataTable
+	var table = $('#example').DataTable();
+	 
+	// Apply the search
+	table.columns(':lt(1)').eq(0).each(function(colIdx) {
+
+		var searchval=table.column(colIdx).search(this.value)
+		if(searchval!==""){
+			console.log(searchval)
+			$('#example thead th').eq(colIdx).find('input').val(searchval);
+	    }
+		
+		
+	    $('input', table.column(colIdx).header()).on('keyup', function() {
+	    	table
+	            .column(colIdx)
+	            .search(this.value)
+	            .draw();
+
+	    });
+	 
+	    $('input, select', table.column(colIdx).header()).on('click', function(e) {
+	        e.stopPropagation();
+	    });
+	});
 	</script>
 </body>
 </html>
