@@ -43,18 +43,17 @@ public class NoticeController {
 
 	}
 	
-	
+
 	
 	//全部公告json到前端
 	@GetMapping("/getAllNotices")
 	public ResponseEntity<List<NoticeVO>> addNoticeGetAll(){
-		
 		NoticeVO noticeVO = new NoticeVO();
 		List<NoticeVO>notices =  noticeservice.getAll();
-		
 		return  ResponseEntity.status(HttpStatus.OK).body(notices);
-		
 	}
+	
+	
 
 	//前往查詢頁面
 	@GetMapping("/listAllNotice")
