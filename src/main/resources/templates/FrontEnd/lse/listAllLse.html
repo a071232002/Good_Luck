@@ -9,20 +9,79 @@
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
     <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
     <title>合約一覽</title>
+    <style>
+    	.lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .preview {
+		    text-align: center;
+		    margin: 5px 0px;
+		    background-color: #f0f0f0; 
+		    width: 80px;
+		    padding: 5px;
+		    border-radius: 8px;
+		}
+		
+		.imgBoard {
+		    display: block;
+		    width: 100%;
+		    height: 50px; 
+		    background-color: #ddd; 
+		    border-radius: 8px;
+		}
+		
+		.preview img {
+			max-width: 50px;
+		}
+		
+		.lseImage:hover {
+ 		   cursor: zoom-in;
+		}
+		
+		.returnSign{
+			background-color: #f0f0f0;
+			max-width:250px;
+		    padding: 10px;
+		    border-radius: 5px;
+		    margin-right:10px;
+		    border: 1px solid darkblue;
+		    font-size: 16px;
+			font-weight: bold;
+			vertical-align: middle;
+		}
+    </style>
 </head>
 
 <body>
     <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
     <main>
-	    <h1>合約一覽</h1>
-	
+    
+	    <div class="tittleBoard"><span class="tittleBoard">合約一覽</span></div>
+		<div class="lightbox" id="lightbox">
+	    	<img src="" alt="放大顯示的圖片" id="lightbox-img">
+		</div>
 	    <table id="example" class="display" style="width: 100%">
 	        <thead>
 	            <tr>
-	                <th>合約編號</th>
+	                <th>編號</th>
 	                <th>會員編號</th>
 	                <th>物件編號</th>
-	                <th>建立日期</th>
+	              
 	                <th>起始日期</th>
 	                <th>終止日期</th>
 	                <th>合約書</th>
@@ -41,11 +100,20 @@
 	                    <td th:text="${lse.lseNo}"></td>
 	                    <td th:text="${lse.mem.memNo}"></td>
 	                    <td th:text="${lse.rent.rentNo}"></td>
-	                    <td th:text="${lse.lseCreate}"></td>
+	                    
 	                    <td th:text="${lse.lseStart}"></td>
 	                    <td th:text="${lse.lseEnd}"></td>
-	                    <td th:text="${lse.lseSend}"></td>
-	                    <td th:text="${lse.lseSign}"></td>
+	                    <td>
+	                    	<img class="lseImage" th:src="@{/lse/sendPic} + '?lseNo=' + ${lse.lseNo}" width="120px">
+	                    </td>
+	                    <th:block th:if="${lse.lseSign}">
+		                    <td>
+		                    	<img class="lseImage" th:src="@{/lse/signPic} + '?lseNo=' + ${lse.lseNo}" width="120px">
+		                    </td>
+	                    </th:block>
+	                    <th:block th:unless="${lse.lseSign}">
+		                    <td><span class="cancel" th:text="尚未回傳"></span></td>
+	                    </th:block>
 	                    <td th:text="${lse.lsePay}"></td>
 	                    <th:block
 	                        th:if="${lse.lseStatus == 3 || lse.lseStatus == 4 || lse.lseStatus == 5 || lse.lseStatus == 6}">
@@ -61,14 +129,13 @@
 	                        <td>-</td>
 	                    </th:block>
 	                    <td th:switch="${lse.lseStatus}">
-	                        <span th:case="0" class="warning" th:text="請回傳合約"></span>
-	                        <span th:case="1" class="cancel" th:text="待房東修改內容"></span>
+	                        <span th:case="0" class="warning" th:text="請確認合約"></span>
+	                        <span th:case="1" class="cancel" th:text="終止簽立"></span>
 	                        <span th:case="2" class="warning" th:text="已回傳待房東確認"></span>
 	                        <span th:case="3" class="warning">房東同意, 請繳押金</span>
 	                        <span th:case="4" class="warning" th:text="待房東確認金額"></span>
 	                        <span th:case="5" class="success" th:text="合約中"></span>
 	                        <span th:case="6" class="cancel" th:text="合約期滿"></span>
-	                        <span th:case="7" class="cancel" th:text="終止簽立"></span>
 	                    </td>
 	                    <th:block
 	                        th:with="today=${#dates.createNow()}, oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
@@ -86,9 +153,27 @@
 	                            <td>-</td>
 	                        </th:block>
 	                    </th:block>
-	
-	                    <!-- 操作part -->
-	                    <td>-</td>
+						
+	                    <td>
+	                    <th:block th:if="${lse.lseStatus == 0}">
+	                    	<form class="returnSign" method="post" th:object="${lse}" th:action="@{sign}" enctype="multipart/form-data">
+                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <label for="lsesign">上傳簽約<b>*</b>: </label>
+                                <input type="file" class="lseSign" id="lsesign"name="lseSign" required accept=".png, .jpg">
+                                <div class="preview">
+									<span class="imgBoard"></span>
+								</div>
+                                <input type="submit" value="簽約回傳" class="approve_button">
+                            </form>
+                        </th:block>
+						<th:block th:if="${lse.lseStatus == 0 || lse.lseStatus == 2}">                            
+                            <form method="post" th:object="${lse}" th:action="@{reject}">
+                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <input type="submit" value="取消簽約" class="reject_button">
+                            </form>
+                        <th:block th:unless="${lse.lseStatus == 0}">
+                        </th:block>
+	                    </td>
 	
 	                </tr>
 	
@@ -99,17 +184,64 @@
 	    </table>
 	</main>
 
-
-
-
-
-
-
     <script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
     <script th:src="@{/js/public/tableModel/the.js}"></script>
     <script th:src="@{/js/public/tableModel/the2.js}"></script>
+ 	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+ 	
     <script>
         let table = new DataTable("#example");
+    </script>
+    <script>
+    
+        var images = document.querySelectorAll('.lseImage');
+        var lightbox = document.getElementById('lightbox');
+        var lightboxImg = document.getElementById('lightbox-img');
+        
+        images.forEach(function (img) {
+            
+            img.onclick = function () {
+                lightbox.style.display = 'flex'; 
+                lightboxImg.src = this.src; 
+            };
+        });
+       
+        lightbox.onclick = function () {
+            lightbox.style.display = 'none'; 
+        };
+        
+        function zoomIn(img) {
+            lightbox.style.display = 'flex';
+            lightboxImg.src = img.src;
+        }
+        
+        var contractSets = document.querySelectorAll(".returnSign");
+
+        contractSets.forEach(function(contractSet) {
+            var p_file_el = contractSet.querySelector(".lseSign");
+            var preview_el = contractSet.querySelector(".preview");
+
+	  	
+			  var preview_img = function(file){
+		
+		          var reader = new FileReader(); 
+		          reader.readAsDataURL(file);
+		          reader.addEventListener("load", function () {
+		
+		            let img_str = '<img src="' + reader.result + '" class="lseImage" onclick="zoomIn(this)">';
+		            preview_el.innerHTML = img_str;
+		          });
+		        };
+				
+		        p_file_el.addEventListener("change", function(e){
+		          if(this.files.length > 0){
+		            preview_img(this.files[0]);
+		          }else{
+		            preview_el.innerHTML = '<span class="imgBoard"></span>';
+		          }
+		      });
+	     });
+   
     </script>
 
 </body>
