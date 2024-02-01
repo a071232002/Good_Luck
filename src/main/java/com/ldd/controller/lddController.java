@@ -1,21 +1,28 @@
 package com.ldd.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.apo.model.Apo;
 import com.ldd.model.Ldd;
 import com.lse.model.LseService;
 import com.rent.model.Rent;
@@ -39,6 +46,47 @@ public class lddController {
 		} else {
 			return "redirect:/lddApp/listAllLddApp";
 		}
+	}
+	
+	@PostMapping("/updateRentDetil")
+	public String updateRentDetil(@RequestParam("rentNo") String rentNo,ModelMap model) {
+		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
+		model.addAttribute("rent", rent);
+		return "FrontEnd/ldd/updateRentDetil";
+	}
+	
+	@PostMapping("/update")
+	public String update(@RequestParam("rentImg") MultipartFile part,
+						 @Valid Rent rent, BindingResult result, ModelMap model) throws IOException {
+		
+		Rent dataORI = rentSvc.getOneRent(rent.getRentNo());
+		
+		if(!part.isEmpty()) {
+			rent.setRentImg(part.isEmpty() ? null : part.getBytes());
+		} else {
+			rent.setRentImg(dataORI.getRentImg());
+		}
+		rent.setRentUpTime(Timestamp.valueOf(LocalDateTime.now()));
+		rentSvc.updateRent(rent);
+		return "redirect:/ldd/rentManagement";
+	}
+	
+	@PostMapping("up")
+	public String up(@RequestParam("rentNo") String rentNo) {
+		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
+		rent.setRentSt(Byte.valueOf("1"));
+		rent.setRentUpTime(Timestamp.valueOf(LocalDateTime.now()));
+		rentSvc.updateRent(rent);
+		return "redirect:/ldd/rentManagement";
+	}
+	
+	@PostMapping("down")
+	public String down(@RequestParam("rentNo") String rentNo) {
+		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
+		rent.setRentSt(Byte.valueOf("0"));
+		rent.setRentUpTime(Timestamp.valueOf(LocalDateTime.now()));
+		rentSvc.updateRent(rent);
+		return "redirect:/ldd/rentManagement";
 	}
 	
 	@ModelAttribute("rentListDataByLdd")

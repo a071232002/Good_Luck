@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+    <title>編輯物件內容</title>
+    <style>
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .displayArea {
+            margin: 50px auto;
+            max-width: 1300px;
+            display: flex;
+        }
+
+        .formArea {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-right: 10px;
+        }
+
+        .tittleBoard {
+            text-align: center;
+            width: 100%;
+            padding: 0px 80px;
+            border-radius: 8px;
+            margin: 15px 0px;
+            margin-bottom: 30px;
+        }
+
+        .tittleBoard span {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1a2a35;
+            background-color: Wheat;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin: 0px;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        input[type="submit"],
+        button {
+
+            vertical-align: middle;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+
+        }
+		
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        
+	    
+        .approve_button {
+            width: 100%
+        }
+
+        .reject_button {
+            width: 100%
+        }
+        
+        #preview {
+            text-align: left;
+            max-width: 600px;
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .imgBoard {
+            display: block;
+            width: auto;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .preview_img {
+            max-width: 550px;
+        }
+
+        .approve_button {
+            margin-bottom: 10px;
+        }
+        
+        .op {
+			opacity: 0.2;
+			
+		}
+		.conditional{
+			width: 70%;
+			margin:auto;
+			justify-content: space-between;
+		}
+		
+		div.conditional {
+			display: flex;
+			align-items: flex-start;
+			margin-bottom:30px !important;
+		}
+		
+		.conditional img{
+			width:50px;
+			height:50px;
+			cursor: pointer;
+		}
+		
+		.conditional div {
+			padding: 5px;
+			text-align: center;
+		}
+
+		.conditional label {
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+		
+		
+		.textareaEl {
+	        width: 75%;
+	        display:block;
+	        height: 100px;
+	        margin:auto;
+	        padding: 10px;
+	        border: 1px solid #ccc;
+	        border-radius: 5px;
+	        box-sizing: border-box;
+	        resize: vertical;
+	    }
+	
+	    .textareaEl:focus {
+	        border-color: #007bff;
+			box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+	    }
+		
+		.formEl{
+			margin-bottom:15px !important;
+			vertical-align: middle !important;
+		}
+		
+		.formEl input{
+			margin-bottom:0px !important;
+			vertical-align: middle !important;
+		}
+				
+		.formEl select {
+			padding: 5px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-top:10px;
+			vertical-align: middle !important;
+		}
+		
+		.formEl select:focus {
+			border-color: #3498db;
+			box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+		}
+		
+		.formEl input[type="file"] {
+			border: none;
+		}
+		
+		.error {
+			color: red;
+			font-weight: bold;	
+		}
+    </style>
+</head>
+
+<body>
+    <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+    <main>
+        <div class="displayArea">
+            <div class="formArea">
+                <div class="tittleBoard"><span class="tittleBoard">編輯物件內容</span></div>
+
+                <form method="post" th:action="@{update}" th:object="${rent}" enctype="multipart/form-data" onsubmit="return formCheck()">
+                	<div class="formEl">
+                    	<label class="formEl">物件編號: </label>
+                    	<span class="formEl" th:text="${rent.rentNo}"></span><br>
+                    </div>
+                    
+                    <div class="formEl">
+                   		<label class="formEl">刊登標題: </label><br><br>
+                   		<input type="text" class="formEl" th:field="*{rentPostTitle}" 
+                   			   style="width:600px; margin-left: 20px;" required oninput="validatePostTitle(this)"><br>
+                   		<span id="rentPostTitleError" class="error" style="margin-left: 120px;"></span><br>
+                    </div>
+                    <div class="formEl">
+                   		<label class="formEl">詳細地址: </label>
+                   		<span class="formEl" th:text="${rent.rentAppCou + ' ' + rent.rentAppAr + ' ' + rent.rentAppRo + ' ' + rent.rentAppAdd}"></span>
+                    </div>
+                    <div class="formEl">
+                   		<label class="formEl" style="margin-right: 42px;">樓層: </label>
+                   		<span class="formEl" th:text="${rent.rentAppFloor}"></span>
+                    </div>
+                    <div class="formEl">
+                   		<label class="formEl" style="margin-right: 42px;">坪數: </label>
+                   		<span class="formEl" th:text="${rent.rentAppSize}"></span>
+                    </div>
+                    <div class="formEl">
+                    	<label class="formEl" style="margin-right: 20px;">租金/月: </label>
+                    	<input type="text" class="formEl" th:field="*{rentRent}" required oninput="validateRent(this)"><br>
+                    	<span id="rentRentError" class="error" style="margin-left: 120px;"></span><br>
+                    </div>
+                    <div class="formEl">
+                    	<label class="formEl">介紹: </label>
+                    	<span id="rentIntrError" class="error"></span>
+                    	<textarea class="textareaEl" th:field="*{rentIntr}" required oninput="validateIntr(this)"></textarea><br>
+                    </div>
+                    <div class="formEl">
+                    	<label class="formEl" style="margin-right: 38px;">格局: </label>
+                    	<select class="formEl" th:field="*{rentLayout}" required>
+						    <option value="">請選擇房型</option>
+						    <option value="0">雅房</option>
+						    <option value="1">分租套房</option>
+						    <option value="2">獨立套房</option>
+						    <option value="3">整層住家</option>
+						</select>
+                    
+                    </div>
+                    <div class="formEl">
+                    	<label class="formEl">刊登圖片: </label>
+                    	<input type="file" id="rentImg" name="rentImg" 
+                    		accept=".png, .jpg" th:required="${rent.rentImg} == null"><br>
+					</div>
+                  
+					
+					
+					<div class="formEl">
+						<label class="formEl">附設條件</label>
+					</div>
+					<div class="formEl">
+                    	<label class="formEl">特色: </label>
+                    </div>
+                    <div class="conditional">
+                    	<div>
+							<img th:class="${rent.rentBalcony == 0} ? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/balcony.png}"> 
+							<br><label>陽台</label>
+							<input type="hidden" name="rentBalcony" th:value="${rent.rentBalcony}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentElev == 0} ? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/elevator.png}">
+							<br> <label>電梯</label>
+							<input type="hidden" name="rentElev" th:value="${rent.rentElev}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentParking == 0} ? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/garage.png}"> 
+							<br> <label>車位</label>
+							<input type="hidden" name="rentParking" th:value="${rent.rentParking}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentWaterBill == 0} ? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/drop.png}">
+							<br> <label>台水</label>
+							<input type="hidden" name="rentWaterBill" th:value="${rent.rentWaterBill}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentElectricityBill == 0} ? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/power.png}">
+							<br> <label>台電</label>
+							<input type="hidden" name="rentElectricityBill" th:value="${rent.rentElectricityBill}">
+						</div>
+                    </div>
+                    
+                    <div class="formEl">
+                   		<label class="formEl">設備: </label>
+                   	</div>
+                    <div class="conditional">
+						<div>
+							<img th:class="${rent.rentRefrigerator == 0} ? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/refrigerator.png}">
+							<br> <label>冰箱</label>
+							<input type="hidden" name="rentRefrigerator" th:value="${rent.rentRefrigerator}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentAC == 0}? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/ac.png}">
+							<br> <label>冷氣機</label>
+							<input type="hidden" name="rentAC" th:value="${rent.rentAC}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentTV == 0}? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/wide-tv.png}">
+							<br> <label>電視</label>
+							<input type="hidden" name="rentTV" th:value="${rent.rentTV}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentWashMachine == 0}? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/drying.png}">
+							<br> <label>洗衣機</label>
+							<input type="hidden" name="rentWashMachine" th:value="${rent.rentWashMachine}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentHeater == 0}? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/water-heater.png}">
+							<br> <label>熱水器</label>
+							<input type="hidden" name="rentHeater" th:value="${rent.rentHeater}">
+						</div>
+					</div>
+					<div class="conditional">
+						<div>
+							<img th:class="${rent.rentBed == 0}? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/single-bed.png}">
+							<br> <label>床</label>
+							<input type="hidden" name="rentBed" th:value="${rent.rentBed}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentWardrobe == 0}? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/closet.png}"> 
+							<br> <label>衣櫃</label>
+							<input type="hidden" name="rentWardrobe" th:value="${rent.rentWardrobe}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentInternet == 0}? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/internet.png}">
+							<br> <label>網路</label>
+							<input type="hidden" name="rentInternet" th:value="${rent.rentInternet}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentCableTV == 0}? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/wide-tv4.png}">
+							<br> <label>第四台</label>
+							<input type="hidden" name="rentCableTV" th:value="${rent.rentCableTV}">
+						</div>
+			
+						<div>
+							<img th:class="${rent.rentSofa == 0}? 'op' : ''" th:src="@{/icon/FrontEnd/rentDetail/sofa.png}">
+							<br> <label>沙發</label>
+							<input type="hidden" name="rentSofa" th:value="${rent.rentSofa}">
+						</div>
+	
+					</div>
+					
+                    <input type="hidden" id="rentNo" name="rentNo" th:value="${rent.rentNo}">
+                    <input type="hidden" name="lse.lseNo" th:value="${rent.lse?.lseNo}">
+                    <input type="hidden" name="rentSt" th:value="${rent.rentSt}">
+                    <input type="submit" value="送出" class="approve_button">
+                    <a th:href="@{/ldd/rentManagement}"><button type="button" class="reject_button">取消</button></a>
+                </form>
+            </div>
+            <div id="preview">
+                <span class="imgBoard">
+                <img class="preview_img" th:src="@{/ldd/picture} + '?rentNo=' + ${rent.rentNo}"></span>
+            </div>
+        </div>
+    </main>
+
+    <script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+    <script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+	<script>
+	
+	    var rentPostTitleInput = document.getElementById("rentPostTitle");
+		var rentIntrInput = document.getElementById("rentIntr");
+		var rentRentInput = document.getElementById("rentRent");
+		
+		var rentPostTitleError = document.getElementById("rentPostTitleError");
+	    var rentIntrError = document.getElementById("rentIntrError");
+	    var rentRentError = document.getElementById("rentRentError");
+	    
+	    
+	    
+	    function formCheck() {
+            
+            if (rentPostTitleError.textContent){
+            	alert("刊登標題格式錯誤!");
+            	rentPostTitleInput.focus();
+            	return false;
+            }
+            
+            if (rentIntrError.textContent){
+            	alert("介紹格式錯誤!");
+            	rentIntrInput.focus();
+            	return false;
+            }
+            
+            if (rentRentError.textContent){
+            	alert("租金格式錯誤!");
+            	rentRentInput.focus();
+            	return false;
+            }
+            
+            return true;
+        }
+	
+	    function validateRent(input) {
+            var value = input.value.trim();
+
+            if (/^\d+$/.test(value)) {
+            	rentRentError.textContent = "";
+            } else {
+            	rentRentError.textContent = "請輸入數字(0-9)";
+            }
+        }
+
+        function validateIntr(input) {
+            var value = input.value.trim();
+            
+            if (/^.{1,100}$/.test(value)) {
+            	rentIntrError.textContent = "";
+            } else {
+            	rentIntrError.textContent = "請輸入1~100個字";
+            }
+        }
+        
+        function validatePostTitle(input) {
+            var value = input.value.trim();
+            
+            if (/^.{1,50}$/.test(value)) {
+            	rentPostTitleError.textContent = "";
+            } else {
+            	rentPostTitleError.textContent = "請輸入1~50個字";
+            }
+        }
+	
+	
+		$(".op").closest("div").children("label").css("text-decoration", "line-through");
+		
+		
+		$('.conditional img').click(function() {
+        	toggleImageAndInput($(this));
+    	});
+
+	    function toggleImageAndInput(imageElement) {
+	        var input_El= imageElement.nextAll('input:first');
+	
+	        if (imageElement.hasClass('op')) {
+	            imageElement.removeClass('op');
+	            input_El.val(1);
+	            imageElement.closest("div").children("label").css("text-decoration", "none");
+	        } else {
+	            imageElement.addClass('op');
+	            input_El.val(0);
+	            imageElement.closest("div").children("label").css("text-decoration", "line-through");
+	        }
+	    }
+	    
+	    
+	    var p_file_el = document.getElementById("rentImg");
+ 		var preview_el = document.getElementById("preview");
+ 		var rentNo = document.getElementById("rentNo");
+ 		
+ 		
+		var preview_img = function(file){
+
+	    var reader = new FileReader(); 
+	       reader.readAsDataURL(file);
+	       reader.addEventListener("load", function () {
+	
+	         let img_str = '<img src="' + reader.result + '" class="preview_img">';
+	         preview_el.innerHTML = img_str;
+	       });
+	    };
+	
+	    p_file_el.addEventListener("change", function(e){
+	       if(this.files.length > 0){
+	         preview_img(this.files[0]);
+	       }else{
+	         preview_el.innerHTML = '<span class="imgBoard"><img class="preview_img" src="picture?rentNo='+rentNo.value.trim()+'"></span>';
+	       }
+	    });
+	    
+	    
+	    
+	    
+	    
+	</script>
+
+
+</body>
+
+</html>
