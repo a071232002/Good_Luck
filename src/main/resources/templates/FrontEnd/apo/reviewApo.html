@@ -17,29 +17,10 @@
 			margin: 5px;
 		}
 		
-		.tittleBoard {
-			  text-align: center;
-			  width:100%;
-			  padding: 0px 200px;
-			  border-radius: 8px;
-			  margin: 15px 0px;
-		}
-		
-		.tittleBoard span {
-		  	  font-size: 30px;
-	          font-weight: bold;
-			  color: #1a2a35;
-			  background-color: lightyellow;
-			  padding: 10px;
-			  border-radius: 8px;
-			  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-			  display: inline-block;
-			  margin: 0px;
-		}
 	    
-		form {
-			display: inline-block;
-		}
+/* 		form { */
+/* 			display: inline-block; */
+/* 		} */
 
 		img {
 			vertical-align: middle;
@@ -63,35 +44,28 @@
             font-weight: bold;
         }
 
-        input {
-            padding: 3px 15px;
-            margin: 0px;
-            width: 150px;
-            font-size: 20px;
-            font-weight: bold;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            color: #333;
-            background-color: lightyellow;
-        }
+/*         input { */
+/*             padding: 3px 15px; */
+/*             margin: 0px; */
+/*             width: 150px; */
+/*             font-size: 20px; */
+/*             font-weight: bold; */
+/*             border: 1px solid #ccc; */
+/*             border-radius: 5px; */
+/*             background-color: #fff; */
+/*             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+/*             cursor: pointer; */
+/*             color: #333; */
+/*             background-color: lightyellow; */
+/*         } */
 
-        input:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
+/*         input:focus { */
+/*             outline: none; */
+/*             border-color: #007bff; */
+/*             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); */
+/*         } */
 
-        input.submit {
-            padding: 10px;
-            margin: 10px;
-            font-size: 20px;
-            font-weight: bold;
-            background-color: #005680;
-            color: white;
-        }
+
 
         label.calstatus {
             display: block;
@@ -99,7 +73,7 @@
             background-color: orange;
             color: black;
             text-align: center;
-            font-size: 20px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             border-radius: 5px;
@@ -112,7 +86,7 @@
             background-color: lightgray;
             color: black;
             text-align: center;
-            font-size: 20px;
+            font-size: 14px;
             font-weight: bold;
             border: none;
             border-radius: 5px;
@@ -129,15 +103,15 @@
         }
 
         .container {
-            width: 100%;
-            margin-top: 20px;
+            width: 80%;
+            margin: 20px auto;
             text-align: center;
         }
 		
 		.monthDisplay{
-			font-size: 20px;
+			font-size: 24px;
             font-weight: bold;
-            
+            vertical-align: middle;
 		}
 		
 /* 		.sticky { */
@@ -154,7 +128,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            text-align: center;
+            
         }
 
 
@@ -179,7 +153,12 @@
         .container tbody td:hover {
             background-color: #f5f5f5;
         }
-
+		
+		.approve_button,
+		.reject_button {
+			vertical-align: middle;
+		}
+		
 	</style>
 
 </head>
@@ -192,7 +171,7 @@
 			<table id="example" class="display" style="width: 100%">
 				<thead>
 					<tr>
-						<th>預約單編號</th>
+						<th>編號</th>
 						<th>會員編號</th>
 						<th>物件編號</th>
 						<th>申請日期</th>
@@ -317,6 +296,9 @@
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/public/tableModel/the.js}"></script>
 	<script th:src="@{/js/public/tableModel/the2.js}"></script>
+	
+ 	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+ 	
 	<script>
 		let table = new DataTable("#example");
 		
@@ -370,8 +352,8 @@
                     if (i === 0 && j < firstDayOfMonth) {
                         cell.textContent = "";
                     } else if (day <= daysInMonth) {
-//                     	for JS動態將今天日期背景顏色改變
-                    	cell.setAttribute("id", (month + 1) + "-" + day);
+                     	//for JS動態將今天日期背景顏色改變
+                    	cell.setAttribute("id", "td" +year + "-" + (month + 1) + "-" + day);
                         	//當天+2天之前的日期不顯示
 //                      if (day > currentDay || currentMonth > currentDate.getMonth() || currentYear > currentDate.getFullYear()) {
                             var dday = String("" + day).padStart(2, '0');
@@ -544,8 +526,10 @@
 	        let today = new Date();
 	        let ddd = today.getDate();
 	        let mmm = today.getMonth() + 1
+	        let yyy = today.getFullYear();
 	        
-	        let today_td = document.getElementById(mmm+"-"+ddd);
+	        let today_td = document.getElementById("td" +yyy + "-" + mmm + "-" + ddd);
+	        console.log("td" +yyy + "-" + mmm + "-" + ddd)
 	        if (today_td) {
 	        	today_td.style.backgroundColor = "DarkSeaGreen";
 	        }
