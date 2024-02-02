@@ -74,13 +74,12 @@
 	    #changeImg {
 	    	width: auto;
 	    	height: 200px;
-	    	max-width: 70%;
-            max-height: 70%;
             border-radius: 50%;
 	    }
 	    
 	    .avatar-container {
             text-align: center;
+            padding: 50px;
         }
 
         .avatar {
@@ -99,6 +98,11 @@
             height: 100%;
             object-fit: cover;
         }
+        
+        body {
+        	text-align: center;
+        }
+        
 
     </style>
 </head>
@@ -107,13 +111,12 @@
 	<main>
 	<h1>會員基本資料</h1>
 	<div class="fly">
-	<div class="memPicture" id="pic">
+	<div class="memPicture">
 		<div class="avatar-container">
-	        <div class="avatar">
+	        <div class="avatar" id="pic">
 <!-- 	            <img src="path/to/your/avatar.jpg" alt="會員頭像"> -->
 				<img th:src="@{/mem/picture} + '?memno=' + ${myData.memNo}" width="100%" height="100%" class="imgflex" id="memImg">
 	        </div>
-	    </div>
 		<br>
 		<br>
 		<form th:action="@{newPic}" method="post" enctype="multipart/form-data">
@@ -121,6 +124,7 @@
 		  	<button type="button" id="choose_file">變更大頭照</button>
 		  	<ul class="picture_list"></ul>
 		</form>
+	    </div>
 	</div>
 	
 	<table id="example" class="display">
@@ -236,6 +240,7 @@
                                     let html_newImg = document.createElement("img");
                                     html_newImg.src = `${this.result}`;
                                     html_newImg.id = "changeImg";
+                                    html_newImg.style = "width: 100%; height: 100%";
                                     let html_oldImg = document.getElementById("memImg");
                                     if(html_oldImg === null){
                                     	html_oldImg = document.getElementById("changeImg")

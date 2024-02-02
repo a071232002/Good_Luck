@@ -54,10 +54,6 @@
 				<td th:if="${mem.lastLoginTime != null}" th:text="${#dates.format(mem.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td>
 				<td ><img th:src="@{/BackStage/mem/picture} + '?memno=' + ${mem.memNo}" width="100px" height="100px"></td>
 				<td>
-					<form method="post" th:action="@{updateMem}">
-						<input type="hidden" name= "memNo" th:value="${mem.memNo}">
-						<input type="submit" value="修改" >
-					</form>
 					<form method="post" th:action="@{stopMem}">
 						<input type="hidden" name= "memNo" th:value="${mem.memNo}">
 						<input type="submit" value="停權" th:disabled="${mem.memStatus == 2}" >
