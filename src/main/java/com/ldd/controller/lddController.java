@@ -71,7 +71,9 @@ public class lddController {
 			rent.setRentImg(dataORI.getRentImg());
 		}
 		rent.setRentUpTime(Timestamp.valueOf(LocalDateTime.now()));
-		rent.setRentSt(Byte.valueOf("0"));
+		if (rent.getRentSt() == 1) {
+			rent.setRentSt(Byte.valueOf("0"));			
+		}
 		rentSvc.updateRent(rent);
 		return "redirect:/ldd/rentManagement";
 	}

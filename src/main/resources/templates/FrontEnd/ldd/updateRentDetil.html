@@ -354,7 +354,7 @@
 					</div>
 					
                     <input type="hidden" id="rentNo" name="rentNo" th:value="${rent.rentNo}">
-                    <input type="hidden" name="lse.lseNo" th:value="${rent.lse?.lseNo}">
+                    <input type="hidden" th:field="*{lse}">
                     <input type="hidden" name="rentSt" th:value="${rent.rentSt}">
                     <input type="submit" value="送出" class="approve_button">
                     <a th:href="@{/ldd/rentManagement}"><button type="button" class="reject_button">取消</button></a>
@@ -407,13 +407,13 @@
 	    function validateRent(input) {
             var value = input.value.trim();
 
-            if (/^\d+$/.test(value)) {
-            	rentRentError.textContent = "";
+            if (/^[1-9]\d{0,9}$/.test(value)) {
+                rentRentError.textContent = "";
             } else {
-            	rentRentError.textContent = "請輸入數字(0-9)";
+                rentRentError.textContent = "請輸入數字(不能以0開頭，最多10位數)";
             }
-        }
-
+	    }
+            
         function validateIntr(input) {
             var value = input.value.trim();
             

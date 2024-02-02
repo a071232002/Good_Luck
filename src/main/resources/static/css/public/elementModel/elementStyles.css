@@ -82,25 +82,27 @@ span.formEl {
 .reject_button {
 	padding: 5px 5px;
 	margin: 3px 3px;
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: bold;
 	background-color: rgb(158, 20, 20);
 	color: white;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
+	vertical-align: middle;
 }
 
 .approve_button {
 	padding: 5px 5px;
 	margin: 3px 3px;
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: bold;
 	background-color: rgb(24, 36, 117);
 	color: white;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
+	vertical-align: middle;
 }
 
 .reject_button:hover, .approve_button:hover {
@@ -111,10 +113,11 @@ span.formEl {
 /* for input元素 */
 input[type="date"] {
 	padding: 5px;
-	font-size: 1rem;
+	font-size: 12px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	outline: none;
+	vertical-align: middle;
 }
 
 input[type="date"]:focus {

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/public/tableModel/try.css}" />
     <link rel="stylesheet" th:href="@{/css/public/tableModel/try2.css}" />
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10"> -->
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
     <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
     <title>合約一覽</title>
@@ -79,7 +80,7 @@
 	        <thead>
 	            <tr>
 	                <th>編號</th>
-	                <th>會員編號</th>
+
 	                <th>物件編號</th>
 	              
 	                <th>起始日期</th>
@@ -98,7 +99,7 @@
 	            <th:block th:each="lse : ${lseListData}">
 	                <tr>
 	                    <td th:text="${lse.lseNo}"></td>
-	                    <td th:text="${lse.mem.memNo}"></td>
+
 	                    <td th:text="${lse.rent.rentNo}"></td>
 	                    
 	                    <td th:text="${lse.lseStart}"></td>
@@ -135,7 +136,7 @@
 	                        <span th:case="3" class="warning" th:text="請繳押金"></span>
 	                        <span th:case="4" class="warning" th:text="待房東確認金額"></span>
 	                        <span th:case="5" class="success" th:text="合約中"></span>
-	                        <span th:case="6" class="cancel" th:text="合約期滿"></span>
+	                        <span th:case="6" class="cancel" th:text="合約結束"></span>
 	                    </td>
 	                    <th:block
 	                        th:with="today=${#dates.createNow()}, oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
@@ -155,30 +156,52 @@
 	                    </th:block>
 						
 	                    <td>
-	                    <th:block th:if="${lse.lseStatus == 0}">
-	                    	<form class="returnSign" method="post" th:object="${lse}" th:action="@{sign}" enctype="multipart/form-data">
+	                    	<th:block th:if="${lse.lseStatus == 0}">
+		                    	<form class="returnSign" method="post" th:object="${lse}" th:action="@{sign}" enctype="multipart/form-data">
+	                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+	                                <label for="lsesign">上傳簽約<b>*</b>: </label>
+	                                <input type="file" class="lseSign" id="lsesign"name="lseSign" required accept=".png, .jpg">
+	                                <div class="preview">
+										<span class="imgBoard"></span>
+									</div>
+	                                <input type="submit" value="簽約回傳" class="approve_button">
+	                            </form>
+	                        </th:block>
+		                    <th:block th:if="${lse.lseStatus == 3}">
+		                    	<form method="post" th:object="${lse}" th:action="@{inform}">
+	                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+	                                <input type="submit" value="通知已匯款" class="approve_button">
+	                            </form>
+	                        </th:block>
+							<th:block th:if="${lse.lseStatus == 0 || lse.lseStatus == 2}">                            
+	                            <form method="post" th:object="${lse}" th:action="@{cancel}">
+	                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+	                                <input type="submit" value="取消簽約" class="reject_button">
+	                            </form>
+	                        </th:block>
+	                        
+	                        <th:block th:with="today=${#dates.createNow()}, oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
+	                        <th:block th:if="${oneMonthLater >= lse.lseEnd.toLocalDate()}">
+                        	 <form th:if="${lse.lseRenew == 0}" method="post" th:action="@{renew}">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
-                                <label for="lsesign">上傳簽約<b>*</b>: </label>
-                                <input type="file" class="lseSign" id="lsesign"name="lseSign" required accept=".png, .jpg">
-                                <div class="preview">
-									<span class="imgBoard"></span>
-								</div>
-                                <input type="submit" value="簽約回傳" class="approve_button">
-                            </form>
-                        </th:block>
-	                    <th:block th:if="${lse.lseStatus == 3}">
-	                    	<form method="post" th:object="${lse}" th:action="@{inform}">
+                                <input type="submit" value="續約" class="approve_button">
+                             </form>
+                             
+                        	 <form th:if="${lse.lseRenew == 0}" method="post" th:action="@{cancelRenew}">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
-                                <input type="submit" value="通知已匯款" class="approve_button">
-                            </form>
-                        </th:block>
-						<th:block th:if="${lse.lseStatus == 0 || lse.lseStatus == 2}">                            
-                            <form method="post" th:object="${lse}" th:action="@{cancel}">
+                                <input type="submit" value="不續約" class="reject_button">
+                             </form>
+                             
+                        	 <form th:if="${lse.lseRenew == 2}" method="post" th:action="@{cancelRenew}">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
-                                <input type="submit" value="取消簽約" class="reject_button">
+                                <input type="submit" value="取消續約" class="reject_button">
+                             </form>
+                            
+                        	 <form th:if="${lse.lseStatus == 5}" method="post" th:action="@{terminate}">
+                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <input type="submit" value="提前解約" class="reject_button">
                             </form>
-                        <th:block th:unless="${lse.lseStatus == 0}">
-                        </th:block>
+                            </th:block>
 	                    </td>
 	
 	                </tr>
@@ -193,6 +216,9 @@
     <script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
     <script th:src="@{/js/public/tableModel/the.js}"></script>
     <script th:src="@{/js/public/tableModel/the2.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+ 	<script th:src="@{/js/public/sweetAlert2/basic.js}"></script>
+    
  	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
  	
     <script>
@@ -247,7 +273,8 @@
 		          }
 		      });
 	     });
-   
+   		
+        
     </script>
 
 </body>

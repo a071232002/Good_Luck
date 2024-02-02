@@ -189,6 +189,13 @@ public class ApoServiceImpl implements ApoService {
 		List<Apo> apoList = repository.findByLddAndApoStatusIn(ldd, apoStatusList);
 		List<ApoDTO> list = apoList.stream().map(aApo -> new ApoDTO(
 				aApo.getApoNo(),
+				aApo.getRent().getRentNo(),
+				aApo.getRent().getRentAppCou()
+				+ " " + aApo.getRent().getRentAppAr()
+				+ " " + aApo.getRent().getRentAppRo()
+				+ " " + aApo.getRent().getRentAppAdd(),
+				aApo.getMem().getMemName(),
+				aApo.getMem().getMemPhone(),
 				aApo.getApoDate(),
 				aApo.getApoTime()))
 				.collect(Collectors.toList());
