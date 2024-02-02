@@ -17,6 +17,8 @@ import com.rent.model.Rent;
 @Service
 public class LseServiceImpl implements LseService{
 	
+	private static final Byte IN_CONTRACT = 5;
+	
 	@Autowired
 	LseRepository repository; 
 	
@@ -54,9 +56,8 @@ public class LseServiceImpl implements LseService{
 	}
 
 	@Override
-	public List<Lse> getListByRent(Rent rent) {
-
-		return null;
+	public List<Lse> getListInContract() {
+		return repository.findByLseStatus(IN_CONTRACT);
 	}
 
 	
