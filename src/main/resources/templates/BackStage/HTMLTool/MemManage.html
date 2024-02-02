@@ -10,8 +10,9 @@ th:fragment="MemManage">
 
 
 			<div class="subheading mb-5 subManage">
-				<a href="#" class="subA">基本資料管理</a> <a href="#" class="subA">權限管理</a>
-				<a href="#" class="subA">房東審核</a>
+				<a th:href="@{/BackStage/mem/memlist}" class="linkOk">基本資料管理</a> 
+<!-- 				<a href="/BackStage/funManager/funlist" class="linkOk">權限管理</a> -->
+				<a th:href="@{/BackStage/lddApp/reviewLddApp}" class="linkOk">房東審核</a>
 			</div>
 
 			<p class="lead mb-5"></p>
