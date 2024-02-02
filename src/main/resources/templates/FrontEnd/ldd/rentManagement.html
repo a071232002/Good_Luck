@@ -67,6 +67,7 @@
 		                   	<span th:case="2" class="success" th:text="出租中"></span>
 		                   	<span th:case="3" class="cancel" th:text="合約期滿"></span>
 		                   	<span th:case="4" class="cancel" th:text="被檢舉下架"></span>
+		                   	<span th:case="5" class="cancel" th:text="重新審核中"></span>
 	                   </td>
 	                   <td>
 	                   		<form method="post" th:object="${rent}" th:action="@{updateRentDetil}" style="margin-right: 10px;">
@@ -83,8 +84,9 @@
                             </form>
 	                   		<form th:if="${rent.rentSt == 3}" method="post" th:object="${rent}" th:action="@{resend}" >
                                 <input type="hidden" name="rentNo" th:value="${rent.rentNo}">
-                                <input type="submit" value="重送審核" class="reject_button">
+                                <input type="submit" value="重送審核" class="approve_button">
                             </form>
+
                             
 	                   </td>
                     </tr>
