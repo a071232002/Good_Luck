@@ -18,6 +18,11 @@
         span {
             vertical-align: middle;
         }
+        
+        .msgBox{
+        	display:none;
+        }
+        
     </style>
 </head>
 
@@ -49,7 +54,9 @@
                         <td>
                         	<img th:src="@{/ldd/picture} + '?rentNo=' + ${rent.rentNo}" width="150px">
                         </td>
-                        <td th:text="${rent.rentRent}"></td>
+                        <td> 
+                        	<span th:id="${rent.rentNo} +'rent'" th:text="${rent.rentRent}"></span>
+                        </td>
                         <td th:text="${rent.lse?.mem.memName}"></td>
                         <td th:text="${rent.lse?.lseNo}"></td>
                         <td th:text="${rent.lse?.lseStart}"></td>
@@ -60,8 +67,28 @@
 		                   	<span th:case="2" class="success" th:text="出租中"></span>
 		                   	<span th:case="3" class="cancel" th:text="合約期滿"></span>
 		                   	<span th:case="4" class="cancel" th:text="被檢舉下架"></span>
+		                   	<span th:case="5" class="cancel" th:text="重新審核中"></span>
 	                   </td>
-	                   <td></td>
+	                   <td>
+	                   		<form method="post" th:object="${rent}" th:action="@{updateRentDetil}" style="margin-right: 10px;">
+                                <input type="hidden" name="rentNo" th:value="${rent.rentNo}">
+                                <input type="submit" value="編輯" class="approve_button">
+                            </form>
+	                   		<form class="upRent" th:if="${rent.rentSt == 0}" method="post" th:object="${rent}" th:action="@{up}" onsubmit="return formCheck(this)">
+                                <input type="hidden" id="${rent.rentNo}" name="rentNo" th:value="${rent.rentNo}">
+                                <input type="submit" value="上架" class="approve_button">
+                            </form>
+	                   		<form th:if="${rent.rentSt == 1}" method="post" th:object="${rent}" th:action="@{down}" >
+                                <input type="hidden" name="rentNo" th:value="${rent.rentNo}">
+                                <input type="submit" value="下架" class="reject_button">
+                            </form>
+	                   		<form th:if="${rent.rentSt == 3}" method="post" th:object="${rent}" th:action="@{resend}" >
+                                <input type="hidden" name="rentNo" th:value="${rent.rentNo}">
+                                <input type="submit" value="重送審核" class="approve_button">
+                            </form>
+
+                            
+	                   </td>
                     </tr>
 
                 </th:block>
@@ -81,7 +108,30 @@
     <script>
         let table = new DataTable("#example");
     </script>
+	
+	<script>
+		function formCheck(form) {
+	        
+	        var rentNo = $(form).find('input[type="hidden"]').val();
+	        var rent_el_id = rentNo + 'rent';
 
+	        var rent_el = $('#' + rent_el_id);
+	      
+	        if (rent_el.text().trim() === "" || rent_el.text().trim() === "0") {
+	        	
+			    alert("未設定租金,請確認!");
+			    return false;
+			} else {
+			    return true;
+	    	}	
+		
+		}
+	
+	
+	
+    </script>
+	
+	
 </body>
 
 </html>

@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+
     
     <title>申請預約看房</title>
     <style>
@@ -176,6 +177,8 @@
 </head>
 
 <body>
+	<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+	<main>
     <div class="tittleBoard"><span class="tittleBoard">預約看房</span></div>
     <div class="formArea">
         <form class="formData" method="post" th:action="@{insert}" th:object="${apo}"
@@ -218,9 +221,12 @@
             </tbody>
         </table>
     </div>
-
-
+	</main>
+	
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
     <script>
+    
         function checkDateSelected() {
             var apoDateInput = document.getElementById("apoDate");
             if (apoDateInput.value.trim() === "") {

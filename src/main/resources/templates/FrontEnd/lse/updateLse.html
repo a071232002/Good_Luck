@@ -119,8 +119,8 @@
 	    
 	    <form method="post" th:action="@{update}" th:object="${lse}" enctype="multipart/form-data" onsubmit="return formCheck()">
 			<label class="formEl">會員編號: </label><span class="formEl" th:text="${lse.mem.memNo}"></span><br><br>
-			<label class="formEl">物件編號: </label><span class="formEl"  th:text="${lse.rent.rentNo}"></span><br><br>
-	        <label class="formEl">起始日期: </label><span class="formEl"  id="lseStart" th:text="${lse.lseStart}"></span><br><br>
+			<label class="formEl">物件編號: </label><span class="formEl" th:text="${lse.rent.rentNo}"></span><br><br>
+	        <label class="formEl">起始日期: </label><span class="formEl" id="lseStart" th:text="${lse.lseStart}"></span><br><br>
 	        <label class="formEl">變更合約年限: </label><br>
 	        <label class="formEl"><input type="radio" name="contractTerms" onclick="createLseEnd('halfYear')"> 半年</label>
 	        <label class="formEl"><input type="radio" name="contractTerms" onclick="createLseEnd('oneYear')"> 一年</label>
@@ -160,11 +160,11 @@
 	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
 	
     <script>
+    	var lseNo = document.getElementById("lseNo");
         var lsePayError = document.getElementById("lsePayError");
         var accountError = document.getElementById("accountError");
     	var lsePayInput = document.getElementById("lsePay");
     	var accountInput = document.getElementById("account");
-    	var lseNo = document.getElementById("lseNo");
     	var bank = document.getElementById("bank");
     	
     	
@@ -241,7 +241,7 @@
         }
         
         
-        var p_file_el = document.getElementById("lseSend");
+          var p_file_el = document.getElementById("lseSend");
 	  	  var preview_el = document.getElementById("preview");
 	  	
 		  var preview_img = function(file){
