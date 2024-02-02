@@ -4,12 +4,16 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.lse.model.Lse;
 import com.lse.model.LseService;
+import com.rent.model.Rent;
+import com.rent.model.RentService;
 
 @Component
 public class LseSchedule {
@@ -17,22 +21,38 @@ public class LseSchedule {
 	@Autowired
 	LseService lseSvc;
 	
-
+	@Autowired
+	RentService rentSvc;
+	
+    @PostConstruct
+    public void initialize() {
+        updateLseStatus();
+    }
+	
+	
 //	@Scheduled(cron = "0 0/1 * * * *") //每分鐘測試
-	@Scheduled(cron = "0 0 0 * * *")
+	@Scheduled(cron = "0 0 0 * * ?")
 	public void updateLseStatus() {
 
-		LocalDate date = LocalDate.now().plusDays(1);
+		System.out.println("hi 我是排程器, 執行合約到期日檢視");
+		
+		LocalDate date = LocalDate.now();
 		Date endDay = Date.valueOf(date);
-		System.out.println("hi 我是排程器, 現在是00:00 開始執行");
+		
 		List<Lse> lseList = lseSvc.getListInContract();
 		
+		
 		for (Lse alse : lseList) {
-			System.out.println("執行foreach");
-			if (alse.getLseEnd() != null && alse.getLseEnd().before(endDay)) {
-//				alse.setLseStatus(Byte.valueOf("5"));
+			
+			if (alse.getLseEnd() != null && endDay.after(alse.getLseEnd())) {
+				alse.setLseStatus(Byte.valueOf("6"));
+//				續約狀態變更
 //				alse.setRenew(Byte.valueOf("1"));
-//				lseSvc.updateLse(alse);
+				lseSvc.updateLse(alse);
+				
+				Rent rent = alse.getRent();
+				rent.setRentSt(Byte.valueOf("3"));
+				rentSvc.updateRent(rent);
 				System.out.println("合約編號:" + alse.getLseNo() + "到期囉!");
 			}
 		}
