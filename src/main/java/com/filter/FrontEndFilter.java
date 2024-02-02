@@ -71,6 +71,8 @@ public class FrontEndFilter implements Filter{
 //		System.out.println("uri:" + uri);
 //		System.out.println();
 		String newUri = uri.replace("/Good_Luck/", "/");
+		
+		
 		boolean validator =path.stream()
 					  		.allMatch(s -> !uri.contains(s) && !uri.contains("/BackStage") && !"/".equals(uri));
 
@@ -79,7 +81,11 @@ public class FrontEndFilter implements Filter{
 			System.out.println("Member為：" + member);
 			
 			if(member == null) {
-//				System.out.println("儲存uri到Session：" + newUri);
+				if(httpRequest.getParameter("rentNo") != null) {
+					newUri = newUri + "?rentNo=" +  httpRequest.getParameter("rentNo");
+				}
+				System.out.println("儲存uri到Session：" + newUri);
+				System.out.println("test " + httpRequest.getParameter("rentNo"));
 				httpRequest.getSession().setAttribute("goURI", newUri);
 				httpResponse.sendRedirect( contextPath + "/mem/login");
 				return;

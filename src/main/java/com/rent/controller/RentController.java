@@ -125,15 +125,16 @@ public class RentController {
 	@GetMapping("rentDetail")
 	public String rentDetail(@RequestParam("rentNo") String rentNo, ModelMap model) {
 
-		System.out.println("rentDetail");
-		System.out.println(rentNo);
+//		System.out.println("rentDetail");
+//		System.out.println(rentNo);
 		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
-		System.out.println(rent);
+//		System.out.println(rent);
+//		System.out.println(rent);
 		
 		//判斷物件編號是否為已上架
-		if(rent.getRentSt()==1) {
+		if(rent!=null&&rent.getRentSt()==1) {
 			model.addAttribute("rent", rent);
-			return "FrontEnd/rent/update_rent_input";
+			return "FrontEnd/rent/rentDetail";
 		}else {
 			//查詢的物件若非已上架則回到listall
 			return "FrontEnd/rent/listAllRent";
