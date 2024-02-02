@@ -64,14 +64,10 @@ public class RentAppServiceImpl implements RentAppService{
 			if(rentAppSt==1) {
 				if(rentApp.getRent()!=null) {
 					
-					
 					Rent rent=rentApp.getRent();
-					System.out.println(rent);
-					System.err.println("ssss");
 					rent.setRentSt((byte)0);
 					rentRepository.save(rent);
 				}else {
-					System.out.println("rentApp.getRent()=null");
 					
 					Rent rent =new Rent();
 					rent.setRentAppCou(rentApp.getRentAppCou());
@@ -98,6 +94,10 @@ public class RentAppServiceImpl implements RentAppService{
 //				rentAppRepository.save(rentApp);
 				}
 				
+			}else {
+				Rent rent=rentApp.getRent();
+				rent.setRentSt((byte)3);
+				rentRepository.save(rent);
 			}
 
 			return rentApp;

@@ -68,7 +68,8 @@ public class RentController {
 	public String  updateRentSt(ModelMap model,@RequestParam("rentNo") Integer rentNo, @RequestParam("rentSt") byte rentSt) {
 		
 
-		
+		System.out.println("rentNo="+rentNo);
+		System.out.println("rentSt="+rentSt);
 		
 		 // 获取模型中的所有键值对
 //	    for (Map.Entry<String, Object> entry : model.entrySet()) {
@@ -77,7 +78,7 @@ public class RentController {
 //	        System.out.println("Key: " + key + ", Value: " + value);
 //	    }
 
-		return "redirect:reviewRentApp";
+		return "redirect:rentManagement";
 	}
 	
 //	//前往listall

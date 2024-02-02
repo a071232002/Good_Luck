@@ -77,6 +77,7 @@
 					<td th:if="${rent.rentSt == 2}" th:text="合約中"></td>
 					<td th:if="${rent.rentSt == 3}" th:text="合約期滿"></td>
 					<td th:if="${rent.rentSt == 4}" th:text="檢舉下架"></td>
+					<td th:if="${rent.rentSt == 5}" th:text="重新送審"></td>
 
 
 
@@ -92,7 +93,10 @@
 								<th:block th:case="1">
 							        <!-- 处理值为0的情况 -->
 							        <button type="button" onclick="setDataValue(this,'4')"> 檢舉下架 </button>
-									<button type="button" onclick="setDataValue(this,'2')"> 不通過 </button>
+							    </th:block>
+								<th:block th:case="4">
+							        <!-- 处理值为0的情况 -->
+							        <button type="button" onclick="setDataValue(this,'1')"> 重新上架 </button>
 							    </th:block>
 <!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->
 <!-- 								<button th:case="0" type="submit" id="submit"> 不成立 </button> -->
@@ -109,7 +113,7 @@
 
 	</table>
 	<br>
-	<a th:href="@{/BackStage/rentApp/}"><button>前往首頁</button></a>
+
 
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the.js}"></script>
