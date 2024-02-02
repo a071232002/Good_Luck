@@ -353,7 +353,7 @@ main {
 			<ul class="nav navbar-nav">
 				<li><a class="hoverable" th:href="@{/}">首頁</a></li>
 				<li><a class="hoverable" href="#">最新消息</a></li>
-				<li><a class="hoverable" href="#">租賃服務</a></li>
+				<li><a class="hoverable" th:href="@{/rent/listAllRent}">租賃服務</a></li>
 				<li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
 			</ul>
 		</nav>
@@ -387,7 +387,7 @@ main {
 								style="display: inline-block; font-size: 16px; font-weight: bold; margin: 10px 10px 10px 30px; width: 120px; height: 40px;"
 								onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)"
 								onclick="listAllRentInMap()">
-								<img src="/icon/FrontEnd/rent/map.png" width="30px"
+								<img th:src="@{/icon/FrontEnd/rent/map.png}" width="30px"
 									height="30px"
 									style="vertical-align: bottom; margin-right: 5px;"> 地圖找房
 							</div>
@@ -878,7 +878,7 @@ async function getRentList() {
 	
 
 	// 使用Fetch API發送POST請求
-	fetch('/rent/QueryRentList', {
+	fetch('QueryRentList', {
 	    method: 'POST',
 	    headers: {
 	        'Content-Type': 'application/json',
@@ -951,7 +951,7 @@ function showRents(){
 				            <div class="carousel-inner">
 				                <!-- Add only one item with the image -->
 				                <div class="item active">
-				                    <img alt="" src="/rent/picture?rentNo=${rentNo}" />
+				                    <img alt="" src="picture?rentNo=${rentNo}" />
 				                </div>
 				            </div>
 				        </div>
@@ -961,7 +961,7 @@ function showRents(){
 				        ${propertyTitle}
 				        </h3>
 				        <ul class="text-left">
-				        	<img src="/icon/FrontEnd/rent/house.png"width="20px" height="20px" style="vertical-align: bottom;margin-right:10px;margin-top:2px">
+				        	<img src="../icon/FrontEnd/rent/house.png"width="20px" height="20px" style="vertical-align: bottom;margin-right:10px;margin-top:2px">
 				            <li class="vertical-line"> ${	rentLayout === 0 ? '雅房' :
 				                	rentLayout === 1 ? '分租套房' :
 				                    rentLayout === 2 ? '獨立套房' :
@@ -971,7 +971,7 @@ function showRents(){
 				        </ul>
 				        
 				        <ul class="text-left">
-				        <img src="/icon/FrontEnd/rent/placeholder.png"width="20px" height="20px" style="vertical-align: bottom;margin-right:10px;margin-top:2px">
+				        <img src="../icon/FrontEnd/rent/placeholder.png"width="20px" height="20px" style="vertical-align: bottom;margin-right:10px;margin-top:2px">
 				            <li>${rentAppArAndtAppRo}</li>
 			            
 			        	</ul>
@@ -1286,7 +1286,7 @@ function logAllValues() {
 logAllValues();
 
 function getOneById(divId) {
-    var backendControllerUrl = '/rent/rentDetail';  // 修改为您的后端Controller的URL
+    var backendControllerUrl = 'rentDetail';  // 修改为您的后端Controller的URL
     var urlWithParams = backendControllerUrl + '?rentNo=' + divId;
 
     // 将用户重定向到带参数的后端Controller
@@ -1304,7 +1304,7 @@ function deactivateDiv(div) {
 
 function listAllRentInMap() {
 	
-    window.location.href = "/rent/listAllRentInMap";
+    window.location.href = "listAllRentInMap";
   }
 </script>
 </body>
