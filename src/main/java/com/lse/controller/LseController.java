@@ -58,7 +58,7 @@ public class LseController {
 		}
 	}
 	
-	@GetMapping("/updateLse")
+	@PostMapping("/updateLse")
 	public String updateData(ModelMap model, @RequestParam("lseNo") String lseNo, HttpSession session) {
 		Ldd ldd = (Ldd)session.getAttribute("ldd");
 		if (ldd == null) {
@@ -94,23 +94,26 @@ public class LseController {
 		}
 	}
 	
-	//TODO 新增尚未完工
 	@PostMapping("insert")
 	public String insert(@RequestParam("lseSend") MultipartFile part,
 						 @Valid Lse lse, BindingResult result, 
 						 ModelMap model, @ModelAttribute("apoNo") String apoNo,
 						 @RequestParam("bank") String bank, 
 						 @RequestParam("account") String account) throws IOException {
+		
 		String LsePayAccount = bank + " " + account;
 		lse.setLseSend(part.isEmpty() ? null : part.getBytes());
 		lse.setLsePayAccount(LsePayAccount);
-		
 		lseSvc.addLse(lse);
-		System.out.println(lse.getRent());
-		// 產生合約後才變更租屋單狀態
-		apoSvc.rejectOtherApoByRent(lse.getRent());
+		//讓該物件下架 不能再被預約看房
+		Rent rent = lse.getRent();
+		rent.setRentSt(Byte.valueOf("0"));
+		rentSvc.updateRent(rent);
+		
+		//拒絕該物件後續的預約單及租屋單 並修改此次的租屋單狀態
+		apoSvc.rejectOtherApoByRent(rent);
 		apoSvc.approveWant(Integer.valueOf(apoNo));
-		return "redirect:/apo/reviewApo";
+		return "redirect:/lse/reviewLse";
 	}
 	
 	@PostMapping("update")
@@ -119,13 +122,15 @@ public class LseController {
 						 ModelMap model,
 						 @RequestParam("bank") String bank, 
 						 @RequestParam("account") String account) throws IOException {
-		System.out.println(lse);
+		
 		String LsePayAccount = bank + " " + account;
+		
 		if(!part.isEmpty()) {
 			lse.setLseSend(part.isEmpty() ? null : part.getBytes());
 		} else {
 			lse.setLseSend(lseSvc.getOneByLseNo(lse.getLseNo()).getLseSend());
 		}
+		
 		lse.setLsePayAccount(LsePayAccount);
 		System.out.println(lse);
 		lseSvc.updateLse(lse);

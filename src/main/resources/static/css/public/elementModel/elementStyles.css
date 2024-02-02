@@ -59,6 +59,7 @@ span.formEl {
 }
 .display td{
 	font-size: 12px;
+	text-align: center !important;
 }
 
 /* for 狀態描述文字顏色分級 */

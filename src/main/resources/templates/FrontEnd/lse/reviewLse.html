@@ -148,7 +148,7 @@
 						
 	                    <td>
 	                    <th:block th:if="${lse.lseStatus == 0}">
-	                    	<form method="get" th:action="@{updateLse}">
+	                    	<form method="post" th:action="@{updateLse}">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
                                 <input type="submit" value="修改合約" class="approve_button">
                             </form>
