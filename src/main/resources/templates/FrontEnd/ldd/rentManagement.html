@@ -50,17 +50,27 @@
                 <th:block th:each="rent : ${rentListDataByLdd}">
                     <tr>
                         <td th:text="${rent.rentNo}"></td>
-                        <td th:text="${rent.rentPostTitle}"></td>
+                        <td> 
+                        	<span th:text="${rent.rentPostTitle}"></span>
+                        </td>
                         <td>
                         	<img th:src="@{/ldd/picture} + '?rentNo=' + ${rent.rentNo}" width="150px">
                         </td>
                         <td> 
                         	<span th:id="${rent.rentNo} +'rent'" th:text="${rent.rentRent}"></span>
                         </td>
-                        <td th:text="${rent.lse?.mem.memName}"></td>
-                        <td th:text="${rent.lse?.lseNo}"></td>
-                        <td th:text="${rent.lse?.lseStart}"></td>
-                        <td th:text="${rent.lse?.lseEnd}"></td>
+                        <td> 
+                        	<span th:text="${rent.lse?.mem?.memName}"></span>
+                        </td>
+                        <td>
+                        	<span th:text="${rent.lse?.lseNo}"></span>
+                        </td>
+                        <td> 
+                        	<span th:text="${rent.lse?.lseStart}"></span>
+                        </td>
+                        <td>
+                         	<span th:text="${rent.lse?.lseEnd}"></span>
+                        </td>
                       	<td th:switch="${rent.rentSt}">
 		                   	<span th:case="0" class="cancel" th:text="下架中"></span>
 		                   	<span th:case="1" class="warning" th:text="上架中"></span>
