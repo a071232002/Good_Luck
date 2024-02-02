@@ -20,6 +20,9 @@ public interface LseRepository extends JpaRepository<Lse, Integer>{
 	@Transactional
 	public List<Lse> findByRentOrderByLseCreateDesc(Rent rent);
 	
+	@Transactional
+	public List<Lse> findByLseStatus(Byte lseStatus);
+	
 	//只找最新一筆
 	@Transactional
 	public Lse findFirstByRentOrderByLseCreateDesc(Rent rent);
