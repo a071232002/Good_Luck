@@ -51,24 +51,10 @@
         
         .fly {
         	display: flex;
+			justify-content: space-around;
+        }
+        
 
-        }
-        
-        .imgflex {
-        	max-width: 70%;
-            max-height: 70%;
-            border-radius: 50%;
-        }
-        
-        div.memPicture {
-        	width: 30%;
-        	height: 30%;
-        	text-align: center;
-        }
-        
-        img.preview {
-	      	width: 200px;
-	    }
 	
 	    ul {
 	       list-style: none;
@@ -92,6 +78,27 @@
             max-height: 70%;
             border-radius: 50%;
 	    }
+	    
+	    .avatar-container {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #fff;
+            /* 可以根據需要調整頭像框的邊框寬度和顏色 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* 可以根據需要調整頭像框的陰影效果 */
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
     </style>
 </head>
@@ -101,7 +108,12 @@
 	<h1>會員基本資料</h1>
 	<div class="fly">
 	<div class="memPicture" id="pic">
-		<img th:src="@{/mem/picture} + '?memno=' + ${myData.memNo}" width="100%" height="100%" class="imgflex" id="memImg">
+		<div class="avatar-container">
+	        <div class="avatar">
+<!-- 	            <img src="path/to/your/avatar.jpg" alt="會員頭像"> -->
+				<img th:src="@{/mem/picture} + '?memno=' + ${myData.memNo}" width="100%" height="100%" class="imgflex" id="memImg">
+	        </div>
+	    </div>
 		<br>
 		<br>
 		<form th:action="@{newPic}" method="post" enctype="multipart/form-data">
