@@ -105,9 +105,9 @@ public class MemServiceImpl implements MemService {
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail));
 
 			// 設定信中的主旨
-			message.setSubject("租你好運感謝您的註冊！");
+			message.setSubject(subject);
 			// 設定信中的內容
-			message.setText("驗證碼為：" + verifyID);
+			message.setText(text + verifyID);
 
 			Transport.send(message);
 			System.out.println("傳送成功!");
