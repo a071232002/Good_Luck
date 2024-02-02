@@ -15,16 +15,18 @@
 				<td><span  th:if="${#fields.hasErrors('noticeNo')}" th:errors="*{noticeNo}" class="error" id="ename.errors"></span></td>
 			</tr>
         	<tr>
-				<td><label for="empNo">員工編號<b>*</b>：</label></td>
+				<td><label for="empNo">員工編號：</label></td>
 				<td><input id="empNo" th:field="*{empNo}" title="請輸入編號"></td>
 				<td><span  th:if="${#fields.hasErrors('empNo')}" th:errors="*{empNo}" class="error" id="ename.errors"></span></td>
 			</tr>
+    
     		<tr>
-    			<td><label for="noticeTime">最新公告時間</label></td>
-    			<td><input id="noticeTime" title="最新公告時間" th:field="*{noticeTime}" ></td>
+				<td><label for="noticeTime">最新消息時間：</label></td>
+				<td><input type="datetime-local" id="noticeTime_input" th:field="*{noticeTime}"></td> 
        			<td><span  th:if="${#fields.hasErrors('noticeTime')}" th:errors="*{noticeTime}" class="error" id="ename.errors"></span></td>
 			</tr>
-				<tr>
+			
+			<tr>
     			<td><label for="noticeContent">最新公告內容</label></td>
     			<td><input id="noticeContent" title="最新公告內容" th:field="*{noticeContent}" ></td>
        			<td><span  th:if="${#fields.hasErrors('noticeContent')}" th:errors="*{noticeContent}" class="error" id="ename.errors"></span></td>
@@ -42,6 +44,8 @@
 <!-- 		<input type="hidden" th:field="*{noticeStatus}"> -->
 		<input type="submit" class="submit" value="修改資料">
    </form>
+   
+   
    
 </body>
 </html>
