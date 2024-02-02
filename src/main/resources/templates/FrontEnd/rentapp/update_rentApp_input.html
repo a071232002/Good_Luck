@@ -69,6 +69,12 @@
 			<label>物件申請單編號:</label>
 			<input type="text" th:field="*{rentAppNo}" style="border:0px ; font-weight: bold; background-color: #f7f7f7;" readonly /><br/>
 			</div>
+			<div>
+			<th:block th:if="${rentApp.rent}">
+				<label>物件編號:</label>
+				<input type="text" th:field="*{rent.rentNo}" style="border:0px ; font-weight: bold; background-color: #f7f7f7;" readonly /><br/>
+			</th:block>
+			</div>
 			
 			<div class="dropdown">
 				<label>縣市:</label> 

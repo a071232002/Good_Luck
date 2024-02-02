@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
+	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+	<title>物件管理</title>
+	<style>
+		h1 {
+			text-align: center;
+			color: red;
+		}
+		 /* 初始隱藏放大顯示的容器 */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 2147483647; /* 設定 z-index 值為較大的數字 */
+        }
+
+        /* 放大顯示的圖片樣式 */
+        .lightbox img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+	</style>
+</head>
+<body>
+	<h1>物件管理</h1>
+	<div class="lightbox" id="lightbox">
+	    <img src="" alt="放大顯示的圖片" id="lightbox-img">
+	</div>
+	<table id="example" class="display" style="width: 100%">
+		<thead>
+			<tr>
+				<th>物件編號</th>
+				<th>房東編號</th>
+				<th>合約編號</th>
+				<th>所有權狀</th>
+				<th>刊登圖片</th>
+				<th>物件名稱</th>
+				<th>刊登內容</th>
+				<th>狀態</th>
+				<th>上/下架</th>
+			</tr>
+		</thead>
+		<tbody>
+			<th:block th:each="rent : ${rentListData}">
+				<tr>
+					<td th:text="${rent.rentNo}"></td>
+					<td th:text="${rent.ldd?.lddNo}"></td>
+					<td th:text="${rent.lse?.lseNo}"></td>
+
+					<td><img
+						th:src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}"
+						width="150px" class="myImage"></td>
+					<td><img
+						th:src="@{/BackStage/rent/pictureImg} + '?rentNo=' + ${rent.rentNo}"
+						width="150px" class="myImage"></td>
+
+
+					<td th:text="${rent.rentPostTitle}"></td>
+					<td th:text="${rent.rentIntr}"></td>
+
+
+						
+					<td th:if="${rent.rentSt == 0}" th:text="下架"></td>
+					<td th:if="${rent.rentSt == 1}" th:text="上架"></td>
+					<td th:if="${rent.rentSt == 2}" th:text="合約中"></td>
+					<td th:if="${rent.rentSt == 3}" th:text="合約期滿"></td>
+					<td th:if="${rent.rentSt == 4}" th:text="檢舉下架"></td>
+
+
+
+					<td>
+						<form id='myForm' th:action="@{updateRentSt}" method="post" enctype="multipart/form-data">
+					
+								<input type="hidden" th:value="${rent.rentNo}" name="rentNo">
+
+								<input type="hidden" th:value="${rent.rentSt}" name="rentSt">
+						
+							
+							<div th:switch="${rent.rentSt}">
+								<th:block th:case="1">
+							        <!-- 处理值为0的情况 -->
+							        <button type="button" onclick="setDataValue(this,'4')"> 檢舉下架 </button>
+									<button type="button" onclick="setDataValue(this,'2')"> 不通過 </button>
+							    </th:block>
+<!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->
+<!-- 								<button th:case="0" type="submit" id="submit"> 不成立 </button> -->
+							</div>
+<!-- 							<input type="hidden" name="rentAppNo"th:value="${rentApp.rentAppNo}">  -->
+<!-- 							<input type="submit"value="修改"> -->
+						</form>
+					</td>
+				</tr>
+
+			</th:block>
+
+		</tbody>
+
+	</table>
+	<br>
+	<a th:href="@{/BackStage/rentApp/}"><button>前往首頁</button></a>
+
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/BackStage/mem/the.js}"></script>
+	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
+	<script th:src="@{/js/BackStage/rentapp/listAllRentApp.js}"></script>
+	<script>
+	
+	$('#example').dataTable( {
+		  "stateSave": true,
+
+		} );
+	let table = new DataTable("#example");
+// 	table.columns.adjust().draw();
+	console.log($(".test"));
+	// table.on("click", "tbody tr", function () {
+	//   let data = table.row(this).data();
+
+	//   alert("You clicked on " + data[3] + "'s row");
+		// });
+	
+    function setDataValue(buttonElement, newValue) {
+
+   		console.log(newValue);
+		// 找到按钮的父级元素
+       var parent = buttonElement.parentElement;
+
+       // 找到隐藏字段（前一个兄弟元素）
+       var hiddenField = parent.previousElementSibling;
+
+       // 如果找到了隐藏字段，修改其值
+       if (hiddenField && hiddenField.type === 'hidden' && hiddenField.name === 'rentAppSt') {
+           hiddenField.value = newValue;
+       }
+       parent.parentElement.submit();
+       
+   }
+	</script>
+</body>
+</html>

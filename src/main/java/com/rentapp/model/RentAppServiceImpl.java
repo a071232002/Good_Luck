@@ -64,9 +64,10 @@ public class RentAppServiceImpl implements RentAppService{
 			if(rentAppSt==1) {
 				if(rentApp.getRent()!=null) {
 					
-					System.out.println(rentApp.getRent());
 					
 					Rent rent=rentApp.getRent();
+					System.out.println(rent);
+					System.err.println("ssss");
 					rent.setRentSt((byte)0);
 					rentRepository.save(rent);
 				}else {
