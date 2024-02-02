@@ -51,6 +51,7 @@ public class FrontEndFilter implements Filter{
 		path.add("/varify");
 		path.add("/memadd");
 		path.add("/rent/");
+		path.add("/notice/");
 		
 		
 	}
