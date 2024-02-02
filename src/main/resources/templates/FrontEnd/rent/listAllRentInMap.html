@@ -353,7 +353,7 @@ main {
 			<ul class="nav navbar-nav">
 				<li><a class="hoverable" th:href="@{/}">首頁</a></li>
 				<li><a class="hoverable" href="#">最新消息</a></li>
-				<li><a class="hoverable" href="#">租賃服務</a></li>
+				<li><a class="hoverable" th:href="@{/rent/listAllRent}">租賃服務</a></li>
 				<li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
 			</ul>
 		</nav>
@@ -386,7 +386,7 @@ main {
 								style="display: inline-block; font-size: 16px; font-weight: bold; margin: 10px 10px 10px 30px; width: 120px; height: 40px;"
 								onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)"
 								onclick="listAllRent()">
-								<img src="/icon/FrontEnd/rent/list.png" width="30px"
+								<img th:src="@{/icon/FrontEnd/rent/list.png}" width="30px"
 									height="30px"
 									style="vertical-align: bottom; margin-right: 5px;"> 列表找房
 							</div>
@@ -901,9 +901,33 @@ async function getRentList() {
 
 function showRents(){
 	if (rentList.length === 0) {
-	    window.alert('尚無物件資料');
+// 	    window.alert('尚無物件資料');
+		var html = `<div>
+				<span style='display: block; text-align: center; font-size: x-large; color: red; font-weight: bold;'>尚無物件資料</span>
+			    </div>`;
+		var dropdownElement = document.querySelector('.dropdown');
+		// 移除 dropdownElement 之後的所有元素
+		var nextElement = dropdownElement.nextElementSibling;
+		while (nextElement) {
+		    nextElement.remove();
+		    nextElement = dropdownElement.nextElementSibling;
+		}
+		
+		// 使用 combinedHTML 替換 dropdownElement 之後的所有元素
+		dropdownElement.insertAdjacentHTML('afterend', html);
 	    
 	}else {
+		var html = `<div id="map" style="height: 400px; margin-top: 20px;"></div>`;
+		var dropdownElement = document.querySelector('.dropdown');
+		// 移除 dropdownElement 之後的所有元素
+		var nextElement = dropdownElement.nextElementSibling;
+		while (nextElement) {
+		    nextElement.remove();
+		    nextElement = dropdownElement.nextElementSibling;
+		}
+		
+		// 使用 combinedHTML 替換 dropdownElement 之後的所有元素
+		dropdownElement.insertAdjacentHTML('afterend', html);
 
 		var selectedCity = document.getElementById('county_box').value;
 	    var geocoder = new google.maps.Geocoder();
@@ -1197,10 +1221,10 @@ function deactivateDiv(div) {
 }
 function listAllRent() {
 	
-    window.location.href = "/rent/listAllRent";
+    window.location.href = "listAllRent";
   }
 function getOneById(divId) {
-    var backendControllerUrl = '/rent/rentDetail';  // 修改为您的后端Controller的URL
+    var backendControllerUrl = 'rentDetail';  // 修改为您的后端Controller的URL
     var urlWithParams = backendControllerUrl + '?rentNo=' + divId;
 
     // 将用户重定向到带参数的后端Controller

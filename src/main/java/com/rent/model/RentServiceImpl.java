@@ -231,7 +231,7 @@ public class RentServiceImpl implements RentService{
         List<Rent> query = entityManager.createQuery(criteriaQuery).getResultList();
         
 //        System.out.println("rentRentBetween="+rentRentBetween.size());
-//        System.out.println("query="+query.size());
+        System.out.println("query="+query.size());
      // 將所有條件組合成一個 AND 條件
 //        Predicate finalPredicate = criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 //        criteriaQuery.where(finalPredicate);

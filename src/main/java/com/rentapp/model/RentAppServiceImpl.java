@@ -62,33 +62,43 @@ public class RentAppServiceImpl implements RentAppService{
 			rentAppRepository.save(rentApp);//有可能資料錯誤無法寫入
 //			System.out.println(rentApp);
 			if(rentAppSt==1) {
-				
-				Rent rent =new Rent();
-				rent.setRentAppCou(rentApp.getRentAppCou());
-				rent.setRentAppAr(rentApp.getRentAppAr());
-				rent.setRentAppRo(rentApp.getRentAppRo());
-				rent.setRentAppAdd(rentApp.getRentAppAdd());
-				rent.setRentAppOwn(rentApp.getRentAppOwn());
-				rent.setRentAppFloor(rentApp.getRentAppFloor());
-				rent.setRentAppSize(rentApp.getRentAppSize());
-				rent.setLdd(rentApp.getLdd());
-				rent.setRentUpTime(Timestamp.valueOf(LocalDateTime.now()));
-				
-				try {
-					String[] LatAndLng=getLatAndLon(rentApp.getRentAppCou(),rentApp.getRentAppAr(),rentApp.getRentAppRo(),rentApp.getRentAppAdd());
-					rent.setRentLat(LatAndLng[0]);
-					rent.setRentLon(LatAndLng[1]);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				rentRepository.save(rent);
+				if(rentApp.getRent()!=null) {
+					
+					System.out.println(rentApp.getRent());
+					
+					Rent rent=rentApp.getRent();
+					rent.setRentSt((byte)0);
+					rentRepository.save(rent);
+				}else {
+					System.out.println("rentApp.getRent()=null");
+					
+					Rent rent =new Rent();
+					rent.setRentAppCou(rentApp.getRentAppCou());
+					rent.setRentAppAr(rentApp.getRentAppAr());
+					rent.setRentAppRo(rentApp.getRentAppRo());
+					rent.setRentAppAdd(rentApp.getRentAppAdd());
+					rent.setRentAppOwn(rentApp.getRentAppOwn());
+					rent.setRentAppFloor(rentApp.getRentAppFloor());
+					rent.setRentAppSize(rentApp.getRentAppSize());
+					rent.setLdd(rentApp.getLdd());
+					rent.setRentUpTime(Timestamp.valueOf(LocalDateTime.now()));
+					
+					try {
+						String[] LatAndLng=getLatAndLon(rentApp.getRentAppCou(),rentApp.getRentAppAr(),rentApp.getRentAppRo(),rentApp.getRentAppAdd());
+						rent.setRentLat(LatAndLng[0]);
+						rent.setRentLon(LatAndLng[1]);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					rentRepository.save(rent);
 //				Rent newRent=rentRepository.save(rent);
 //				rentApp.setRent(newRent);
 //				rentAppRepository.save(rentApp);
+				}
 				
 			}
-			//新增一個Rent並save
+
 			return rentApp;
 		} catch (Exception e) {
 			System.out.println("Exception");
