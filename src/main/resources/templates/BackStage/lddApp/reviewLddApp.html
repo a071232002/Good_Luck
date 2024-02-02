@@ -8,7 +8,9 @@
     <link rel="stylesheet" th:href="@{/css/public/tableModel/try.css}" />
     <link rel="stylesheet" th:href="@{/css/public/tableModel/try2.css}" />
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
-
+	<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+	
+	<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
     <title>審核房東</title>
     <style>
         h1 {
@@ -80,11 +82,18 @@
 			margin-right: 20px;
 		}
         
+        main{
+        	margin-top: 100px;
+        	padding: 50px 20px;
+        }
+              
     </style>
     
    </head>
    <body>
-
+	<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+	
+		
     	<main>
 	       
 	       <div class="tittleBoard"><span class="tittleBoard">審核房東</span></div>
@@ -153,12 +162,22 @@
 	       </table>
 	       
        </main>
-       
+       	
        	 <script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
          <script th:src="@{/js/public/tableModel/the.js}"></script>
          <script th:src="@{/js/public/tableModel/the2.js}"></script>
- 	
+ 		
          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+         <script th:src="@{/js/BackStage/indexJS/scripts.js}"></script>
+		
+<!-- 		<script th:src="@{/js/BackStage/indexJS/indexActiveColor.js}"></script> -->
+	
+<!-- 		<script th:src="@{/js/BackStage/indexJS/navImgEvent.js}"></script> -->
+<!-- 		<!-- 取消<a>預設行為 --> -->
+<!-- 		<script th:src="@{/js/BackStage/indexJS/LinkCancelEvent.js}"></script> -->
+         
+         
+         
          <script>
            let table = new DataTable("#example");
            console.log($(".test"));

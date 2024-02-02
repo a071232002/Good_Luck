@@ -354,7 +354,7 @@
 					</div>
 					
                     <input type="hidden" id="rentNo" name="rentNo" th:value="${rent.rentNo}">
-                    <input type="hidden" name="lse.lseNo" th:value="${rent.lse?.lseNo}">
+                    <input type="hidden" th:field="*{lse}">
                     <input type="hidden" name="rentSt" th:value="${rent.rentSt}">
                     <input type="submit" value="送出" class="approve_button">
                     <a th:href="@{/ldd/rentManagement}"><button type="button" class="reject_button">取消</button></a>
