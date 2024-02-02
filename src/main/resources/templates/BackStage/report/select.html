@@ -18,15 +18,8 @@
 
 <body>
 
-  <a th:href="@{/BackStage/report/addReport}">
-    <h1>前台新增</h1>
-  </a>
-  <form method="post" th:action="@{report/findAllReportById}">
-    <label for="memNo">請輸入會員編號</label>
-    <input type="text" name="memNo">
-    <input type="submit" value="送出">
-  </form>
-  <a th:href="@{/BackStage/report/listAllReport}">
+
+  <a th:href="@{/BackStage/report/reviewReport}">
     <h1>後臺審核</h1>
   </a>
 

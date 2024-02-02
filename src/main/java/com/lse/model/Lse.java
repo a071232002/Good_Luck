@@ -37,7 +37,7 @@ public class Lse implements Serializable{
 	@Column(name = "lseCreate", updatable = false)
 	private Date lseCreate;
 	
-	@Column(name = "lseStart")
+	@Column(name = "lseStart", updatable = false)
 	private Date lseStart;
 	
 	@Column(name = "lseEnd")

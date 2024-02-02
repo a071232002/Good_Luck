@@ -19,3 +19,8 @@
     lightbox.onclick = function () {
         lightbox.style.display = 'none'; // 隱藏容器
     };
+    
+    // 阻止點擊放大顯示的圖片時隱藏容器
+	lightboxImg.onclick = function (event) {
+	    event.stopPropagation(); // 阻止事件冒泡
+	};

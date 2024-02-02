@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet"
+	th:href="@{/css/public/jquery-ui/1.13.2/jquery-ui.css}" />
+<style type="text/css">
+body {
+	box-sizing: border-box;
+	margin: 0px;
+	/* 	padding: 10px; */
+}
+
+main {
+	padding: 10px;
+}
+
+h1 {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	width: 50%;
+	display: inline-block;
+	margin: 0px;
+}
+
+.op {
+	opacity: 0.2;
+}
+
+div.conditional {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-around;
+}
+
+div>div {
+	padding: 5px;
+	text-align: center;
+}
+
+div.conditional>label {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#toggler1, #toggler2 {
+	width: 500px;
+	height: 200px;
+}
+
+#button1, #button2, #button3 {
+	padding: .5em 1em;
+	text-decoration: none;
+}
+
+#effect1, #effect2, #effect3 {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	padding: 0.4em;
+	text-align: center;
+}
+
+#effect1 h3, #effect2 h3, #effect3 h3 {
+	margin: 0;
+	padding: 0.4em;
+	text-align: center;
+}
+
+p {
+	font-weight: bold;
+}
+
+.-on {
+	display: none;
+}
+
+/* header */
+.logo {
+	margin-right: auto;
+	width: 240px;
+	display: flex;
+	align-items: center;
+}
+
+.logo span {
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.logo img {
+	max-width: 50px;
+	margin: 95px;
+	text-align: center;
+}
+
+header.header {
+	border: 1px solid black;
+	background-color: #1a2a35;
+	height: var(--header-height);
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 10000;
+}
+
+.header nav {
+	background: none !important;
+	text-transform: uppercase;
+}
+
+.header nav li {
+	margin-top: 15px;
+}
+
+.header {
+	display: flex !important;
+	justify-content: center;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hoverable a {
+	/* 	text-decoration: none; */
+	color: white;
+}
+
+.hoverable {
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+	display: inline-block;
+	backface-visibility: hidden;
+	vertical-align: middle;
+	position: relative;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	transform: translateZ(0);
+	transition-duration: .3s;
+	transition-property: transform;
+}
+
+.hoverable:before {
+	position: absolute;
+	pointer-events: none;
+	z-index: -1;
+	content: '';
+	top: 100%;
+	left: 5%;
+	height: 10px;
+	width: 90%;
+	opacity: 0;
+	background: -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.35)
+		0%, rgba(255, 255, 255, 0) 80%);
+	background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.35)
+		0%, rgba(255, 255, 255, 0) 80%);
+	transition-duration: 0.3s;
+	transition-property: transform, opacity;
+}
+
+.hoverable:hover, .hoverable:active, .hoverable:focus {
+	transform: translateY(-3px);
+}
+
+.hoverable:hover:before, .hoverable:active:before, .hoverable:focus:before
+	{
+	opacity: 1;
+	transform: translateY(-3px);
+}
+
+.navbar {
+	display: flex !important;
+	justify-content: space-between;
+	/* 設定 navbar 寬度 */
+	width: 80%;
+}
+
+.navbar-nav {
+	display: flex !important;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.navbar ul {
+	display: flex;
+	justify-content: space-between;
+	/* 讓 ul 佔滿 navbar 的寬度 */
+	width: 100%;
+}
+
+.navbar-nav li {
+	flex: 1;
+	text-align: center;
+}
+
+.hoverable:hover {
+	color: yellow;
+}
+
+/* nav login logout */
+.user-info {
+	display: flex;
+	align-items: center;
+}
+
+.user-info img {
+	margin-right: 30px;
+}
+
+.lddIcon {
+	margin-right: 10px !important;
+}
+
+.user-info span {
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.user-info button {
+	width: 50px;
+	font-size: 14px;
+	font-weight: bold;
+	/* 設定按鈕的內間距 */
+	padding: 5px 5px;
+	background-color: #3498db;
+	color: #ffffff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-right: 30px;
+}
+
+.user-info button:hover {
+	/* 滑鼠懸停時的背景色 */
+	background-color: yellow;
+	color: red;
+	/* 滑鼠懸停時的陰影效果 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+:root {
+	--header-height: 60px;
+	--aside-width: 240px;
+}
+
+main {
+	min-height: calc(100vh - var(--header-height));
+	padding-top: var(--header-height);
+	z-index: 1;
+}
+
+.hidden {
+	display: none;
+}
+
+form {
+	display: inline;
+} 
+
+input.rentAppsub {
+	height: 20%;
+    width: 10%;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 6px;
+    color: #fff;
+    background-color: red;
+    transition: all 0.3s ease;
+    cursor: pointer;
+} 
+</style>
+<title th:text="${rent.rentPostTitle}"></title>
+</head>
+
+<body>
+	<header class="header">
+		<div class="logo">
+			<img th:src="@{/icon/FrontEnd/memCenter/memCenter.png}">
+			<!--                 <span>會員中心</span> -->
+		</div>
+		<nav class="navbar navbar-inverse">
+			<ul class="nav navbar-nav">
+				<li><a class="hoverable" th:href="@{/}">首頁</a></li>
+				<li><a class="hoverable" href="#">最新消息</a></li>
+				<li><a class="hoverable" th:href="@{/rent/listAllRent}">租賃服務</a></li>
+				<li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
+			</ul>
+		</nav>
+		<div class="user-info">
+			<th:block th:if="${session.logsuccess}">
+				<span th:text="${session.logsuccess.memName}"></span>
+				<img
+					th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}"
+					width="30px" height="30px">
+				<a th:href="@{/mem/logOut}"><button type="button">登出</button></a>
+			</th:block>
+			<th:block th:unless="${session.logsuccess}">
+				<a th:href="@{/mem/login}"><button type="button">登入</button></a>
+			</th:block>
+		</div>
+	</header>
+	<main>
+		<!-- 	<label>物件圖片：</label> -->
+		<br>
+		<div>
+			<span th:text="${rent.rentAppCou}" style="font-weight: bold;"></span>
+			<label> / </label> <span th:text="${rent.rentAppAr}"
+				style="font-weight: bold;"></span> <label> / </label> <span
+				th:text="${rent.rentAppRo}" style="font-weight: bold;"></span>
+		</div>
+		<br>
+
+		<div class="conditional">
+			<img th:src="@{/rent/picture} + '?rentNo=' + ${rent.rentNo}"
+				width="670px" height="455px%">
+			<div>
+				<!-- 				<button id="button1" onclick="toggleEffect('toggler1')">介紹</button> -->
+				<!-- 			<button id="button2">設備</button> -->
+				<!-- 				<button id="button3" onclick="toggleEffect('toggler2')">詳細資料</button> -->
+				<br>
+				<div id="toggler1" class="hi">
+					<div id="effect1" class="ui-widget-content ui-corner-all">
+						<h3 class="ui-widget-header ui-corner-all">介紹</h3>
+						<br>
+						<p th:text="${rent.rentIntr}"></p>
+					</div>
+				</div>
+				<div id="toggler2" class="hi">
+					<div id="effect3" class="ui-widget-content ui-corner-all">
+						<h3 class="ui-widget-header ui-corner-all">詳細資料</h3>
+						<p>地址：</p>
+						<span th:text="${rent.rentAppCou}"></span> <span
+							th:text="${rent.rentAppAr}"></span> <span
+							th:text="${rent.rentAppRo}"></span> <span
+							th:text="${rent.rentAppAdd}"></span> <br>
+						<p>格局 / 樓層 / 坪數：</p>
+						<span th:if="${rent.rentLayout == 0}" th:text="雅房"></span> <span
+							th:if="${rent.rentLayout == 1}" th:text="分租套房"></span> <span
+							th:if="${rent.rentLayout == 2}" th:text="獨立套房"></span> <span
+							th:if="${rent.rentLayout == 3}" th:text="整層住家"></span> <label>
+							| </label> <span th:text="${rent.rentAppFloor}"></span> <label> |
+						</label> <span th:text="${rent.rentAppSize}"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<!-- 	<br> -->
+		<!-- 	<label>刊登標題：</label> -->
+		<h1 th:text="${rent.rentPostTitle}"
+			style="display: inline; padding-right: 5px"></h1>
+		<label>最後編輯時間：</label> <span th:if="${rent.rentUpTime != null}"
+			th:text="${#dates.format(rent.rentUpTime, 'yyyy/MM/dd HH:mm:ss')}"
+			style="padding-right: 15px;"></span> 
+			<form th:action="@{/apo/addApo}" method="get">
+				<input type="hidden" name="rentNo" th:value="${rent.rentNo}">
+				<input type="submit" value="我要租屋" class="rentAppsub"> <br> <label>租金：</label>			
+			</form>
+		<h1 th:text="${rent.rentRent}" style="color: red; display: inline;"></h1>
+		<span style="font-weight: bold;">元/月</span> <br> <br>
+
+		<h3 style="margin: 5px;">設備：</h3>
+		<div class="conditional">
+			<div>
+				<img th:if="${rent.rentRefrigerator == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/refrigerator.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentRefrigerator == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/refrigerator.png}" width="50px"
+					height="50px"> <br> <label>冰箱</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentAC == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/ac.png}" width="50px"
+					height="50px" class="op"> <img th:if="${rent.rentAC == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/ac.png}" width="50px"
+					height="50px"> <br> <label>冷氣機</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentTV == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/wide-tv.png}" width="50px"
+					height="50px" class="op"> <img th:if="${rent.rentTV == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/wide-tv.png}" width="50px"
+					height="50px"> <br> <label>電視</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentWashMachine == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/drying.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentWashMachine == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/drying.png}" width="50px"
+					height="50px"> <br> <label>洗衣機</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentHeater == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/water-heater.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentHeater == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/water-heater.png}" width="50px"
+					height="50px"> <br> <label>熱水器</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentBed == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/single-bed.png}" width="50px"
+					height="50px" class="op"> <img th:if="${rent.rentBed == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/single-bed.png}" width="50px"
+					height="50px"> <br> <label>床</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentWardrobe == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/closet.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentWardrobe == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/closet.png}" width="50px"
+					height="50px"> <br> <label>衣櫃</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentInternet == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/internet.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentInternet == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/internet.png}" width="50px"
+					height="50px"> <br> <label>網路</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentCableTV == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/wide-tv4.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentCableTV == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/wide-tv4.png}" width="50px"
+					height="50px"> <br> <label>第四台</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentSofa == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/sofa.png}" width="50px"
+					height="50px" class="op"> <img th:if="${rent.rentSofa == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/sofa.png}" width="50px"
+					height="50px"> <br> <label>沙發</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentBalcony == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/balcony.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentBalcony == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/balcony.png}" width="50px"
+					height="50px"> <br> <label>陽台</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentElev == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/elevator.png}" width="50px"
+					height="50px" class="op"> <img th:if="${rent.rentElev == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/elevator.png}" width="50px"
+					height="50px"> <br> <label>電梯</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentParking == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/garage.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentParking == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/garage.png}" width="50px"
+					height="50px"> <br> <label>車位</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentWaterBill == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/drop.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentWaterBill == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/drop.png}" width="50px"
+					height="50px"> <br> <label>台水</label>
+			</div>
+
+			<div>
+				<img th:if="${rent.rentElectricityBill == 0}"
+					th:src="@{/icon/FrontEnd/rentDetail/power.png}" width="50px"
+					height="50px" class="op"> <img
+					th:if="${rent.rentElectricityBill == 1}"
+					th:src="@{/icon/FrontEnd/rentDetail/power.png}" width="50px"
+					height="50px"> <br> <label>台電</label>
+			</div>
+		</div>
+		<br>
+	</main>
+
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/public/jquery-ui/jquery-ui-1.13.2/jquery-ur.js}"></script>
+	<script>
+		$(".op").closest("div").children("label").css("text-decoration",
+				"line-through");
+	</script>
+	<script>
+		// run the currently selected effect
+		function runEffect() {
+			// get effect type from
+			var selectedEffect = $("#effectTypes").val();
+
+			// Most effect types need no options passed by default
+			var options = {};
+			// Run the effect
+			$("#effect1").toggle("fold", options, 500);
+		};
+
+		// Set effect from select menu value
+		$("#button1").on("click", function() {
+			$("div.-on").removeClass("-on");
+			runEffect();
+		});
+
+		// run the currently selected effect
+		function runEffect3() {
+			// Run the effect
+			var options = {};
+			$("#effect3").toggle("fold", options, 500);
+		};
+
+		// Set effect from select menu value
+		$("#button3").on("click", function() {
+			runEffect3();
+		});
+
+		function toggleEffect(effectId) {
+			var effectToShow = document.getElementById(effectId);
+			var effects = document.querySelectorAll('.hi');
+
+			effects.forEach(function(effect) {
+				effect.classList.add('hidden');
+			});
+
+			effectToShow.classList.remove('hidden');
+		}
+	</script>
+
+</body>
+
+</html>

@@ -5,15 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+
     
     <title>申請預約看房</title>
     <style>
-         h1 {
-            text-align: center;
-            color: red;
-        }
+         .tittleBoard {
+ 			text-align: center;
+			width: 70%;
+			padding: 0px 100px;
+			border-radius: 8px;
+ 			margin: 15px auto;
+		}
+		
+		.tittleBoard span {
+			font-size: 30px;
+			font-weight: bold;
+			color: #1a2a35;
+			background-color: Wheat;
+			padding: 10px;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			display: inline-block;
+			margin: 0px;
+		}
 
         .container {
             text-align: center;
@@ -128,9 +144,9 @@
 		}
 
         .table {
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin: 20px auto;
             text-align: center;
         }
 
@@ -161,21 +177,23 @@
 </head>
 
 <body>
-    <h1>預約看房申請</h1>
+	<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+	<main>
+    <div class="tittleBoard"><span class="tittleBoard">預約看房</span></div>
     <div class="formArea">
         <form class="formData" method="post" th:action="@{insert}" th:object="${apo}"
             onsubmit="return checkDateSelected()">
 
             <label class="formEl" for="rentNo">物件編號<b>*</b>：</label>
-            <input type="text" th:field="*{rent.rentNo}"><br>
-
+			<span class="formEl" th:text="${apo.rent.rentNo}"></span><br><br>
             <label class="formEl" for="apoDate">請選擇預約日期及時段<b>*</b>：</label><br>
             <input type="text" id="apoDate" th:field="*{apoDate}" readonly>
             <input type="hidden" id="apoTime" th:field="*{apoTime}">
             <span class="formEl" id="apoTimeText"></span><br><br>
 
             <input type="hidden" name="mem.memNo" th:value="${session.logsuccess.memNo}">
-
+            <input type="hidden" id="rentNo" th:field="*{rent.rentNo}"><br>
+			
             <input type="submit" value="預約看房" class="approve_button">
             <a th:href="@{/}"><button type="button" class="reject_button">取消</button></a>
         </form>
@@ -203,9 +221,12 @@
             </tbody>
         </table>
     </div>
-
-
+	</main>
+	
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
     <script>
+    
         function checkDateSelected() {
             var apoDateInput = document.getElementById("apoDate");
             if (apoDateInput.value.trim() === "") {
@@ -237,7 +258,7 @@
         var nextMonthButton = document.getElementById("nextMonth");
         var currentMonthYear = document.getElementById("currentMonthYear");
         var calendarBody = document.getElementById("calendarBody");
-
+        var rentNoInput = document.getElementById("rentNo");
         var currentDate = new Date();
         var currentDay = currentDate.getDate() + 1;
         var currentMonth = currentDate.getMonth();
@@ -396,7 +417,7 @@
         });
 
         //TODO 改成動態get 物件元素value
-        var rentNo = 1;
+        var rentNo = rentNoInput.value;
         var requestData = { rentNo: 1 };
         //  ajax 將核准的預約單帶回
         function updateCalendarDate() {

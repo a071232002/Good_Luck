@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+    <title>修改合約</title>
+    <style>
+		.error {
+			color: red;
+			font-weight: bold;	
+		}
+
+		.displayArea {
+			margin:50px auto;
+            max-width: 1200px;
+            display: flex;
+        }
+
+        .formArea {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-right: 10px;
+        }
+
+        .tittleBoard {
+			text-align: center;
+			width: 100%;
+			padding: 0px 80px;
+			border-radius: 8px;
+			margin: 15px 0px;
+			margin-bottom: 30px;
+		}
+		
+		.tittleBoard span {
+			font-size: 30px;
+			font-weight: bold;
+			color: #1a2a35;
+			background-color: Wheat;
+			padding: 10px;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			display: inline-block;
+			margin: 0px;
+		}
+
+        label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        input[type="submit"],
+        button {
+          
+            vertical-align: middle;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+		
+		.approve_button {
+			width:100%
+        }
+
+        .reject_button {
+			width:100%
+        }
+        
+         #preview {
+            text-align: left;
+            max-width: 600px;
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            
+        }
+
+        .imgBoard {
+            display: block;
+            width: auto;
+            height: auto;
+            border-radius: 4px;
+        }
+        
+		
+		.preview_img {
+			max-width: 550px;
+		}
+		
+		.payAccount{
+			margin-bottom:50px;
+		}
+		
+		.approve_button{
+			margin-bottom:10px;
+		}
+		
+	</style>
+</head>
+<body>
+<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+    <main>
+    <div class="displayArea">
+    	<div class="formArea">
+	    <div class="tittleBoard"><span class="tittleBoard">修改合約</span></div>
+	    
+	    <form method="post" th:action="@{update}" th:object="${lse}" enctype="multipart/form-data" onsubmit="return formCheck()">
+			<label class="formEl">會員編號: </label><span class="formEl" th:text="${lse.mem.memNo}"></span><br><br>
+			<label class="formEl">物件編號: </label><span class="formEl" th:text="${lse.rent.rentNo}"></span><br><br>
+	        <label class="formEl">起始日期: </label><span class="formEl" id="lseStart" th:text="${lse.lseStart}"></span><br><br>
+	        <label class="formEl">變更合約年限: </label><br>
+	        <label class="formEl"><input type="radio" name="contractTerms" onclick="createLseEnd('halfYear')"> 半年</label>
+	        <label class="formEl"><input type="radio" name="contractTerms" onclick="createLseEnd('oneYear')"> 一年</label>
+	        <label class="formEl"><input type="radio" name="contractTerms" onclick="createLseEnd('twoYear')"> 兩年</label><br><br>
+	        <label class="formEl">終止日期: </label><span class="formEl" id="lseEndText" th:text="${lse.lseEnd}"></span>
+	        <input type="hidden" id="lseEnd" th:field="*{lseEnd}"><br><br>
+	        <label class="formEl" for="lseSend">變更合約: </label>
+			<input type="file" id="lseSend" name="lseSend" accept=".png, .jpg"><br><br>
+	        <label class="formEl">押金金額<b>*</b>: </label>
+	        <input type="text" id="lsePay" th:field="*{lsePay}" placeholder="例:10000" required oninput="validateNumber(this)">
+	        <span id="lsePayError" class="error"></span><br><br>
+	        <div class="payAccount">
+	        <label class="formEl">匯款銀行<b>*</b>: </label><span class="formEl" id="select-container"></span><br><br>
+	        <label class="formEl">匯款帳號<b>*</b>: </label>
+	        <input type="text" id="account" name="account" th:value="${account}" 
+	        	   style="width:200px;" placeholder="例:123-456-789" required oninput="validateAccount(this)"><br>
+	        <span id="accountError" class="error" style="margin-left: 100px;"></span><br><br>
+	        </div>
+	        
+	        <input type="hidden" id="bank" th:value="${bank}">
+	        <input type="hidden" id="lseNo" name="lseNo" th:value="${lse.lseNo}">
+	        <input type="hidden" name="lsePayStatus" th:value="${lse.lsePayStatus}">
+	        <input type="hidden" name="lseStatus" th:value="${lse.lseStatus}">
+	        <input type="hidden" name="lseRenew" th:value="${lse.lseRenew}">
+	        
+	        <input type="submit" value="送出" class="approve_button">
+	        <a th:href="@{/lse/reviewLse}"><button type="button" class="reject_button">取消</button></a>
+	    </form>
+	</div>
+	<div id="preview">
+        	<span class="imgBoard"><img class="preview_img" th:src="@{/lse/sendPic} + '?lseNo=' + ${lse.lseNo}"></span>
+    </div>
+    </div>
+	</main>
+	
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+	
+    <script>
+    	var lseNo = document.getElementById("lseNo");
+        var lsePayError = document.getElementById("lsePayError");
+        var accountError = document.getElementById("accountError");
+    	var lsePayInput = document.getElementById("lsePay");
+    	var accountInput = document.getElementById("account");
+    	var bank = document.getElementById("bank");
+    	
+    	
+    	
+        function formCheck() {
+            var radioButtons = document.getElementsByName("contractTerms");
+            var isChecked = Array.from(radioButtons).some(button => button.checked);
+
+//             if (!isChecked) {
+//                 alert("請選擇合約年限!");
+//                 return false;
+//             } 
+            
+            if (lsePayError.textContent){
+            	alert("押金金額格式錯誤!");
+            	lsePayInput.focus();
+            	return false;
+            }
+            
+            if (accountError.textContent){
+            	alert("匯款帳號格式錯誤!");
+            	accountInput.focus();
+            	return false;
+            }
+            
+            return true;
+        }
+        
+        function validateNumber(input) {
+            var value = input.value.trim();
+
+            if (/^\d+$/.test(value)) {
+            	lsePayError.textContent = "";
+            } else {
+            	lsePayError.textContent = "請輸入數字(0-9)";
+            }
+        }
+
+        function validateAccount(input) {
+            var value = input.value.trim();
+            
+            if (/^[\d-]{1,20}$/.test(value)) {
+                accountError.textContent = "";
+            } else {
+                accountError.textContent = "請輸入數字(0-9) 或 -，總長度不超過20位";
+            }
+        }
+
+
+        function createLseEnd(select) {
+
+            var lseStart = document.getElementById("lseStart").innerText;
+            var lseEnd= new Date(lseStart);
+
+            switch (select) {
+                case 'halfYear':
+                    lseEnd.setMonth(lseEnd.getMonth() + 6);
+                    break;
+                case 'oneYear':
+                    lseEnd.setFullYear(lseEnd.getFullYear() + 1);
+                    break;
+                case 'twoYear':
+                    lseEnd.setFullYear(lseEnd.getFullYear() + 2);
+                    break;
+                default:
+            }
+           	var formatLseEnd = lseEnd.getFullYear() + '-' + padZero(lseEnd.getMonth() + 1) + '-' + padZero(lseEnd.getDate());
+            document.getElementById("lseEndText").innerText = formatLseEnd;
+            document.getElementById("lseEnd").value = formatLseEnd;
+        }
+        
+        function padZero(value) {
+            return value < 10 ? '0' + value : value;
+        }
+        
+        
+          var p_file_el = document.getElementById("lseSend");
+	  	  var preview_el = document.getElementById("preview");
+	  	
+		  var preview_img = function(file){
+	
+	          var reader = new FileReader(); 
+	          reader.readAsDataURL(file);
+	          reader.addEventListener("load", function () {
+	
+	            let img_str = '<img src="' + reader.result + '" class="preview_img">';
+	            preview_el.innerHTML = img_str;
+	          });
+	        };
+			
+	        p_file_el.addEventListener("change", function(e){
+	          if(this.files.length > 0){
+	            preview_img(this.files[0]);
+	          }else{
+	            preview_el.innerHTML = '<span class="imgBoard"><img class="preview_img" src="sendPic?lseNo='+lseNo.value.trim()+'"></span>';
+	          }
+	        });
+        
+        function generateDynamicSelect() {
+
+        	  var bankOptions = [
+        		  { "value": "", "text": "請選擇銀行" },
+        		  { "value": "004 – 臺灣銀行", "text": "004 – 臺灣銀行" },
+        		  { "value": "005 – 土地銀行", "text": "005 – 土地銀行" },
+        		  { "value": "006 – 合作商銀", "text": "006 – 合作商銀" },
+        		  { "value": "007 – 第一銀行", "text": "007 – 第一銀行" },
+        		  { "value": "008 – 華南銀行", "text": "008 – 華南銀行" },
+        		  { "value": "009 – 彰化銀行", "text": "009 – 彰化銀行" },
+        		  { "value": "011 – 上海商業儲蓄銀行", "text": "011 – 上海商業儲蓄銀行" },
+        		  { "value": "012 – 台北富邦銀行", "text": "012 – 台北富邦銀行" },
+        		  { "value": "013 – 國泰世華銀行", "text": "013 – 國泰世華銀行" },
+        		  { "value": "016 – 高雄銀行", "text": "016 – 高雄銀行" },
+        		  { "value": "017 – 兆豐國際商業銀行", "text": "017 – 兆豐國際商業銀行" },
+        		  { "value": "018 – 農業金庫", "text": "018 – 農業金庫" },
+        		  { "value": "021 – 花旗(台灣)商業銀行", "text": "021 – 花旗(台灣)商業銀行" },
+        		  { "value": "025 – 首都銀行", "text": "025 – 首都銀行" },
+        		  { "value": "039 – 澳商澳盛銀行", "text": "039 – 澳商澳盛銀行" },
+        		  { "value": "040 – 中華開發工業銀行", "text": "040 – 中華開發工業銀行" },
+        		  { "value": "050 – 臺灣企銀", "text": "050 – 臺灣企銀" },
+        		  { "value": "052 – 渣打國際商業銀行", "text": "052 – 渣打國際商業銀行" },
+        		  { "value": "053 – 台中商業銀行", "text": "053 – 台中商業銀行" },
+        		  { "value": "054 – 京城商業銀行", "text": "054 – 京城商業銀行" },
+        		  { "value": "072 – 德意志銀行", "text": "072 – 德意志銀行" },
+        		  { "value": "075 – 東亞銀行", "text": "075 – 東亞銀行" },
+        		  { "value": "081 – 匯豐(台灣)商業銀行", "text": "081 – 匯豐(台灣)商業銀行" },
+        		  { "value": "085 – 新加坡商新加坡華僑銀行", "text": "085 – 新加坡商新加坡華僑銀行" },
+        		  { "value": "101 – 大台北銀行", "text": "101 – 大台北銀行" },
+        		  { "value": "102 – 華泰銀行", "text": "102 – 華泰銀行" },
+        		  { "value": "103 – 臺灣新光商銀", "text": "103 – 臺灣新光商銀" },
+        		  { "value": "104 – 台北五信", "text": "104 – 台北五信" },
+        		  { "value": "106 – 台北九信", "text": "106 – 台北九信" },
+        		  { "value": "108 – 陽信商業銀行", "text": "108 – 陽信商業銀行" },
+        		  { "value": "114 – 基隆一信", "text": "114 – 基隆一信" },
+        		  { "value": "115 – 基隆二信", "text": "115 – 基隆二信" },
+        		  { "value": "118 – 板信商業銀行", "text": "118 – 板信商業銀行" },
+        		  { "value": "119 – 淡水一信", "text": "119 – 淡水一信" },
+        		  { "value": "120 – 淡水信合社", "text": "120 – 淡水信合社" },
+        		  { "value": "124 – 宜蘭信合社", "text": "124 – 宜蘭信合社" },
+        		  { "value": "127 – 桃園信合社", "text": "127 – 桃園信合社" },
+        		  { "value": "130 – 新竹一信", "text": "130 – 新竹一信" },
+        		  { "value": "132 – 新竹三信", "text": "132 – 新竹三信" },
+        		  { "value": "146 – 台中二信", "text": "146 – 台中二信" },
+        		  { "value": "147 – 三信商業銀行", "text": "147 – 三信商業銀行" },
+        		  { "value": "158 – 彰化一信", "text": "158 – 彰化一信" },
+        		  { "value": "161 – 彰化五信", "text": "161 – 彰化五信" },
+        		  { "value": "162 – 彰化六信", "text": "162 – 彰化六信" },
+        		  { "value": "163 – 彰化十信", "text": "163 – 彰化十信" },
+        		  { "value": "165 – 鹿港信合社", "text": "165 – 鹿港信合社" },
+        		  { "value": "178 – 嘉義三信", "text": "178 – 嘉義三信" },
+        		  { "value": "179 – 嘉義四信", "text": "179 – 嘉義四信" },
+        		  { "value": "188 – 台南三信", "text": "188 – 台南三信" },
+        		  { "value": "204 – 高雄三信", "text": "204 – 高雄三信" },
+        		  { "value": "215 – 花蓮一信", "text": "215 – 花蓮一信" },
+        		  { "value": "216 – 花蓮二信", "text": "216 – 花蓮二信" },
+        		  { "value": "222 – 澎湖一信", "text": "222 – 澎湖一信" },
+        		  { "value": "223 – 澎湖二信", "text": "223 – 澎湖二信" },
+        		  { "value": "224 – 金門信合社", "text": "224 – 金門信合社" },
+        		  { "value": "512 – 雲林區漁會", "text": "512 – 雲林區漁會" },
+        		  { "value": "515 – 嘉義區漁會", "text": "515 – 嘉義區漁會" },
+        		  { "value": "517 – 南市區漁會", "text": "517 – 南市區漁會" },
+        		  { "value": "518 – 南縣區漁會", "text": "518 – 南縣區漁會" },
+        		  { "value": "520 – 小港區漁會；高雄區漁會", "text": "520 – 小港區漁會；高雄區漁會" },
+        		  { "value": "521 – 彌陀區漁會；永安區漁會；興達港區漁會；林園區漁會", "text": "521 – 彌陀區漁會；永安區漁會；興達港區漁會；林園區漁會" },
+        		  { "value": "523 – 東港漁會；琉球區漁會；林邊區漁會", "text": "523 – 東港漁會；琉球區漁會；林邊區漁會" },
+        		  { "value": "524 – 新港區漁會", "text": "524 – 新港區漁會" },
+        		  { "value": "525 – 澎湖區漁會", "text": "525 – 澎湖區漁會" },
+        		  { "value": "605 – 高雄市農會", "text": "605 – 高雄市農會" },
+        		  { "value": "612 – 豐原市農會；神岡鄉農會", "text": "612 – 豐原市農會；神岡鄉農會" },
+        		  { "value": "613 – 名間農會", "text": "613 – 名間農會" },
+        		  { "value": "614 – 彰化地區農會", "text": "614 – 彰化地區農會" },
+        		  { "value": "616 – 雲林地區農會", "text": "616 – 雲林地區農會" },
+        		  { "value": "617 – 嘉義地區農會", "text": "617 – 嘉義地區農會" },
+        		  { "value": "618 – 台南地區農會", "text": "618 – 台南地區農會" },
+        		  { "value": "619 – 高雄地區農會", "text": "619 – 高雄地區農會" },
+        		  { "value": "620 – 屏東地區農會", "text": "620 – 屏東地區農會" },
+        		  { "value": "621 – 花蓮地區農會", "text": "621 – 花蓮地區農會" },
+        		  { "value": "622 – 台東地區農會", "text": "622 – 台東地區農會" },
+        		  { "value": "624 – 澎湖農會", "text": "624 – 澎湖農會" },
+        		  { "value": "625 – 台中市農會", "text": "625 – 台中市農會" },
+        		  { "value": "627 – 連江縣農會", "text": "627 – 連江縣農會" },
+        		  { "value": "700 – 中華郵政", "text": "700 – 中華郵政" },
+        		  { "value": "803 – 聯邦商業銀行", "text": "803 – 聯邦商業銀行" },
+        		  { "value": "805 – 遠東銀行", "text": "805 – 遠東銀行" },
+        		  { "value": "806 – 元大銀行", "text": "806 – 元大銀行" },
+        		  { "value": "807 – 永豐銀行", "text": "807 – 永豐銀行" },
+        		  { "value": "808 – 玉山銀行", "text": "808 – 玉山銀行" },
+        		  { "value": "809 – 萬泰銀行", "text": "809 – 萬泰銀行" },
+        		  { "value": "810 – 星展銀行", "text": "810 – 星展銀行" },
+        		  { "value": "812 – 台新銀行", "text": "812 – 台新銀行" },
+        		  { "value": "814 – 大眾銀行", "text": "814 – 大眾銀行" },
+        		  { "value": "815 – 日盛銀行", "text": "815 – 日盛銀行" },
+        		  { "value": "816 – 安泰銀行", "text": "816 – 安泰銀行" },
+        		  { "value": "822 – 中國信託", "text": "822 – 中國信託" },
+        		  { "value": "901 – 大里市農會", "text": "901 – 大里市農會" },
+        		  { "value": "903 – 汐止農會", "text": "903 – 汐止農會" },
+        		  { "value": "904 – 新莊農會", "text": "904 – 新莊農會" },
+        		  { "value": "910 – 財團法人農漁會聯合資訊中心", "text": "910 – 財團法人農漁會聯合資訊中心" },
+        		  { "value": "912 – 冬山農會", "text": "912 – 冬山農會" },
+        		  { "value": "916 – 草屯農會", "text": "916 – 草屯農會" },
+        		  { "value": "922 – 台南市農會", "text": "922 – 台南市農會" },
+        		  { "value": "928 – 板橋農會", "text": "928 – 板橋農會" },
+        		  { "value": "951 – 北農中心", "text": "951 – 北農中心" },
+        		  { "value": "954 – 中南部地區農漁會", "text": "954 – 中南部地區農漁會" }
+        	  ];
+
+        	  var selectElement = document.createElement("select");
+
+        	  bankOptions.forEach(function (option) {
+        	    var optionElement = document.createElement("option");
+        	    optionElement.value = option.value;
+        	    optionElement.textContent = option.text;
+        	    selectElement.appendChild(optionElement);
+        	  });
+				
+        	  selectElement.id = "bankSelect";
+        	  selectElement.name = "bank";
+        	  selectElement.classList.add("customA");
+        	  selectElement.setAttribute("required", "required");
+              
+        	  var container = document.getElementById("select-container");
+        	  container.appendChild(selectElement);
+        	}
+
+        generateDynamicSelect();
+        var bankSelect = document.getElementById("bankSelect");
+        bankSelect.value = bank.value;
+        
+        
+    </script>
+
+
+</body>
+
+</html>

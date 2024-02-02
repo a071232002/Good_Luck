@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,10 +41,15 @@ public class ApoController {
 	LddService lddSvc;
 	
 	@GetMapping("/addApo")
-	public String addApo(ModelMap model) {
+	public String addApo(ModelMap model, @RequestParam("rentNo") String rentNo) {
+		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
+		if( rent.getRentSt() != 1) {
+			return "redirect:/rent/listAllRent";
+		}
 		Apo apo = new Apo();
+		apo.setRent(rent);
 		model.addAttribute(apo);
-		return "FrontEnd/apo/addApo";
+		return "FrontEnd/apo/addApo";			
 	}
 	
 	@PostMapping("/updateApo")

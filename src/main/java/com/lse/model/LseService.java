@@ -12,13 +12,15 @@ public interface LseService {
 	
 	public void updateLse(Lse lse);
 	
+	public Lse getOneByLseNo(Integer lseNo);
+	
 	//for 物件管理找到最新的合約
 	public Lse getNewOneByRent(Rent rent);
+	
+	public List<Lse> getListInContract();
 	
 	public List<Lse> getListByMem(Mem mem);
 	
 	public List<Lse> getListByLdd(Ldd ldd);
-	
-	public List<Lse> getListByRent(Rent rent);
 	
 }

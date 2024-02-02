@@ -1,34 +1,73 @@
 <!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>登入</h1>
-	<form method="post" th:action="@{loginPage}">
-		<table>
-			<tr>
-				<td><span th:text="*{message}" class="error" id="ename.errors"></span></td>
-			</tr>
-			<tr>
-				<td><label for="mail">信箱帳號<b>*</b>：</label></td>
-				<td><input id="mail" title="請輸入信箱帳號" name="mail" ></td>
-<!-- 				<td><span  th:if="${#fields.hasErrors('memMail')}" th:errors="*{memMail}" class="error" id="ename.errors"></span></td> -->
-			</tr>
-			<tr>
-				<td><label for="password">密碼<b>*</b>：</label></td>
-				<td><input type="password" id="password" name="password" title="請輸入密碼"></td>
-<!-- 				<td><span  th:if="${#fields.hasErrors('memPsw')}" th:errors="*{memPsw}" class="error" id="ename.errors"></span></td> -->
-			</tr>
-		</table>
 
-		<input type="submit" class="submit" value="登入">
-	</form>
-	<a th:href="@{forgetPsw}"><button>忘記密碼</button></a>
-	<br>
-	<br>
-	<a th:href="@{addMem}"><button>前往註冊會員</button></a>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>租你好運登入</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/mem/login.css}">
+	<style type="text/css">
+		.error {
+			color: red;
+			font-style: italic;
+		}
+		
+		div.rollback {
+			text-align: right;
+		}
+	</style>
+    <!-- Boxicons CSS -->
+    <!-- <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> -->
+
+</head>
+
+<body>
+    <section class="container forms">
+        <div class="form login">
+        	<div class="rollback">
+	        	<a th:href="@{/}"><img th:src="@{/icon/FrontEnd/memCenter/close.png}" width="30px" height="30px"></a>    	
+        	</div>
+            <div class="form-content">
+                <header>登入</header>
+                
+                <form method="post" th:action="@{loginPage}">
+                	<div>
+                		<span th:text="*{message}" class="error" id="ename.errors"></span>
+                	</div>
+                    <div class="field input-field">
+                        <input type="email" placeholder="信箱" class="input" name="mail">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" placeholder="密碼" class="password" name="password">
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+                    <div class="form-link">
+                        <a th:href="@{forgetPsw}" class="forgot-pass">忘記密碼？</a>
+                    </div>
+
+                    <div class="field button-field">
+                        <input type="submit" class="submit" value="登入">
+                    </div>
+                </form>
+
+                <div class="form-link">
+                    <span>還沒有帳號？ <a th:href="@{addMem}" class="link signup-link">註冊</a></span>
+                </div>
+            </div>
+
+
+        </div>
+
+    </section>
+
+    <!-- JavaScript -->
+    <!-- <script src="/script.js"></script> -->
 </body>
+
 </html>

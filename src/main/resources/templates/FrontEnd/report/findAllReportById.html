@@ -6,7 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
-	<title>物件申請單一覽</title>
+	<title>我的檢舉投訴</title>
+	<link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
 	<style>
 		h1 {
 			text-align: center;
@@ -35,13 +36,83 @@
 			display: table-row-group; 	
 		}
 		
+		/* 基本的頁面樣式 */
+ 		body { 
+ 		    font-family: 'Arial', sans-serif; 
+		    background-color: #f7f7f7; 
+		    margin: 0; 
+		    padding: 0; 
+ 		} 
+		
+		h1 {
+		    color: #333;
+		}
+		
+		/* 表格樣式 */
+		table {
+		    width: 100%;
+		    border-collapse: collapse;
+		    margin-top: 20px;
+		}
+		
+		thead {
+		    background-color: #007BFF;
+		    color: white;
+		}
+		
+		th, td {
+		    border: 1px solid #ddd;
+		    padding: 8px;
+		    text-align: left;
+		}
+		
+		tbody tr:nth-child(even) {
+		    background-color: #f2f2f2;
+		}
+		
+		/* 按鈕樣式 */
+		button {
+		    background-color: #5bc0de;
+            color: #fff;
+            border: none;
+		    padding: 5px 10px;
+		    cursor: pointer;
+		    border-radius: 4px;
+		}
+		
+		button:hover {
+		    background-color: #0056b3;
+		}
+		
+		/* 燈箱樣式 */
+		.lightbox {
+		    display: none;
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background-color: rgba(0, 0, 0, 0.7);
+		    justify-content: center;
+		    align-items: center;
+		}
+		input {
+		    width: 130px;
+		}
+		
 
+
+		
 
 
 	</style>
 </head>
 <body>
-	<h1>檢舉投訴一覽</h1>
+<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+<main>
+
+
+	<h1>我的檢舉投訴</h1>
 
 	<table id="example" class="display" style="width: 100%">
 		<thead>
@@ -54,21 +125,7 @@
 				<th>投訴單狀態</th>
 
 			</tr>
-		</thead>
-		
-<!-- 		<tfoot> -->
-<!--             <tr> -->
-<!--                 <th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!--             </tr> -->
-<!--         </tfoot> -->
-
-        
+		</thead>        
 		<tbody>
 			<th:block th:each="report : ${reportListDataById}">
 				
@@ -79,17 +136,36 @@
 					<td th:text="${report.reportDate}"></td>
 					
 					<td>
-					<button onclick="showLightbox(this)">顯示內容</button>
-					<!-- 燈箱 -->
-					<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
-					    <textarea readonly id="enlarged-textarea" th:text="${report.reportCon}" oninput="autoExpand(this)"></textarea>
+					<div th:switch="${report.reportSt}">
+						<th:block th:case="0">
+					        <!-- 处理值为0的情况 -->
+					        <!-- 燈箱 -->
+					        <button onclick="showLightbox(this)">查詢/編輯</button>
+							<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
+								<form id='myForm' th:action="@{update}" method="post" enctype="multipart/form-data">
+							
+									<input type="hidden" th:value="${report.reportNo}" name="reportNo">
+									<input type="hidden" th:value="${report.mem?.memNo}" name="memNo">
+									<input type="hidden" th:value="${report.emp?.empNo}" name="empNo">
+									<input type="hidden" th:value="${report.reportDate}" name="reportDate">
+									
+									<input type="hidden" th:value="${report.reportSt}" name="reportSt">
+								    <textarea  id="enlarged-textarea" th:text="${report.reportCon}" name="reportCon"rows="4" cols="50" oninput="countCharacters()"></textarea>
+									<div  align="center">
+										<p id="characterCount" style="background-color:#f7f7f7" th:text="'剩餘可輸入字數: ' + (200 - ${#strings.length(report.reportCon)})" ></p>
+										<button type="submit" id="submit">送出編輯</button>
+									</div>
+								</form>
+							</div>
+					    </th:block>
+					    <th:block th:case="*">
+					    	<button onclick="showLightbox(this)">顯示內容</button>
+							<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
+							    <textarea readonly id="enlarged-textarea" th:text="${report.reportCon}" oninput="autoExpand(this)"></textarea>
+							</div>
+					    </th:block>
 					</div>
 					</td>
-
-
-<!-- 					<td><span th:if="${report.reportSt == 0}" th:text="審核中"></span> -->
-<!-- 						<span th:if="${report.reportSt == 1}" th:text="成立"></span> <span -->
-<!-- 						th:if="${report.reportSt == 2}" th:text="不成立"></span></td> -->
 					
 					<td th:if="${report.reportSt == 0}" th:text="審核中"></td>
 					<td th:if="${report.reportSt == 1}" th:text="成立"></td>
@@ -106,7 +182,7 @@
 
 	</table>
 	<br>
-	<a th:href="@{/BackStage/report}"><button>前往首頁</button></a>
+</main>	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
@@ -116,15 +192,14 @@
 
     new DataTable('#example', {
     	"stateSave": true,
+    	"iDisplayLength": 5, 
         initComplete: function () {
         	var table = this.api();
 
             // Get the current value of stateSave
             var currentStateSaveValue = table.settings()[0].oFeatures.bStateSave;
-//             console.log("Current stateSave value:", currentStateSaveValue);
             table.columns(5).every( function () {
                     let column = this;
-//                     console.log("stateSave="+table.settings()[0].oFeatures.bStateSave)
 
                     // Create select element
                     let select = document.createElement('select');
@@ -142,9 +217,6 @@
      
                     // Add list of options
                     column.data().unique().sort().each( function ( d, j ) {
-//                     	console.log('^' + d + '$')
-//                     	console.log(table.settings()[0].oFeatures.bStateSave)
-// 						console.log(column.search())
                         if(column.search() === '^' + d + '$'){
                         	console.log("OK")
                         	var newOption = document.createElement("option");
@@ -158,13 +230,6 @@
                         	select.add(new Option(d));
                         }
 
-//                     	if(column.search() === ""){
-                    		
-//                     		console.log("column.search()=null")
-// 							console.log("stateSave="+table.settings()[0].oFeatures.bStateSave)
-//                     		table.settings().stateSave = false;
-//                     		console.log("stateSave="+table.settings()[0].oFeatures.bStateSave)
-//                     	}
                     } );
                 });
         	
@@ -173,26 +238,6 @@
     });
     
     
-//     new DataTable('#example', {
-//         initComplete: function () {
-//         	this.api().columns([0,1,2]).every( function () {
-//                     let column = this;
-//                     let title = column.footer().textContent;
-     
-//                     // Create input element
-//                     let input = document.createElement('input');
-//                     input.placeholder = title;
-//                     column.footer().replaceChildren(input);
-     
-//                     // Event listener for user input
-//                     input.addEventListener('keyup', () => {
-//                         if (column.search() !== this.value) {
-//                             column.search(input.value).draw();
-//                         }
-//                     });
-//                 });
-//         }
-//     });
 
 	// Setup - add a text input to each header cell
 	$('#example thead th:lt(3)').each(function() {
@@ -208,7 +253,7 @@
 	 
 	// Apply the search
 	table.columns(':lt(3)').eq(0).each(function(colIdx) {
-// 		console.log("藍="+colIdx+"值="+table.column(colIdx).search(this.value))
+
 		var searchval=table.column(colIdx).search(this.value)
 		if(searchval!==""){
 			console.log(searchval)
@@ -221,8 +266,7 @@
 	            .column(colIdx)
 	            .search(this.value)
 	            .draw();
-// 	    	console.log("藍="+colIdx+"值="+this.value)
-	    	
+
 	    });
 	 
 	    $('input, select', table.column(colIdx).header()).on('click', function(e) {
@@ -292,6 +336,24 @@
         }
         parent.parentElement.submit();
         
+    }
+    
+    maxLen = 200; // 字數頂限
+    function countCharacters() {
+    	console.log("ddd")
+        var textarea = document.getElementById('enlarged-textarea');
+        var characterCount = textarea.value.length;
+        var less=200-characterCount
+        var characterCount=document.getElementById('characterCount')
+        // 顯示字元數
+        characterCount.textContent = "剩餘可輸入字數:" +less;
+        characterCount.style.color = less <= 0 ? 'red' : 'black';
+     	// 檢查是否超過字元限制
+        if (less <= 0) {
+        	characterCount.textContent="已達字數上限"
+            textarea.value = textarea.value.substring(0, 200); // 截斷文字
+  
+        }
     }
 
 </script>

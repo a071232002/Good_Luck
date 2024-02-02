@@ -75,7 +75,6 @@ public class BackStageFilter implements Filter{
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		final String uri = httpRequest.getRequestURI();
 		
-		
 //		boolean validator = path.stream()
 //								   .allMatch(s -> (!uri.contains(s)));
 		boolean validator = funPaths.get(0).stream()
@@ -86,13 +85,15 @@ public class BackStageFilter implements Filter{
 			System.out.println("過濾靜態檔案後的 uri:" + uri);
 //			System.out.println(httpRequest.isRequestedSessionIdFromCookie());
 			final Emp emp = getClassFromSession(httpRequest, "EmpSuccess", Emp.class);
+			System.out.println(httpRequest.getRequestURL());
 			System.out.println("後台Session資料：" + emp);
 			if(emp == null) {
-//				System.out.println("儲存uri到後台Session：" + uri);
+				System.out.println("儲存uri到後台Session：" + uri);
 //				httpRequest.getSession().setAttribute("goBackStageURI", uri);
 				httpResponse.sendRedirect(httpRequest.getServletContext().getContextPath() + "/BackStage/login");
 				return;
 			}
+			
 			
 			//寫權限驗證
 //			 boolean funValidator = emp.getEmpFun()

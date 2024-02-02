@@ -4,20 +4,70 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>物件申請單修改</title>
-<link th:href="@{/css/BackStage/rentapp/bootstrap/bootstrap.min.css}"
-	rel="stylesheet" />
-<link th:href="@{/css/BackStage/rentapp/addRentApp.css}"
-	rel="stylesheet" />
+<!-- <link th:href="@{/css/BackStage/rentapp/bootstrap/bootstrap.min.css}"rel="stylesheet" /> -->
+<!-- <link th:href="@{/css/BackStage/rentapp/addRentApp.css}"rel="stylesheet" /> -->
+<link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+<style>
+	body {
+	    font-family: Arial, sans-serif;
+	    background-color: #f7f7f7;
+	    margin: 0;
+
+	}
+	
+	
+	h3 b {
+	    color: #007BFF;
+	}
+	
+	label {
+	    display: block;
+	    margin-top: 10px;
+	}
+	
+	input[type="text"],
+	select,
+	input[type="file"] {
+	    width: 100%;
+	    padding: 8px;
+	    margin-top: 5px;
+	    box-sizing: border-box;
+	}
+	
+	
+	button {
+	    background-color: #5bc0de;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+	}
+	
+	button:hover {
+	    background-color: #46b8da;
+	}
+	
+	.error {
+	    color: red;
+	    display: block;
+	    margin-top: 5px;
+	    text-align: right;
+	}
+</style>
 </head>
 <body>
-
-	<div align="center">
+<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+<main>
+	<div style="text-align: center; margin: 20px auto; max-width: 600px;">
 		<h3><b>所有欄位皆為必填欄位</b></h3>
 		<form th:action="@{update}" method="post" th:object="${rentApp}" enctype="multipart/form-data">
 		
 			<div>
 			<label>物件申請單編號:</label>
-			<input type="text" th:field="*{rentAppNo}" style="border:0px ; font-weight: bold;" readonly /><br/>
+			<input type="text" th:field="*{rentAppNo}" style="border:0px ; font-weight: bold; background-color: #f7f7f7;" readonly /><br/>
 			</div>
 			
 			<div class="dropdown">
@@ -56,7 +106,7 @@
 				<!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
 				<span class="error" th:utext="${errorMessage}" id="rentAppOwn.errors">${errorMessage}</span>
 				<!-- 			<h2 id="errorMessage">${errorMessage}</h2>  -->
-				<div id="blob_holder"><img th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}" width="100px" ></div>
+				<div id="blob_holder"><img th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}" width="200px" ></div>
 			</div>
 			
 			
@@ -83,9 +133,9 @@
 	
 	</div>
 
-
+</main>
 <!-- JavaScript part -->
 <script th:src="@{/js/BackStage/rentapp/update_rentApp_input.js}"></script>
-<script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script>
+<!-- <script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script> -->
 </body>
 </html>

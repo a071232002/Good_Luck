@@ -4,13 +4,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>申請物件</title>
-<link th:href="@{/css/BackStage/rentapp/bootstrap/bootstrap.min.css}"
-	rel="stylesheet" />
-<link th:href="@{/css/BackStage/rentapp/addRentApp.css}"
-	rel="stylesheet" />
+<!-- <link th:href="@{/css/BackStage/rentapp/bootstrap/bootstrap.min.css}" rel="stylesheet" /> -->
+<!-- <link th:href="@{/css/BackStage/rentapp/addRentApp.css}" rel="stylesheet" /> -->
+<link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+<style>
+	body {
+	    font-family: Arial, sans-serif;
+	    background-color: #f7f7f7;
+	    margin: 0;
+
+	}
+	
+	
+	h3 b {
+	    color: #007BFF;
+	}
+	
+	label {
+	    display: block;
+	    margin-top: 10px;
+	}
+	
+	input[type="text"],
+	select,
+	input[type="file"] {
+	    width: 100%;
+	    padding: 8px;
+	    margin-top: 5px;
+	    box-sizing: border-box;
+	}
+	
+	
+	button {
+	    background-color: #5bc0de;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+	}
+	
+	button:hover {
+	    background-color: #46b8da;
+	}
+	
+	.error {
+	    color: red;
+	    display: block;
+	    margin-top: 5px;
+	    text-align: right;
+	}
+</style>
 </head>
 <body>
-	<div align="center">
+<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+<main>
+	<div style="text-align: center; margin: 20px auto; max-width: 600px;" >
 		<h3>
 			<b>所有欄位皆為必填欄位</b>
 		</h3>
@@ -145,7 +196,7 @@
 	<!-- //    } -->
 	<!-- // } -->
 	<!-- </script> -->
-
+</main>
 	<script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script>
 </body>
 </html>

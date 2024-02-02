@@ -2,72 +2,81 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link th:href="@{/css/BackStage/rentapp/addRentApp.css}"
-	rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+	<link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
     <style>
         body {
-            box-sizing: border-box;
-        }
-
-        form {
-            display: inline-block;
-        }
-
-        label {
-            /* display: inline-block; */
-            width: 5em;
-        }
-
-        b {
-            color: red;
-        }
-
-        td {
-            text-align: right;
-            padding: 5px;
-        }
-
-        .toggler {
-            display: inline-block;
-            width: 500px;
-            height: 200px;
-        }
-
-        #button {
-            padding: .5em 1em;
-            text-decoration: none;
-        }
-
-        #effect {
-            width: 240px;
-            height: 100px;
-            padding: 0.4em;
-            position: relative;
-        }
-
-        #effect h3 {
+/*             font-family: Arial, sans-serif; */
+            background-color: #f4f4f4;
             margin: 0;
-            padding: 0.4em;
-            text-align: center;
-            background-color: red;
+            padding: 0px;
+			text-align: center;
         }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+/*             width: 60%; */
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #333;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            padding-right: 100px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ddd;
+        }
+        
+        span.error {
+        	color: red;
+        }
+        
+        #the_file {
+        	display: none;
+        }
+
     </style>
 <title>Insert title here</title>
 </head>
 <body>
+	<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+	<main>
+	<h1>修改資料</h1>
 	<form method="post" th:action="@{memupdate}" th:object="${data}" enctype="multipart/form-data">
-		<table>
+		<table style="width: 100%">
+			<tr>
+			    <th>項目</th>
+            	<th>資料</th>
+            	
+			</tr>
 			<tr>
 				<td><label for="mail">信箱帳號<b>*</b>：</label></td>
-				<td><input id="mail" title="請輸入信箱帳號" th:field="*{memMail}" ></td>
-				<td><span  th:if="${#fields.hasErrors('memMail')}" th:errors="*{memMail}" class="error" id="ename.errors"></span></td>
+				<td><span th:text="${data.memMail}"></span></td>
 			</tr>
 			<tr>
 				<td><label for="password">密碼<b>*</b>：</label></td>
-				<td><input type="password" id="password" th:field="*{memPsw}" title="請輸入密碼"></td>
-				<td><span  th:if="${#fields.hasErrors('memPsw')}" th:errors="*{memPsw}" class="error" id="ename.errors"></span></td>
+				<td>
+					<input type="password" id="password" th:field="*{memPsw}" title="請輸入密碼">
+					<br>
+					<span  th:if="${#fields.hasErrors('memPsw')}" th:errors="*{memPsw}" class="error" id="ename.errors"></span>
+				</td>
 			</tr>
 <!-- 			<tr> -->
 <!-- 				<td><label for="repassword">再輸入一次密碼<b>*</b>：</label></td> -->
@@ -75,21 +84,28 @@
 <!-- 			</tr> -->
 			<tr>
 				<td><label for="name">姓名<b>*</b>：</label></td>
-				<td><input id="name" title="請輸入姓名" th:field="*{memName}"></td>
-				<td><span th:if="${#fields.hasErrors('memName')}" th:errors="*{memName}"></span></td>
+				<td>
+					<input id="name" title="請輸入姓名" th:field="*{memName}">
+					<br>
+					<span th:if="${#fields.hasErrors('memName')}" th:errors="*{memName}" class="error"></span>
+				</td>
 			</tr>
 			<tr>
                 <td><label for="memsex">性別<b>*</b>：</label></td>
                 <td>
                     <input type="radio" th:field="*{memSex}" id="man" th:value="0"><label for="man">男性</label>
                     <input type="radio" th:field="*{memSex}" id="femal" th:value="1"><label for="femal">女性</label>
+                	<br>
+                	<span th:if="${#fields.hasErrors('memSex')}" th:errors="*{memSex}" class="error"></span>
                 </td>
-                <td><span th:if="${#fields.hasErrors('memSex')}" th:errors="*{memSex}"></span></td>
             </tr>
 			<tr>
 				<td><label for="phone">手機號碼<b>*</b>：</label></td>
-				<td><input id="phone" th:field= "*{memPhone}" title="請輸入手機號碼" name="phone"></td>
-				<td><span th:if="${#fields.hasErrors('memPhone')}" th:errors="*{memPhone}"></span></td>
+				<td>
+					<input id="phone" th:field= "*{memPhone}" title="請輸入手機號碼" name="phone">
+					<br>
+					<span th:if="${#fields.hasErrors('memPhone')}" th:errors="*{memPhone}" class="error"></span>
+				</td>
 			</tr>
 			<tr>
 				<td><label for="add">聯絡地址<b>*</b>：</label></td>
@@ -104,27 +120,33 @@
 					    </select>
 						<input id="add" th:field= "*{memAdd}" title="請輸入聯絡地址">				
 					</div>
+					<br>
+					<span th:if="${#fields.hasErrors('memAdd')}" th:errors="*{memAdd}" class="error"></span>
 				</td>
-				<td><span th:if="${#fields.hasErrors('memAdd')}" th:errors="*{memAdd}"></span></td>
 			</tr>
 			<tr>
 				<td><label for="memID">身分證號碼<b>*</b>：</label></td>
-				<td><input id="memID" th:field= "*{memID}" title="請輸入身分證號碼"></td>
-				<td><span th:if="${#fields.hasErrors('memID')}" th:errors="*{memID}"></span></td>
-			</tr>
-			<tr>
-				<td><label for="upfile">圖片：</label></td>
-				<td><input type="file" th:field= "*{memPic}"></td>
+				<td>
+					<input id="memID" th:field= "*{memID}" title="請輸入身分證號碼">
+					<br>
+					<span th:if="${#fields.hasErrors('memID')}" th:errors="*{memID}" class="error"></span>
+				</td>
 			</tr>
 		</table>
+		<input type="file" th:field= "*{memPic}" id="the_file">
+		<input type="hidden" th:field="*{memMail}">
 		<input type="hidden" th:field="*{memNo}">
 		<input type="hidden" th:field="*{memReg}">
 		<input type="hidden" th:field="*{memStatus}">
-<!-- 		<input type="hidden" th:field="*{lastLoginTime}"> -->
+<!-- 		<input type="hidden" th:field="*{memPic}"> -->
+		<input type="hidden" th:field="*{lastLoginTime}">
 		<input type="submit" class="submit" value="修改資料">
 	</form>
+	</main>
 
 	<button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/public/tableModel/dateInput.js}"></script>
 	<script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script>
 </body>
 </html>
