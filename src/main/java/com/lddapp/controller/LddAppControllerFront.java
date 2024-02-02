@@ -86,7 +86,7 @@ public class LddAppControllerFront {
 		lddAppSvc.upDateLddApp(dataORI);
 		return "redirect:/lddApp/listAllLddApp";
 	}
-	
+
 	@PostMapping("cancel")
 	public String cancelLddApp (@ModelAttribute("lddAppNo") String lddAppNo) {
 		LddApp lddApp = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
