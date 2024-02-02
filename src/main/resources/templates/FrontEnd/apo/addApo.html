@@ -195,7 +195,7 @@
             <input type="hidden" id="rentNo" th:field="*{rent.rentNo}"><br>
 			
             <input type="submit" value="預約看房" class="approve_button">
-            <a th:href="@{/}"><button type="button" class="reject_button">取消</button></a>
+            <a th:href="@{'/rent/rentDetail?rentNo=' + ${apo.rent.rentNo}}"><button type="button" class="reject_button">取消</button></a>
         </form>
     </div>
     <div class="container text-center my-4">

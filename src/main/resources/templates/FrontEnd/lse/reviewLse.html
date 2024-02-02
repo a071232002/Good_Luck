@@ -79,7 +79,7 @@
 	        <thead>
 	            <tr>
 	                <th>編號</th>
-	                <th>會員編號</th>
+	                <th>會員名稱</th>
 	                <th>物件編號</th>
 	      
 	                <th>起始日期</th>
@@ -98,7 +98,7 @@
 	            <th:block th:each="lse : ${lseListDataByLdd}">
 	                <tr>
 	                    <td th:text="${lse.lseNo}"></td>
-	                    <td th:text="${lse.mem.memNo}"></td>
+	                    <td th:text="${lse.mem.memNo + '_' + lse.mem.memName}"></td>
 	                    <td th:text="${lse.rent.rentNo}"></td>
 	                
 	                    <td th:text="${lse.lseStart}"></td>

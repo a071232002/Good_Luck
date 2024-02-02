@@ -105,7 +105,7 @@
 	       <table id="example" class="display" style="width: 100%">
 	           <thead>
 	               <tr>
-	                   <th>NO.</th>
+	                   <th>編號</th>
 	                   <th>會員名稱</th>
 	                   <th>會員電話</th>
 	                   <th>申請日期</th>
@@ -121,7 +121,6 @@
 	               <tr>
 	                   <td th:text="${lddApp.lddAppNo}"></td>
 	                   <td th:text="${lddApp.mem.memNo + '_' + lddApp.mem.memName}"></td>
-
 	                   <td th:text="${lddApp.mem.memPhone}"></td>
 	                   <td th:text="${lddApp.lddAppCreate}"></td>
 	                   <td>
