@@ -116,6 +116,10 @@ public class MemControllerFrontEnd {
 			return "redirect:login";
 		}
 		
+		if(mail.isEmpty()) {
+			model.addAttribute("failMessage", "信箱不可空白，請重新輸入！");
+			return "FrontEnd/mem/pswForget";
+		}
 		model.addAttribute("failMessage", "不存在的信箱，請重新輸入！");
 		return "FrontEnd/mem/pswForget";
 	}

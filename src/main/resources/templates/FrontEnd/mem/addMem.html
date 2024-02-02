@@ -1,129 +1,119 @@
 <!DOCTYPE html>
+<!---Coding By CodingLab | www.codinglabweb.com--->
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link th:href="@{/css/BackStage/rentapp/addRentApp.css}"
-	rel="stylesheet" />
-    <style>
-        body {
-            box-sizing: border-box;
-        }
-
-        form {
-            display: inline-block;
-        }
-
-        label {
-            /* display: inline-block; */
-            width: 5em;
-        }
-
-        b {
-            color: red;
-        }
-
-        td {
-            text-align: right;
-            padding: 5px;
-        }
-
-        .toggler {
-            display: inline-block;
-            width: 500px;
-            height: 200px;
-        }
-
-        #button {
-            padding: .5em 1em;
-            text-decoration: none;
-        }
-
-        #effect {
-            width: 240px;
-            height: 100px;
-            padding: 0.4em;
-            position: relative;
-        }
-
-        #effect h3 {
-            margin: 0;
-            padding: 0.4em;
-            text-align: center;
-            background-color: red;
-        }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!--<title>Registration Form in HTML CSS</title>-->
+    <!---Custom CSS File--->
+    <link rel="stylesheet" th:href="@{/css/FrontEnd/mem/register.css}" />
+    <style type="text/css">
+    	b {
+    		color: red;
+    	}
+    	
+    	.error {
+    		color: red;
+    		font-style: italic;
+    	} 
+    	
+    	button.goBack {
+    		  height: 55px;
+			  width: 100%;
+			  color: #fff;
+			  font-size: 1rem;
+			  font-weight: 400;
+			  margin-top: 30px;
+			  border: none;
+			  cursor: pointer;
+			  transition: all 0.2s ease;
+			  background: rgb(130, 106, 251);
+    	}
+    	
+    	button.goBack:hover {
+    		background: rgb(88, 56, 250);
+    	} 
     </style>
-<title>Insert title here</title>
+    <title>歡迎加入租你好運</title>
 </head>
+
 <body>
-	<form method="post" th:action="@{memadd}" th:object="${mem}" enctype="multipart/form-data">
-		<table>
-			<tr>
-				<td><label for="mail">信箱帳號<b>*</b>：</label></td>
-				<td><input id="mail" title="請輸入信箱帳號" th:field="*{memMail}" ></td>
-				<td><span  th:if="${#fields.hasErrors('memMail')}" th:errors="*{memMail}" class="error" id="ename.errors"></span></td>
-			</tr>
-			<tr>
-				<td><label for="password">密碼<b>*</b>：</label></td>
-				<td><input type="password" id="password" th:field="*{memPsw}" title="請輸入密碼"></td>
-				<td><span  th:if="${#fields.hasErrors('memPsw')}" th:errors="*{memPsw}" class="error" id="ename.errors"></span></td>
-			</tr>
-<!-- 			<tr> -->
-<!-- 				<td><label for="repassword">再輸入一次密碼<b>*</b>：</label></td> -->
-<!-- 				<td><input type="password" id="repassword" title="再輸入一次密碼"></td> -->
-<!-- 			</tr> -->
-			<tr>
-				<td><label for="name">姓名<b>*</b>：</label></td>
-				<td><input id="name" title="請輸入姓名" th:field="*{memName}"></td>
-				<td><span th:if="${#fields.hasErrors('memName')}" th:errors="*{memName}"></span></td>
-			</tr>
-			<tr>
-                <td><label for="memsex">性別<b>*</b>：</label></td>
-                <td>
-                    <input type="radio" th:field="*{memSex}" id="man" th:value="0"><label for="man">男性</label>
-                    <input type="radio" th:field="*{memSex}" id="femal" th:value="1"><label for="femal">女性</label>
-                </td>
-                <td><span th:if="${#fields.hasErrors('memSex')}" th:errors="*{memSex}"></span></td>
-            </tr>
-			<tr>
-				<td><label for="phone">手機號碼<b>*</b>：</label></td>
-				<td><input id="phone" th:field= "*{memPhone}" title="請輸入手機號碼" name="phone"></td>
-				<td><span th:if="${#fields.hasErrors('memPhone')}" th:errors="*{memPhone}"></span></td>
-			</tr>
-			<tr>
-				<td><label for="add">聯絡地址<b>*</b>：</label></td>
-				<td>
-					<div class="dropdown">
+    <section class="container">
+        <header style="font-size: 30px; font-weight: bolder;">註冊會員</header>
+        <form class="form" method="post" th:action="@{memadd}" th:object="${mem}" enctype="multipart/form-data">
+            <div class="input-box">
+                <label>姓名：<b>*</b></label>
+                <input type="text" placeholder="請輸入姓名" th:field="*{memName}" />
+                <span th:if="${#fields.hasErrors('memName')}" th:errors="*{memName}" class="error"></span>
+            </div>
+
+            <div class="input-box">
+                <label>信箱：<b>*</b></label>
+                <input type="text" placeholder="請輸入信箱帳號" th:field="*{memMail}" />
+                <span  th:if="${#fields.hasErrors('memMail')}" th:errors="*{memMail}" class="error" id="ename.errors"></span>
+            </div>
+
+            <div class="input-box">
+                <label>密碼：<b>*</b></label>
+                <input type="password" placeholder="請輸入密碼" th:field="*{memPsw}"/>
+                <span  th:if="${#fields.hasErrors('memPsw')}" th:errors="*{memPsw}" class="error" id="ename.errors"></span>
+            </div>
+
+
+            <div class="column">
+                <div class="input-box">
+                    <label>手機號碼：<b>*</b></label>
+                    <input type="text" placeholder="例：0912345678" th:field= "*{memPhone}" />
+                    <span th:if="${#fields.hasErrors('memPhone')}" th:errors="*{memPhone}" class="error"></span>
+                </div>
+                <div class="input-box">
+                    <label>身分證號嗎：<b>*</b></label>
+                    <input type="text" placeholder="例：A123456789" th:field= "*{memID}" />
+                    <span th:if="${#fields.hasErrors('memID')}" th:errors="*{memID}" class="error"></span>
+                </div>
+            </div>
+            <div class="gender-box">
+                <h3>性別：<b>*</b></h3>
+                <div class="gender-option">
+                    <div class="gender">
+                        <input type="radio" id="check-male"  th:field="*{memSex}" th:value="0"/>
+                        <label for="check-male">男性</label>
+                    </div>
+                    <div class="gender">
+                        <input type="radio" id="check-female"  th:field="*{memSex}" th:value="1"/>
+                        <label for="check-female">女性</label>
+                    </div>
+                </div>
+            </div>
+            <span th:if="${#fields.hasErrors('memSex')}" th:errors="*{memSex}" class="error"></span>
+            <div class="input-box address">
+                <label>地址：<b>*</b></label>
+                <div class="column">
+                    <div class="select-box dropdown">
 					    <select name="county" id="county_box">
 					        <option value="">選擇縣市</option>
 					    </select>
-					
+                    </div>
+                    <div class="select-box dropdown">
 					    <select name="district" id="district_box">
 					        <option value="">選擇鄉鎮市區</option>
 					    </select>
-						<input id="add" th:field= "*{memAdd}" title="請輸入聯絡地址">				
-					</div>
-				</td>
-				<td><span th:if="${#fields.hasErrors('memAdd')}" th:errors="*{memAdd}"></span></td>
-			</tr>
-			<tr>
-				<td><label for="memID">身分證號碼<b>*</b>：</label></td>
-				<td><input id="memID" th:field= "*{memID}" title="請輸入身分證號碼"></td>
-				<td><span th:if="${#fields.hasErrors('memID')}" th:errors="*{memID}"></span></td>
-			</tr>
-			<tr>
-				<td><label for="upfile">圖片：</label></td>
-				<td><input type="file" th:field= "*{memPic}"></td>
-			</tr>
-		</table>
-		
-		<input type="submit" class="submit" value="註冊會員">
-	</form>
-
-	<a th:href="@{memCenter}"><button>返回會員中心</button></a>
-	<button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
-	<script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script>
-
+                    </div>
+                </div>
+                <input type="text" placeholder="請輸入詳細地址" th:field= "*{memAdd}"/>
+                <span th:if="${#fields.hasErrors('memAdd')}" th:errors="*{memAdd}" class="error"></span>
+                
+            </div>
+            <input type="file" th:field= "*{memPic}" style="display: none;">
+            <button>註冊</button>
+        </form>
+        	<a th:href="@{login}"><button class="goBack">返回登入</button></a>
+    </section>
+    
+    <script th:src="@{/js/FrontEnd/mem/register.js}"></script>
+    <script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script>
 </body>
+
 </html>
