@@ -22,6 +22,7 @@
 <!-- 					<li class="nav-item"><a class="nav-link nav-a" -->
 <!-- 						href="#rent">租賃服務</a></li> -->
 <!-- 					<li class="nav-item"><a class="nav-link nav-a" href="#contact">關於我們</a></li> -->
+
    
                     <li class="nav-item" >
 							<a style="color: white !important;
@@ -59,6 +60,7 @@
 	   								  onmouseout="this.style.textDecoration='none';"
 	                  		   class="nav-link nav-a" id="memlogin-a" th:href="@{/mem/memCenter}">會員中心</a>
 	                </li>
+
                     <th:block th:if="${session.logsuccess}">
 						<li class="nav-item" >
 	                    <span th:text="${session.logsuccess.memName}" class="nav-link nav-a" id="memlogin-a"
