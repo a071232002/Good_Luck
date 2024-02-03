@@ -1,25 +1,109 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3"
 		id="mainNav">
-		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand nav-a" href="#page-top">租你好運</a>
+		<div class="container px-4 px-lg-5" >
+			<a style="color: white !important;
+                	  font-size: 36px !important;
+                      font-weight: bold;"
+                	  class="navbar-brand nav-a" th:href="@{/}">租你好運</a>
 			<button class="navbar-toggler navbar-toggler-right" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
 				aria-controls="navbarResponsive" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ms-auto my-2 my-lg-0">
+			<div class="collapse navbar-collapse" id="navbarResponsive" >
+				<ul class="navbar-nav ms-auto my-2 my-lg-0" >
 					<!-- <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#rent">rent</a></li>
                         <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> -->
-					<li class="nav-item"><a class="nav-link nav-a" id="memlogin-a" href="#">會員登入</a></li>
-					<li class="nav-item"><a class="nav-link nav-a"
-						href="/Good_Luck/shop">購物商城</a></li>
-					<li class="nav-item"><a class="nav-link nav-a"
-						href="#rent">租賃服務</a></li>
+<!--                     <li class="nav-item"><a class="nav-link nav-a" -->
+<!-- 						href="#">購物商城</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link nav-a" -->
+<!-- 						href="#rent">租賃服務</a></li> -->
 <!-- 					<li class="nav-item"><a class="nav-link nav-a" href="#contact">關於我們</a></li> -->
+                    <li class="nav-item" >
+							<a style="color: white !important;
+	 	  							  font-size: 20px !important;
+	       							  font-weight: bold;
+	       							  padding: 5px;
+			                	      border-radius: 10px;
+			                	      margin-right:50px !important;
+	        				  		  cursor: pointer;"
+	        				  		  onmouseover="this.style.textDecoration='underline';"
+	   								  onmouseout="this.style.textDecoration='none';"
+	                  		   class="nav-link nav-a" id="memlogin-a" th:href="@{/mem/memCenter}">會員中心</a>
+	                </li>
+                    <li class="nav-item" >
+							<a style="color: white !important;
+	 	  							  font-size: 20px !important;
+	       							  font-weight: bold;
+	       							  padding: 5px;
+			                	      border-radius: 10px;
+			                	      margin-right:50px !important;
+	        				  		  cursor: pointer;"
+	        				  		  onmouseover="this.style.textDecoration='underline';"
+	   								  onmouseout="this.style.textDecoration='none';"
+	                  		   class="nav-link nav-a" id="memlogin-a" th:href="@{/rent/listAllRent}">租賃服務</a>
+	                </li>
+                    <li class="nav-item" >
+							<a style="color: white !important;
+	 	  							  font-size: 20px !important;
+	       							  font-weight: bold;
+	       							  padding: 5px;
+			                	      border-radius: 10px;
+			                	      margin-right:100px !important;
+	        				  		  cursor: pointer;"
+	        				  		  onmouseover="this.style.textDecoration='underline';"
+	   								  onmouseout="this.style.textDecoration='none';"
+	                  		   class="nav-link nav-a" id="memlogin-a" href="#">購物商城</a>
+	                </li>
+                        
+                    <th:block th:if="${session.logsuccess}">
+						<li class="nav-item" >
+	                    <span th:text="${session.logsuccess.memName}" class="nav-link nav-a" id="memlogin-a"
+	                    	  style="color: white !important;
+	 	  							 font-size: 20px !important;
+	       							 font-weight: bold;
+	       							 padding: 5px;
+			                	     border-radius: 10px;
+			                	     vertical-align: middle !important;
+	        				  		 cursor: pointer;"></span>
+						</li>	        				  		 
+						<li class="nav-item" >	        				  		 
+	                		<img style="margin-right:20px !important;"
+	                		     th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}" width="30px" height="30px">
+	                	</li>
+						</li>
+						<li class="nav-item" >
+		                	<a style="color: white !important;
+	 	  							  font-size: 20px !important;
+	       							  font-weight: bold;
+	       							  padding: 5px;
+			                	      border-radius: 10px;
+			                	      vertical-align: middle !important;
+	        				  		  cursor: pointer;"
+	        				  		  onmouseover="this.style.textDecoration='underline';"
+	   								  onmouseout="this.style.textDecoration='none';"
+		                  		   class="nav-link nav-a" id="memlogin-a" th:href="@{/mem/logOut}">登出</a>
+		                </li>
+	                </th:block>
+	                
+	                <th:block th:unless="${session.logsuccess}">
+
+						<li class="nav-item" >
+							<a style="color: white !important;
+	 	  							  font-size: 20px !important;
+	       							  font-weight: bold;
+	       							  padding: 5px;
+			                	      border-radius: 10px;
+	        				  		  cursor: pointer;"
+	        				  		  onmouseover="this.style.textDecoration='underline';"
+	   								  onmouseout="this.style.textDecoration='none';"
+	                  		   class="nav-link nav-a" id="memlogin-a" th:href="@{/mem/login}">會員登入</a>
+	                    </li>
+                    </th:block>
+
 				</ul>
 			</div>
 		</div>
