@@ -6,6 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+	<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+	<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
+	
 	<title>檢舉投訴一覽</title>
 	<style>
 		h1 {
@@ -34,14 +37,29 @@
 		tfoot { 
 			display: table-row-group; 	
 		}
-		
-
+		main{
+		   padding: 20px 20px;
+		}
+		input {
+		    width: 60px;
+		}
 
 
 	</style>
 </head>
 <body>
-	<h1>檢舉投訴一覽</h1>
+<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+<main>
+	<h1 style="text-align: center;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #3498db; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">
+             檢舉投訴一覽</h1>
 
 	<table id="example" class="display" style="width: 100%">
 		<thead>
@@ -79,7 +97,16 @@
 					<td th:text="${report.reportDate}"></td>
 					
 					<td>
-					<button onclick="showLightbox(this)">顯示內容</button>
+					<button onclick="showLightbox(this)"style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">顯示</button>
 					<!-- 燈箱 -->
 					<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
 					    <textarea readonly id="enlarged-textarea" th:text="${report.reportCon}" oninput="autoExpand(this)"></textarea>
@@ -108,8 +135,30 @@
 							<div th:switch="${report.reportSt}">
 								<th:block th:case="0">
 							        <!-- 处理值为0的情况 -->
-							        <button type="button" onclick="setDataValue(this,'1')"> 成立 </button>
-									<button type="button" onclick="setDataValue(this,'2')"> 不成立 </button>
+							        <button type="button" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+            				  							onclick="setDataValue(this,'1')"> 成立 </button>
+									<button type="button" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+														onclick="setDataValue(this, '2')">不成立</button>
+
+
 							    </th:block>
 <!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->
 <!-- 								<button th:case="0" type="submit" id="submit"> 不成立 </button> -->
@@ -127,7 +176,7 @@
 
 	</table>
 	<br>
-
+</main>
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
@@ -137,6 +186,7 @@
 
     new DataTable('#example', {
     	"stateSave": true,
+    	"iDisplayLength": 5,
         initComplete: function () {
         	var table = this.api();
 
@@ -190,7 +240,7 @@
 		
 	    var title = $('#example thead th').eq($(this).index()).text();
 
-	    $(this).html(title+'<input type="text" placeholder="請輸入' + title + '" />');
+	    $(this).html(title+'<input type="text" placeholder="請輸入..." />');
 
 	});
 	 

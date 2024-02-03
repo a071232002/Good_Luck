@@ -6,6 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
 	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+	<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+	<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
+	
 	<title>物件管理</title>
 	<style>
 		h1 {
@@ -39,10 +42,24 @@
 			height:300px;
             font-size: 16px;
         }
+        main{
+		   padding: 20px 20px;
+		}
 	</style>
 </head>
 <body>
-	<h1>物件管理</h1>
+<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+<main>
+	<h1 style="text-align: center;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #3498db; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">
+             物件管理</h1>
 	<div class="lightbox" id="lightbox">
 	    <img  alt="放大顯示的圖片" id="lightbox-img">
 	</div>
@@ -70,19 +87,48 @@
 					<td>
 <!-- 					<img th:src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}" -->
 <!-- 						width="150px" class="myImage"> -->
-						 <button class="showLightboxButton" th:data-img-src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}" onclick="showLightbox(this)">顯示所有權狀</button>
+						 <button class="showLightboxButton" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							th:data-img-src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}" onclick="showLightbox(this)">顯示</button>
 					</td>
 					<td>
 <!-- 						<img th:src="@{/BackStage/rent/pictureImg} + '?rentNo=' + ${rent.rentNo}" -->
 <!-- 							width="150px" class="myImage"> -->
-						<button class="showLightboxButton" th:data-img-src="@{/BackStage/rent/pictureImg} + '?rentNo=' + ${rent.rentNo}" onclick="showLightbox(this)">顯示刊登圖片</button>	
+						<button class="showLightboxButton" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							th:data-img-src="@{/BackStage/rent/pictureImg} + '?rentNo=' + ${rent.rentNo}" onclick="showLightbox(this)">顯示</button>	
 					</td>
 
 
 					<td th:text="${rent.rentPostTitle}"></td>
 <!-- 					<td th:text="${rent.rentIntr}"></td> -->
 					<td>
-					<button onclick="showLightboxImg(this)">顯示內容</button>
+					<button onclick="showLightboxImg(this)"style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">顯示</button>
 					<!-- 燈箱 -->
 					<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
 					    <textarea readonly id="enlarged-textarea" th:text="${rent.rentIntr}" oninput="autoExpand(this)"></textarea>
@@ -110,11 +156,31 @@
 							<div th:switch="${rent.rentSt}">
 								<th:block th:case="1">
 							        <!-- 处理值为0的情况 -->
-							        <button type="button" th:onclick="|generateAndShowDialog(this,'4',${rent.rentNo})|"> 檢舉下架 </button>
+							        <button type="button" style="background-color: red; /* 藍色背景顏色 */
+                                                        color: black; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='black'; this.style.backgroundColor='red'"
+                			  							th:onclick="|generateAndShowDialog(this,'4',${rent.rentNo})|"> 檢舉下架 </button>
 							    </th:block>
 								<th:block th:case="4">
 							        <!-- 处理值为0的情况 -->
-							        <button type="button" th:onclick="|generateAndShowDialog(this,'1',${rent.rentNo})|"> 重新上架 </button>
+							        <button type="button" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							th:onclick="|generateAndShowDialog(this,'1',${rent.rentNo})|"> 重新上架 </button>
 							    </th:block>
 <!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->
 <!-- 								<button th:case="0" type="submit" id="submit"> 不成立 </button> -->
@@ -131,7 +197,7 @@
 
 	</table>
 	<br>
-
+</main>
 
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the.js}"></script>
@@ -141,7 +207,7 @@
 	
     new DataTable('#example', {
     	"stateSave": true,
-    	"iDisplayLength": 10,
+    	"iDisplayLength": 5,
         initComplete: function () {
         	var table = this.api();
 
@@ -355,7 +421,6 @@
 	// 定義顯示燈箱的函數
 	function showLightbox(button) {
 	    lightbox.style.display = 'flex'; // 使容器可見
-// 	    lightboxImg.src = button.dataset.imgSrc;
 	    lightboxImg.setAttribute('src', button.dataset.imgSrc); // 使用按鈕上的自定義屬性作為圖片源
 	}
 	

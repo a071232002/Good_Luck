@@ -150,7 +150,7 @@
 									<input type="hidden" th:value="${report.reportDate}" name="reportDate">
 									
 									<input type="hidden" th:value="${report.reportSt}" name="reportSt">
-								    <textarea  id="enlarged-textarea" th:text="${report.reportCon}" name="reportCon"rows="4" cols="50" oninput="countCharacters()"></textarea>
+								    <textarea  id="enlarged-textarea" th:text="${report.reportCon}" name="reportCon"rows="4" cols="50" oninput="countCharacters(this)"></textarea>
 									<div  align="center">
 										<p id="characterCount" style="background-color:#f7f7f7" th:text="'剩餘可輸入字數: ' + (200 - ${#strings.length(report.reportCon)})" ></p>
 										<button type="submit" id="submit">送出編輯</button>
@@ -339,18 +339,23 @@
     }
     
     maxLen = 200; // 字數頂限
-    function countCharacters() {
-    	console.log("ddd")
-        var textarea = document.getElementById('enlarged-textarea');
+    function countCharacters(textarea) {
+    	
+//         var textarea = document.getElementById('enlarged-textarea');
         var characterCount = textarea.value.length;
         var less=200-characterCount
-        var characterCount=document.getElementById('characterCount')
+    
+     	// 获取下一个元素
+        var nextElement = textarea.nextElementSibling;
+
+        // 获取第一个子元素
+        var characterCountElement = nextElement.firstElementChild;
         // 顯示字元數
-        characterCount.textContent = "剩餘可輸入字數:" +less;
-        characterCount.style.color = less <= 0 ? 'red' : 'black';
+        characterCountElement.textContent = "剩餘可輸入字數:" +less;
+        characterCountElement.style.color = less <= 0 ? 'red' : 'black';
      	// 檢查是否超過字元限制
         if (less <= 0) {
-        	characterCount.textContent="已達字數上限"
+        	characterCountElement.textContent="已達字數上限"
             textarea.value = textarea.value.substring(0, 200); // 截斷文字
   
         }
