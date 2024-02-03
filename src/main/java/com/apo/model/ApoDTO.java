@@ -11,6 +11,12 @@ public class ApoDTO implements Serializable{
 	
 	private static final SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-M-dd");
 	private Integer apoNo;
+	private Integer rentNo;
+	private String rentAddr;
+	
+	private String memName;
+	private String memPhone;
+	
 	private String apoDate;
 	private Byte apoTime;
 	
@@ -20,16 +26,59 @@ public class ApoDTO implements Serializable{
 	
 	public ApoDTO(Integer apoNo, Date apoDate, Byte apoTime) {
 		this.apoNo = apoNo;
-	    this.apoDate =  formatApoDate(apoDate);
+	    this.apoDate = formatApoDate(apoDate);
 	    this.apoTime = apoTime;
 	}
 	
-    public Integer getApoNo() {
+    public ApoDTO(Integer apoNo, Integer rentNo, String rentAddr, String memName, String memPhone, Date apoDate, Byte apoTime) {
+		super();
+		this.apoNo = apoNo;
+		this.rentNo = rentNo;
+		this.rentAddr = rentAddr;		
+		this.memName = memName;
+		this.memPhone = memPhone;
+		this.apoDate = formatApoDate(apoDate);
+		this.apoTime = apoTime;
+	}
+    
+	public Integer getApoNo() {
 		return apoNo;
 	}
 
 	public void setApoNo(Integer apoNo) {
 		this.apoNo = apoNo;
+	}
+
+	public Integer getRentNo() {
+		return rentNo;
+	}
+
+	public void setRentNo(Integer rentNo) {
+		this.rentNo = rentNo;
+	}
+	
+	public String getRentAddr() {
+		return rentAddr;
+	}
+
+	public void setRentAddr(String rentAddr) {
+		this.rentAddr = rentAddr;
+	}
+
+	public String getMemName() {
+		return memName;
+	}
+
+	public void setMemName(String memName) {
+		this.memName = memName;
+	}
+
+	public String getMemPhone() {
+		return memPhone;
+	}
+
+	public void setMemPhone(String memPhone) {
+		this.memPhone = memPhone;
 	}
 
 	public String getApoDate() {
@@ -46,6 +95,10 @@ public class ApoDTO implements Serializable{
 
 	public void setApoTime(Byte apoTime) {
 		this.apoTime = apoTime;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public static SimpleDateFormat getSqldateformat() {

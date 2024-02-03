@@ -79,7 +79,7 @@
 	        <thead>
 	            <tr>
 	                <th>編號</th>
-	                <th>會員編號</th>
+	                <th>會員名稱</th>
 	                <th>物件編號</th>
 	      
 	                <th>起始日期</th>
@@ -98,7 +98,7 @@
 	            <th:block th:each="lse : ${lseListDataByLdd}">
 	                <tr>
 	                    <td th:text="${lse.lseNo}"></td>
-	                    <td th:text="${lse.mem.memNo}"></td>
+	                    <td th:text="${lse.mem.memNo + '_' + lse.mem.memName}"></td>
 	                    <td th:text="${lse.rent.rentNo}"></td>
 	                
 	                    <td th:text="${lse.lseStart}"></td>
@@ -127,7 +127,7 @@
 	                        <span th:case="3" class="warning" th:text="待租客匯款"></span>
 	                        <span th:case="4" class="warning" th:text="請確認匯款金額"></span>
 	                        <span th:case="5" class="success" th:text="合約中"></span>
-	                        <span th:case="6" class="cancel" th:text="合約期滿"></span>
+	                        <span th:case="6" class="cancel" th:text="合約結束"></span>
 	                    </td>
 	                    <th:block
 	                        th:with="today=${#dates.createNow()}, oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
@@ -136,7 +136,7 @@
 	                                <span th:switch="${lse.lseRenew}">
 	                                    <span th:case="0" class="warning" th:text="待租客確認意願"></span>
 	                                    <span th:case="1" class="cancel" th:text="不續約"></span>
-	                                    <span th:case="2" class="warning" th:text="請回覆意願"></span>
+	                                    <span th:case="2" class="warning" th:text="請決定是否續約"></span>
 	                                    <span th:case="3" class="success" th:text="續約"></span>
 	                                </span>
 	                            </td>
@@ -171,8 +171,25 @@
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
                                 <input type="submit" value="取消簽約" class="reject_button">
                             </form>
-                        <th:block th:unless="${lse.lseStatus == 0}">
                         </th:block>
+                        
+                        <th:block th:if="${lse.lseRenew == 2}">
+                        	<form method="post" th:action="@{extend}">
+                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <input type="submit" value="延長合約" class="approve_button">
+                            </form>
+                            
+<!--                             <form method="post" th:action="@{createNewOne}"> -->
+<!--                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}"> -->
+<!--                                 <input type="submit" value="開立新約" class="approve_button"> -->
+<!--                             </form> -->
+                        </th:block>
+                        	
+                        	<form th:if="${lse.lseRenew == 0 || lse.lseRenew == 2}"method="post" th:action="@{rejectRenew}">
+                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <input type="submit" value="不續約" class="reject_button">
+                            </form>
+                        	
 	                    </td>
 	
 	                </tr>

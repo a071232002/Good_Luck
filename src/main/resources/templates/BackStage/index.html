@@ -32,19 +32,32 @@
 		
 		<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
 		<!-- Page Content-->
-			<!-- 會員管理-->
-		<div th:replace="BackStage/HTMLTool/MemManage :: MemManage"></div>
-			<!-- 物件管理-->
-		<div th:replace="BackStage/HTMLTool/RentAppManage :: RentAppManage"></div>
-			<!-- 購物管理-->	
-		<div th:replace="BackStage/HTMLTool/ShopManage :: ShopManage"></div>
-			<!-- 公告管理 -->
-		<div th:replace="BackStage/HTMLTool/NoticeManage :: NoticeManage"></div>				
-			<!-- 投訴管理 -->
-		<div th:replace="BackStage/HTMLTool/ComplaintManage :: ComplaintManage"></div>						
-			<!-- 後台管理 -->
-		<div th:replace="BackStage/HTMLTool/BackStageManage :: BackStageManage"></div>						
 		
+		<div th:replace="BackStage/HTMLTool/firstPage:: firstPage"></div>
+			<!-- 會員管理-->
+		<th:block th:if="${session.EmpSuccess.empFun.contains(1)}">
+			<div th:replace="BackStage/HTMLTool/MemManage :: MemManage"></div>
+		</th:block>
+			<!-- 物件管理-->
+		<th:block th:if="${session.EmpSuccess.empFun.contains(2)}">
+			<div th:replace="BackStage/HTMLTool/RentAppManage :: RentAppManage"></div>
+		</th:block>
+			<!-- 購物管理-->
+		<th:block th:if="${session.EmpSuccess.empFun.contains(3)}">
+			<div th:replace="BackStage/HTMLTool/ShopManage :: ShopManage"></div>
+		</th:block>	
+			<!-- 公告管理 -->
+		<th:block th:if="${session.EmpSuccess.empFun.contains(4)}">	
+			<div th:replace="BackStage/HTMLTool/NoticeManage :: NoticeManage"></div>				
+		</th:block>	
+			<!-- 投訴管理 -->
+		<th:block th:if="${session.EmpSuccess.empFun.contains(5)}">	
+			<div th:replace="BackStage/HTMLTool/ComplaintManage :: ComplaintManage"></div>						
+		</th:block>	
+			<!-- 後台管理 -->
+		<th:block th:if="${session.EmpSuccess.empFun.contains(6)}">
+			<div th:replace="BackStage/HTMLTool/BackStageManage :: BackStageManage"></div>						
+		</th:block>
 		<!-- Bootstrap core JS-->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<!-- Core theme JS-->

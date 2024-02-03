@@ -28,12 +28,10 @@
         <table id="example" class="display" style="width: 100%">
             <thead>
                 <tr>
-                    <th>編號</th>
-                    <th>會員編號</th>
+                    <th>預約日期/時段</th>
                     <th>物件編號</th>
-<!--                     <th>申請日期</th> -->
-                    <th>預約日期</th>
-                    <th>預約時段</th>
+					<th>物件地址</th>
+					<th>房東電話</th>
                     <th>預約單進度</th>
                     <th>預約單管理</th>
                     <th>租屋單進度</th>
@@ -44,25 +42,30 @@
             <tbody>
                 <th:block th:each="apo : ${apoListData}">
                     <tr>
-                        <td th:text="${apo.apoNo}"></td>
-                        <td th:text="${apo.mem.memNo}"></td>
+
+                        <td> 
+								<span th:text="${apo.apoDate}"></span>
+								<span th:switch="${apo.apoTime}">
+									<span th:case="1">
+										<span>上午</span>
+										<img th:src="@{/icon/FrontEnd/dayMode/day.png}" width="20px">
+									</span>
+									<span th:case="2">
+										<span>下午</span>
+										<img th:src="@{/icon/FrontEnd/dayMode/afternoon.png}" width="20px">
+									</span>
+									<span th:case="3">
+										<span>晚上</span>
+										<img th:src="@{/icon/FrontEnd/dayMode/night.png}" width="20px">
+								</span>
+								</span>
+							</td>
+
                         <td th:text="${apo.rent.rentNo}"></td>
-<!--                         <td th:text="${apo.apoCreate}"></td> -->
-                        <td th:text="${apo.apoDate}" id="apoDate"></td>
-                        <td th:switch="${apo.apoTime}">
-                            <span th:case="1">
-                                <span style="vertical-align: middle;">上午</span>
-                                <img th:src="@{/icon/FrontEnd/dayMode/day.png}" width="20px">
-                            </span>
-                            <span th:case="2">
-                                <span>下午</span>
-                                <img th:src="@{/icon/FrontEnd/dayMode/afternoon.png}" width="20px">
-                            </span>
-                            <span th:case="3">
-                                <span>晚上</span>
-                                <img th:src="@{/icon/FrontEnd/dayMode/night.png}" width="20px">
-                            </span>
-                        </td>
+						<td>
+							<span th:text="${apo.rent.rentAppCou + ' ' + apo.rent.rentAppAr + ' ' + apo.rent.rentAppRo + ' ' + apo.rent.rentAppAdd}"></span>
+						</td>
+						<td th:text="${apo.rent.ldd.mem.memPhone}"></td>
                         <td th:switch="${apo.apoStatus}">
                             <span th:case="0" class="warning" th:text="待房東審核"></span>
                             <span th:case="1" class="cancel" th:text="房東婉拒"></span>

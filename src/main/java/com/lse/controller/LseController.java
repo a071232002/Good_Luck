@@ -1,6 +1,9 @@
 package com.lse.controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -164,6 +167,30 @@ public class LseController {
 		return "redirect:/lse/listAllLse";
 	}
 	
+	@PostMapping("renew")
+	public String renew(@RequestParam("lseNo") String lseNo) {
+		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		lse.setLseRenew(Byte.valueOf("2"));
+		lseSvc.updateLse(lse);
+		return "redirect:/lse/listAllLse";
+	}
+	
+	@PostMapping("cancelRenew")
+	public String cancelRenew(@RequestParam("lseNo") String lseNo) {
+		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		lse.setLseRenew(Byte.valueOf("1"));
+		lseSvc.updateLse(lse);
+		return "redirect:/lse/listAllLse";
+	}
+	
+	@PostMapping("terminate")
+	public String terminate(@RequestParam("lseNo") String lseNo) {
+		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		lse.setLseStatus(Byte.valueOf("6"));
+		lseSvc.updateLse(lse);
+		return "redirect:/lse/listAllLse";
+	}
+	
 	//房東操作****************************************************************************************
 	@PostMapping("reject")
 	public String reject(@RequestParam("lseNo") String lseNo) {
@@ -196,6 +223,33 @@ public class LseController {
 		return "redirect:/lse/reviewLse";
 	}
 	
+	@PostMapping("extend")
+	public String extendLse(@RequestParam("lseNo") String lseNo) {
+		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		
+		lse.setLseEnd(extend(lse.getLseStart(), lse.getLseEnd()));
+		lse.setLseRenew(Byte.valueOf("0"));
+		lseSvc.updateLse(lse);
+		return "redirect:/lse/reviewLse";
+	}
+	
+//	@PostMapping("createNewOne")
+//	public String createNewOneLse(@RequestParam("lseNo") String lseNo) {
+//		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+//		lse.setLseRenew(Byte.valueOf("4"));
+//		lseSvc.updateLse(lse);
+//		return "redirect:/lse/reviewLse";
+//	}
+	
+	@PostMapping("rejectRenew")
+	public String rejectRenew(@RequestParam("lseNo") String lseNo) {
+		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		lse.setLseRenew(Byte.valueOf("1"));
+		lseSvc.updateLse(lse);
+		return "redirect:/lse/reviewLse";
+	}
+	
+	
 	@ModelAttribute("lseListData")
 	public List<Lse> referenceListDataByMem(HttpSession session) {
 		Mem mem = (Mem)session.getAttribute("logsuccess");
@@ -224,7 +278,9 @@ public class LseController {
 	
 	@GetMapping("signPic")
 	public void signPicReader (@RequestParam("lseNo") String lseNo,
-			HttpServletRequest req, HttpServletResponse res) throws IOException {
+							   HttpServletRequest req, HttpServletResponse res)
+							   throws IOException {
+		
 		res.setContentType("image/png");
 		ServletOutputStream out = res.getOutputStream();
 		try {
@@ -234,4 +290,17 @@ public class LseController {
 			out.write(buf);
 		}	
 	}
+	
+	private Date extend (Date lseStart, Date lseEnd) {
+		 	long monthsDifference = ChronoUnit.MONTHS
+		 									.between(lseStart.toLocalDate(),
+		 											 lseEnd.toLocalDate());
+
+		    LocalDate newEndDate = lseEnd.toLocalDate().plusMonths(monthsDifference);
+
+		    Date date = Date.valueOf(newEndDate);
+
+		return date;
+	}
+	
 }

@@ -159,6 +159,25 @@
 			vertical-align: middle;
 		}
 		
+		
+		
+		
+		 .msgBox {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 8px;
+            border-radius: 5px;
+            display: none;
+            text-align: left;
+        }
+		
+		.msgBox p {
+		    margin: 0;
+		    padding: 5px;
+		    font-size: 14px;
+		}
+		
 	</style>
 
 </head>
@@ -172,11 +191,10 @@
 				<thead>
 					<tr>
 						<th>編號</th>
-						<th>會員編號</th>
+						<th>預約日期/時段</th>
 						<th>物件編號</th>
-						<th>申請日期</th>
-						<th>預約日期</th>
-						<th>預約時段</th>
+						<th>會員名稱</th>
+						<th>會員電話</th>
 						<th>預約單進度</th>
 						<th>預約單管理</th>
 						<th>租屋單進度</th>
@@ -188,24 +206,28 @@
 					<th:block th:each="apo : ${apoListDataByLdd}">
 						<tr>
 							<td th:text="${apo.apoNo}"></td>
-							<td th:text="${apo.mem.memNo}"></td>
-							<td th:text="${apo.rent.rentNo}"></td>
-							<td th:text="${apo.apoCreate}"></td>
-							<td th:text="${apo.apoDate}"></td>
-							<td th:switch="${apo.apoTime}">
-								<span th:case="1">
-									<span>上午</span>
-									<img th:src="@{/icon/FrontEnd/dayMode/day.png}" width="20px">
+							<td> 
+								<span th:text="${apo.apoDate}"></span>
+								<span th:switch="${apo.apoTime}">
+									<span th:case="1">
+										<span>上午</span>
+										<img th:src="@{/icon/FrontEnd/dayMode/day.png}" width="20px">
+									</span>
+									<span th:case="2">
+										<span>下午</span>
+										<img th:src="@{/icon/FrontEnd/dayMode/afternoon.png}" width="20px">
+									</span>
+									<span th:case="3">
+										<span>晚上</span>
+										<img th:src="@{/icon/FrontEnd/dayMode/night.png}" width="20px">
 								</span>
-								<span th:case="2">
-									<span>下午</span>
-									<img th:src="@{/icon/FrontEnd/dayMode/afternoon.png}" width="20px">
-								</span>
-								<span th:case="3">
-									<span>晚上</span>
-									<img th:src="@{/icon/FrontEnd/dayMode/night.png}" width="20px">
 								</span>
 							</td>
+							<td th:text="${apo.rent.rentNo}"></td>
+							<td th:text="${apo.mem.memNo + '_' + apo.mem.memName}"></td>
+							<td th:text="${apo.mem.memPhone}"></td>
+							
+
 							<td th:switch="${apo.apoStatus}">
 								<span th:case="0" class="warning" th:text="待審核"></span>
 								<span th:case="1" class="cancel" th:text="婉拒"></span>
@@ -506,14 +528,40 @@
                 success: function (response) {
                     var jsonData = response;  // 不再需要 JSON.parse
                     jsonData.forEach(function (item) {
+                    	let apoNo = item.apoNo;
+                    	let rentNo = item.rentNo;
+                    	let rentAddr = item.rentAddr;
+                    	let memName = item.memName;
+                    	let memPhone = item.memPhone;
                         let bookingDate = item.apoDate;
                         let bookingTime = item.apoTime;
+                        
                         let el_ID = bookingDate + "-" + bookingTime;
 
                         let target = document.getElementById(el_ID);
 
                         if (target) {
                             target.style.visibility = "visible";
+							
+                            
+                            let msgBox = document.createElement('div');
+                            msgBox.className = "msgBox";
+                            msgBox.innerHTML = `
+                            	<p>預約編號: ${apoNo}</p>
+                                <p>物件編號: ${rentNo}</p>
+                                <p>物件地址: ${rentAddr}</p>
+                                <p>租客名稱: ${memName}</p>
+                                <p>租客電話: ${memPhone}</p>
+                            `;
+                            target.appendChild(msgBox);
+
+                            target.addEventListener('mouseover', function () {
+                            	msgBox.style.display = 'block';
+                            });
+
+                            target.addEventListener('mouseout', function () {
+                            	msgBox.style.display = 'none';
+                            });
                         }
                     });
                 },
