@@ -18,7 +18,7 @@
             <nav class="navbar navbar-inverse">
                 <ul class="nav navbar-nav">
                     <li><a class="hoverable" th:href="@{/}">首頁</a></li>
-                    <li><a class="hoverable" href="#">最新消息</a></li>
+<!--                     <li><a class="hoverable" href="#">最新消息</a></li> -->
                     <li><a class="hoverable" th:href="@{/rent/listAllRent}">租賃服務</a></li>
                     <li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
                 </ul>
@@ -58,7 +58,7 @@
                     <li class="memBlock">
                     	<div class="subBoard"><span>檢舉投訴</span><br>
                     	<a th:href="@{/report/addReport}"><button type="button" class="memFunction">填寫投訴單</button></a>
-                    	<a th:href="@{/report/listAllReport}"><button type="button" class="memFunction">查詢/編輯</button></a>
+                    	<a th:href="@{/report/findAllReportById}"><button type="button" class="memFunction">查詢/編輯</button></a>
                     	</div>
                     </li>
 					

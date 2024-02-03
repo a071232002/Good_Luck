@@ -43,7 +43,7 @@ public class ApoController {
 	@GetMapping("/addApo")
 	public String addApo(ModelMap model, @RequestParam("rentNo") String rentNo) {
 		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
-		if( rent.getRentSt() != 1) {
+		if( rent == null || rent.getRentSt() != 1) {
 			return "redirect:/rent/listAllRent";
 		}
 		Apo apo = new Apo();
