@@ -4,53 +4,141 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
 
 <style>
-body {
-	box-sizing: border-box;
-}
 
-form {
-	display: inline-block;
-}
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        box-sizing: border-box;
+    }
 
-label {
-	/* display: inline-block; */
-	width: 5em;
-}
+    form {
+        display: inline-block;
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+    }
 
-b {
-	color: red;
-}
+    table {
+        width: 100%;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
 
-td {
-	text-align: right;
-	padding: 5px;
-}
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
 
-.toggler {
-	display: inline-block;
-	width: 500px;
-	height: 200px;
-}
+    th {
+        background-color: #f2f2f2;
+    }
 
-#button {
-	padding: .5em 1em;
-	text-decoration: none;
-}
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+    }
 
-#effect {
-	width: 240px;
-	height: 100px;
-	padding: 0.4em;
-	position: relative;
-}
+    input {
+        width: calc(100% - 12px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
 
-#effect h3 {
-	margin: 0;
-	padding: 0.4em;
-	text-align: center;
-	background-color: red;
+    .error {
+        color: red;
+    }
+
+    .submit {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .submit:hover {
+        background-color: #0056b3;
+    }
+
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .text {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .field {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+    .fas {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .forgot-pass {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .sign-up {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    a {
+        color: #007bff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    #effect h3 {
+        margin: 0;
+        padding: 0.4em;
+        text-align: center;
+        background-color: red;
+    }
+
+
+main{
+   margin-top: 50px;
+   padding: 50px 20px;
 }
  	
 </style>
@@ -104,7 +192,8 @@ td {
 		</form>
 		<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-	
+		<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+		
 
 </body>
 </html>
