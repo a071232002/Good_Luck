@@ -14,6 +14,7 @@ import com.ldd.model.Ldd;
 import com.mem.model.Mem;
 import com.rent.model.Rent;
 
+
 @Service
 public class ApoServiceImpl implements ApoService {
 	//for apoStatus
@@ -30,11 +31,11 @@ public class ApoServiceImpl implements ApoService {
 	private static final Byte WANT_DATE_CHANGE_WAIT_RECONFIRM = 3;
 	private static final Byte WANT_AGREE = 4;
 	private static final Byte WANT_CANCEL = 5;
-	
+
 	
 	@Autowired
 	ApoRepository repository;
-
+	
 	@Override
 	public void addApo(Apo apo) {
 		apo.setApoCreate(Date.valueOf(LocalDate.now()));
@@ -155,50 +156,43 @@ public class ApoServiceImpl implements ApoService {
 		return repository.findByLdd(ldd);
 	}
 	
-	//for 前端ajax回傳 JPA查詢結果傳入ApoDto物件再回傳至UC 
-	//回傳內容 apoStatus為 0:待房東審核 2:房東同意待會員看屋
-	//考慮導入Redis需再改寫
-	@Override
-	public List<ApoDTO> getListWithBookingByRentNo(Integer rentNo) {
-		List<Byte> apoStatusList = Arrays.asList(WAIT_LDD_CONFIRM, APPROVE_AND_WAIT_COMPLETE);
-		List<Apo> apoList = repository.findByRentNoAndApoStatusIn(rentNo, apoStatusList);
-		
-		List<ApoDTO> list = apoList.stream().map(aApo -> new ApoDTO(
-						aApo.getApoNo(),
-						aApo.getApoDate(),
-						aApo.getApoTime()))
-						.collect(Collectors.toList());
-		return list;
-	}
+
 	
 	@Override
 	public List<ApoDTO> getListWithBookingByLdd(Ldd ldd) {
-		List<Byte> apoStatusList = Arrays.asList(WAIT_LDD_CONFIRM, APPROVE_AND_WAIT_COMPLETE);
-		List<Apo> apoList = repository.findByLddAndApoStatusIn(ldd, apoStatusList);
-		List<ApoDTO> list = apoList.stream().map(aApo -> new ApoDTO(
-				aApo.getApoNo(),
-				aApo.getApoDate(),
-				aApo.getApoTime()))
-				.collect(Collectors.toList());
+		List<ApoDTO> list = null;
+		
+			List<Byte> apoStatusList = Arrays.asList(WAIT_LDD_CONFIRM, APPROVE_AND_WAIT_COMPLETE);
+			List<Apo> apoList = repository.findByLddAndApoStatusIn(ldd, apoStatusList);
+			list = apoList.stream().map(aApo -> new ApoDTO(
+										aApo.getApoNo(),
+										aApo.getApoDate(),
+										aApo.getApoTime()))
+											.collect(Collectors.toList());
+			
+
 		return list;
 	}
 	
 	@Override
 	public List<ApoDTO> getListWithApproveByLdd(Ldd ldd) {
-		List<Byte> apoStatusList = Arrays.asList(APPROVE_AND_WAIT_COMPLETE, COMPLETE);
-		List<Apo> apoList = repository.findByLddAndApoStatusIn(ldd, apoStatusList);
-		List<ApoDTO> list = apoList.stream().map(aApo -> new ApoDTO(
-				aApo.getApoNo(),
-				aApo.getRent().getRentNo(),
-				aApo.getRent().getRentAppCou()
-				+ " " + aApo.getRent().getRentAppAr()
-				+ " " + aApo.getRent().getRentAppRo()
-				+ " " + aApo.getRent().getRentAppAdd(),
-				aApo.getMem().getMemName(),
-				aApo.getMem().getMemPhone(),
-				aApo.getApoDate(),
-				aApo.getApoTime()))
-				.collect(Collectors.toList());
+		List<ApoDTO> list = null;
+
+			List<Byte> apoStatusList = Arrays.asList(APPROVE_AND_WAIT_COMPLETE, COMPLETE);
+			List<Apo> apoList = repository.findByLddAndApoStatusIn(ldd, apoStatusList);
+			list = apoList.stream().map(aApo -> new ApoDTO(
+										aApo.getApoNo(),
+										aApo.getRent().getRentNo(),
+										aApo.getRent().getRentAppCou() + " " + 
+										aApo.getRent().getRentAppAr() + " " + 
+										aApo.getRent().getRentAppRo() + " " + 
+										aApo.getRent().getRentAppAdd(),
+										aApo.getMem().getMemName(),
+										aApo.getMem().getMemPhone(),
+										aApo.getApoDate(),
+										aApo.getApoTime(),
+										aApo.getApoStatus()))
+											.collect(Collectors.toList());
 		return list;
 	}
 	
@@ -211,5 +205,7 @@ public class ApoServiceImpl implements ApoService {
 	public List<Apo> getApoByMemAndApoStatus(Mem mem, List<Byte> apoStatusList) {
 		return repository.findByMemAndApoStatusIn(mem, apoStatusList);
 	}
+
+	
 
 }

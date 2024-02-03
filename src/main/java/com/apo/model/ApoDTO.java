@@ -19,6 +19,7 @@ public class ApoDTO implements Serializable{
 	
 	private String apoDate;
 	private Byte apoTime;
+	private Byte apoStatus;
 	
 	public ApoDTO() {
 		
@@ -30,7 +31,7 @@ public class ApoDTO implements Serializable{
 	    this.apoTime = apoTime;
 	}
 	
-    public ApoDTO(Integer apoNo, Integer rentNo, String rentAddr, String memName, String memPhone, Date apoDate, Byte apoTime) {
+    public ApoDTO(Integer apoNo, Integer rentNo, String rentAddr, String memName, String memPhone, Date apoDate, Byte apoTime, Byte apoStatus) {
 		super();
 		this.apoNo = apoNo;
 		this.rentNo = rentNo;
@@ -39,6 +40,7 @@ public class ApoDTO implements Serializable{
 		this.memPhone = memPhone;
 		this.apoDate = formatApoDate(apoDate);
 		this.apoTime = apoTime;
+		this.apoStatus = apoStatus;
 	}
     
 	public Integer getApoNo() {
@@ -95,6 +97,14 @@ public class ApoDTO implements Serializable{
 
 	public void setApoTime(Byte apoTime) {
 		this.apoTime = apoTime;
+	}
+	
+	public Byte getApoStatus() {
+		return apoStatus;
+	}
+
+	public void setApoStatus(Byte apoStatus) {
+		this.apoStatus = apoStatus;
 	}
 
 	public static long getSerialversionuid() {

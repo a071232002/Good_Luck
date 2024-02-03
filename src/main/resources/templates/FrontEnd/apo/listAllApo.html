@@ -28,6 +28,7 @@
         <table id="example" class="display" style="width: 100%">
             <thead>
                 <tr>
+                    <th>編號</th>
                     <th>預約日期/時段</th>
                     <th>物件編號</th>
 					<th>物件地址</th>
@@ -42,7 +43,7 @@
             <tbody>
                 <th:block th:each="apo : ${apoListData}">
                     <tr>
-
+						 <td th:text="${apo.apoNo}"></td>
                         <td> 
 								<span th:text="${apo.apoDate}"></span>
 								<span th:switch="${apo.apoTime}">
@@ -79,8 +80,8 @@
                                 <input type="hidden" name="apoNo" th:value="${apo.apoNo}">
                                 <input type="submit" value="修改預約時間" class="approve_button">
                             </form>
-                            <form th:if="${apo.apoStatus == 0 or apo.apoStatus == 2}" method="post"
-                                th:action="@{cancel}">
+                            <form th:if="${apo.apoStatus == 0 or apo.apoStatus == 2}" 
+                            	  method="post" th:action="@{cancel}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="apoNo" th:value="${apo.apoNo}">
                                 <input type="submit" value="取消預約" class="reject_button">
                             </form>
@@ -102,22 +103,25 @@
                         </th:block>
                         <td>
                             <form th:if="${apo.apoStatus == 3 && apo.apoWant == 0}" method="post" th:object="${apo}"
-                                th:action="@{want}">
+                                th:action="@{want}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="apoNo" th:value="${apo.apoNo}">
                                 <input type="date" class="apoWantDate" name="apoWantDate" required>
                                 <input type="submit" value="申請租屋" class="approve_button">
                             </form>
                             <form th:if="${apo.apoStatus == 3 && apo.apoWant == 2}" method="post" th:object="${apo}"
-                                th:action="@{updateWantDate}">
+                                th:action="@{updateWantDate}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="apoNo" th:value="${apo.apoNo}">
                                 <input type="date" class="apoWantDate" name="apoWantDate" required>
                                 <input type="submit" value="變更租屋日期" class="approve_button">
                             </form>
                             <form th:if="${apo.apoStatus == 3 && (apo.apoWant == 0 || apo.apoWant == 2 || apo.apoWant == 3)}"
-                                method="post" th:action="@{cancelWant}">
+                                method="post" th:action="@{cancelWant}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="apoNo" th:value="${apo.apoNo}">
                                 <input type="submit" value="取消租屋" class="reject_button">
                             </form>
+                            <a th:if="${apo.apoWant == 4}" th:href="@{/lse/listAllLse}">
+                                <input type="button" value="查看合約" class="approve_button">
+                            </a>
                         </td>
                     </tr>
 
@@ -134,6 +138,8 @@
     <script th:src="@{/js/public/tableModel/dateInput.js}"></script>
     	
  	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+ 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script th:src="@{/js/public/sweetAlert2/basic.js}"></script>
  	
     <script>
         let table = new DataTable("#example");

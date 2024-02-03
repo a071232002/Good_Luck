@@ -8,14 +8,16 @@ import com.rent.model.Rent;
 
 public interface LseService {
 	
-	public void addLse(Lse lse);
+	public Lse addLse(Lse lse);
 	
 	public void updateLse(Lse lse);
 	
 	public Lse getOneByLseNo(Integer lseNo);
 	
 	//for 物件管理找到最新的合約
-	public Lse getNewOneByRent(Rent rent);
+	public Lse getNewOneByRent(Rent rent); 
+	
+	public List<Lse> getListByRentNo(Integer rentNo);
 	
 	public List<Lse> getListInContract();
 	

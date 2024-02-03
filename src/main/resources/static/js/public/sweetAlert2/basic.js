@@ -1,5 +1,4 @@
-function showConfirmation() {
-
+function showConfirmation(element) {
     Swal.fire({
         title: '確定送出？',
         icon: 'warning',
@@ -7,16 +6,14 @@ function showConfirmation() {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
     }).then((result) => {
-      
         if (result.isConfirmed) {
-
             Swal.fire('送出', '', 'success');
             setTimeout(() => {
-            document.forms[0].submit();
-            }, 1000);
+                // 使用 element.form 來獲取包含當前按鈕的表單元素
+                element.submit();
+            }, 300);
         }
     });
-    
 
     return false;
 }

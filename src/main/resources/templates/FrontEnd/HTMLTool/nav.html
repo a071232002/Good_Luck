@@ -23,7 +23,20 @@
 <!-- 						href="#rent">租賃服務</a></li> -->
 <!-- 					<li class="nav-item"><a class="nav-link nav-a" href="#contact">關於我們</a></li> -->
 
-   
+   					<th:block th:unless="${session.logsuccess}">
+                    <li class="nav-item" >
+							<a style="color: white !important;
+	 	  							  font-size: 20px !important;
+	       							  font-weight: bold;
+	       							  padding: 5px;
+			                	      border-radius: 10px;
+			                	      margin-right:50px !important;
+	        				  		  cursor: pointer;"
+	        				  		  onmouseover="this.style.textDecoration='underline';"
+	   								  onmouseout="this.style.textDecoration='none';"
+	                  		   class="nav-link nav-a" id="memlogin-a" th:href="@{/mem/addMem}">註冊會員</a>
+	                </li>
+	                </th:block>
                     <li class="nav-item" >
 							<a style="color: white !important;
 	 	  							  font-size: 20px !important;
@@ -70,7 +83,7 @@
 	       							 padding: 5px;
 			                	     border-radius: 10px;
 			                	     vertical-align: middle !important;
-	        				  		 cursor: pointer;"></span>
+	        				  		 cursor: default;"></span>
 						</li>	        				  		 
 						<li class="nav-item" >	        				  		 
 	                		<img style="margin-right:20px !important;"
