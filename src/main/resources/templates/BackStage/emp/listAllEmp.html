@@ -5,15 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+ <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+ <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
+ 
  <style>
  	h1 {
 		text-align: center;
       	color: red;
 		}
+	main{
+	   margin-top: 50px;
+	   padding: 50px 20px;
+	}
  </style>
 <title>Insert title here</title>
 </head>
 <body>
+	<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+	<main>
 	<h1>員工查詢</h1>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
@@ -67,8 +76,7 @@
 		</tbody>
 	</table>
 	<br>
-	<a th:href="@{/BackStage/emp/addEmp}"><button>前往新增員工</button></a>
-	<a th:href="@{/BackStage/tempCenter}"><button>返回索引</button></a>
+	<a th:href="@{/BackStage/emp/addEmp}"><button style="width: 200px; height: 50px; font-size: 20px; border-radius: 6px; color: #fff; background-color: #0171d3;">前往新增員工</button></a>
 	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
   	<script th:src="@{/js/BackStage/mem/the.js}"></script>
@@ -82,5 +90,6 @@
     //   alert("You clicked on " + data[3] + "'s row");
     // });
   	</script>
+  	</main>
 </body>
 </html>

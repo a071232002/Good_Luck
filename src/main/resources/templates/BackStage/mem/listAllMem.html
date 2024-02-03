@@ -5,18 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+ <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+ <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
  <style>
  	h1 {
 		text-align: center;
       	color: red;
 		}
+		
+	main{
+	   margin-top: 50px;
+	   padding: 50px 20px;
+	}
+	
  </style>
 <title>會員管理</title>
 </head>
 <body>
+<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
 
 	
-	
+	<main>
 	<h1>會員查詢</h1>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
@@ -27,7 +36,7 @@
 				<th>性別</th>
 				<th>手機號碼</th>
 				<th>聯絡地址</th>
-				<th>身分證號碼</th>
+<!-- 				<th>身分證號碼</th> -->
 				<th>註冊日期</th>
 				<th>帳號狀態</th>
 				<th>最後上線時間</th>
@@ -47,7 +56,7 @@
 				</td>
 				<td th:text="${mem.memPhone}"></td>
 				<td th:text="${mem.memAdd}"></td>
-				<td th:text="${mem.memID}"></td>
+<!-- 				<td th:text="${mem.memID}"></td> -->
 				<td th:text="${mem.memReg}"></td>
 				<td>
 					<span th:if="${mem.memStatus == 0}" th:text="未驗證"></span>
@@ -55,7 +64,7 @@
 					<span th:if="${mem.memStatus ==2}" th:text="停權"></span>				
 				</td>
 				<td th:if="${mem.lastLoginTime != null}" th:text="${#dates.format(mem.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td>
-				<td ><img th:src="@{/BackStage/mem/picture} + '?memno=' + ${mem.memNo}" width="100px" height="100px"></td>
+				<td ><img th:src="@{/BackStage/mem/picture} + '?memno=' + ${mem.memNo}" width="50px" height="50px"></td>
 				<td>
 					<form method="post" th:action="@{stopMem}">
 						<input type="hidden" name= "memNo" th:value="${mem.memNo}">
@@ -98,5 +107,6 @@
     //   alert("You clicked on " + data[3] + "'s row");
     // });
   	</script>
+  	</main>
 </body>
 </html>

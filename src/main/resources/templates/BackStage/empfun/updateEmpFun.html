@@ -3,55 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <style>
-        body {
-            box-sizing: border-box;
-        }
+    <link rel="stylesheet" th:href="@{/css/public/jquery-ui/1.13.2/jquery-ui.css}" />
 
-        form {
-            display: inline-block;
-        }
-
-        label {
-            /* display: inline-block; */
-            width: 5em;
-        }
-
-        b {
-            color: red;
-        }
-
-        td {
-            text-align: right;
-            padding: 5px;
-        }
-
-        .toggler {
-            display: inline-block;
-            width: 500px;
-            height: 200px;
-        }
-
-        #button {
-            padding: .5em 1em;
-            text-decoration: none;
-        }
-
-        #effect {
-            width: 240px;
-            height: 100px;
-            padding: 0.4em;
-            position: relative;
-        }
-
-        #effect h3 {
-            margin: 0;
-            padding: 0.4em;
-            text-align: center;
-            background-color: red;
-        }
-    </style>
 <title>權限修改</title>
 </head>
 <body>
@@ -72,11 +25,19 @@
 			</tr>
 			<tr>
 				<td><label for="fun">會員管理<b>*</b>：</label></td>
-				<td><input type="checkbox" id="fun" th:field="*{empFun}" th:value="1"></td>
+				<td>
+					<div id="checkbox">
+					<label><input type="checkbox" id="fun" name="variety" th:field="*{empFun}" th:value="1"><span class="round button">會員管理</span></label>
+                	</div>
+                </td>
 			</tr>
 			<tr>
 				<td><label for="product">物件管理<b>*</b>：</label></td>
-				<td><input type="checkbox" id="rent" th:field="*{empFun}" th:value="2"></td>
+				<td>
+					<div id="checkbox">
+					<label><input type="checkbox" id="fun" name="variety" th:checked="${empFunData.empFun.contains(2)}" th:field="*{empFun}" th:value="2"><span class="round button">物件管理</span></label>
+                	</div>
+				</td>
 			</tr>
 			<tr>
 				<td><label for="notice">購物管理<b>*</b>：</label></td>
@@ -95,8 +56,48 @@
 				<td><input type="checkbox" id="emp" th:field="*{empFun}" th:value="6"></td>
 			</tr>
 		</table>
+		
+					<div id="checkbox">
+					<label><input type="checkbox" id="fun" name="variety" th:field="*{empFun}" th:value="1"><span class="round button">會員管理</span></label>
+					<label><input type="checkbox" id="fun" name="variety" th:field="*{empFun}" th:value="1"><span class="round button">會員管理</span></label>
+                	</div>
 		<input type="submit" class="submit" value="修改資料">
-	</form>
+		
+		    <div id="checkbox">
 
+        <label><input type="checkbox" id="rent" th:checked="${empFunData.empFun.contains(2)}" th:value="2"><span class="round button">會員管理</span></label>
+        <label><input type="checkbox" name="variety" value="台綜" /><span class="round button">台綜</span></label>
+        <label><input type="checkbox" name="variety" value="陸綜" /><span class="round button">陸綜</span></label>
+        <label><input type="checkbox" name="variety" value="韓綜" /><span class="round button">韓綜</span></label>
+        <label><input type="checkbox" name="variety" value="遊戲" /><span class="round button">遊戲</span></label>
+        <label><input type="checkbox" name="variety" value="益智" /><span class="round button">益智</span></label>
+        <label><input type="checkbox" name="variety" value="談話" /><span class="round button">談話</span></label>
+        <label><input type="checkbox" name="variety" value="娛樂" /><span class="round button">娛樂</span></label>
+        <label><input type="checkbox" name="variety" value="網紅" /><span class="round button">網紅</span></label>
+    </div>
+	</form>
+	
+	<div class="widget">
+	  <fieldset>
+    <legend>Hotel Ratings: </legend>
+    <label for="checkbox-1">2 Star</label>
+    <input type="checkbox" name="checkbox-1" id="checkbox-1">
+    <label for="checkbox-2">3 Star</label>
+    <input type="checkbox" name="checkbox-2" id="checkbox-2">
+    <label for="checkbox-3">4 Star</label>
+    <input type="checkbox" name="checkbox-3" id="checkbox-3">
+    <label for="checkbox-4">5 Star</label>
+    <input type="checkbox" name="checkbox-4" id="checkbox-4">
+  </fieldset>
+  </div>
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/public/jquery-ui/jquery-ui-1.13.2/jquery-ur.js}"></script>
+	<script>
+	  $( function() {
+	    $( "input" ).checkboxradio({
+	      icon: false
+	    });
+	  } );
+  	</script>
 </body>
 </html>

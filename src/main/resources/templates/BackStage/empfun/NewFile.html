@@ -23,6 +23,7 @@
 <div th:replace="BackStage/HTMLTool/nav :: nav"></div>
 	<main>
 	<h1>員工管理</h1>
+	<form method="post" th:action="@{funUpdate}" th:object="${empFunData}" >
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
@@ -30,7 +31,8 @@
 				<th>員工姓名</th>
 				<th>員工狀態</th>
 				<th>雇用日期</th>
-				<th>員工性別</th>
+				<th>員工權限</th>
+				<th>修改權限</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -49,6 +51,7 @@
 			</tr>
 		</tbody>
 	</table>
+	</form>
 	<br>
 	<form method="get" th:action="@{/BackStage/changePsw}">
 		<input type="hidden" name= "empNo" th:value="${empData.empNo}">
@@ -68,5 +71,14 @@
     // });
   	</script>
  </main>
+ 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/public/jquery-ui/jquery-ui-1.13.2/jquery-ur.js}"></script>
+	<script>
+	  $( function() {
+	    $( "input" ).checkboxradio({
+	      icon: false
+	    });
+	  } );
+  	</script>
 </body>
 </html>
