@@ -142,11 +142,9 @@
 
             // Get the current value of stateSave
             var currentStateSaveValue = table.settings()[0].oFeatures.bStateSave;
-//             console.log("Current stateSave value:", currentStateSaveValue);
+
             table.columns(5).every( function () {
                     let column = this;
-//                     console.log("stateSave="+table.settings()[0].oFeatures.bStateSave)
-
                     // Create select element
                     let select = document.createElement('select');
                     select.add(new Option(''));
@@ -166,9 +164,7 @@
      
                     // Add list of options
                     column.data().unique().sort().each( function ( d, j ) {
-//                     	console.log('^' + d + '$')
-//                     	console.log(table.settings()[0].oFeatures.bStateSave)
-// 						console.log(column.search())
+
                         if(column.search() === '^' + d + '$'){
                         	console.log("OK")
                         	var newOption = document.createElement("option");
@@ -181,42 +177,13 @@
                         } else {
                         	select.add(new Option(d));
                         }
-                        
-//                     	if(column.search() === ""){
-                    		
-//                     		console.log("column.search()=null")
-// 							console.log("stateSave="+table.settings()[0].oFeatures.bStateSave)
-//                     		table.settings().stateSave = false;
-//                     		console.log("stateSave="+table.settings()[0].oFeatures.bStateSave)
-//                     	}
+
                     } );
                 });
         	
 
         }
     });
-    
-    
-//     new DataTable('#example', {
-//         initComplete: function () {
-//         	this.api().columns([0,1,2]).every( function () {
-//                     let column = this;
-//                     let title = column.footer().textContent;
-     
-//                     // Create input element
-//                     let input = document.createElement('input');
-//                     input.placeholder = title;
-//                     column.footer().replaceChildren(input);
-     
-//                     // Event listener for user input
-//                     input.addEventListener('keyup', () => {
-//                         if (column.search() !== this.value) {
-//                             column.search(input.value).draw();
-//                         }
-//                     });
-//                 });
-//         }
-//     });
 
 	// Setup - add a text input to each header cell
 	$('#example thead th:lt(3)').each(function() {
@@ -232,7 +199,6 @@
 	 
 	// Apply the search
 	table.columns(':lt(3)').eq(0).each(function(colIdx) {
-// 		console.log("藍="+colIdx+"值="+table.column(colIdx).search(this.value))
 		var searchval=table.column(colIdx).search(this.value)
 		if(searchval!==""){
 			console.log(searchval)
@@ -244,9 +210,7 @@
 	    	table
 	            .column(colIdx)
 	            .search(this.value)
-	            .draw();
-// 	    	console.log("藍="+colIdx+"值="+this.value)
-	    	
+	            .draw();	    	
 	    });
 	 
 	    $('input', table.column(colIdx).header()).on('click', function(e) {

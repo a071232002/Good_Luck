@@ -70,6 +70,9 @@ public class RentController {
 
 		System.out.println("rentNo="+rentNo);
 		System.out.println("rentSt="+rentSt);
+		Rent rent=rentSvc.getOneRent(rentNo);
+		rent.setRentSt(rentSt);
+		rentSvc.updateRent(rent);
 		
 		 // 获取模型中的所有键值对
 //	    for (Map.Entry<String, Object> entry : model.entrySet()) {

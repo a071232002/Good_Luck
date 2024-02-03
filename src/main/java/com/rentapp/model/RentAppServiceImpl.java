@@ -66,6 +66,7 @@ public class RentAppServiceImpl implements RentAppService{
 					
 					Rent rent=rentApp.getRent();
 					rent.setRentSt((byte)0);
+					rent.setLse(null);
 					rentRepository.save(rent);
 				}else {
 					
