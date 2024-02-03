@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ldd.model.Ldd;
+import com.lse.model.Lse;
 import com.lse.model.LseService;
 import com.rent.model.Rent;
 import com.rent.model.RentService;
@@ -111,9 +112,7 @@ public class lddController {
 		rentApp.setRentAppOwn(rent.getRentAppOwn());
 		rentApp.setRentAppFloor(rent.getRentAppFloor());
 		rentApp.setRentAppSize(rent.getRentAppSize());
-		
-		System.out.println(rentApp);
-		
+	
 		rentAppSvc.addRentApp(rentApp);
 		
 		rent.setRentSt(Byte.valueOf("5"));
@@ -123,13 +122,23 @@ public class lddController {
 		return "redirect:/rentApp/listAllRentAppByLdd";
 	}
 	
+	@PostMapping("queryByRentNo")
+	public String queryByRentNo(@RequestParam("rentNo") String rentNo, ModelMap model) {
+		List<Lse> list = lseSvc.getListByRentNo(Integer.valueOf(rentNo));
+		model.addAttribute("lse", list);
+		model.addAttribute("rentNo", rentNo);
+		return "FrontEnd/ldd/listLseByRent";
+	}
+	
+	
+	
 	@ModelAttribute("rentListDataByLdd")
 	public List<Rent> referenceListDataByLdd(HttpSession session) {
 		Ldd ldd = (Ldd)session.getAttribute("ldd");
-		System.out.println(ldd);
 		System.out.println(rentSvc.getAllByLdd(ldd));
 		return rentSvc.getAllByLdd(ldd);
 	}
+	
 	
 	@GetMapping("/picture")
 	public void picReader (@RequestParam("rentNo") String rentNo,
@@ -147,19 +156,4 @@ public class lddController {
 		}
 	}
 	
-	private RentApp resendDataCopy(Rent rent) {
-		RentApp rentApp = new RentApp();
-		
-		rentApp.setLdd(rent.getLdd());
-		rentApp.setRentAppNo(rent.getRentNo());
-		rentApp.setRentAppCou(rent.getRentAppCou());
-		rentApp.setRentAppAr(rent.getRentAppAr());
-		rentApp.setRentAppRo(rent.getRentAppRo());
-		rentApp.setRentAppAdd(rent.getRentAppAdd());
-		rentApp.setRentAppOwn(rent.getRentAppOwn());
-		rentApp.setRentAppFloor(rent.getRentAppFloor());
-		rentApp.setRentAppSize(rent.getRentAppSize());
-		
-		return rentApp;
-	}
 }

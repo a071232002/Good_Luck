@@ -18,7 +18,8 @@ public interface LseRepository extends JpaRepository<Lse, Integer>{
 	public List<Lse> findByMem(Mem Mem);
 	
 	@Transactional
-	public List<Lse> findByRentOrderByLseCreateDesc(Rent rent);
+	@Query("FROM Lse lse WHERE lse.rent.rentNo = :rentNo")
+	public List<Lse> findByRentNo(Integer rentNo);
 	
 	@Transactional
 	public List<Lse> findByLseStatus(Byte lseStatus);

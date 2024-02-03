@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ldd.model.Ldd;
 import com.ldd.model.LddService;
 import com.lddapp.model.LddApp;
 import com.lddapp.model.LddAppService;
@@ -56,7 +57,14 @@ public class LddAppControllerFront {
 	}	
 	
 	@GetMapping("/listAllLddApp")
-	public String getAllByMem() {
+	public String getAllByMem(HttpSession session) {
+		Mem mem = (Mem)session.getAttribute("logsuccess");
+		Ldd ldd = lddSvc.getOneByMem(mem);
+		if (ldd != null) {
+			System.out.println(ldd);
+			session.setAttribute("ldd", ldd);
+		}
+		
 		return "FrontEnd/lddApp/listAllLddApp";
 	}
 	

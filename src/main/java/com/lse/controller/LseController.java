@@ -107,9 +107,9 @@ public class LseController {
 		String LsePayAccount = bank + " " + account;
 		lse.setLseSend(part.isEmpty() ? null : part.getBytes());
 		lse.setLsePayAccount(LsePayAccount);
-		lseSvc.addLse(lse);
+		Lse newOne = lseSvc.addLse(lse);
 		//讓該物件下架 不能再被預約看房
-		Rent rent = lse.getRent();
+		Rent rent = rentSvc.getOneRent(lse.getRent().getRentNo());
 		rent.setRentSt(Byte.valueOf("0"));
 		rentSvc.updateRent(rent);
 		
@@ -217,7 +217,8 @@ public class LseController {
 		lseSvc.updateLse(lse);
 		
 		//合約成立變更物件為合約中
-		Rent rent = lse.getRent();
+		Rent rent = rentSvc.getOneRent(lse.getRent().getRentNo());
+		rent.setLse(lse);
 		rent.setRentSt(Byte.valueOf("2"));
 		rentSvc.updateRent(rent);
 		return "redirect:/lse/reviewLse";
@@ -233,13 +234,6 @@ public class LseController {
 		return "redirect:/lse/reviewLse";
 	}
 	
-//	@PostMapping("createNewOne")
-//	public String createNewOneLse(@RequestParam("lseNo") String lseNo) {
-//		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
-//		lse.setLseRenew(Byte.valueOf("4"));
-//		lseSvc.updateLse(lse);
-//		return "redirect:/lse/reviewLse";
-//	}
 	
 	@PostMapping("rejectRenew")
 	public String rejectRenew(@RequestParam("lseNo") String lseNo) {

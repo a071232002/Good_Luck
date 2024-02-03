@@ -11,25 +11,25 @@
     
     <title>申請預約看房</title>
     <style>
-         .tittleBoard {
- 			text-align: center;
-			width: 70%;
-			padding: 0px 100px;
-			border-radius: 8px;
- 			margin: 15px auto;
-		}
+/*          .tittleBoard { */
+/*  			text-align: center; */
+/* 			width: 70%; */
+/* 			padding: 0px 100px; */
+/* 			border-radius: 8px; */
+/*  			margin: 15px auto; */
+/* 		} */
 		
-		.tittleBoard span {
-			font-size: 30px;
-			font-weight: bold;
-			color: #1a2a35;
-			background-color: Wheat;
-			padding: 10px;
-			border-radius: 8px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-			display: inline-block;
-			margin: 0px;
-		}
+/* 		.tittleBoard span { */
+/* 			font-size: 30px; */
+/* 			font-weight: bold; */
+/* 			color: #1a2a35; */
+/* 			background-color: Wheat; */
+/* 			padding: 10px; */
+/* 			border-radius: 8px; */
+/* 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+/* 			display: inline-block; */
+/* 			margin: 0px; */
+/* 		} */
 
         .container {
             text-align: center;
@@ -41,7 +41,7 @@
 
         .formArea {
             text-align: center;
-            margin: 10px;
+            margin: 30px auto;
         }
 
         /* th {
@@ -173,6 +173,11 @@
             background-color: #f5f5f5;
         }
         
+                .approve_button,
+        .reject_button {
+        	font-size: 20px;
+        	vertical-align: middle;
+        }
     </style>
 </head>
 
@@ -184,7 +189,7 @@
         <form class="formData" method="post" th:action="@{insert}" th:object="${apo}"
             onsubmit="return checkDateSelected()">
 
-            <label class="formEl" for="rentNo">物件編號<b>*</b>：</label>
+            <label class="formEl" for="rentNo">物件編號 ：</label>
 			<span class="formEl" th:text="${apo.rent.rentNo}"></span><br><br>
             <label class="formEl" for="apoDate">請選擇預約日期及時段<b>*</b>：</label><br>
             <input type="text" id="apoDate" th:field="*{apoDate}" readonly>
@@ -192,8 +197,8 @@
             <span class="formEl" id="apoTimeText"></span><br><br>
 
             <input type="hidden" name="mem.memNo" th:value="${session.logsuccess.memNo}">
-            <input type="hidden" id="rentNo" th:field="*{rent.rentNo}"><br>
-			
+            <input type="hidden" id="rentNo" th:field="*{rent.rentNo}">
+			<input type="hidden" name="rentNo" th:value="*{rent.rentNo}">
             <input type="submit" value="預約看房" class="approve_button">
             <a th:href="@{'/rent/rentDetail?rentNo=' + ${apo.rent.rentNo}}"><button type="button" class="reject_button">取消</button></a>
         </form>
@@ -418,7 +423,7 @@
 
         //TODO 改成動態get 物件元素value
         var rentNo = rentNoInput.value;
-        var requestData = { rentNo: 1 };
+//         var requestData = { rentNo: 1 };
         //  ajax 將核准的預約單帶回
         function updateCalendarDate() {
             $.ajax({

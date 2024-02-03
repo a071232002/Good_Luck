@@ -138,14 +138,14 @@
 		                   	<span th:case="2" class="success" th:text="通過"></span>
 	                   </td>
 	                   <td>
-							<form th:if="${lddApp.lddAppPayStatus == 1}" method="post" th:action="@{approve}">
+							<form th:if="${lddApp.lddAppPayStatus == 1}" method="post" th:action="@{approve}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lddAppNo" th:value="${lddApp.lddAppNo}">
                                 <input type="submit" value="審核通過" class="approve_button" 
                                 	th:disabled="${lddApp.lddAppStatus != 0}" 
 			               			th:classappend="${lddApp.lddAppStatus != 0} ? 'disabled-button' : ''" >
                             </form>
 
-							<form method="post" th:action="@{reject}">
+							<form method="post" th:action="@{reject}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lddAppNo" th:value="${lddApp.lddAppNo}">
                                 <input type="submit" value="不通過" class="reject_button"
                                 	th:disabled="${lddApp.lddAppStatus != 0}" 
@@ -167,14 +167,8 @@
          <script th:src="@{/js/public/tableModel/the2.js}"></script>
  		
          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-         <script th:src="@{/js/BackStage/indexJS/scripts.js}"></script>
-		
-<!-- 		<script th:src="@{/js/BackStage/indexJS/indexActiveColor.js}"></script> -->
-	
-<!-- 		<script th:src="@{/js/BackStage/indexJS/navImgEvent.js}"></script> -->
-<!-- 		<!-- 取消<a>預設行為 --> -->
-<!-- 		<script th:src="@{/js/BackStage/indexJS/LinkCancelEvent.js}"></script> -->
-         
+		 <script th:src="@{/js/public/sweetAlert2/basic.js}"></script>
+		 
          
          
          <script>
