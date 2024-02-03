@@ -83,7 +83,7 @@
 		}
         
         main{
-        	margin-top: 100px;
+        	margin-top: 50px;
         	padding: 50px 20px;
         }
               
@@ -124,7 +124,7 @@
 	                   <td th:text="${lddApp.mem.memPhone}"></td>
 	                   <td th:text="${lddApp.lddAppCreate}"></td>
 	                   <td>
-							<img class="lddAppImage" th:src="@{/lddApp/picture} + '?lddAppNo=' + ${lddApp.lddAppNo}" width="150px">
+							<img class="lddAppImage" th:src="@{/BackStage/lddApp/picture} + '?lddAppNo=' + ${lddApp.lddAppNo}" width="150px">
 		        	   </td>
 	                   <td th:switch="${lddApp.lddAppPayStatus}">
 			                <span th:case="0" class="cancel" th:text="未付款"></span>
