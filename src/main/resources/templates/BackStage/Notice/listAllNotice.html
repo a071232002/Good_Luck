@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="/css/BackStage/notice/try.css">
 <link rel="stylesheet" href="/css/BackStage/notice/try2.css">
+<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
 <style>
  	h1 {
 		text-align: center;
@@ -53,9 +55,16 @@
         background-color: #0CF;
         color: #ffffff;
     }
+    main{
+   margin-top: 30px;
+   padding: 50px 20px;
+}
+    
 </style> 
 </head>
 <body>
+   <div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+<main>
     <h1 style="color:#87CEEB; font-family: Arial; font-size: 25px; font-weight: bold;line-height: 1.2;">最新公告管理</h1>
     <table id="example" class="display" style="width: 100%">
         <thead>
@@ -70,6 +79,7 @@
         </thead>
         <tbody>
             <th:block th:each="notice : ${noticeListData}">
+    
                 <tr>
                     <td th:text="${notice.noticeNo}"></td>
                     <td th:text="${notice.empNo}"></td>
@@ -89,6 +99,8 @@
             </th:block>
         </tbody>
     </table>
-    <a th:href="@{addNotice}"><button>前往新增最新公告消息</button></a>
+   
+ </main>
+    
 </body>
 </html>

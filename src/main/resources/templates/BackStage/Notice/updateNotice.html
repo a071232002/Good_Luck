@@ -4,9 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
     <title>Insert title here</title>
 </head>
+
+
 <body>
+<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
 	<form method="post" th:action="@{noticeupdate}" th:object="${data}" enctype="multipart/form-data">
    		<table>
 			<tr>
@@ -43,6 +48,8 @@
 <!-- 		<input type="hidden" th:field="*{noticeContent}"> -->
 <!-- 		<input type="hidden" th:field="*{noticeStatus}"> -->
 		<input type="submit" class="submit" value="修改資料">
+		
+		
    </form>
    
    
