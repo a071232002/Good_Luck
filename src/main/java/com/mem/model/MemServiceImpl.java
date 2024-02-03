@@ -59,11 +59,16 @@ public class MemServiceImpl implements MemService {
 	// 編輯會員
 	@Override
 	public Mem edit(Mem newData) {
-		System.out.println("get memNo" + newData.getMemNo());
-		String getMD5 = hashPassword(newData.getMemPsw()); //密碼進行加密
-		newData.setMemPsw(getMD5);
+//		System.out.println("get memNo" + newData.getMemNo());
+//		String getMD5 = hashPassword(newData.getMemPsw()); //密碼進行加密
+//		newData.setMemPsw(getMD5);
 		newData.setLastLoginTime(Timestamp.valueOf(LocalDateTime.now())); // 更新最後登入時間
 		return memRepository.save(newData);
+	}
+	
+	//變更會員大頭照
+	public void changePic(Mem mem, byte[] memPic) {
+		memRepository.updateMemPicById(mem.getMemNo(), memPic);
 	}
 
 	// 會員編號查詢
@@ -114,8 +119,8 @@ public class MemServiceImpl implements MemService {
 			
 			//設置驗證碼到redis(20秒)
 			ValueOperations<String, String> vo = redisTemplate.opsForValue();
-			vo.set("templateID", verifyID);
-			redisTemplate.expire("templateID", 20, TimeUnit.SECONDS);
+			vo.set("templateID" + mail, verifyID);
+			redisTemplate.expire("templateID" + mail, 20, TimeUnit.SECONDS);
 			System.out.println("yes");
 			return true;
 		} catch (MessagingException e) {
@@ -171,8 +176,26 @@ public class MemServiceImpl implements MemService {
 		
 		Mem data = memRepository.findById(memNo).orElse(null);
 		// 其他停權動作
-		data.setMemStatus(Byte.valueOf("2")); // 2為停權狀態
-		edit(data);
+		memRepository.updateMemStatusById(memNo, Byte.valueOf("2"));
+//		data.setMemStatus(Byte.valueOf("2")); // 2為停權狀態
+//		edit(data);
+	}
+	
+	//變更密碼
+	@Override
+	public Mem changePsw(Mem mem, String newMemPsw) {
+		mem.setMemPsw(newMemPsw);
+		return edit(mem);
+	}
+	
+	@Override
+	public boolean existMemPhone(String memPhone) {
+		return memRepository.existsByMemPhone(memPhone);
+	}
+	
+	@Override
+	public boolean existMemID(String memID) {
+		return memRepository.existsByMemID(memID);
 	}
 	
 	

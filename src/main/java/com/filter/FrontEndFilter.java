@@ -44,6 +44,7 @@ public class FrontEndFilter implements Filter{
 		path.add("/images/");
 		path.add("/jquery/");
 		path.add(".ico");
+		path.add(".svg");
 		
 		path.add("/login");
 		path.add("/forgetPsw");
@@ -80,7 +81,6 @@ public class FrontEndFilter implements Filter{
 		if(validator && !"/Good_Luck/".equals(uri)) {
 			final Mem member = getClassFromSession(httpRequest, "logsuccess", Mem.class); //取得Session資料
 			System.out.println("Member為：" + member);
-			
 			if(member == null) {
 				if(httpRequest.getParameter("rentNo") != null) {
 					newUri = newUri + "?rentNo=" +  httpRequest.getParameter("rentNo");

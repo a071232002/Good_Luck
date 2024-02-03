@@ -13,6 +13,9 @@ public interface MemService {
 	// 編輯會員
 	public Mem edit(Mem newData);
 
+	//變更會員大頭照
+	public void changePic(Mem mem, byte[] memPic);
+	
 	// 會員編號查詢
 	public Mem findByNo(Integer memNo);
 
@@ -31,6 +34,13 @@ public interface MemService {
 	// 停權會員
 	public void banMem(Integer memNo);
 	
+	//變更密碼
+	public Mem changePsw(Mem mem, String newMemPsw);
+	
+	public boolean existMemPhone(String memPhone);
+	
+	public boolean existMemID(String memID);
+
 	public String redisTest();
 
 }

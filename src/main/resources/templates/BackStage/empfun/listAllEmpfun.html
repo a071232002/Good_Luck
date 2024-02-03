@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>權限管理</h1>
+	<h1>員工/權限管理</h1>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
@@ -49,7 +49,7 @@
 				<td>
 					<form method="post" th:action="@{goEditFun}">
 						<input type="hidden" name= "oneEmpNo" th:value="${empfun.empNo}">
-						<input type="submit" value="修改" th:disabled="${empfun.empNo == session.EmpSuccess.empNo || empfun.empNo == 1 ||empfun.empStatus == 0}">
+						<input type="submit" value="修改" th:disabled="${empfun.empNo == 1 || empfun.empStatus == 0}">
 					</form>
 				</td>
 			</tr>

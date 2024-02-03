@@ -45,8 +45,8 @@ public class BackStageFilter implements Filter{
 		//3 購物管理(未新增)
 		funPaths.add(Set.of("/unUpdate"));
 		
-		//4 公告管理(未新增)
-		funPaths.add(Set.of("/unUpdate"));
+		//4 公告管理
+		funPaths.add(Set.of("/notice"));
 		
 		//5 投訴管理
 		funPaths.add(Set.of("/report"));
@@ -75,8 +75,6 @@ public class BackStageFilter implements Filter{
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		final String uri = httpRequest.getRequestURI();
 		
-//		boolean validator = path.stream()
-//								   .allMatch(s -> (!uri.contains(s)));
 		boolean validator = funPaths.get(0).stream()
 												.allMatch(s -> (!uri.contains(s)));
 		
@@ -85,7 +83,7 @@ public class BackStageFilter implements Filter{
 			System.out.println("過濾靜態檔案後的 uri:" + uri);
 //			System.out.println(httpRequest.isRequestedSessionIdFromCookie());
 			final Emp emp = getClassFromSession(httpRequest, "EmpSuccess", Emp.class);
-			System.out.println(httpRequest.getRequestURL());
+//			System.out.println(httpRequest.getRequestURL());
 			System.out.println("後台Session資料：" + emp);
 			if(emp == null) {
 				System.out.println("儲存uri到後台Session：" + uri);
@@ -96,9 +94,6 @@ public class BackStageFilter implements Filter{
 			
 			
 			//寫權限驗證
-//			 boolean funValidator = emp.getEmpFun()
-//										   .stream()
-//										   .anyMatch(s ->funPaths.get(s).stream().anyMatch(u -> uri.contains(u)));
 			String newUri = uri.replace("/Good_Luck/", "/");
 			Set<String> pathValidator = funPaths.stream()
 					 							 .filter(s -> s.stream().anyMatch(u -> newUri.contains(u)))

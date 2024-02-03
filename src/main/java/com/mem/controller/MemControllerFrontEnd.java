@@ -188,6 +188,15 @@ public class MemControllerFrontEnd {
 			BindingResult result, ModelMap model, @RequestParam("county") String county, 
 			@RequestParam("district") String district, HttpSession session) throws IOException {
 
+		Mem oldSession = (Mem)session.getAttribute("logsuccess");
+		
+		if(!oldSession.getMemID().equals(mem.getMemID()) && memservice.existMemID(mem.getMemID())) {
+			model.addAttribute("duplicateID", "已存在的身分證！");			
+		}
+		
+		if(!oldSession.getMemPhone().equals(mem.getMemPhone()) && memservice.existMemPhone(mem.getMemPhone())) {
+			model.addAttribute("duplicatePhone", "手機號碼已被使用！");
+		}
 		
 		String detailAdd = mem.getMemAdd();
 		mem.setMemAdd(county + " " + district + " " + detailAdd);
@@ -197,15 +206,15 @@ public class MemControllerFrontEnd {
 		result = removeFieldError(mem, result, "memPic");
 
 		System.out.println(result.getFieldErrorCount());
-		if (result.hasErrors()) {
+		if (result.hasErrors() || model.get("duplicateID") != null || model.get("duplicatePhone") != null) {
 			mem.setMemAdd(detailAdd);
 			return "FrontEnd/mem/updateMem";
 		}
-		System.out.println("get " + mem);
+//		System.out.println("get " + mem);
 		Mem newData = memservice.edit(mem);
-		model.addAttribute("successData", newData);
+//		model.addAttribute("successData", newData);
 		session.setAttribute("logsuccess", newData);
-		return "FrontEnd/mem/successPage";
+		return "redirect:/mem/memCenter";
 	}
 	
 	//大頭照變更
@@ -213,9 +222,10 @@ public class MemControllerFrontEnd {
 	public String newPic(@RequestParam("chaPic") MultipartFile part, HttpSession session) {
 		Mem mem = (Mem)session.getAttribute("logsuccess");
 		try {
-			System.out.println(mem.getMemPsw());
-			mem.setMemPic(part.getBytes());
-			Mem newData = memservice.edit(mem);
+//			System.out.println(mem.getMemPsw());
+//			mem.setMemPic(part.getBytes());
+			memservice.changePic(mem, part.getBytes());
+			Mem newData = memservice.findByNo(mem.getMemNo());
 			session.setAttribute("logsuccess", newData);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -259,6 +269,35 @@ public class MemControllerFrontEnd {
 		Mem mem = (Mem)session.getAttribute("logsuccess");
 		memservice.verifyMail(mem.getMemMail(), "租你好運感謝您的註冊！", "驗證碼為：", null); //發送簡訊
 		return"redirect:/mem/varifyMail";
+	}
+	
+	//前往變更密碼
+	@GetMapping("/goNewPsw")
+	public String goNewPsw() {
+		return "FrontEnd/mem/changePsw";
+	}
+	
+	//處理變更密碼
+	@PostMapping("/changePsw")
+	public String changePsw(@RequestParam("oldPsw")String oldPsw, @RequestParam("newPsw")String newPsw,
+								ModelMap model, HttpSession session) {
+		Mem mem = (Mem)session.getAttribute("logsuccess");
+		if(oldPsw.isEmpty()) {
+			model.addAttribute("emptyOldPsw", "舊密碼不可為空白，請重新輸入！");
+		}else if(!mem.getMemPsw().equals(memservice.hashPassword(oldPsw))) {
+			model.addAttribute("oldError", "密碼輸入錯誤，請重新輸入！");
+		}
+		if(newPsw.isEmpty()) {
+			model.addAttribute("emptyNewPsw", "新密碼不可為空白，請重新輸入！");
+		}
+		
+		if(!model.isEmpty()) {
+			return"FrontEnd/mem/changePsw";
+		}
+		mem.setMemPsw(memservice.hashPassword(newPsw));
+		memservice.edit(mem);
+		session.setAttribute("logsuccess", mem);
+		return "redirect:/mem/memCenter";
 	}
 
 	// 去除BindingResult中某個欄位的FieldError紀錄
