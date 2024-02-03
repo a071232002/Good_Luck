@@ -2,6 +2,7 @@ package com.report.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,8 +71,9 @@ public class ReportControllerFrontEnd {
 		
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
-		if (result.hasErrors() ) {
-			return "/report/addReport";
+		System.out.println(result);
+		if (result.hasErrors()) {
+			return "FrontEnd/report/addReport";
 		}
 		/*************************** 2.開始新增資料 *****************************************/
 		// EmpService empSvc = new EmpService();
@@ -126,6 +130,15 @@ public class ReportControllerFrontEnd {
 //		List<Report> list = reoprtSvc.getAllByMem(mem);
 //		return list;
 //	}
-	
+//	public BindingResult removeFieldError(Report report, BindingResult result, String removedFieldname) {
+//		List<FieldError> errorsListToKeep = result.getFieldErrors().stream()
+//				.filter(fieldname -> !fieldname.getField().equals(removedFieldname))
+//				.collect(Collectors.toList());
+//		result = new BeanPropertyBindingResult(report, "report");
+//		for (FieldError fieldError : errorsListToKeep) {
+//			result.addError(fieldError);
+//		}
+//		return result;
+//	}
 
 }

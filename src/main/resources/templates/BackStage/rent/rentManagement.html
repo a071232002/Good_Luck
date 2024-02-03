@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
+	<link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+	<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+	<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
+	
+	<title>物件管理</title>
+	<style>
+		h1 {
+			text-align: center;
+			color: red;
+		}
+		 /* 初始隱藏放大顯示的容器 */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 2147483647; /* 設定 z-index 值為較大的數字 */
+        }
+
+        /* 放大顯示的圖片樣式 */
+        .lightbox img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+        input {
+		    width: 60px;
+		}
+		.lightbox textarea {
+            width: 300px; /* 固定寬度 */
+			height:300px;
+            font-size: 16px;
+        }
+        main{
+		   padding: 20px 20px;
+		}
+	</style>
+</head>
+<body>
+<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+<main>
+	<h1 style="text-align: center;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #3498db; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">
+             物件管理</h1>
+	<div class="lightbox" id="lightbox">
+	    <img  alt="放大顯示的圖片" id="lightbox-img">
+	</div>
+	<table id="example" class="display" style="width: 100%">
+		<thead>
+			<tr>
+				<th>物件編號</th>
+				<th>房東編號</th>
+				<th>合約編號</th>
+				<th>所有權狀</th>
+				<th>刊登圖片</th>
+				<th>物件名稱</th>
+				<th>刊登內容</th>
+				<th>狀態</th>
+				<th>上/下架</th>
+			</tr>
+		</thead>
+		<tbody>
+			<th:block th:each="rent : ${rentListData}">
+				<tr>
+					<td th:text="${rent.rentNo}"></td>
+					<td th:text="${rent.ldd?.lddNo}"></td>
+					<td th:text="${rent.lse?.lseNo}"></td>
+
+					<td>
+<!-- 					<img th:src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}" -->
+<!-- 						width="150px" class="myImage"> -->
+						 <button class="showLightboxButton" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							th:data-img-src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}" onclick="showLightbox(this)">顯示</button>
+					</td>
+					<td>
+<!-- 						<img th:src="@{/BackStage/rent/pictureImg} + '?rentNo=' + ${rent.rentNo}" -->
+<!-- 							width="150px" class="myImage"> -->
+						<button class="showLightboxButton" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							th:data-img-src="@{/BackStage/rent/pictureImg} + '?rentNo=' + ${rent.rentNo}" onclick="showLightbox(this)">顯示</button>	
+					</td>
+
+
+					<td th:text="${rent.rentPostTitle}"></td>
+<!-- 					<td th:text="${rent.rentIntr}"></td> -->
+					<td>
+					<button onclick="showLightboxImg(this)"style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">顯示</button>
+					<!-- 燈箱 -->
+					<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
+					    <textarea readonly id="enlarged-textarea" th:text="${rent.rentIntr}" oninput="autoExpand(this)"></textarea>
+					</div>
+					</td>
+
+						
+					<td th:if="${rent.rentSt == 0}" th:text="下架"></td>
+					<td th:if="${rent.rentSt == 1}" th:text="上架"></td>
+					<td th:if="${rent.rentSt == 2}" th:text="合約中"></td>
+					<td th:if="${rent.rentSt == 3}" th:text="合約期滿"></td>
+					<td th:if="${rent.rentSt == 4}" th:text="檢舉下架"></td>
+					<td th:if="${rent.rentSt == 5}" th:text="重新送審"></td>
+
+
+
+					<td>
+						<form id='myForm' th:action="@{updateRentSt}" method="post" enctype="multipart/form-data">
+					
+								<input type="hidden" th:value="${rent.rentNo}" name="rentNo">
+
+								<input type="hidden" th:value="${rent.rentSt}" name="rentSt">
+						
+							
+							<div th:switch="${rent.rentSt}">
+								<th:block th:case="1">
+							        <!-- 处理值为0的情况 -->
+							        <button type="button" style="background-color: red; /* 藍色背景顏色 */
+                                                        color: black; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='black'; this.style.backgroundColor='red'"
+                			  							th:onclick="|generateAndShowDialog(this,'4',${rent.rentNo})|"> 檢舉下架 </button>
+							    </th:block>
+								<th:block th:case="4">
+							        <!-- 处理值为0的情况 -->
+							        <button type="button" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							th:onclick="|generateAndShowDialog(this,'1',${rent.rentNo})|"> 重新上架 </button>
+							    </th:block>
+<!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->
+<!-- 								<button th:case="0" type="submit" id="submit"> 不成立 </button> -->
+							</div>
+<!-- 							<input type="hidden" name="rentAppNo"th:value="${rentApp.rentAppNo}">  -->
+<!-- 							<input type="submit"value="修改"> -->
+						</form>
+					</td>
+				</tr>
+
+			</th:block>
+
+		</tbody>
+
+	</table>
+	<br>
+</main>
+
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/BackStage/mem/the.js}"></script>
+	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
+<!-- 	<script th:src="@{/js/BackStage/rentapp/listAllRentApp.js}"></script> -->
+	<script>
+	
+    new DataTable('#example', {
+    	"stateSave": true,
+    	"iDisplayLength": 5,
+        initComplete: function () {
+        	var table = this.api();
+
+            var currentStateSaveValue = table.settings()[0].oFeatures.bStateSave;
+			//指定一個欄位新增select，從0開始算
+            table.columns(7).every( function () {
+                    let column = this;
+
+                    let select = document.createElement('select');
+                    select.add(new Option(''));
+                    column.header().append(select);
+
+                    select.addEventListener('change', function () {
+                        var val = DataTable.util.escapeRegex(select.value);
+
+                        column
+                            .search(val ? '^' + val + '$' : '', true, false)
+                            .draw();
+                    });
+                    select.addEventListener('click', function (e) {
+                    	e.stopPropagation();
+                    });
+
+                    column.data().unique().sort().each( function ( d, j ) {
+
+                        if(column.search() === '^' + d + '$'){
+                        	console.log("OK")
+                        	var newOption = document.createElement("option");
+						    newOption.text = d;
+						    newOption.value = d;
+						    newOption.selected="selected"
+                            select.append(newOption);
+
+                        } else {
+                        	select.add(new Option(d));
+                        }
+
+                    } );
+                });
+
+        }
+    });
+
+	// 前幾欄加上input
+	$('#example thead th:lt(3)').each(function() {
+		
+	    var title = $('#example thead th').eq($(this).index()).text();
+
+	    $(this).html(title+'<input type="text" placeholder="請輸入..." />');
+
+	});
+
+	var table = $('#example').DataTable();
+	 
+	// 前幾欄加上input的search
+	table.columns(':lt(3)').eq(0).each(function(colIdx) {
+		var searchval=table.column(colIdx).search(this.value)
+		if(searchval!==""){
+			console.log(searchval)
+			$('#example thead th').eq(colIdx).find('input').val(searchval);
+	    }
+		
+		
+	    $('input', table.column(colIdx).header()).on('keyup', function() {
+	    	table
+	            .column(colIdx)
+	            .search(this.value)
+	            .draw();	    	
+	    });
+	 
+	    $('input', table.column(colIdx).header()).on('click', function(e) {
+	        e.stopPropagation();
+	    });
+	});
+	
+//     function setDataValue(buttonElement, newValue) {
+
+// //    		console.log(newValue);
+// 		// 找到按钮的父级元素
+//        var parent = buttonElement.parentElement;
+
+//        // 找到隐藏字段（前一个兄弟元素）
+//        var hiddenField = parent.previousElementSibling;
+
+//        // 如果找到了隐藏字段，修改其值
+//        if (hiddenField && hiddenField.type === 'hidden' && hiddenField.name === 'rentSt') {
+//            hiddenField.value = newValue;
+//        }
+//        parent.parentElement.submit();
+       
+//    }
+    
+    function generateAndShowDialog(button, expectedValue,rentNo) {
+
+        // 生成亂數
+        var randomValue = generateRandomString();
+
+        // 彈出燈箱
+        if(expectedValue==4){
+        	//檢舉下架
+        	
+	        var userInput = prompt('若確定將物件編號: '+rentNo+' 檢舉下架，請輸入以下驗證碼進行驗證：' + randomValue);
+        }else if(expectedValue==1){
+        	//重新上架
+        	var userInput = prompt('若確定將物件編號: '+rentNo+' 重新上架，請輸入以下驗證碼進行驗證：' + randomValue);
+        }
+
+        // 檢查使用者輸入是否正確
+        if (userInput === randomValue) {
+        	// 找到按钮的父级元素
+        	var parent = button.parentElement;
+
+	         // 找到隐藏字段（前一个兄弟元素）
+	         var hiddenField = parent.previousElementSibling;
+	
+	         // 如果找到了隐藏字段，修改其值
+	         if (hiddenField && hiddenField.type === 'hidden' && hiddenField.name === 'rentSt') {
+	             hiddenField.value = expectedValue;
+	         }
+	         parent.parentElement.submit();
+            alert('輸入正確，已將物件狀態進行變更');
+        } else {
+            alert('輸入錯誤，請再試一次。');
+        }
+    }
+
+    function generateRandomString() {
+        // 生成包含大小寫字母和數字的亂數
+        var characters = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz023456789';
+        var result = '';
+        for (var i = 0; i < 6; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    }
+
+    
+    function showLightboxImg(element) {
+        // 顯示燈箱
+ 
+        element.parentNode.querySelector('div').style.display = 'flex';
+        
+        // 自動調整放大的 textarea 的高度
+       autoExpand( element.parentNode.querySelector('div').firstElementChild)
+
+    }
+
+    function hideLightbox(event) {
+        // 檢查點擊位置是否在 textarea 內，是的話不關閉燈箱
+
+        var textarea = event.target.firstElementChild
+        if (event.currentTarget.contains(textarea)) {
+            // 隱藏燈箱
+            event.currentTarget.style.display = 'none';
+        }
+            return;
+    }
+
+    function autoExpand(textarea) {
+        
+        // 克隆 textarea，以便計算內容的大小
+        var clone = textarea.cloneNode(true);
+        clone.style.width = textarea.offsetWidth + 'px'; // 設置克隆的寬度與原始 textarea 相同
+        clone.style.height = 'auto'; // 先將高度設置為 auto，以便根據內容計算實際高度
+
+        // 將克隆的 textarea 放入 body 中，以便計算實際高度
+        document.body.appendChild(clone);
+
+        // 設置克隆的內容為原始 textarea 的內容
+        clone.value = textarea.value;
+
+        // 計算實際高度
+        var height = clone.scrollHeight+100;
+
+        // 從 body 中移除克隆的 textarea
+        document.body.removeChild(clone);
+
+        // 將原始 textarea 的高度設置為實際高度
+        textarea.style.height = height + 'px';
+    }
+    
+    
+//  // 獲取圖片元素和放大顯示容器元素
+//     var images = document.querySelectorAll('.myImage');
+//     var lightbox = document.getElementById('lightbox');
+//     var lightboxImg = document.getElementById('lightbox-img');
+
+//     // 點擊圖片時顯示放大顯示的容器和圖片
+//      images.forEach(function (img) {
+//         // 點擊圖片時顯示放大顯示的容器和圖片
+//         img.onclick = function () {
+//             lightbox.style.display = 'flex'; // 使容器可見
+//             lightboxImg.src = this.src; // 設置放大顯示的圖片
+//         };
+//     });
+
+//     // 點擊放大顯示的容器時隱藏容器
+//     lightbox.onclick = function () {
+//         lightbox.style.display = 'none'; // 隱藏容器
+//     };
+    
+//     // 阻止點擊放大顯示的圖片時隱藏容器
+// 	lightboxImg.onclick = function (event) {
+// 	    event.stopPropagation(); // 阻止事件冒泡
+// 	};
+	// 獲取按鈕元素和放大顯示容器元素
+	var buttons = document.querySelectorAll('.showLightboxButton');
+	var lightbox = document.getElementById('lightbox');
+	var lightboxImg = document.getElementById('lightbox-img');
+	
+	// 定義顯示燈箱的函數
+	function showLightbox(button) {
+	    lightbox.style.display = 'flex'; // 使容器可見
+	    lightboxImg.setAttribute('src', button.dataset.imgSrc); // 使用按鈕上的自定義屬性作為圖片源
+	}
+	
+	// 點擊放大顯示的容器時隱藏容器
+	lightbox.onclick = function () {
+	    lightbox.style.display = 'none'; // 隱藏容器
+	};
+	
+	// 阻止點擊放大顯示的圖片時隱藏容器
+	lightboxImg.onclick = function (event) {
+	    event.stopPropagation(); // 阻止事件冒泡
+	};
+	
+	// 給每個按鈕設置自定義屬性，以保存相應的圖片源
+// 	buttons.forEach(function (button) {
+// // 	    button.dataset.imgSrc = button.getAttribute('data-img-src');
+// 	    // 點擊按鈕時觸發燈箱顯示
+// 	    button.onclick = function () {
+// 	    	console.log("daw")
+// 	        showLightbox(this);
+// 	    };
+// 	});
+
+	</script>
+</body>
+</html>

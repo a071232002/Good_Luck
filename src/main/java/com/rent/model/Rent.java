@@ -238,7 +238,7 @@ public class Rent {
 	public void setRentIntr(String rentIntr) {
 		this.rentIntr = rentIntr;
 	}
-	public byte getRentLayout() {
+	public Byte getRentLayout() {
 		return rentLayout;
 	}
 	public void setRentLayout(Byte rentLayout) {
