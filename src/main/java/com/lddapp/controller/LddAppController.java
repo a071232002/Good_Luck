@@ -6,20 +6,18 @@ import java.util.List;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.ldd.model.LddService;
+import com.emp.model.Emp;
 import com.lddapp.model.LddApp;
 import com.lddapp.model.LddAppService;
 
@@ -30,40 +28,29 @@ public class LddAppController {
 	@Autowired
 	LddAppService lddAppSvc;
 
-	@Autowired
-	LddService lddSvc;
-
-	@GetMapping("/listAllLddApp")
+	@GetMapping("/reviewLddApp")
 	public String getAll(ModelMap model) {
-		return "BackStage/lddApp/listAllLddApp";
-	}
-
-	@PostMapping("/updateLddApp")
-	public String updateData(ModelMap model, @ModelAttribute("lddAppNo") String lddAppNo) {
-		LddApp dataORI = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
-		model.addAttribute("lddApp", dataORI);
-		return "BackStage/lddApp/updateLddApp";
+		return "BackStage/lddApp/reviewLddApp";
 	}
 	
-	@PostMapping("/get_one_display")
-	public String getOneDisplay(ModelMap model, @RequestParam("lddAppNo") String lddAppNo) {
-		LddApp lddApp = new LddApp();
-		lddApp = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
-		model.addAttribute("lddApp", lddApp);
-		return "BackStage/lddApp/listOneLddApp2";
-	}
-	
-	@PostMapping("update")
-	public String update (@RequestParam("lddAppIDPic") MultipartFile part,
-			@Valid LddApp lddApp, BindingResult result, ModelMap model) throws IOException {
-		if (part.isEmpty()){
-			byte[] dataORI = lddAppSvc.getOneLddApp(lddApp.getLddAppNo()).getLddAppIDPic();
-			lddApp.setLddAppIDPic(dataORI);
-		} else {
-			lddApp.setLddAppIDPic(part.getBytes());
-		}
+	@PostMapping("approve")
+	public String approveLddApp(@RequestParam("lddAppNo") String lddAppNo, HttpSession session) {
+		LddApp lddApp = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
+		Emp emp = (Emp)session.getAttribute("EmpSuccess");
+		lddApp.setEmp(emp);
+		lddApp.setLddAppStatus(Byte.valueOf("2"));
 		lddAppSvc.upDateLddApp(lddApp);
-		return "redirect:/BackStage/lddApp/listAllLddApp";
+		return "redirect:/BackStage/lddApp/reviewLddApp";
+	}
+	
+	@PostMapping("reject")
+	public String rejectLddApp(@RequestParam("lddAppNo") String lddAppNo, HttpSession session) {
+		LddApp lddApp = lddAppSvc.getOneLddApp(Integer.valueOf(lddAppNo));
+		Emp emp = (Emp)session.getAttribute("EmpSuccess");
+		lddApp.setEmp(emp);
+		lddApp.setLddAppStatus(Byte.valueOf("1"));
+		lddAppSvc.upDateLddApp(lddApp);
+		return "redirect:/BackStage/lddApp/reviewLddApp";
 	}
 	
 	@GetMapping("picture")
@@ -79,7 +66,6 @@ public class LddAppController {
 		}	
 	}
 	
-	// getAll 傳回 for th讀取
 	@ModelAttribute("lddAppListData")
 	public List<LddApp> referenceListData() {
 		return lddAppSvc.getAll();
