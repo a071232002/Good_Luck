@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link th:href="@{/css/BackStage/rentapp/addRentApp.css}"
-	rel="stylesheet" />
+    <link th:href="@{/css/BackStage/rentapp/addRentApp.css}" rel="stylesheet" />
+    <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+    <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
     <style>
         body {
             box-sizing: border-box;
@@ -24,9 +24,29 @@
             color: red;
         }
 
-        td {
+       table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 0px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50vw;
             text-align: right;
-            padding: 5px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #333;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ddd;
         }
 
         .toggler {
@@ -53,32 +73,68 @@
             text-align: center;
             background-color: red;
         }
+        
+        main{
+		   margin-top: 50px;
+		   padding: 50px 20px;
+		   text-align: center;
+		}
+		
+        h1 {
+        	text-align: center;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #3498db; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */ 
+        }
+        
+		.error {
+	    	color: red;
+	    	font-style: italic;
+	    } 
     </style>
-<title>Insert title here</title>
+<title>變更員工資料</title>
 </head>
 <body>
+	<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+	<main>
+	<h1>修改員工資料</h1>
 	<form method="post" th:action="@{/BackStage/emp/changeEmp}" th:object="${empData}" enctype="multipart/form-data">
 		<table>
+			<thead>
+				<tr>
+				    <th>項目</th>
+	            	<th>資料</th>
+				</tr>
+			</thead>
+			<tbody>
 			<tr>
-				<td><label for="name">編號：</label></td>
+				<td><label for="name">員工編號：</label></td>
 				<td><span th:text="*{empNo}"></span></td>
 			</tr>
 			<tr>
 				<td><label for="name">姓名<b>*</b>：</label></td>
-				<td><input id="name" title="請輸入姓名" th:field="*{empName}"></td>
-				<td><span th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></span></td>
+				<td>
+					<input id="name" title="請輸入姓名" th:field="*{empName}">
+					<br>
+					<span th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}" class="error"></span>
+				</td>
 			</tr>
 			<tr>
                 <td><label for="memsex">性別<b>*</b>：</label></td>
                 <td>
                     <input type="radio" th:field="*{empSex}" id="man" th:value="0"><label for="man">男性</label>
                     <input type="radio" th:field="*{empSex}" id="femal" th:value="1"><label for="femal">女性</label>
+                	<span th:if="${#fields.hasErrors('empSex')}" th:errors="*{empSex}"></span>
                 </td>
-                <td><span th:if="${#fields.hasErrors('empSex')}" th:errors="*{empSex}"></span></td>
             </tr>
 			<tr>
 				<td><label for="date">員工到職日：</label></td>
-				<td><input type="date" th:field="*{empHireDate}" title="請輸入員工到職日" name="date" readonly></td>
+				<td><span th:text="*{empHireDate}"></span></td>
 			</tr>
 			<tr>
 				<td><label for="status">員工狀態：</label></td>
@@ -87,15 +143,38 @@
 					<span th:if="*{empStatus} == 1" th:text="在職"></span>
                 </td>	
 			</tr>
+			</tbody>
 		</table>
 		<input type="hidden" th:field="*{empNo}">
 		<input type="hidden" th:field="*{empPsw}">
 		<input type="hidden" th:field="*{empStatus}">
+		<input type="hidden" th:field="*{empHireDate}">
 <!-- 		<input type="hidden" th:field="*{lastLoginTime}"> -->
-		<input type="submit" class="submit" value="修改資料">
+		<br>
+		<input type="submit" class="submit" value="修改資料" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">
+
+			<a th:href="@{/BackStage/emp/listAllEmp}"><button style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">取消</button></a>
 	</form>
 
-	<button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
 	<script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script>
+	</main>
 </body>
 </html>

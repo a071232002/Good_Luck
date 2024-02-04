@@ -141,7 +141,7 @@ public class IndexController {
 		if (oldEmpPsw.isEmpty() || newEmpPsw.isEmpty()) {
 			model.addAttribute("empty", "密碼不可為空值！");
 			return "BackStage/emp/updatePsw";
-		} else if (!data.getEmpPsw().equals(oldEmpPsw)) {
+		} else if (!data.getEmpPsw().equals(empService.hashPassword(oldEmpPsw))) {
 			model.addAttribute("error", "密碼輸入錯誤，請重新輸入！");
 			return "BackStage/emp/updatePsw";
 		}
