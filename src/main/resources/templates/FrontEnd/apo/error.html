@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+  <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+  <title>OOPS!</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    .error-container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+
+    .error-title {
+      color: #d9534f;
+    }
+
+    /* 新增樣式以美化連結 */
+    .error-link {
+      color: #fff;
+      background-color: #5bc0de;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .error-link:hover {
+      background-color: #31b0d5;
+    }
+  </style>
+</head>
+<body>
+    <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+    <main>
+  <div class="error-container">
+    <h1 class="error-title">OOPS!</h1>
+    <p>該時段已被搶先囉! 下次請早</p>
+    <!-- 你可以添加更多有用的信息，例如錯誤代碼或其他細節 -->
+
+    <!-- 添加一個跳轉連結 -->
+    <p><a href="javascript:history.back();" style="font-size:18px; font-weight:bold" class="error-link">返回預約</a></p>
+  </div>
+</main>
+</body>
+</html>

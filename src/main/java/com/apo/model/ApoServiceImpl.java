@@ -206,6 +206,24 @@ public class ApoServiceImpl implements ApoService {
 		return repository.findByMemAndApoStatusIn(mem, apoStatusList);
 	}
 
+	@Override
+	public Boolean isExist(Ldd ldd, Date apoDate, Byte apoTime) {
+		Boolean test = false;
+		List<Apo>  apoList = repository.findByLddAndApoDateAndApoTime(ldd, apoDate, apoTime);
+		System.out.println(apoList);
+		if (apoList.isEmpty()) {
+			return test;
+		} else {
+			List<Apo>  list = apoList.stream()
+									 .filter(apo -> apo.getApoStatus() == 0 || apo.getApoStatus() == 2)
+									 .collect(Collectors.toList());		 
+			if (!list.isEmpty()) {
+				test = true;
+			}
+		}
+		return test;
+	}
+
 	
 
 }

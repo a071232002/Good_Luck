@@ -177,6 +177,18 @@
                         <th:block th:if="${lse.lseRenew == 2}">
                         	<form method="post" th:action="@{extend}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <label for="year" class="formEl" style="margin:0px; 
+                                										vertical-align: middle;
+                                										margin-right:auto; 
+                                										text-align: left; 
+                                										padding:0px">請選擇年限<b>*</b>：</label>
+                                <br>
+								<select id="year" class="formEl" name="year" style="margin:0px; vertical-align: middle;" required>
+									  <option value="">請選擇年限</option>
+									  <option value="6">半年</option>
+									  <option value="12">一年</option>
+									  <option value="24">兩年</option>
+								</select>
                                 <input type="submit" value="延長合約" class="approve_button">
                             </form>
                             
