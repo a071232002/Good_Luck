@@ -1,5 +1,6 @@
 package com.apo.model;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,6 +13,10 @@ import com.mem.model.Mem;
 import com.rent.model.Rent;
 
 public interface ApoRepository extends JpaRepository<Apo, Integer>{
+	
+	@Transactional
+	@Query("FROM Apo apo WHERE apo.rent.ldd = :ldd AND apo.apoDate = :apoDate AND apo.apoTime = :apoTime")
+	public List<Apo> findByLddAndApoDateAndApoTime(Ldd ldd, Date apoDate, Byte apoTime);
 	
 	@Transactional
 	@Query("FROM Apo apo WHERE apo.rent.ldd.lddNo = :lddNo ORDER BY apo.apoCreate DESC")

@@ -225,10 +225,10 @@ public class LseController {
 	}
 	
 	@PostMapping("extend")
-	public String extendLse(@RequestParam("lseNo") String lseNo) {
+	public String extendLse(@RequestParam("lseNo") String lseNo, @RequestParam("year") String year) {
 		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
 		
-		lse.setLseEnd(extend(lse.getLseStart(), lse.getLseEnd()));
+		lse.setLseEnd(extend(lse.getLseEnd(), year));
 		lse.setLseRenew(Byte.valueOf("0"));
 		lseSvc.updateLse(lse);
 		return "redirect:/lse/reviewLse";
@@ -285,15 +285,24 @@ public class LseController {
 		}	
 	}
 	
-	private Date extend (Date lseStart, Date lseEnd) {
-		 	long monthsDifference = ChronoUnit.MONTHS
-		 									.between(lseStart.toLocalDate(),
-		 											 lseEnd.toLocalDate());
-
-		    LocalDate newEndDate = lseEnd.toLocalDate().plusMonths(monthsDifference);
-
-		    Date date = Date.valueOf(newEndDate);
-
+//	private Date extend (Date lseStart, Date lseEnd) {
+//		 	long monthsDifference = ChronoUnit.MONTHS
+//		 									.between(lseStart.toLocalDate(),
+//		 											 lseEnd.toLocalDate());
+//
+//		    LocalDate newEndDate = lseEnd.toLocalDate().plusMonths(monthsDifference);
+//
+//		    Date date = Date.valueOf(newEndDate);
+//
+//		return date;
+//	}
+	
+	private Date extend (Date lseEnd, String year) {
+		
+		LocalDate newEndDate = lseEnd.toLocalDate().plusMonths(Integer.valueOf(year));
+		
+		Date date = Date.valueOf(newEndDate);
+		
 		return date;
 	}
 	

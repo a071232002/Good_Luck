@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/public/elementModel/elementStyles.css}" />
+  <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
+  <title>請耐心等候</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    .error-container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+
+    .error-title {
+      color: #d9534f;
+    }
+
+    /* 新增樣式以美化連結 */
+    .error-link {
+      color: #fff;
+      background-color: #5bc0de;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .error-link:hover {
+      background-color: #31b0d5;
+    }
+  </style>
+</head>
+<body>
+    <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
+    <main>
+  <div class="error-container">
+    <h1 class="error-title">請等待審核</h1>
+    <p>已經有申請單審核中!</p>
+    <p><a th:href="@{/lddApp/listAllLddApp}" style="font-size:18px; font-weight:bold" class="error-link">前往查看</a></p>
+  </div>
+</main>
+</body>
+</html>

@@ -52,7 +52,7 @@ public class LddAppControllerFront {
 			model.addAttribute("lddApp", lddApp);
 			return "FrontEnd/lddApp/addLddApp";			
 		} else {			
-			return "redirect:/lddApp/listAllLddApp";
+			return "FrontEnd/lddApp/error";
 		}
 	}	
 	
