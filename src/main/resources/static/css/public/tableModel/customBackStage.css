@@ -1,0 +1,31 @@
+        .display {
+            border: 1px solid Maroon;
+            /* 超出不顯示 */
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+			/* 欄位間格線不合併 增加間隔感 */
+            border-collapse: separate !important;
+        }
+
+        .display th,
+        .display td {
+        	/* 欄位間格線顏色 */
+            border: 1px solid Maroon !important;
+        }
+
+        .display th {
+            background-color: SaddleBrown !important; 
+            color: white !important;
+            font-size: 16px  !important;
+            font-weight: bold !important;
+        }
+        
+        /* 單偶數列顏色對比 */
+        .display tr.odd {
+            background-color: white !important; 
+        }
+        
+        .display tr.even {
+            background-color: FloralWhite !important;
+        }
