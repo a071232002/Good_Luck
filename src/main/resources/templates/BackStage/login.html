@@ -21,13 +21,14 @@
 					<h3>管理員登入</h3>
 
 					<form th:action="@{/BackStage/index}" method="post">
+						<p th:text="${message}" style="padding-left:10px;"></p>
 						<div class="input_outer">
 							<input name="userNo" class="text" type="text"
-								placeholder="請輸入員工編號">
+								placeholder="請輸入員工編號" style="color: white;">
 						</div>
 						<div class="input_outer">
 							<input name="userPassword" class="text" type="password"
-								placeholder="請輸入密碼">
+								placeholder="請輸入密碼" style="color: white;">
 						</div>
 						<div class="mb2">
 							<button type="submit">登入</button>

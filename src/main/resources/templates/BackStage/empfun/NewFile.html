@@ -22,15 +22,8 @@
 <body>
 <div th:replace="BackStage/HTMLTool/nav :: nav"></div>
 	<main>
-	<h1 style="text-align: center;
-			 border-radius: 10px;
-			 width:80%;
-             color: #fff; /* 字體顏色 */
-             background-color: #3498db; /* 背景顏色 */
-             padding: 20px; /* 內邊距 */
-             margin: 0px auto; /* 邊距 */
-             margin-bottom: 20px;
-             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">員工基本資料</h1>
+	<h1>員工管理</h1>
+	<form method="post" th:action="@{funUpdate}" th:object="${empFunData}" >
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
@@ -38,8 +31,8 @@
 				<th>員工姓名</th>
 				<th>員工狀態</th>
 				<th>雇用日期</th>
-				<th>員工性別</th>
-				<th>修改密碼</th>
+				<th>員工權限</th>
+				<th>修改權限</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -55,26 +48,15 @@
 					<span th:if="${empData.empSex == 0}" th:text="男性"></span>
 					<span th:if="${empData.empSex == 1}" th:text="女性"></span>
 				</td>
-				<td>
-					<form method="get" th:action="@{/BackStage/changePsw}">
-						<input type="hidden" name= "empNo" th:value="${empData.empNo}">
-						<input type="submit" value="密碼修改" style="background-color: #3498db; /* 藍色背景顏色 */
-				                                                        color: #fff; /* 白色文字顏色 */
-				                                                        border: none; /* 去掉邊框 */
-				                                                        padding: 10px 10px; /* 內邊距 */
-				                                                        cursor: pointer; /* 鼠標懸停效果 */
-				                                                        border-radius: 10px;
-				                                                        font-weight: bold;
-				                                                        font-size: 14px;" 
-				                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
-				                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"	>
-					</form>
-				</td>
 			</tr>
 		</tbody>
 	</table>
+	</form>
 	<br>
-
+	<form method="get" th:action="@{/BackStage/changePsw}">
+		<input type="hidden" name= "empNo" th:value="${empData.empNo}">
+		<input type="submit" value="密碼修改" >
+	</form>
 	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
   	<script th:src="@{/js/BackStage/mem/the.js}"></script>
@@ -89,5 +71,14 @@
     // });
   	</script>
  </main>
+ 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/public/jquery-ui/jquery-ui-1.13.2/jquery-ur.js}"></script>
+	<script>
+	  $( function() {
+	    $( "input" ).checkboxradio({
+	      icon: false
+	    });
+	  } );
+  	</script>
 </body>
 </html>

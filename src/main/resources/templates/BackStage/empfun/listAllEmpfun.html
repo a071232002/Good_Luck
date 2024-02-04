@@ -5,16 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+ <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+ <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
  <style>
  	h1 {
 		text-align: center;
       	color: red;
 		}
+	main {
+	   margin-top: 50px;
+	   padding: 50px 20px;
+	}
  </style>
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>員工/權限管理</h1>
+<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+<main>
+	<h1 style="text-align: center;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #3498db; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">員工權限管理</h1>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
@@ -49,7 +65,16 @@
 				<td>
 					<form method="post" th:action="@{goEditFun}">
 						<input type="hidden" name= "oneEmpNo" th:value="${empfun.empNo}">
-						<input type="submit" value="修改" th:disabled="${empfun.empNo == 1 || empfun.empStatus == 0}">
+						<input type="submit" value="修改" th:unless="${empfun.empNo == 1 || empfun.empStatus == 0 || session.EmpSuccess.empNo == empfun.empNo}" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"	>
 					</form>
 				</td>
 			</tr>
@@ -57,10 +82,7 @@
 		</th:block>
 
 		</tbody>
-	</table>
-	<br>
-	
-	<a th:href="@{/BackStage/tempCenter}"><button>返回索引</button></a>
+	</table>	
 	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
   	<script th:src="@{/js/BackStage/mem/the.js}"></script>
@@ -74,5 +96,6 @@
     //   alert("You clicked on " + data[3] + "'s row");
     // });
   	</script>
+</main>
 </body>
 </html>

@@ -5,16 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+ <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+ <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
  <style>
  	h1 {
 		text-align: center;
       	color: red;
 		}
+		
+	main{
+	   margin-top: 50px;
+	   padding: 50px 20px;
+	}
+	
  </style>
-<title>Insert title here</title>
+<title>會員管理</title>
 </head>
 <body>
-	<h1>會員查詢</h1>
+<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+
+	
+	<main>
+	<h1 style="text-align: center;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #3498db; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">會員查詢</h1>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
@@ -24,10 +44,10 @@
 				<th>性別</th>
 				<th>手機號碼</th>
 				<th>聯絡地址</th>
-				<th>身分證號碼</th>
+<!-- 				<th>身分證號碼</th> -->
 				<th>註冊日期</th>
 				<th>帳號狀態</th>
-				<th>最後上線時間</th>
+<!-- 				<th>最後上線時間</th> -->
 				<th>會員大頭照</th>
 				<th>修改</th>
 			</tr>
@@ -44,23 +64,28 @@
 				</td>
 				<td th:text="${mem.memPhone}"></td>
 				<td th:text="${mem.memAdd}"></td>
-				<td th:text="${mem.memID}"></td>
+<!-- 				<td th:text="${mem.memID}"></td> -->
 				<td th:text="${mem.memReg}"></td>
 				<td>
 					<span th:if="${mem.memStatus == 0}" th:text="未驗證"></span>
 					<span th:if="${mem.memStatus == 1}" th:text="正常"></span>
 					<span th:if="${mem.memStatus ==2}" th:text="停權"></span>				
 				</td>
-				<td th:if="${mem.lastLoginTime != null}" th:text="${#dates.format(mem.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td>
-				<td ><img th:src="@{/BackStage/mem/picture} + '?memno=' + ${mem.memNo}" width="100px" height="100px"></td>
+<!-- 				<td th:if="${mem.lastLoginTime != null}" th:text="${#dates.format(mem.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td> -->
+				<td ><img th:src="@{/BackStage/mem/picture} + '?memno=' + ${mem.memNo}" width="50px" height="50px"></td>
 				<td>
-					<form method="post" th:action="@{updateMem}">
-						<input type="hidden" name= "memNo" th:value="${mem.memNo}">
-						<input type="submit" value="修改" >
-					</form>
 					<form method="post" th:action="@{stopMem}">
 						<input type="hidden" name= "memNo" th:value="${mem.memNo}">
-						<input type="submit" value="停權" th:disabled="${mem.memStatus == 2}" >
+						<input type="submit" value="停權" th:if="${mem.memStatus != 2} " style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">
 					</form>
 				</td>
 			</tr>
@@ -86,7 +111,6 @@
 <!-- 		</tfoot> -->
 	</table>
 	<br>
-	<a th:href="@{addMem}"><button>前往註冊會員</button></a>
 	
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
   	<script th:src="@{/js/BackStage/mem/the.js}"></script>
@@ -100,5 +124,6 @@
     //   alert("You clicked on " + data[3] + "'s row");
     // });
   	</script>
+  	</main>
 </body>
 </html>

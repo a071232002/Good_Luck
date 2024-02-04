@@ -67,17 +67,17 @@
             	
 			</tr>
 			<tr>
-				<td><label for="mail">信箱帳號<b>*</b>：</label></td>
+				<td><label for="mail">信箱帳號：</label></td>
 				<td><span th:text="${data.memMail}"></span></td>
 			</tr>
-			<tr>
-				<td><label for="password">密碼<b>*</b>：</label></td>
-				<td>
-					<input type="password" id="password" th:field="*{memPsw}" title="請輸入密碼">
-					<br>
-					<span  th:if="${#fields.hasErrors('memPsw')}" th:errors="*{memPsw}" class="error" id="ename.errors"></span>
-				</td>
-			</tr>
+<!-- 			<tr> -->
+<!-- 				<td><label for="password">密碼<b>*</b>：</label></td> -->
+<!-- 				<td> -->
+<!-- 					<input type="password" id="password" th:field="*{memPsw}" title="請輸入密碼"> -->
+<!-- 					<br> -->
+<!-- 					<span  th:if="${#fields.hasErrors('memPsw')}" th:errors="*{memPsw}" class="error" id="ename.errors"></span> -->
+<!-- 				</td> -->
+<!-- 			</tr> -->
 <!-- 			<tr> -->
 <!-- 				<td><label for="repassword">再輸入一次密碼<b>*</b>：</label></td> -->
 <!-- 				<td><input type="password" id="repassword" title="再輸入一次密碼"></td> -->
@@ -104,6 +104,7 @@
 				<td>
 					<input id="phone" th:field= "*{memPhone}" title="請輸入手機號碼" name="phone">
 					<br>
+					<span th:text="${duplicatePhone}" class="error"></span>
 					<span th:if="${#fields.hasErrors('memPhone')}" th:errors="*{memPhone}" class="error"></span>
 				</td>
 			</tr>
@@ -129,6 +130,7 @@
 				<td>
 					<input id="memID" th:field= "*{memID}" title="請輸入身分證號碼">
 					<br>
+					<span th:text="${duplicateID}" class="error"></span>
 					<span th:if="${#fields.hasErrors('memID')}" th:errors="*{memID}" class="error"></span>
 				</td>
 			</tr>
@@ -138,6 +140,7 @@
 		<input type="hidden" th:field="*{memNo}">
 		<input type="hidden" th:field="*{memReg}">
 		<input type="hidden" th:field="*{memStatus}">
+		<input type="hidden" th:field="*{memPsw}">
 <!-- 		<input type="hidden" th:field="*{memPic}"> -->
 		<input type="hidden" th:field="*{lastLoginTime}">
 		<input type="submit" class="submit" value="修改資料">

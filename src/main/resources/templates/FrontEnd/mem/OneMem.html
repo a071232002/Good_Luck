@@ -74,13 +74,12 @@
 	    #changeImg {
 	    	width: auto;
 	    	height: 200px;
-	    	max-width: 70%;
-            max-height: 70%;
             border-radius: 50%;
 	    }
 	    
 	    .avatar-container {
             text-align: center;
+            padding: 50px;
         }
 
         .avatar {
@@ -89,9 +88,7 @@
             border-radius: 50%;
             overflow: hidden;
             border: 4px solid #fff;
-            /* 可以根據需要調整頭像框的邊框寬度和顏色 */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            /* 可以根據需要調整頭像框的陰影效果 */
         }
 
         .avatar img {
@@ -99,6 +96,11 @@
             height: 100%;
             object-fit: cover;
         }
+        
+        body {
+        	text-align: center;
+        }
+        
 
     </style>
 </head>
@@ -107,20 +109,20 @@
 	<main>
 	<h1>會員基本資料</h1>
 	<div class="fly">
-	<div class="memPicture" id="pic">
+	<div class="memPicture">
 		<div class="avatar-container">
-	        <div class="avatar">
+	        <div class="avatar" id="pic">
 <!-- 	            <img src="path/to/your/avatar.jpg" alt="會員頭像"> -->
 				<img th:src="@{/mem/picture} + '?memno=' + ${myData.memNo}" width="100%" height="100%" class="imgflex" id="memImg">
 	        </div>
-	    </div>
 		<br>
 		<br>
 		<form th:action="@{newPic}" method="post" enctype="multipart/form-data">
 			<input type="file" name="chaPic" id="the_file" multiple accept="image/*" />
-		  	<button type="button" id="choose_file">變更大頭照</button>
+		  	<button type="button" id="choose_file">選擇大頭照</button>
 		  	<ul class="picture_list"></ul>
 		</form>
+	    </div>
 	</div>
 	
 	<table id="example" class="display">
@@ -142,6 +144,14 @@
 			<tr>
 				<td>姓名</td>
 				<td th:text="${myData.memName}"></td>
+			</tr>
+			<tr>
+				<td>密碼</td>
+				<td>
+					<form th:action="@{/mem/goNewPsw}" method="get">
+						<input type="submit" value="變更密碼">
+					</form>
+				</td>
 			</tr>
 			<tr>
 				<td>性別</td>
@@ -196,6 +206,7 @@
 <!--   	<script th:src="@{/js/BackStage/mem/the.js}"></script> -->
 <!--   	<script th:src="@{/js/BackStage/mem/the2.js}"></script> -->
   	<script th:src="@{/js/public/tableModel/dateInput.js}"></script>
+  	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
   	
   	</main>
     <script>
@@ -236,6 +247,7 @@
                                     let html_newImg = document.createElement("img");
                                     html_newImg.src = `${this.result}`;
                                     html_newImg.id = "changeImg";
+                                    html_newImg.style = "width: 100%; height: 100%";
                                     let html_oldImg = document.getElementById("memImg");
                                     if(html_oldImg === null){
                                     	html_oldImg = document.getElementById("changeImg")

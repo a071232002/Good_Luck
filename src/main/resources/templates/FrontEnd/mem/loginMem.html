@@ -37,6 +37,7 @@
                 <form method="post" th:action="@{loginPage}">
                 	<div>
                 		<span th:text="*{message}" class="error" id="ename.errors"></span>
+                		<span th:text="*{noFun}" class="error" id="ename.errors"></span>
                 	</div>
                     <div class="field input-field">
                         <input type="email" placeholder="信箱" class="input" name="mail">

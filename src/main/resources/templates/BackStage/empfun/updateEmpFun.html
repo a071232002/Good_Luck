@@ -2,102 +2,131 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" th:href="@{/css/BackStage/mem/try.css}" />
+ <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
+ <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+ <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
     <style>
-        body {
-            box-sizing: border-box;
+    	main {
+		   margin-top: 50px;
+		   padding: 50px 20px;
+		}
+	
+        #checkbox input[type="checkbox"] {
+            display: none;
         }
 
-        form {
+        #checkbox input:checked+.button {
+            background: #5e7380;
+            color: #fff;
+        }
+
+        #checkbox .button {
             display: inline-block;
+            margin: 0 5px 10px 0;
+            padding: 5px 10px;
+            background: #f7f7f7;
+            color: #333;
+            cursor: pointer;
         }
 
-        label {
-            /* display: inline-block; */
-            width: 5em;
+        #checkbox .button:hover {
+            background: #bbb;
+            color: #fff;
         }
 
-        b {
-            color: red;
-        }
-
-        td {
-            text-align: right;
-            padding: 5px;
-        }
-
-        .toggler {
-            display: inline-block;
-            width: 500px;
-            height: 200px;
-        }
-
-        #button {
-            padding: .5em 1em;
-            text-decoration: none;
-        }
-
-        #effect {
-            width: 240px;
-            height: 100px;
-            padding: 0.4em;
-            position: relative;
-        }
-
-        #effect h3 {
-            margin: 0;
-            padding: 0.4em;
-            text-align: center;
-            background-color: red;
+        #checkbox .round {
+            border-radius: 5px;
         }
     </style>
-<title>Insert title here</title>
+
+<title>權限修改</title>
 </head>
 <body>
+<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+<main>
+	<h1 style="text-align: center;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #3498db; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">權限變更</h1>
 	<form method="post" th:action="@{funUpdate}" th:object="${empFunData}" >
-		<table>
+		<table id="example" class="display" style="width: 100%">
+		<thead>
 			<tr>
-				<td><label for="Number">員工編號<b>*</b>：</label></td>
+				<th>員工編號</th>
+				<th>員工姓名</th>
+				<th>員工權限</th>
+				<th>變更權限</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td th:text="${empFunData.empNo}"></td>
+				<td th:text="${empFunData.empName}"></td>
 				<td>
-					<span id="Number" th:text="${empFunData.empNo}"></span>
-					<input type="hidden" th:field="*{empNo}">
+					<div id="checkbox">
+				        <label><input type="checkbox" name="variety" th:checked="${empFunData.empFun.contains(1)}" th:value="1"><span class="round button">會員管理</span></label>
+				        <label><input type="checkbox" name="variety" th:checked="${empFunData.empFun.contains(2)}" th:value="2"><span class="round button">物件管理</span></label>
+				        <label><input type="checkbox" name="variety" th:checked="${empFunData.empFun.contains(3)}" th:value="3"><span class="round button">購物管理</span></label>
+				        <label><input type="checkbox" name="variety" th:checked="${empFunData.empFun.contains(4)}" th:value="4"><span class="round button">公告管理</span></label>
+				        <label><input type="checkbox" name="variety" th:checked="${empFunData.empFun.contains(5)}" th:value="5"><span class="round button">投訴管理</span></label>
+				        <label><input type="checkbox" name="variety" th:checked="${empFunData.empFun.contains(6)}" th:value="6"><span class="round button">後台管理</span></label>
+				    </div>
 				</td>
-<!-- 				<td><input id="Number" title="請輸入信箱帳號" th:field="*{empNo}" ></td> -->
+				<td>
+					<input type="submit" class="submit" value="修改資料" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"	>
+				</td>
 			</tr>
-			<tr>
-				<td><label for="name">員工姓名<b>*</b>：</label></td>
-				<td><span id="name" th:text="${empFunData.empName}"></span></td>
-<!-- 				<td><input id="name" title="請輸入信箱帳號" th:field="*{memMail}" ></td> -->
-			</tr>
-			<tr>
-				<td><label for="fun">會員管理<b>*</b>：</label></td>
-				<td><input type="checkbox" id="fun" th:field="*{empFun}" th:value="1"></td>
-			</tr>
-			<tr>
-				<td><label for="product">物件管理<b>*</b>：</label></td>
-				<td><input type="checkbox" id="rent" th:field="*{empFun}" th:value="2"></td>
-			</tr>
-			<tr>
-				<td><label for="notice">購物管理<b>*</b>：</label></td>
-				<td><input type="checkbox" id="product" th:field="*{empFun}" th:value="3"></td>
-			</tr>
-			<tr>
-				<td><label for="rent">公告管理<b>*</b>：</label></td>
-				<td><input type="checkbox" id="notice" th:field="*{empFun}" th:value="4"></td>
-			</tr>
-			<tr>
-				<td><label for="report">投訴管理<b>*</b>：</label></td>
-				<td><input type="checkbox" id="report" th:field="*{empFun}" th:value="5"></td>
-			</tr>
-			<tr>
-				<td><label for="emp">後台管理<b>*</b>：</label></td>
-				<td><input type="checkbox" id="emp" th:field="*{empFun}" th:value="6"></td>
-			</tr>
-		</table>
-		<input type="submit" class="submit" value="修改資料">
-	</form>
 
-	<button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
+		</tbody>
+		</table>
+		<input type="hidden" th:field="*{empNo}">
+<!-- 	<label for="Number">員工編號<b>*</b>：</label> -->
+<!-- 					<span id="Number" th:text="${empFunData.empNo}"></span> -->
+					
+<!-- 	<label for="name">員工姓名<b>*</b>：</label> -->
+<!-- 	<span id="name" th:text="${empFunData.empName}"></span> -->
+		
+	</form>
+	<a th:href="@{/BackStage/funManager/funlist}"><button style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">取消變更</button></a>
+	
+</main>
+
+	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
+  	<script th:src="@{/js/BackStage/mem/the.js}"></script>
+  	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
+  	<script>
+    	let table = new DataTable("#example");
+    	console.log($(".test"));
+    // table.on("click", "tbody tr", function () {
+    //   let data = table.row(this).data();
+
+    //   alert("You clicked on " + data[3] + "'s row");
+    // });
+  	</script>
 </body>
 </html>
