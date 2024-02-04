@@ -38,12 +38,14 @@ public class EmpFunController {
 	
 	//處理修改權限
 	@PostMapping("funUpdate")
-	public String fun(@ModelAttribute("empFunData") Emp emp, ModelMap model, HttpSession session) {
-		System.out.println(emp);
-		List<Integer> funList = emp.getEmpFun();
+	public String fun(@ModelAttribute("empFunData") Emp emp, ModelMap model, HttpSession session,
+						@RequestParam(name = "variety", defaultValue = "") List<Integer> variety) {
+//		System.out.println(emp);
+		System.out.println("this  " + variety);
+//		List<Integer> funList = variety;
 		emp = empService.getById(emp.getEmpNo());
-		emp.setEmpFun(funList);
-		empFunService.addEmpFun(emp, funList);
+		emp.setEmpFun(variety);
+		empFunService.addEmpFun(emp, variety);
 		return "redirect:funlist";
 	}
 	

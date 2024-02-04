@@ -4,19 +4,59 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+ <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+ <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
  <style>
  	h1 {
 		text-align: center;
       	color: red;
+		border-radius: 10px;
+		width:80%;
+        color: #fff; /* 字體顏色 */
+        background-color: #3498db; /* 背景顏色 */
+        padding: 20px; /* 內邊距 */
+        margin: 0px auto; /* 邊距 */
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */
 		}
+		
+	main {
+	   margin-top: 50px;
+	   padding: 50px 20px;
+	}
+	
+	div {
+		display: flex;
+		justify-content: center;
+	} 
+	
+	form {
+		text-align: center;
+	}
+	
+	td {
+		padding: 5px;
+	}
+	
+	#input {
+		margin: 5px; 
+	}
+	
+	b {
+		color: red; 
+	}
+
  </style>
 
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>修改密碼</h1>
+<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+<main>
 	
+	<h1>修改密碼</h1>
 	<form th:action="@{/BackStage/getPsw}" method="post">
+	<div>
 	<table>
 		<tr>
 			<td>
@@ -26,20 +66,21 @@
 		</tr>
 		<tr>
 			<td>
-				<label for="oldEmpPsw">輸入舊密碼*：</label>
+				<label for="oldEmpPsw" style="font-weight: bolder;">輸入舊密碼<b>*</b>：</label>
 				<input type="password" name="oldEmpPsw">
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<label for="newEmpPsw">輸入新密碼*：</label>
+				<label for="newEmpPsw" style="font-weight: bolder;">輸入新密碼<b>*</b>：</label>
 				<input type="password" name="newEmpPsw">
 			</td>
 		</tr>
 	</table>
-	<input type="submit" value="密碼修改">
+	</div>
+	<input type="submit" value="密碼修改" id="input">
 	</form>
-	
+</main>
 	
 </body>
 </html>

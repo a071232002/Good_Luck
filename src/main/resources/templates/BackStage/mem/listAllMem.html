@@ -26,7 +26,15 @@
 
 	
 	<main>
-	<h1>會員查詢</h1>
+	<h1 style="text-align: center;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #3498db; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">會員查詢</h1>
 	<table id="example" class="display" style="width: 100%">
 		<thead>
 			<tr>
@@ -39,7 +47,7 @@
 <!-- 				<th>身分證號碼</th> -->
 				<th>註冊日期</th>
 				<th>帳號狀態</th>
-				<th>最後上線時間</th>
+<!-- 				<th>最後上線時間</th> -->
 				<th>會員大頭照</th>
 				<th>修改</th>
 			</tr>
@@ -63,12 +71,21 @@
 					<span th:if="${mem.memStatus == 1}" th:text="正常"></span>
 					<span th:if="${mem.memStatus ==2}" th:text="停權"></span>				
 				</td>
-				<td th:if="${mem.lastLoginTime != null}" th:text="${#dates.format(mem.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td>
+<!-- 				<td th:if="${mem.lastLoginTime != null}" th:text="${#dates.format(mem.lastLoginTime, 'yyyy/MM/dd HH:mm:ss')}"></td> -->
 				<td ><img th:src="@{/BackStage/mem/picture} + '?memno=' + ${mem.memNo}" width="50px" height="50px"></td>
 				<td>
 					<form method="post" th:action="@{stopMem}">
 						<input type="hidden" name= "memNo" th:value="${mem.memNo}">
-						<input type="submit" value="停權" th:disabled="${mem.memStatus == 2}" >
+						<input type="submit" value="停權" th:if="${mem.memStatus != 2} " style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">
 					</form>
 				</td>
 			</tr>
