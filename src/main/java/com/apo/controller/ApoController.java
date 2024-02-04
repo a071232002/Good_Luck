@@ -49,12 +49,13 @@ public class ApoController {
 	public String addApo(ModelMap model, @RequestParam("rentNo") String rentNo) {
 		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
 		if( rent == null || rent.getRentSt() != 1) {
-			return "redirect:/rent/listAllRent";
+			return "FrontEnd/apo/error2";
+//			return "redirect:/rent/listAllRent";
 		}
 		Apo apo = new Apo();
 		apo.setRent(rent);
 		model.addAttribute(apo);
-		return "FrontEnd/apo/addApo";			
+		return "FrontEnd/apo/addApo";
 	}
 	
 	@PostMapping("/updateApo")
@@ -85,8 +86,12 @@ public class ApoController {
 	@PostMapping("insert")
 	public String insert (@Valid Apo apo,
 			BindingResult result, ModelMap model, @ModelAttribute("rentNo")String rentNo) {
-		apoSvc.addApo(apo);	
 		deleteApoDTOListFromRedis("queryByMem"+rentNo);
+		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
+		if (apoSvc.isExist(rent.getLdd(), apo.getApoDate(), apo.getApoTime())){
+			return "FrontEnd/apo/error";
+		}
+		apoSvc.addApo(apo);	
 		return "redirect:/apo/listAllApo";
 	}
 	

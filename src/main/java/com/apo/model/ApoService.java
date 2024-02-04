@@ -1,5 +1,6 @@
 package com.apo.model;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.ldd.model.Ldd;
@@ -31,7 +32,9 @@ public interface ApoService {
 	public void approveWant(Integer apoNo);
 	
 	public void rejectOtherApoByRent(Rent rent);
-
+	
+	public Boolean isExist(Ldd ldd, Date apoDate,Byte apoTime);
+	
 	public List<Apo> getApoListByLdd(Ldd ldd);
 	
 	public List<Apo> getApoListByLdd(Integer lddNo);
