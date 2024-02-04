@@ -130,7 +130,7 @@
 	                        <span th:case="6" class="cancel" th:text="合約結束"></span>
 	                    </td>
 	                    <th:block
-	                        th:with="today=${#dates.createNow()}, oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
+	                        th:with="oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
 	                        <th:block th:if="${oneMonthLater >= lse.lseEnd.toLocalDate()}">
 	                            <td>
 	                                <span th:switch="${lse.lseRenew}">
@@ -154,27 +154,27 @@
                             </form>
                         </th:block>
 	                    <th:block th:if="${lse.lseStatus == 2}">
-	                    	<form method="post" th:action="@{confirmSign}">
+	                    	<form method="post" th:action="@{confirmSign}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
                                 <input type="submit" value="確認並通知付款" class="approve_button">
                             </form>
                         </th:block>
 	                    <th:block th:if="${lse.lseStatus == 4}">
-	                    	<form method="post" th:action="@{confirmPay}">
+	                    	<form method="post" th:action="@{confirmPay}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
                                 <input type="submit" value="收到匯款並成立合約" class="approve_button">
                             </form>
                         </th:block>
 
 						<th:block th:if="${lse.lseStatus == 0 || lse.lseStatus == 2 || lse.lseStatus == 3}">                            
-                            <form method="post" th:object="${lse}" th:action="@{reject}">
+                            <form method="post" th:object="${lse}" th:action="@{reject}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
                                 <input type="submit" value="取消簽約" class="reject_button">
                             </form>
                         </th:block>
                         
                         <th:block th:if="${lse.lseRenew == 2}">
-                        	<form method="post" th:action="@{extend}">
+                        	<form method="post" th:action="@{extend}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
                                 <input type="submit" value="延長合約" class="approve_button">
                             </form>
@@ -184,12 +184,16 @@
 <!--                                 <input type="submit" value="開立新約" class="approve_button"> -->
 <!--                             </form> -->
                         </th:block>
-                        	
-                        	<form th:if="${lse.lseRenew == 0 || lse.lseRenew == 2}"method="post" th:action="@{rejectRenew}">
+                        <th:block th:with="oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
+	                        <th:block th:if="${oneMonthLater >= lse.lseEnd.toLocalDate()}">
+                        	<form th:if="${lse.lseStatus == 5 && (lse.lseRenew == 0 || lse.lseRenew == 2)}" 
+                        		  method="post" th:action="@{rejectRenew}" 
+                        		  onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
                                 <input type="submit" value="不續約" class="reject_button">
                             </form>
-                        	
+                        	</th:block>
+	                    </th:block>
 	                    </td>
 	
 	                </tr>
@@ -205,6 +209,10 @@
     <script th:src="@{/js/public/tableModel/the.js}"></script>
     <script th:src="@{/js/public/tableModel/the2.js}"></script>
     <script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
+    
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script th:src="@{/js/public/sweetAlert2/basic.js}"></script>
+    
     
     <script>
         let table = new DataTable("#example");

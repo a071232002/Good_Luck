@@ -47,7 +47,7 @@ public class LseSchedule {
 			if (alse.getLseEnd() != null && endDay.after(alse.getLseEnd())) {
 				alse.setLseStatus(Byte.valueOf("6"));
 //				續約狀態變更
-//				alse.setRenew(Byte.valueOf("1"));
+				alse.setLseRenew(Byte.valueOf("1"));
 				lseSvc.updateLse(alse);
 				
 				Rent rent = alse.getRent();

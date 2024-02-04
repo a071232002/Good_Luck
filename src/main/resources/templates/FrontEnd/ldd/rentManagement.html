@@ -80,19 +80,26 @@
 		                   	<span th:case="5" class="cancel" th:text="重新審核中"></span>
 	                   </td>
 	                   <td>
-	                   		<form method="post" th:object="${rent}" th:action="@{updateRentDetil}" style="margin-right: 10px;">
+	                   		<form method="post" th:object="${rent}" th:action="@{updateRentDetil}">
                                 <input type="hidden" name="rentNo" th:value="${rent.rentNo}">
                                 <input type="submit" value="編輯" class="approve_button">
                             </form>
-	                   		<form class="upRent" th:if="${rent.rentSt == 0}" method="post" th:object="${rent}" th:action="@{up}" onsubmit="return formCheck(this)">
+	                   		<form method="post" th:action="@{queryByRentNo}" style="margin-right: 20px;">
+                                <input type="hidden" name="rentNo" th:value="${rent.rentNo}">
+                                <input type="submit" value="合約紀錄" class="approve_button">
+                            </form>
+	                   		<form class="upRent" th:if="${rent.rentSt == 0}" method="post" 
+	                   			  th:object="${rent}" th:action="@{up}" onsubmit="return formCheck(this)">
                                 <input type="hidden" id="${rent.rentNo}" name="rentNo" th:value="${rent.rentNo}">
                                 <input type="submit" value="上架" class="approve_button">
                             </form>
-	                   		<form th:if="${rent.rentSt == 1}" method="post" th:object="${rent}" th:action="@{down}" >
+	                   		<form th:if="${rent.rentSt == 1}" method="post" th:object="${rent}" 
+	                   			  th:action="@{down}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="rentNo" th:value="${rent.rentNo}">
                                 <input type="submit" value="下架" class="reject_button">
                             </form>
-	                   		<form th:if="${rent.rentSt == 3}" method="post" th:object="${rent}" th:action="@{resend}" >
+	                   		<form th:if="${rent.rentSt == 3}" method="post" th:object="${rent}" 
+	                   		      th:action="@{resend}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="rentNo" th:value="${rent.rentNo}">
                                 <input type="submit" value="重送審核" class="approve_button">
                             </form>
@@ -112,6 +119,8 @@
     <script th:src="@{/js/FrontEnd/ldd/the.js}"></script>
     <script th:src="@{/js/FrontEnd/ldd/the2.js}"></script>
     <script th:src="@{/js/public/tableModel/dateInput.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script th:src="@{/js/public/sweetAlert2/basic.js}"></script>
     	
  	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
  	

@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.apo.model.Apo;
 import com.ldd.model.Ldd;
 import com.mem.model.Mem;
 import com.rent.model.Rent;
@@ -23,9 +22,11 @@ public class LseServiceImpl implements LseService{
 	LseRepository repository; 
 	
 	@Override
-	public void addLse(Lse lse) {
+	public Lse addLse(Lse lse) {
 		lse.setLseCreate(Date.valueOf(LocalDate.now()));
-		repository.save(lse);
+		Lse newLse = repository.save(lse);
+		System.out.println(newLse);
+		return newLse;
 	}
 
 	@Override
@@ -44,7 +45,12 @@ public class LseServiceImpl implements LseService{
 	public Lse getNewOneByRent(Rent rent) {
 		return repository.findFirstByRentOrderByLseCreateDesc(rent);
 	}
-
+	
+	@Override
+	public List<Lse> getListByRentNo(Integer rentNo) {
+		return repository.findByRentNo(rentNo);
+	}
+		
 	@Override
 	public List<Lse> getListByMem(Mem mem) {
 		return repository.findByMem(mem);
@@ -60,5 +66,7 @@ public class LseServiceImpl implements LseService{
 		return repository.findByLseStatus(IN_CONTRACT);
 	}
 
+
+	
 	
 }

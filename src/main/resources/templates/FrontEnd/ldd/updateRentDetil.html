@@ -202,7 +202,7 @@
                     </div>
                     
                     <div class="formEl">
-                   		<label class="formEl">刊登標題: </label><br><br>
+                   		<label class="formEl">刊登標題:<b>*</b></label><br><br>
                    		<input type="text" class="formEl" th:field="*{rentPostTitle}" 
                    			   style="width:600px; margin-left: 20px;" required oninput="validatePostTitle(this)"><br>
                    		<span id="rentPostTitleError" class="error" style="margin-left: 120px;"></span><br>
@@ -220,17 +220,17 @@
                    		<span class="formEl" th:text="${rent.rentAppSize}"></span>
                     </div>
                     <div class="formEl">
-                    	<label class="formEl" style="margin-right: 20px;">租金/月: </label>
+                    	<label class="formEl" style="margin-right: 20px;">租金/月:<b>*</b></label>
                     	<input type="text" class="formEl" th:field="*{rentRent}" required oninput="validateRent(this)"><br>
                     	<span id="rentRentError" class="error" style="margin-left: 120px;"></span><br>
                     </div>
                     <div class="formEl">
-                    	<label class="formEl">介紹: </label>
+                    	<label class="formEl">介紹:<b>*</b></label>
                     	<span id="rentIntrError" class="error"></span>
                     	<textarea class="textareaEl" th:field="*{rentIntr}" required oninput="validateIntr(this)"></textarea><br>
                     </div>
                     <div class="formEl">
-                    	<label class="formEl" style="margin-right: 38px;">格局: </label>
+                    	<label class="formEl" style="margin-right: 38px;">格局:<b>*</b></label>
                     	<select class="formEl" th:field="*{rentLayout}" required>
 						    <option value="">請選擇房型</option>
 						    <option value="0">雅房</option>
@@ -241,7 +241,7 @@
                     
                     </div>
                     <div class="formEl">
-                    	<label class="formEl">刊登圖片: </label>
+                    	<label class="formEl">刊登圖片: <th:block th:if="${rent.rentImg} == null"><b>*</b></th:block></label>
                     	<input type="file" id="rentImg" name="rentImg" 
                     		accept=".png, .jpg" th:required="${rent.rentImg} == null"><br>
 					</div>

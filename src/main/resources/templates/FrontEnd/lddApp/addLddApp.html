@@ -68,9 +68,10 @@
 <body>
 	<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
 	<main>
+			<div class="tittleBoard"><span class="tittleBoard">成為房東</span></div>
 		<div class="formEl" align="center">
-			<h1>成為房東</h1>
-			<form method="post" class="formEl" th:action="@{insert}" th:object="${lddApp}" enctype="multipart/form-data">
+			<form method="post" class="formEl" th:action="@{insert}" th:object="${lddApp}" 
+				  enctype="multipart/form-data" onsubmit="return showConfirmation(this)">
 				<label class="formEl" for="lddAppIDPic">請上傳身分證照片<b>*</b>：</label>
 				<input class="formEl" id="lddAppIDPic" type="file" th:field="*{lddAppIDPic}" required accept=".png, .jpg">
 				<br>
@@ -87,7 +88,8 @@
 		
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
  	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
- 	
+ 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		 <script th:src="@{/js/public/sweetAlert2/basic.js}"></script>
 	
 	  <script>
 	  

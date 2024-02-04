@@ -79,7 +79,7 @@
 							<img th:src="@{/lddApp/picture} + '?lddAppNo=' + ${lddApp.lddAppNo}" width="150px">
 		        	   </td>
 	                   <td th:switch="${lddApp.lddAppPayStatus}">
-		                    <form th:case="0" method="post" th:action="@{pay}">
+		                    <form th:case="0" method="post" th:action="@{pay}" onsubmit="return showConfirmation(this)">
 			                    <span class="cancel" th:text="未付款"></span>
 		                        <input type="hidden" name= "lddAppNo" th:value="${lddApp.lddAppNo}">
 		                        <input th:if="${lddApp.lddAppStatus == 0}" type="submit" value="前往付款" class="approve_button">
@@ -107,7 +107,7 @@
 	                       </form>
 	                   </th:block>
 	                   <th:block th:if="${lddApp.lddAppStatus == 0 && lddApp.lddAppPayStatus == 0}">
-	                       <form method="post" th:action="@{cancel}">
+	                       <form method="post" th:action="@{cancel}"  onsubmit="return showConfirmation(this)">
 	                           <input type="hidden" name="lddAppNo" th:value="${lddApp.lddAppNo}">
 	                           <input type="submit" value="取消申請" class="reject_button">
 	                       </form>
@@ -129,6 +129,8 @@
  		 <script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
  	
          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
+		 <script th:src="@{/js/public/sweetAlert2/basic.js}"></script>
          <script>
            let table = new DataTable("#example");
            console.log($(".test"));

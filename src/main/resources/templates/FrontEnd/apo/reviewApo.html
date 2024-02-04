@@ -236,20 +236,20 @@
 								<span th:case="4" class="cancel" th:text="會員取消"></span>
 							</td>
 							<td>
-								<form th:if="${apo.apoStatus == 0}" method="post" th:action="@{approve}">
+								<form th:if="${apo.apoStatus == 0}" method="post" th:action="@{approve}" onsubmit="return showConfirmation(this)">
 									<input type="hidden" name="apoNo" th:value="${apo.apoNo}">
 									<input type="submit" value="同意" class="approve_button">
 								</form>
 								<th:block th:with="today=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
 									<form
 										th:if="${apo.apoStatus == 2  && #dates.format(apo.apoDate, 'yyyy-MM-dd') <= today}"
-										method="post" th:action="@{complete}">
+										method="post" th:action="@{complete}" onsubmit="return showConfirmation(this)">
 										<input type="hidden" name="apoNo" th:value="${apo.apoNo}">
 										<input type="submit" value="完成看屋" class="approve_button">
 									</form>
 								</th:block>
 								<form th:if="${apo.apoStatus == 0 || apo.apoStatus == 2}" method="post"
-									th:action="@{reject}">
+									th:action="@{reject}" onsubmit="return showConfirmation(this)">
 									<input type="hidden" name="apoNo" th:value="${apo.apoNo}">
 									<input type="submit" value="婉拒" class="reject_button">
 								</form>
@@ -278,7 +278,7 @@
 								</form>
 								<form
 									th:if="${apo.apoStatus == 3 && (apo.apoWant == 0 || apo.apoWant == 2 || apo.apoWant == 3)}"
-									method="post" th:action="@{rejectWant}">
+									method="post" th:action="@{rejectWant}" onsubmit="return showConfirmation(this)">
 									<input type="hidden" name="apoNo" th:value="${apo.apoNo}">
 									<input type="submit" value="婉拒" class="reject_button">
 								</form>
@@ -287,6 +287,7 @@
 					</th:block>
 				</tbody>
 			</table>
+				<input type="hidden" id="lddNo" th:value="${session.ldd.lddNo}">
 			
 			<div class="tittleBoard"><span class="tittleBoard">預約行程一覽</span></div>
 			<div class="container text-center my-4">
@@ -318,7 +319,8 @@
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/public/tableModel/the.js}"></script>
 	<script th:src="@{/js/public/tableModel/the2.js}"></script>
-	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script th:src="@{/js/public/sweetAlert2/basic.js}"></script>
  	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
  	
 	<script>
@@ -351,7 +353,8 @@
         var nextMonthButton = document.getElementById("nextMonth");
         var currentMonthYear = document.getElementById("currentMonthYear");
         var calendarBody = document.getElementById("calendarBody");
-
+        var lddNoInput = document.getElementById("lddNo");
+        
         var currentDate = new Date();
         var currentDay = currentDate.getDate() + 1;
         var currentMonth = currentDate.getMonth();
@@ -515,8 +518,8 @@
         });
 
         //TODO 改成動態get 物件元素value
-        var lddNo = 1;
-        var requestData = { lddNo: 1 };
+        var lddNo = lddNoInput.value;
+        
         //  ajax 將核准的預約單帶回
         function updateCalendarDate() {
             $.ajax({
@@ -535,6 +538,7 @@
                     	let memPhone = item.memPhone;
                         let bookingDate = item.apoDate;
                         let bookingTime = item.apoTime;
+                        let apoStatus = item.apoStatus;
                         
                         let el_ID = bookingDate + "-" + bookingTime;
 
@@ -542,6 +546,12 @@
 
                         if (target) {
                             target.style.visibility = "visible";
+                            
+                            if (apoStatus === 3) {
+	                            target.style.backgroundColor = "#005680";
+	                            target.style.color = "white";
+                            	
+                            }
 							
                             
                             let msgBox = document.createElement('div');
