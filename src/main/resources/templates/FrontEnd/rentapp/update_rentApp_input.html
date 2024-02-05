@@ -17,7 +17,7 @@
 	
 	
 	h3 b {
-	    color: #007BFF;
+	    color: red;
 	}
 	
 	label {
@@ -61,6 +61,17 @@
 <body>
 <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
 <main>
+<h1 style="text-align: center;
+   			 font-size: 2em !important;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #5bc0de; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             margin-top: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">物件申請單修改</h1>
 	<div style="text-align: center; margin: 20px auto; max-width: 600px;">
 		<h3><b>所有欄位皆為必填欄位</b></h3>
 		<form th:action="@{update}" method="post" th:object="${rentApp}" enctype="multipart/form-data">
@@ -132,7 +143,17 @@
 
 			<div>
 				<div></div>
-				<div><button type="submit" id="submit"> 送出修改 </button></div>
+				<div><button type="submit" id="submit"style="background-color: #5bc0de; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'"> 送出修改 </button></div>
 				<div></div>
 			</div>		
 		</form>

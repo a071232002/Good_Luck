@@ -11,6 +11,11 @@
 	
 	<title>物件管理</title>
 	<style>
+		body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+
+        }
 		h1 {
 			text-align: center;
 			color: red;
@@ -51,10 +56,11 @@
 <div th:replace="BackStage/HTMLTool/nav :: nav"></div>
 <main>
 	<h1 style="text-align: center;
+			 font-size: 2em !important;
 			 border-radius: 10px;
 			 width:80%;
              color: #fff; /* 字體顏色 */
-             background-color: #3498db; /* 背景顏色 */
+             background-color: #5bc0de; /* 背景顏色 */
              padding: 20px; /* 內邊距 */
              margin: 0px auto; /* 邊距 */
              margin-bottom: 20px;
@@ -87,31 +93,33 @@
 					<td>
 <!-- 					<img th:src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}" -->
 <!-- 						width="150px" class="myImage"> -->
-						 <button class="showLightboxButton" style="background-color: #3498db; /* 藍色背景顏色 */
+						 <button class="showLightboxButton" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
                                                         padding: 10px 10px; /* 內邊距 */
                                                         cursor: pointer; /* 鼠標懸停效果 */
                                                         border-radius: 10px;
                                                         font-weight: bold;
-                                                        font-size: 14px;" 
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
                                                         onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
-                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'"
                 			  							th:data-img-src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}" onclick="showLightbox(this)">顯示</button>
 					</td>
 					<td>
 <!-- 						<img th:src="@{/BackStage/rent/pictureImg} + '?rentNo=' + ${rent.rentNo}" -->
 <!-- 							width="150px" class="myImage"> -->
-						<button class="showLightboxButton" style="background-color: #3498db; /* 藍色背景顏色 */
+						<button class="showLightboxButton" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
                                                         padding: 10px 10px; /* 內邊距 */
                                                         cursor: pointer; /* 鼠標懸停效果 */
                                                         border-radius: 10px;
                                                         font-weight: bold;
-                                                        font-size: 14px;" 
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
                                                         onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
-                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'"
                 			  							th:data-img-src="@{/BackStage/rent/pictureImg} + '?rentNo=' + ${rent.rentNo}" onclick="showLightbox(this)">顯示</button>	
 					</td>
 
@@ -119,16 +127,17 @@
 					<td th:text="${rent.rentPostTitle}"></td>
 <!-- 					<td th:text="${rent.rentIntr}"></td> -->
 					<td>
-					<button onclick="showLightboxImg(this)"style="background-color: #3498db; /* 藍色背景顏色 */
+					<button onclick="showLightboxImg(this)"style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
                                                         padding: 10px 10px; /* 內邊距 */
                                                         cursor: pointer; /* 鼠標懸停效果 */
                                                         border-radius: 10px;
                                                         font-weight: bold;
-                                                        font-size: 14px;" 
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
                                                         onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
-                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">顯示</button>
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'">顯示</button>
 					<!-- 燈箱 -->
 					<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
 					    <textarea readonly id="enlarged-textarea" th:text="${rent.rentIntr}" oninput="autoExpand(this)"></textarea>
@@ -163,23 +172,25 @@
                                                         cursor: pointer; /* 鼠標懸停效果 */
                                                         border-radius: 10px;
                                                         font-weight: bold;
-                                                        font-size: 14px;" 
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
                                                         onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
                 			  							onmouseout="this.style.color='black'; this.style.backgroundColor='red'"
                 			  							th:onclick="|generateAndShowDialog(this,'4',${rent.rentNo})|"> 檢舉下架 </button>
 							    </th:block>
 								<th:block th:case="4">
 							        <!-- 处理值为0的情况 -->
-							        <button type="button" style="background-color: #3498db; /* 藍色背景顏色 */
+							        <button type="button" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
                                                         padding: 10px 10px; /* 內邊距 */
                                                         cursor: pointer; /* 鼠標懸停效果 */
                                                         border-radius: 10px;
                                                         font-weight: bold;
-                                                        font-size: 14px;" 
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
                                                         onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
-                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'"
                 			  							th:onclick="|generateAndShowDialog(this,'1',${rent.rentNo})|"> 重新上架 </button>
 							    </th:block>
 <!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->

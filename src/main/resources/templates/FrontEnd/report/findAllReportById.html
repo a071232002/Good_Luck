@@ -44,9 +44,7 @@
 		    padding: 0; 
  		} 
 		
-		h1 {
-		    color: #333;
-		}
+
 		
 		/* 表格樣式 */
 		table {
@@ -99,6 +97,7 @@
 		input {
 		    width: 130px;
 		}
+
 		
 
 
@@ -112,7 +111,17 @@
 <main>
 
 
-	<h1>我的檢舉投訴</h1>
+	<h1 style="text-align: center;
+   			 font-size: 2em !important;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #5bc0de; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             margin-top: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">我的檢舉投訴</h1>
 
 	<table id="example" class="display" style="width: 100%">
 		<thead>
@@ -140,8 +149,19 @@
 						<th:block th:case="0">
 					        <!-- 处理值为0的情况 -->
 					        <!-- 燈箱 -->
-					        <button onclick="showLightbox(this)">查詢/編輯</button>
+					        <button onclick="showLightbox(this)"style="background-color: #5bc0de; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'">查詢/編輯</button>
 							<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
+							
 								<form id='myForm' th:action="@{update}" method="post" enctype="multipart/form-data">
 							
 									<input type="hidden" th:value="${report.reportNo}" name="reportNo">
@@ -150,18 +170,33 @@
 									<input type="hidden" th:value="${report.reportDate}" name="reportDate">
 									
 									<input type="hidden" th:value="${report.reportSt}" name="reportSt">
-								    <textarea  id="enlarged-textarea" th:text="${report.reportCon}" name="reportCon"rows="4" cols="50" oninput="countCharacters(this)"></textarea>
+								    <textarea  id="enlarged-textarea" th:text="${report.reportCon}" name="reportCon"rows="4" cols="50" oninput="countCharacters(this)" th:data-original-value="${report.reportCon}"></textarea>
+
 									<div  align="center">
-										<p id="characterCount" style="background-color:#f7f7f7" th:text="'剩餘可輸入字數: ' + (200 - ${#strings.length(report.reportCon)})" ></p>
-										<button type="submit" id="submit">送出編輯</button>
+										<p id="characterCount" style="background-color:#f7f7f7"  th:text="剩餘可輸入字數"></p>
+<!-- 										th:text="'剩餘可輸入字數: ' + (200 - ${#strings.length(report.reportCon)})" -->
+										<button type="submit" id="submit" onclick="checkTextarea(this)">送出編輯</button>
 									</div>
+									
 								</form>
+								
 							</div>
 					    </th:block>
+					    
 					    <th:block th:case="*">
-					    	<button onclick="showLightbox(this)">顯示內容</button>
+					    	<button onclick="showLightbox(this)"style="background-color: #5bc0de; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'">顯示內容</button>
 							<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
-							    <textarea readonly id="enlarged-textarea" th:text="${report.reportCon}" oninput="autoExpand(this)"></textarea>
+							    <textarea readonly id="enlarged-textarea" th:text="${report.reportCon}" oninput="autoExpand(this)"th:data-original-value="${report.reportCon}"></textarea>
 							</div>
 					    </th:block>
 					</div>
@@ -189,7 +224,7 @@
 	<script>
 	
 	
-
+	var text;
     new DataTable('#example', {
     	"stateSave": true,
     	"iDisplayLength": 5, 
@@ -279,8 +314,15 @@
 	<script>
     function showLightbox(element) {
         // 顯示燈箱
+       var textvalue=element.parentNode.querySelector('div textarea').value
+       var originalvalue=element.parentNode.querySelector('div textarea').dataset.originalValue
+       var count=200-originalvalue.length
         element.parentNode.querySelector('div').style.display = 'flex';
-        
+        console.log(element.parentNode.querySelector('div p'))
+        element.parentNode.querySelector('div p').textContent ='剩餘可輸入字數: ' +count
+       console.log("textvalue="+textvalue)
+       console.log("originalvalue="+originalvalue)
+       element.parentNode.querySelector('div textarea').value=originalvalue
         // 自動調整放大的 textarea 的高度
        autoExpand( element.parentNode.querySelector('div').firstElementChild)
 
@@ -288,11 +330,16 @@
 
     function hideLightbox(event) {
         // 檢查點擊位置是否在 textarea 內，是的話不關閉燈箱
-
-        var textarea = event.target.firstElementChild
+        var textarea = event.target.querySelector('div textarea')
+        console.log(textarea)
         if (event.currentTarget.contains(textarea)) {
             // 隱藏燈箱
+//             console.log(textarea)
+            console.log("originalvalue="+textarea.dataset.originalValue)
+            textarea.value = textarea.dataset.originalValue;
+            console.log("textvalue="+textarea.value)
             event.currentTarget.style.display = 'none';
+            
         }
             return;
     }
@@ -342,8 +389,14 @@
     function countCharacters(textarea) {
     	
 //         var textarea = document.getElementById('enlarged-textarea');
-        var characterCount = textarea.value.length;
-        var less=200-characterCount
+		var length;
+		if(textarea.dataset.originalValue===textarea.value){
+			length=textarea.dataset.originalValue.length
+		}else{
+			length=textarea.value.length
+		}
+//         var characterCount = textarea.dataset.originalValue.length;
+        var less=200-length
     
      	// 获取下一个元素
         var nextElement = textarea.nextElementSibling;
@@ -358,6 +411,22 @@
         	characterCountElement.textContent="已達字數上限"
             textarea.value = textarea.value.substring(0, 200); // 截斷文字
   
+        }
+    }
+    
+    function checkTextarea(btn) {
+        // 獲取 textarea 元素
+        var textarea = btn.parentNode.previousElementSibling 
+
+        // 判斷 textarea 是否為空
+        if (!textarea.value.trim()) {
+            // 如果為空，顯示警告
+            alert('檢舉內容不能為空！');
+            event.preventDefault();
+        } else {
+
+            // 如果不為空，繼續執行其他操作（例如提交表單）
+        	button.form.submit();
         }
     }
 
