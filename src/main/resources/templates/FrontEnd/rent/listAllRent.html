@@ -160,7 +160,7 @@
 }
 
 /* 悬停和移入时的样式 */
-.rent:hover, .rent.active, .map:hover, .map.active {
+.rent:hover, .rent.active, .map:hover, .map.active, .clean.active {
 	cursor: pointer; /* 设置悬停时和移入时的鼠标样式 */
 	background-color: #F5F5F5; /* 设置悬停时和移入时的背景颜色 */
 }
@@ -168,20 +168,20 @@
 /* header */
 .logo {
 	margin-right: auto;
-	width: 240px;
+	width:200px;
 	display: flex;
 	align-items: center;
 }
 
-.logo span {
-	color: white;
+.logo span{
+	color:white;
 	font-size: 18px;
 	font-weight: bold;
 }
 
 .logo img {
 	max-width: 50px;
-	margin: 95px;
+	margin:75px;
 	text-align: center;
 }
 
@@ -211,7 +211,7 @@ header.header {
 }
 
 .hoverable a {
-	/* 	text-decoration: none; */
+/* 	text-decoration: none; */
 	color: white;
 }
 
@@ -302,11 +302,17 @@ header.header {
 	margin-right: 10px !important;
 }
 
-.user-info span {
-	color: white;
+.user-info {
+	width: 300px;
+	margin:0px 20px;
+}
+
+.user-info span{
+	color:white;
 	font-size: 18px;
 	font-weight: bold;
 	margin-right: 10px;
+	margin-left:auto;
 }
 
 .user-info button {
@@ -353,7 +359,6 @@ main {
 		<nav class="navbar navbar-inverse">
 			<ul class="nav navbar-nav">
 				<li><a class="hoverable" th:href="@{/}">首頁</a></li>
-				<li><a class="hoverable" href="#">最新消息</a></li>
 				<li><a class="hoverable" th:href="@{/rent/listAllRent}">租賃服務</a></li>
 				<li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
 			</ul>
@@ -392,6 +397,14 @@ main {
 									height="30px"
 									style="vertical-align: bottom; margin-right: 5px;"> 地圖找房
 							</div>
+<!-- 							<div class="clean" -->
+<!-- 								style="display: none; font-size: 16px; font-weight: bold; margin: 10px 10px 10px 30px; width: 120px; height: 40px;" -->
+<!-- 								onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)" -->
+<!-- 								onclick="showClean()"> -->
+<!-- 								<img th:src="@{/icon/FrontEnd/rent/bin.png}" width="30px" -->
+<!-- 									height="30px" -->
+<!-- 									style="vertical-align: bottom; margin-right: 5px;"> 清空條件 -->
+<!-- 							</div> -->
 						</div>
 
 
@@ -815,9 +828,15 @@ window.addEventListener("load", function () {
 // 	getRentList();
 	 // 获取 select 元素
     var countySelect = document.getElementById('county_box');
+	var storedCounty = localStorage.getItem('selectedCounty');
+	 if (storedCounty !== null) {
+		 countySelect.value=storedCounty
+	 }else{
+		 
+	    // 设置选中项为 "基隆市"
+	    countySelect.value = '基隆市';
+	 }
 
-    // 设置选中项为 "基隆市"
-    countySelect.value = '基隆市';
 
 
     function initEvents() {
@@ -923,9 +942,9 @@ function showRents(){
 			 // 計算起始和結束索引，用於提取當前頁面的資料
 	        var startIndex = (currentPage - 1) * itemsPerPage;
 	        var endIndex = Math.min(startIndex + itemsPerPage, rentList.length);
-	        console.log("currentPage="+currentPage)
-	        console.log("startIndex="+startIndex)
-	        console.log("endIndex="+endIndex)
+// 	        console.log("currentPage="+currentPage)
+// 	        console.log("startIndex="+startIndex)
+// 	        console.log("endIndex="+endIndex)
 	        
 // 			console.log(dropdownElement)
 			var combinedHTML = '';
@@ -1250,12 +1269,14 @@ function logAllValues() {
                     values[element.name] = values[element.name] || [];
                     if (element.checked) {
                         values[element.name].push(element.value);
+//                         showClean()
 //                         console.log(element.name+":"+element.value+"check")
 //                         values[element.name] = values[element.name].filter(function(val) {
 //                             return val !== "不限";
 //                         });
                     } else {
 //                     	console.log(element.name+":"+element.value+"取消check")
+// 						hideClean()
                         values[element.name] = values[element.name].filter(function(val) {
                             return val !== element.value;
                         });
@@ -1274,7 +1295,7 @@ function logAllValues() {
                 }
 
                 // 输出所有被选中元素的值
-//                 console.log('All Selected Values:', values);
+                console.log('All Selected Values:', values);
                 getRentList();
                 changePage(1)
 //                 console.log(data)
@@ -1307,6 +1328,24 @@ function listAllRentInMap() {
 	
     window.location.href = "listAllRentInMap";
   }
+  
+function reloadPage() {
+    // 重新加载页面
+    var county=document.getElementById('county_box').value
+    localStorage.setItem('selectedCounty', county);
+//     console.log(county)
+    location.reload();
+}
+// function showClean() {
+//     // 將 div 的 style 修改為 display: inline-block
+//     var divElement = document.querySelector('.clean');
+//     divElement.style.display = 'inline-block';
+// }
+// function hideClean() {
+//     // 將 div 的 style 修改為 display: none
+//     var divElement = document.querySelector('.clean');
+//     divElement.style.display = 'none';
+// }
 </script>
 </body>
 </html>
