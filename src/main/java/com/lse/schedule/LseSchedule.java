@@ -34,7 +34,7 @@ public class LseSchedule {
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void updateLseStatus() {
 
-		System.out.println("hi 我是排程器, 執行合約到期日檢視");
+		System.out.println("合約排程器 -> 檢視合約到期日");
 		
 		LocalDate date = LocalDate.now();
 		Date endDay = Date.valueOf(date);
