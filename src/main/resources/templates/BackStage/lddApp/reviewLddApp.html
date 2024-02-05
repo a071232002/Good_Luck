@@ -14,11 +14,7 @@
 	<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
     <title>審核房東</title>
     <style>
-        h1 {
-           text-align: center;
-           color: red;
-        }
-        
+
         input {
 			vertical-align: middle;
 		}
@@ -86,10 +82,9 @@
 		}
         
         main{
-        	margin-top: 50px;
-        	padding: 50px 20px;
+        	padding: 20px 20px;
         }
-              
+        
     </style>
     
    </head>
@@ -98,8 +93,17 @@
 	
 		
     	<main>
-	       
-	       <div class="tittleBoard"><span class="tittleBoard">審核房東</span></div>
+	       <h1 style="text-align: center;
+			 font-size: 2em !important;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #5bc0de; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">
+             房東審核</h1>
 	       
 	       <div class="lightbox" id="lightbox">
 	    		<img src="" alt="放大顯示的圖片" id="lightbox-img">
@@ -175,8 +179,82 @@
          
          
          <script>
-           let table = new DataTable("#example");
-           console.log($(".test"));
+         new DataTable('#example', {
+         	"stateSave": true,
+             initComplete: function () {
+             	var table = this.api();
+
+                 var currentStateSaveValue = table.settings()[0].oFeatures.bStateSave;
+     			//指定一個欄位新增select，從0開始算
+//                  table.columns(7).every( function () {
+//                          let column = this;
+
+//                          let select = document.createElement('select');
+//                          select.add(new Option(''));
+//                          column.header().append(select);
+
+//                          select.addEventListener('change', function () {
+//                              var val = DataTable.util.escapeRegex(select.value);
+
+//                              column
+//                                  .search(val ? '^' + val + '$' : '', true, false)
+//                                  .draw();
+//                          });
+//                          select.addEventListener('click', function (e) {
+//                          	e.stopPropagation();
+//                          });
+
+//                          column.data().unique().sort().each( function ( d, j ) {
+
+//                              if(column.search() === '^' + d + '$'){
+//                              	console.log("OK")
+//                              	var newOption = document.createElement("option");
+//      						    newOption.text = d;
+//      						    newOption.value = d;
+//      						    newOption.selected="selected"
+//                                  select.append(newOption);
+
+//                              } else {
+//                              	select.add(new Option(d));
+//                              }
+
+//                          } );
+//                      });
+
+             }
+         });
+
+     	// 前幾欄加上input
+     	$('#example thead th:lt(4)').each(function() {
+     		
+     	    var title = $('#example thead th').eq($(this).index()).text();
+
+     	    $(this).html(title+'<input type="text" placeholder="請輸入..." />');
+
+     	});
+
+     	var table = $('#example').DataTable();
+     	 
+     	// 前幾欄加上input的search
+     	table.columns(':lt(4)').eq(0).each(function(colIdx) {
+     		var searchval=table.column(colIdx).search(this.value)
+     		if(searchval!==""){
+     			console.log(searchval)
+     			$('#example thead th').eq(colIdx).find('input').val(searchval);
+     	    }
+     		
+     		
+     	    $('input', table.column(colIdx).header()).on('keyup', function() {
+     	    	table
+     	            .column(colIdx)
+     	            .search(this.value)
+     	            .draw();	    	
+     	    });
+     	 
+     	    $('input', table.column(colIdx).header()).on('click', function(e) {
+     	        e.stopPropagation();
+     	    });
+     	});
          </script>
          <script>
 	         var images = document.querySelectorAll(".lddAppImage");
