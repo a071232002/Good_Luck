@@ -184,8 +184,20 @@ public class LseController {
 	}
 	
 	@PostMapping("terminate")
-	public String terminate(@RequestParam("lseNo") String lseNo, @RequestParam("lseEnd") String lsEnd) {
+	public String terminate(@RequestParam("lseNo") String lseNo, @RequestParam("lseEnd") String lsEnd, ModelMap model) {
 		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
+		
+	    Date lseEndDate = lse.getLseEnd();
+	    Date lsEndDate = Date.valueOf(lsEnd);
+
+	 
+	    if (lsEndDate.compareTo(lseEndDate) >= 0) {
+	    	model.addAttribute("pickDate", lsEndDate);
+	    	model.addAttribute("ORIDate", lseEndDate);
+	        return "FrontEnd/lse/error";
+	    }
+		
+		
 		lse.setLseEnd(Date.valueOf(lsEnd));
 		lse.setLseRenew(Byte.valueOf("1"));
 		lseSvc.updateLse(lse);
