@@ -9,8 +9,13 @@
 	<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
 	<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
 	
-	<title>檢舉投訴一覽</title>
+	<title>檢舉投訴審核</title>
 	<style>
+		body {
+	            font-family: 'Arial', sans-serif;
+	            background-color: #f4f4f4;
+
+	        }
 		h1 {
 			text-align: center;
 			color: red;
@@ -51,15 +56,16 @@
 <div th:replace="BackStage/HTMLTool/nav :: nav"></div>
 <main>
 	<h1 style="text-align: center;
+   			 font-size: 2em !important;
 			 border-radius: 10px;
 			 width:80%;
              color: #fff; /* 字體顏色 */
-             background-color: #3498db; /* 背景顏色 */
+             background-color: #5bc0de; /* 背景顏色 */
              padding: 20px; /* 內邊距 */
              margin: 0px auto; /* 邊距 */
              margin-bottom: 20px;
              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">
-             檢舉投訴一覽</h1>
+             檢舉投訴審核</h1>
 
 	<table id="example" class="display" style="width: 100%">
 		<thead>
@@ -97,16 +103,17 @@
 					<td th:text="${report.reportDate}"></td>
 					
 					<td>
-					<button onclick="showLightbox(this)"style="background-color: #3498db; /* 藍色背景顏色 */
+					<button onclick="showLightbox(this)"style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
                                                         padding: 10px 10px; /* 內邊距 */
                                                         cursor: pointer; /* 鼠標懸停效果 */
                                                         border-radius: 10px;
                                                         font-weight: bold;
-                                                        font-size: 14px;" 
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
                                                         onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
-                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">顯示</button>
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'">顯示</button>
 					<!-- 燈箱 -->
 					<div id="textarea-lightbox" class="lightbox" onclick="hideLightbox(event)">
 					    <textarea readonly id="enlarged-textarea" th:text="${report.reportCon}" oninput="autoExpand(this)"></textarea>
@@ -135,27 +142,29 @@
 							<div th:switch="${report.reportSt}">
 								<th:block th:case="0">
 							        <!-- 处理值为0的情况 -->
-							        <button type="button" style="background-color: #3498db; /* 藍色背景顏色 */
+							        <button type="button" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
                                                         padding: 10px 10px; /* 內邊距 */
                                                         cursor: pointer; /* 鼠標懸停效果 */
                                                         border-radius: 10px;
                                                         font-weight: bold;
-                                                        font-size: 14px;" 
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
                                                         onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
-                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'"
             				  							onclick="setDataValue(this,'1')"> 成立 </button>
-									<button type="button" style="background-color: #3498db; /* 藍色背景顏色 */
+									<button type="button" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
                                                         padding: 10px 10px; /* 內邊距 */
                                                         cursor: pointer; /* 鼠標懸停效果 */
                                                         border-radius: 10px;
                                                         font-weight: bold;
-                                                        font-size: 14px;" 
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
                                                         onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
-                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'"
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'"
 														onclick="setDataValue(this, '2')">不成立</button>
 
 

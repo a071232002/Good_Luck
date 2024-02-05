@@ -934,15 +934,17 @@ function showRents(){
 	
 	    geocoder.geocode({ 'address': selectedCity + ', Taiwan' }, function (results, status) {
 	        if (status == google.maps.GeocoderStatus.OK) {
+
 	            var mapOptions = {
-	                center: results[0].geometry.location,
-	                zoom: 16
+// 	                center: results[0].geometry.location,
+	                center: new google.maps.LatLng(rentList[0].rentLat,rentList[0].rentLon),
+	                zoom: 15
 	            };
 	            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 	
 	            // 添加标记
 	            for (let i=0; i<rentList.length; i++) {
-	            	console.log(rentList[i].rentPostTitle)
+// 	            	console.log(rentList[i].rentPostTitle)
 	
 	            	var imageSource = rentList[i].rentImg;
 					var propertyTitle = rentList[i].rentPostTitle
@@ -976,7 +978,7 @@ function addMarker(map, Title, latitude, longitude,rentAppCou,rentAppAr,rentAppR
 
     var infowindow = new google.maps.InfoWindow({
         content: '<div style="position: relative;"id="'+rentNo+'"onclick="getOneById(this.id)">' +
-        			'<a href="#" style="font-size: 15px;" onclick="return false;">'+Title+'</a></div>'+
+        			'<a href="#" style="font-size: 15px;font-weight: bold;" onclick="return false;">'+Title+'</a></div>'+
 				    '<p>' + rentAppCou + '-'+rentAppAr+'-'+rentAppRo+'</p>' +
 				    '<p style="font-size: 15px;font-weight: bold;color: red; position: absolute; bottom: 0; right: 0;margin-bottom: 1px;">' + rentRent + ' 元</p>'
     });
@@ -1202,7 +1204,7 @@ function logAllValues() {
                 // 输出所有被选中元素的值
 //                 console.log('All Selected Values:', values);
                 getRentList();
-                changePage(1)
+//                 changePage(1)
 //                 console.log(data)
             }, 0);
         });

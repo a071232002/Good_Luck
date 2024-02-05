@@ -82,9 +82,9 @@
 		<form th:action="@{insert}" method="post" th:object="${report}"
 			enctype="multipart/form-data">
 			<div>
-			<textarea th:field="*{reportCon}" rows="4" cols="50" oninput="countCharacters()" placeholder="請輸入評論..."></textarea>
+			<textarea th:field="*{reportCon}" rows="4" cols="50" oninput="countCharacters()" placeholder="請輸入檢舉內容..."></textarea>
 			<p id="characterCount">剩餘可輸入字數: 200</p>
-			<br /> 
+			<br/> 
 
 			<span
 					th:if="${#fields.hasErrors('reportCon')}"
@@ -96,7 +96,17 @@
 			<div>
 				<div></div>
 				<div>
-					<button type="submit" id="submit">送出新增</button>
+					<button type="submit" id="submit"style="background-color: #5bc0de; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'">送出新增</button>
 				</div>
 				
 				<div></div>
