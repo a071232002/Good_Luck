@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+  <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
     <style>
         body {
             box-sizing: border-box;
@@ -21,11 +23,32 @@
         b {
             color: red;
         }
-
-        td {
+        
+       table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 0px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50vw;
             text-align: right;
-            padding: 5px;
         }
+
+        table,
+        th,
+        td {
+            border: 1px solid #333;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ddd;
+        }
+
 
         .toggler {
             display: inline-block;
@@ -51,43 +74,90 @@
             text-align: center;
             background-color: red;
         }
+        
+        h1 {
+        	text-align: center;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #3498db; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */ 
+        }
+        
+        main{
+		   margin-top: 50px;
+		   padding: 50px 20px;
+		   text-align: center;
+		}
+		
+    	.error {
+    		color: red;
+    		font-style: italic;
+    	} 
     </style>
-<title>Insert title here</title>
+<title>註冊員工</title>
 </head>
 <body>
+	<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+	<main>
 	<h1>新增員工</h1>
 	<form method="post" th:action="@{empRegister}" th:object="${emp}" enctype="multipart/form-data">
 		<table>
+			<thead>
+				<tr>
+				    <th>項目</th>
+	            	<th>資料</th>
+				</tr>
+			</thead>
+			<tbody>
 			<tr>
 				<td><label for="name">姓名<b>*</b>：</label></td>
-				<td><input id="name" title="請輸入姓名" th:field="*{empName}"></td>
-				<td><span th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></span></td>
+				<td>
+					<input id="name" title="請輸入姓名" th:field="*{empName}">
+					<br>
+					<span th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}" class="error"></span>
+				</td>
 			</tr>
 			<tr>
 				<td><label for="password">密碼<b>*</b>：</label></td>
-				<td><span >不須輸入密碼，自動生成</span></td>
+				<td><span >不須輸入密碼，(預設密碼為GoodLuck)</span></td>
 			</tr>
 			<tr>
                 <td><label for="memsex">性別<b>*</b>：</label></td>
                 <td>
                     <input type="radio" th:field="*{empSex}" id="man" th:value="0"><label for="man">男性</label>
                     <input type="radio" th:field="*{empSex}" id="femal" th:value="1"><label for="femal">女性</label>
+                	<br>
+                	<span th:if="${#fields.hasErrors('empSex')}" th:errors="*{empSex}" class="error"></span>
                 </td>
-                <td><span th:if="${#fields.hasErrors('empSex')}" th:errors="*{empSex}"></span></td>
             </tr>
 			<tr>
 				<td><label for="date">員工到職日<b>*</b>：</label></td>
-				<td><input type="date" th:field="*{empHireDate}" title="請輸入員工到職日" name="date"></td>
-				<td><span th:text="${errorDate}"></span></td>
+				<td>
+					<input type="date" th:field="*{empHireDate}" title="請輸入員工到職日" name="date">
+					<br>
+					<span th:text="${errorDate}" class="error"></span>
+				</td>
 			</tr>
-
+			</tbody>
 
 		</table>
-		
-		<input type="submit" class="submit" value="註冊會員">
+		<br>
+		<input type="submit" class="submit" value="註冊員工" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">
 	</form>
 
-	<button id="button" class="ui-state-default ui-corner-all" style="display: none;">註冊會員</button>
-
+	</main>
 </body>
 </html>

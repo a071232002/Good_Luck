@@ -101,13 +101,29 @@
         	text-align: center;
         }
         
+		button, input.submit {
+		    background-color: #5bc0de;
+            color: #fff;
+            border: none;
+		    padding: 5px 10px;
+		    cursor: pointer;
+		    border-radius: 4px;
+		}
+		
+		button:hover {
+		    background-color: #0056b3;
+		}
+		
+		input.submit:hover {
+			background-color: #0056b3;
+		}
 
     </style>
 </head>
 <body>
 	<div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
 	<main>
-	<h1>會員基本資料</h1>
+	
 	<div class="fly">
 	<div class="memPicture">
 		<div class="avatar-container">
@@ -124,7 +140,8 @@
 		</form>
 	    </div>
 	</div>
-	
+	<div>
+		<div class="tittleBoard"><span class="tittleBoard">會員基本資料</span></div>
 	<table id="example" class="display">
 		<thead>
 			<tr>
@@ -149,7 +166,7 @@
 				<td>密碼</td>
 				<td>
 					<form th:action="@{/mem/goNewPsw}" method="get">
-						<input type="submit" value="變更密碼">
+						<input type="submit" value="變更密碼" class="submit">
 					</form>
 				</td>
 			</tr>
@@ -192,13 +209,13 @@
 				<td >
 					<form method="get" th:action="@{updateMem}">
 						<input type="hidden" name= "memNo" th:value="${myData.memNo}">
-						<input type="submit" value="修改" >
+						<input type="submit" value="修改" class="submit">
 					</form>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-	
+	</div>
 	</div>
 	<br>
 	

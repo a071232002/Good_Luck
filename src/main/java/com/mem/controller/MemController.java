@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,9 @@ public class MemController {
 
 	@Autowired
 	private MemService memservice;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 
 	// 前往查詢頁面
@@ -45,6 +49,8 @@ public class MemController {
 	@PostMapping("stopMem")
 	public String banMem(@ModelAttribute("memNo") String memNo) {
 		memservice.banMem(Integer.valueOf(memNo));
+		redisTemplate.opsForValue().set("noFun" + memNo, memNo);
+		
 		return "redirect:memlist";
 	}
 		

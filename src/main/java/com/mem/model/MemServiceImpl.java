@@ -160,7 +160,7 @@ public class MemServiceImpl implements MemService {
 		if(memRepository.existsByMemMail(memMail)) {
 			String authCode = getAuthCode();
 			Mem mem = memRepository.findByMemMail(memMail);
-			mem.setMemPsw(authCode);
+			mem.setMemPsw(hashPassword(authCode));
 			edit(mem);
 			return verifyMail(memMail, "租你好運發送新密碼！", "你的新密碼為：", authCode);
 		}

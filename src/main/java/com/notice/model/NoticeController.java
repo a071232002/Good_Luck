@@ -3,15 +3,14 @@ package com.notice.model;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.validation.Valid;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -20,41 +19,47 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.mysql.cj.protocol.x.Notice;
 import com.notice.service.NoticeService;
-import com.rtn.model.Rtn;
 
 @Controller
 @RequestMapping("/BackStage/notice")
 public class NoticeController {
 
 	@Autowired
-	private NoticeService noticeservice;
+	private NoticeService noticeService;
 	
-	//前往新增頁面
+	// 前往新增頁面
 	@GetMapping("/addNotice")
-	public String addNotice(ModelMap model) {
-		NoticeVO noticeVO = new NoticeVO();
-		model.addAttribute("noticeVO", noticeVO);
-//		System.out.println("吃飽");
-		return "BackStage/Notice/addNotice";
-
+	public String addNotice(Model model) {
+	    model.addAttribute("noticeVO", new NoticeVO());
+	    return "BackStage/notice/addNotice";
 	}
-	
+	// 處理新增資料
+	@PostMapping("/getaddNotice")
+	public String getaddNotice(@Valid NoticeVO notice, BindingResult result, ModelMap model) throws IOException {
+	   
+//		if (notice.getNoticeContent() == null || notice.getNoticeContent().isEmpty()) {
+//	        model.addAttribute("empty", "請輸入新增公告的內容");
+//	    }
+		System.out.println(notice.getNoticeContent());
+	    if (result.hasErrors()) {
+	        return "BackStage/notice/addNotice";
+	    }
+
+	    noticeService.addNotice(notice);
+	    return "redirect:/BackStage/notice/listAllNotice";
+	}
 
 	
 	//全部公告json到前端
 	@GetMapping("/getAllNotices")
 	public ResponseEntity<List<NoticeVO>> addNoticeGetAll(){
 		NoticeVO noticeVO = new NoticeVO();
-		List<NoticeVO>notices =  noticeservice.getAll();
+		List<NoticeVO>notices =  noticeService.getAll();
 		return  ResponseEntity.status(HttpStatus.OK).body(notices);
 	}
 	
-	
-
 	//前往查詢頁面
 	@GetMapping("/listAllNotice")
 	public String showList(ModelMap mpdel) {
@@ -65,39 +70,13 @@ public class NoticeController {
 	@PostMapping("updateNotice")
 	public String updateData(ModelMap model,@ModelAttribute("noticeNo") String noticeNo) {
 		System.out.println(noticeNo);
-		NoticeVO oldData=noticeservice.getOneNotice(Integer.valueOf(noticeNo));
+		NoticeVO oldData=noticeService.getOneNotice(Integer.valueOf(noticeNo));
 		System.out.println("test "+oldData);
 		model.addAttribute("data", oldData);
 		return"BackStage/Notice/updateNotice";
 	}
 
-	//新增資料
-	@PostMapping("noticeadd")
-	public String addNotice(@ModelAttribute("noticeVO") @Valid NoticeVO notice,BindingResult result,ModelMap model)throws IOException{   //測add記得開
-		
-//		0109
-//		System.out.println("ffffffffffffff"+notice);
-		System.out.println(notice);
-		NoticeVO  notice2 = noticeservice.addNotice(notice);  //測add記得開 63 64
-		System.out.println("notice2: "+notice2);
-		
-//		notice.setNoticePic(part.isEmpty() ? null : part.getBytes());
-//		result = removeFieldError(notice,result,"noticePic");
-		
-//		System.out.println(result.getErrorCount());
-//		System.out.println(result.getFieldErrorCount());
-		if(result.hasErrors()) {
-			System.out.println(result.getAllErrors());
-			return"BackStage/notice/addNotice";
-			
-		}
-		NoticeVO newData = noticeservice.getOneNotice(noticeservice.addNotice(notice).getNoticeNo());
-		model.addAttribute("sucessData", newData);
-		System.out.println(newData);
-//		return"BackStage/notice/listAllNotice";
-		return"redirect:/BackStage/notice/listAllNotice";
-
-	}
+	
 
 		//修改資料
 		//@MdelAttribute對映th:object"${notice}"和model.addAttribute("notice", notice)
@@ -114,7 +93,7 @@ public class NoticeController {
 				System.out.println(result.getAllErrors());
 				return "BackStage/Notice/updateNotice";
 		}
-			NoticeVO newData = noticeservice.updateNotice(noticeVO);
+			NoticeVO newData = noticeService.updateNotice(noticeVO);
 			model.addAttribute("successData", newData);
 			System.out.println(newData);
 			return "BackStage/Notice/listAllNotice";
@@ -123,10 +102,10 @@ public class NoticeController {
 		//設置查詢全部屬性
 		@ModelAttribute("noticeListData")
 		protected List<NoticeVO> referenceListData() {
-	    	List<NoticeVO> list =noticeservice.getAll();
+	    	List<NoticeVO> list =noticeService.getAll();
 			return list;
 		}	
-	
+		
 		// 去除BindingResult中某個欄位的FieldError紀錄
 		public BindingResult removeFieldError(NoticeVO notice, BindingResult result, String removedFieldname) {
 			List<FieldError> errorsListToKeep = result.getFieldErrors().stream()

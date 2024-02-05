@@ -2,8 +2,6 @@ package com.filter;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,9 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
-import com.ldd.model.Ldd;
-import com.ldd.model.LddService;
 import com.mem.model.Mem;
 
 
@@ -29,12 +26,9 @@ public class FrontEndFilter implements Filter{
 	private ServletContext sc;
 	
 	@Autowired
-	private LddService lddservice;
-	
-	
+	private StringRedisTemplate redisTemplate;
 	
 	private static HashSet<String> path = new HashSet<>();
-	private static HashSet<String> lddPath = new HashSet<>(); //過濾房東權限
 	
 	static {
 		//設定前台過濾器忽略的網頁
@@ -81,7 +75,9 @@ public class FrontEndFilter implements Filter{
 		if(validator && !"/Good_Luck/".equals(uri)) {
 			final Mem member = getClassFromSession(httpRequest, "logsuccess", Mem.class); //取得Session資料
 			System.out.println("Member為：" + member);
+			System.out.println(newUri);
 			if(member == null) {
+				
 				if(httpRequest.getParameter("rentNo") != null) {
 					newUri = newUri + "?rentNo=" +  httpRequest.getParameter("rentNo");
 				}
@@ -89,6 +85,13 @@ public class FrontEndFilter implements Filter{
 				System.out.println("test " + httpRequest.getParameter("rentNo"));
 				httpRequest.getSession().setAttribute("goURI", newUri);
 				httpResponse.sendRedirect( contextPath + "/mem/login");
+				return;
+			}
+			
+			//停權強制登出
+			if(redisTemplate.opsForValue().get("noFun" + member.getMemNo().toString()) != null) {
+				redisTemplate.delete("noFun" + member.getMemNo().toString());
+				httpResponse.sendRedirect( contextPath + "/mem/logOut");
 				return;
 			}
 

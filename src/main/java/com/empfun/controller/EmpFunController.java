@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,9 @@ public class EmpFunController {
 	
 	@Autowired
 	private EmpService empService;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 	//前往權限管理
 	@GetMapping("/funlist")
@@ -42,6 +46,7 @@ public class EmpFunController {
 						@RequestParam(name = "variety", defaultValue = "") List<Integer> variety) {
 //		System.out.println(emp);
 		System.out.println("this  " + variety);
+		redisTemplate.opsForValue().set("changeFun" + emp.getEmpNo().toString(), variety.toString());
 //		List<Integer> funList = variety;
 		emp = empService.getById(emp.getEmpNo());
 		emp.setEmpFun(variety);

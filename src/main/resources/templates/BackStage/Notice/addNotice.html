@@ -1,199 +1,194 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-<link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
-<link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
+    <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
 
-<style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            box-sizing: border-box;
+        }
 
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        box-sizing: border-box;
-    }
+        main {
+            margin-top: 30px;
+            padding: 50px 20px;
+            text-align: center; /* 新增這一行，使內容置中 */
+        }
 
-    form {
-        display: inline-block;
-        max-width: 600px;
-        margin: 0 auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-top: 50px;
-    }
+        form {
+            display: inline-block;
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
 
-    table {
-        width: 100%;
-        margin-bottom: 20px;
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
 
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
 
-    th {
-        background-color: #f2f2f2;
-    }
+        th {
+            background-color: #f2f2f2;
+        }
 
-    label {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 8px;
-    }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
 
-    input {
-        width: calc(100% - 12px);
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
+        input {
+            width: calc(100% - 12px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-    .error {
-        color: red;
-    }
+        .error {
+            color: red;
+        }
 
-    .submit {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+        .submit {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-    .submit:hover {
-        background-color: #0056b3;
-    }
+        .submit:hover {
+            background-color: #0056b3;
+        }
 
-    .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-    .text {
-        font-size: 2em;
-        margin-bottom: 20px;
-    }
+        .text {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
 
-    .field {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 15px;
-    }
+        .field {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
 
-    .fas {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+        .fas {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
-    .forgot-pass {
-        text-align: right;
-        margin-bottom: 10px;
-    }
+        .forgot-pass {
+            text-align: right;
+            margin-bottom: 10px;
+        }
 
-    button {
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-    .sign-up {
-        margin-top: 15px;
-        text-align: center;
-    }
+        .sign-up {
+            margin-top: 15px;
+            text-align: center;
+        }
 
-    a {
-        color: #007bff;
-    }
+        a {
+            color: #007bff;
+        }
 
-    a:hover {
-        text-decoration: underline;
-    }
+        a:hover {
+            text-decoration: underline;
+        }
 
-    #effect h3 {
-        margin: 0;
-        padding: 0.4em;
-        text-align: center;
-        background-color: red;
-    }
+        #effect h3 {
+            margin: 0;
+            padding: 0.4em;
+            text-align: center;
+            background-color: red;
+        }
+    </style>
 
-
-main{
-   margin-top: 50px;
-   padding: 50px 20px;
-}
- 	
-</style>
-<title>最新消息公告</title>
+    <title>最新消息公告</title>
 </head>
 <body>
-<h1> 最新消息公告</h1>
-	<form method="post" th:action="@{noticeadd}" th:object="${noticeVO}"enctype="multipart/form-data">
-		<table>
-<!-- 			<tr> -->
-<!-- 				<td><label for="noticeNo">最新消息編號：</label></td> -->
-<!-- 				<td><input id="noticeNo" title="請輸入最新消息編號" th:field="*{noticeNo}"></td> -->
-<!-- 				<td><span th:if="${#fields.hasErrors('noticeNo')}" -->
-<!-- 					th:errors="*{noticeNo}" class="error" id="ename.errors"></span></td> -->
-<!-- 			</tr> -->
+    <main> <!-- 修改這裡，將內容置中 -->
+        <h1> 最新消息公告</h1>
+        <form method="post" th:action="@{getaddNotice}" th:object="${noticeVO}" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td><label for="empNo">員工編號：</label></td>
+                    <td><input type="number" id="empNo" title="請輸入員工編號" th:field="*{empNo}"></td>
+                    <td><label class="error" th:if="${#fields.hasErrors('empNo')}" th:errors="*{empNo}"></label></td>
+                </tr>
 
-			<tr>
-				<td><label for="empNo">員工編號：</label></td>
-				<td><input id="empNo" title="請輸入員工編號" th:field="*{empNo}"></td>
-				<td><span th:if="${#fields.hasErrors('empNo')}"
-					th:errors="*{empNo}" class="error" id="ename.errors"></span></td>
-			</tr>
+                <tr>
+                    <td><label for="noticeTime">最新消息時間：</label></td>
+                    <td><input type="datetime-local" id="noticeTime_input" th:field="*{noticeTime}"></td>
+                   	<td><label class="error" th:if="${#fields.hasErrors('noticeTime')}" th:errors="*{noticeTime}"></label></td>
+                    
+                </tr>
 
-			<tr>
-				<td><label for="noticeTime">最新消息時間：</label></td>
-				<td><input type="datetime-local" id="noticeTime_input" th:field="*{noticeTime}"></td> 
-			</tr>
+                <tr>
+                    <td><label for="noticeContent">最新消息內容：</label></td>
+                    <td><input title="請輸入最新消息內容" th:field="*{noticeContent}"></td>
+<!--                     <td><span>最新消息內容請勿空白 ! </span></td> -->
+                    <td><label class="error" th:if="${#fields.hasErrors('noticeContent')}" th:errors="*{noticeContent}"></label></td>
+                </tr>
 
-			<tr>
-				<td><label for="noticeContent">最新消息內容：</label></td>
-				<td><input title="請輸入最新消息內容" th:field="*{noticeContent}"></td>
-				<td><span th:if="${#fields.hasErrors('noticeContent')}" th:errors="*{noticeContent}" class="error" id="ename.errors"></span></td>
-		
-			</tr>
+                <tr>
+                    <td><label for="noticeStatus">最新消息狀態：</label></td>
+                    <td>
+                        <select id="noticeStatus" title="最新消息狀態" th:field="*{noticeStatus}">
+                            <option value="0">下架</option>
+                            <option value="1">上架</option>
+                        </select>
+                    </td>
+                    <td><label class="error" th:if="${#fields.hasErrors('noticeStatus')}" th:errors="*{noticeStatus}" id="ename.errors"></label></td>
+                </tr>
 
-			<tr>
-				<td><label for="noticeStatus">最新消息狀態：</label></td>
-				<td><select id="noticeStatus" title="最新消息狀態" th:field="*{noticeStatus}">
-						<option value="0">下架</option>
-						<option value="1">上架</option>
-				</select></td>
-				<td><span th:if="${#fields.hasErrors('noticeStatus')}"
-					th:errors="*{noticeStatus}" class="error" id="ename.errors"></span></td>
-			</tr>
-			
-			<tr>
-				<td><input type="submit" id="submit" value="送出新增"></td>
-			</tr>
-		
-		</table>
-		</form>
-		<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-		<div th:replace="BackStage/HTMLTool/nav :: nav"></div>
-		
+                <tr>
+                    <td><input type="submit" id="submit" value="送出新增"></td>
+                </tr>
+                
+            </table>
+        </form>
 
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <div th:replace="BackStage/HTMLTool/nav :: nav"></div>
+    </main>
 </body>
 </html>

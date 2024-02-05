@@ -44,20 +44,24 @@
 	#notice-Table table, th, td {
 		border: 1px solid #ccc;
 	    text-align: center !important;
+	    width : 30%;
 	}
 	
 	
 	th {
-	/* 	background-color: #f2f2f2; */
+	 	background-color: #f2f2f2;
 		color: #333;
 		font-weight: bold;
 		text-align: left;
 		padding: 8px;
+		
+/* 	    width: 7em; */
 	}
 	
 	
 	tr:nth-child(even) {
-	/* 	background-color: #f4623a; */
+ 	 	background: #5a4634;
+ 	    color: #ccc;
 	}
 	
 	
@@ -100,25 +104,27 @@
 
 
 	<!-- Masthead-->
+	
 	<header class="masthead">
 		<div class="container px-4 px-lg-5 h-100">
 			<div
 				class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
 				<div class="col-lg-8 align-self-end">
-					<h1 class="text-white font-weight-bold"  style="margin-top:150px !important;">最新消息:</h1>
+					<marquee><h1 class="text-white font-weight-bold"  style="margin-top:50px !important;">最新消息:</h1></marquee>
 					<p id="noticesContainer"></p>
 				</div>
 				<div class="col-lg-8 align-self-baseline">
-					<div id="paginationButtons">
-					    <button id="prevPage">上一頁</button>
-					    <button id="nextPage">下一頁</button>
-					</div>
+<!-- 					<div id="paginationButtons"> -->
+<!-- 					    <button id="prevPage">上一頁</button> -->
+<!-- 					    <button id="nextPage">下一頁</button> -->
+<!-- 					</div> -->
 					<!-- 					                        <p class="text-white-75 mb-5">Start Bootstrap can help you build better websites using the Bootstrap framework! Just download a theme and start customizing, no strings attached!</p> -->
 					<!-- 					<a class="btn btn-primary btn-xl" href="#shop">讓我們幫您</a> -->
 				</div>
 			</div>
 		</div>
 	</header>
+	
 	<!-- About-->
 	<section class="page-section bg-primary" id="shop">
 		<div class="container px-4 px-lg-5">
@@ -302,8 +308,8 @@
 			        DOMNotice += `
 			            <tr id="head-tr">
 			                <th>最新消息編號</th>
-			                <th>最新消息時間</th>
 			                <th>最新消息內容</th>
+			                <th>最新消息時間</th>
 			            </tr>
 			        `;
 
@@ -312,8 +318,8 @@
 			            DOMNotice += `
 			                <tr>
 			                    <td>${noticeData[i].noticeNo}</td>
-			                    <td>${noticeData[i].noticeTime}</td>
 			                    <td>${noticeData[i].noticeContent}</td>
+			                    <td>${noticeData[i].noticeTime}</td>
 			                </tr>
 			            `;
 			        }
