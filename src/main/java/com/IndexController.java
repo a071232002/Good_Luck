@@ -65,7 +65,14 @@ public class IndexController {
 			model.addAttribute("message", "員工編號或密碼不能空白，請重新輸入！");
 			return "BackStage/login";
 		}
-		Emp loginData = empService.empLogin(Integer.valueOf(userNo), userPassword);
+		Emp loginData;
+		try {
+			loginData = empService.empLogin(Integer.valueOf(userNo), userPassword);			
+		}catch(NumberFormatException e) {
+			model.addAttribute("message", "員工編號或密碼輸入錯誤，請重新輸入！");
+			loginData = null;
+		}
+		
 		if (loginData != null && loginData.getEmpStatus() != 0) {
 			String activeNavItemId = projectUri + "/icon/BackStage/indexJS";
 //			String uri = session.getAttribute("goBackStageURI").toString();
