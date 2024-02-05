@@ -37,14 +37,15 @@ public class EmpServiceImpl implements EmpService {
 	@Override
 	public Emp empLogin(Integer empNo, String empPsw) {
 		System.out.println(empNo);
-		Emp getEmp = getById(empNo);
-		if(empPsw.equals(getEmp.getEmpPsw())) {
-			return getEmp;
-		}
-		return null;
+		empPsw = hashPassword(empPsw);
 //		Emp getEmp = getById(empNo);
-//		getEmp = getEmp == null ? null : empPsw.equals(getEmp.getEmpPsw()) ? getEmp : null;
-//		return getEmp;
+//		if(empPsw.equals(getEmp.getEmpPsw())) {
+//			return getEmp;
+//		}
+//		return null;
+		Emp getEmp = getById(empNo);
+		getEmp = getEmp == null ? null : empPsw.equals(getEmp.getEmpPsw()) ? getEmp : null;
+		return getEmp;
 	}
 
 	// 查詢員工全部資料
@@ -57,7 +58,7 @@ public class EmpServiceImpl implements EmpService {
 	@Override
 	public Emp editEmp(Emp newEmp) {
 		
-//		newEmp.setEmpPsw(hashPassword(newEmp.getEmpPsw())); //加密
+		newEmp.setEmpPsw(newEmp.getEmpPsw());
 		return empRepository.save(newEmp);
 	}
 
@@ -85,9 +86,10 @@ public class EmpServiceImpl implements EmpService {
 	public Emp reSetPsw(Integer empNo) {
 		Emp emp = empRepository.findById(empNo).orElse(null);
 		if(emp != null) {
-			emp.setEmpPsw("goodluck" + empNo);
+			emp.setEmpPsw(hashPassword("GoodLuck" + empNo));
 		}
-		return emp;
+		
+		return empRepository.save(emp);
 	}
 
 	// 密碼加密

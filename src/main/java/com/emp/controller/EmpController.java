@@ -136,7 +136,7 @@ public class EmpController {
 	
 	//處理修改資料
 	@PostMapping("/changeEmp")
-	public String changeEmp(@Valid Emp emp, ModelMap model, BindingResult result) {
+	public String changeEmp(@ModelAttribute("empData") @Valid Emp emp, BindingResult result,  ModelMap model ) {
 		System.out.println(emp + "test");
 		if(result.hasErrors()) {
 			return "BackStage/emp/updateEmp";

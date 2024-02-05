@@ -45,10 +45,15 @@
 	b {
 		color: red; 
 	}
+	
+	.error {
+    	color: red;
+    	font-style: italic;
+    } 
 
  </style>
 
-<title>Insert title here</title>
+<title>修改個人密碼</title>
 </head>
 <body>
 <div th:replace="BackStage/HTMLTool/nav :: nav"></div>
@@ -78,8 +83,28 @@
 		</tr>
 	</table>
 	</div>
-	<input type="submit" value="密碼修改" id="input">
+	<input type="submit" value="密碼修改" id="input" style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">
 	</form>
+     
+     	<a th:href="@{/BackStage/myData}"><button style="background-color: #3498db; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#3498db'">返回</button></a>
 </main>
 	
 </body>

@@ -138,6 +138,7 @@ public class MemControllerFrontEnd {
 		Mem loginData = memservice.login(memMail, memPsw);
 		if (loginData != null) {
 			if(loginData.getMemStatus() == 2) {
+				redisTemplate.delete("noFun" + loginData.getMemNo().toString());
 				model.addAttribute("noFun", "此帳號已無權限，請洽詢相關工作人員！");
 				return "FrontEnd/mem/loginMem";
 			}
@@ -243,9 +244,9 @@ public class MemControllerFrontEnd {
 	@GetMapping("/sendGMail")
 	public String sendGMail(@RequestParam("sendMail") String code, ModelMap model, HttpSession session) {
 		String uri = session.getAttribute("goURI") == null ? "/" : session.getAttribute("goURI").toString();
-		
+		Mem mem = (Mem)session.getAttribute("logsuccess");
 		//使用Redis讀取資料
-		String getCode = redisTemplate.opsForValue().get("templateID");
+		String getCode = redisTemplate.opsForValue().get("templateID" + mem.getMemMail());
 		System.out.println("redis Data：" + getCode);
 		if(getCode == null) {
 			model.addAttribute("errorCode", "驗證碼已超時，請重新發送驗證碼！");
