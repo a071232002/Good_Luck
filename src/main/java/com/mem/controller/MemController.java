@@ -45,7 +45,7 @@ public class MemController {
 	}
 
 
-	// 停權(未完成)
+	// 停權
 	@PostMapping("stopMem")
 	public String banMem(@ModelAttribute("memNo") String memNo) {
 		memservice.banMem(Integer.valueOf(memNo));
@@ -53,7 +53,15 @@ public class MemController {
 		
 		return "redirect:memlist";
 	}
-		
+	
+	//復權
+	@PostMapping("reMem")
+	public String reMem(@ModelAttribute("memNo") String memNo) {
+		Mem mem = memservice.findByNo(Integer.valueOf(memNo));
+		mem.setMemStatus(Byte.valueOf("1"));
+		memservice.edit(mem);
+		return "redirect:memlist";
+	}
 
 	// 設置查詢全部屬性
 	@ModelAttribute("memListData")
