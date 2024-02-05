@@ -325,14 +325,56 @@
  	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
  	
 	<script>
-		let table = new DataTable("#example");
-		
-		$('#example').DataTable().destroy();
-		$(document).ready(function() {
-		    $('#example').DataTable({
-		        "iDisplayLength": 5, 
-		    });
-		});
+		 new DataTable("#example", {
+	    	"stateSave": false,
+	    	"iDisplayLength": 5, 
+	                    initComplete: function () {
+	                    	var table = this.api();
+
+	                        var currentStateSaveValue = table.settings()[0].oFeatures.bStateSave;
+	            			//指定一個欄位新增select，從0開始算
+	                        table.columns(0).every( function () {
+	                                let column = this;
+
+	                                let select = document.createElement('select');
+	                    				select.style.margin="5px";
+	                    			let br = document.createElement('br');
+	                                select.add(new Option(''));
+	                                column.header().append(br);
+	                                column.header().append(select);
+
+	                                select.addEventListener('change', function () {
+	                                    var val = DataTable.util.escapeRegex(select.value);
+
+	                                    column
+	                                        .search(val ? '^' + val + '$' : '', true, false)
+	                                        .draw();
+	                                });
+	                                select.addEventListener('click', function (e) {
+	                                	e.stopPropagation();
+	                                });
+
+	                                column.data().unique().sort().each( function ( d, j ) {
+
+	                                    if(column.search() === '^' + d + '$'){
+	                                    	console.log("OK")
+	                                    	var newOption = document.createElement("option");
+	            						    newOption.text = d;
+	            						    newOption.value = d;
+	            						    newOption.selected="selected"
+	                                        select.append(newOption);
+
+	                                    } else {
+	                                    	select.add(new Option(d));
+	                                    }
+
+	                                } );
+	                            });
+
+	                    }
+	                });
+
+	            	
 	</script>
 	    <script>
 	    
