@@ -184,9 +184,10 @@ public class LseController {
 	}
 	
 	@PostMapping("terminate")
-	public String terminate(@RequestParam("lseNo") String lseNo) {
+	public String terminate(@RequestParam("lseNo") String lseNo, @RequestParam("lseEnd") String lsEnd) {
 		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
-		lse.setLseStatus(Byte.valueOf("6"));
+		lse.setLseEnd(Date.valueOf(lsEnd));
+		lse.setLseRenew(Byte.valueOf("1"));
 		lseSvc.updateLse(lse);
 		return "redirect:/lse/listAllLse";
 	}
@@ -285,17 +286,6 @@ public class LseController {
 		}	
 	}
 	
-//	private Date extend (Date lseStart, Date lseEnd) {
-//		 	long monthsDifference = ChronoUnit.MONTHS
-//		 									.between(lseStart.toLocalDate(),
-//		 											 lseEnd.toLocalDate());
-//
-//		    LocalDate newEndDate = lseEnd.toLocalDate().plusMonths(monthsDifference);
-//
-//		    Date date = Date.valueOf(newEndDate);
-//
-//		return date;
-//	}
 	
 	private Date extend (Date lseEnd, String year) {
 		

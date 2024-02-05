@@ -140,7 +140,7 @@
 	                    </td>
 	                    <th:block
 	                        th:with="today=${#dates.createNow()}, oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
-	                        <th:block th:if="${oneMonthLater >= lse.lseEnd.toLocalDate()}">
+	                        <th:block th:if="${oneMonthLater >= lse.lseEnd.toLocalDate() && (lse.lseStatus ==3 || lse.lseStatus ==6)}">
 	                            <td>
 	                                <span th:switch="${lse.lseRenew}">
 	                                    <span th:case="0" class="warning" th:text="請確認是否續約"></span>
@@ -182,25 +182,27 @@
 	                        </th:block>
 	                        
 	                        <th:block th:with="today=${#dates.createNow()}, oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
-	                        <th:block th:if="${oneMonthLater >= lse.lseEnd.toLocalDate()}">
-                        	 <form th:if="${lse.lseRenew == 0}" method="post" th:action="@{renew}" onsubmit="return showConfirmation(this)">
-                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
-                                <input type="submit" value="續約" class="approve_button">
-                             </form>
-                             
-                        	 <form th:if="${lse.lseRenew == 0}" method="post" th:action="@{cancelRenew}" onsubmit="return showConfirmation(this)">
-                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
-                                <input type="submit" value="不續約" class="reject_button">
-                             </form>
-                             
-                        	 <form th:if="${lse.lseRenew == 2}" method="post" th:action="@{cancelRenew}" onsubmit="return showConfirmation(this)">
-                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
-                                <input type="submit" value="取消續約" class="reject_button">
-                             </form>
-                            
+		                        <th:block th:if="${(oneMonthLater >= lse.lseEnd.toLocalDate()) && lse.lseStatus != 1}">
+		                       
+	                        	 <form th:if="${lse.lseRenew == 0}" method="post" th:action="@{renew}" onsubmit="return showConfirmation(this)">
+	                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+	                                <input type="submit" value="續約" class="approve_button">
+	                             </form>
+	                             
+	                        	 <form th:if="${lse.lseRenew == 0}" method="post" th:action="@{cancelRenew}" onsubmit="return showConfirmation(this)">
+	                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+	                                <input type="submit" value="不續約" class="reject_button">
+	                             </form>
+	                             
+	                        	 <form th:if="${lse.lseRenew == 2}" method="post" th:action="@{cancelRenew}" onsubmit="return showConfirmation(this)">
+	                                <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+	                                <input type="submit" value="取消續約" class="reject_button">
+	                             </form>
+	                            </th:block>
                             </th:block>
-                        	 <form th:if="${lse.lseStatus == 5}" method="post" th:action="@{terminate}" onsubmit="return showConfirmation(this)">
+                        	 <form th:if="${lse.lseStatus == 5}" method="post" th:object="${lse}" th:action="@{terminate}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
+                                <input type="date" class="apoWantDate" name="lseEnd" required>
                                 <input type="submit" value="提前解約" class="reject_button">
                             </form>
 	                    </td>
@@ -219,7 +221,7 @@
     <script th:src="@{/js/public/tableModel/the2.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
  	<script th:src="@{/js/public/sweetAlert2/basic.js}"></script>
-    
+    <script th:src="@{/js/public/tableModel/dateInput.js}"></script>
  	<script th:src="@{/js/FrontEnd/navForMemCenter/navForMemCenter.js}"></script>
  	
     <script>
