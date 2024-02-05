@@ -117,10 +117,15 @@
 	                    </th:block>
 	                    <td th:text="${lse.lsePay}"></td>
 	                        <td th:text="${lse.lsePayAccount}"></td>
-	                        <td th:switch="${lse.lsePayStatus}">
-	                            <span th:case="0" class="cancel" th:text="尚未匯款"></span>
-	                            <span th:case="1" class="success" th:text="已付款"></span>
-	                        </td>
+	                        <th:block th:if="${lse.lseStatus == 1}">
+	                        	<td>-</td>
+	                        </th:block>
+	                        <th:block th:unless="${lse.lseStatus == 1}">
+		                        <td th:switch="${lse.lsePayStatus}">
+		                            <span th:case="0" class="cancel" th:text="尚未匯款"></span>
+		                            <span th:case="1" class="success" th:text="已付款"></span>
+		                        </td>
+	                        </th:block>		
 	                    <td th:switch="${lse.lseStatus}">
 	                        <span th:case="0" class="warning" th:text="待租客確認"></span>
 	                        <span th:case="1" class="cancel" th:text="終止簽立"></span>
@@ -134,12 +139,14 @@
 	                        th:with="oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
 	                        <th:block th:if="${oneMonthLater >= lse.lseEnd.toLocalDate()}">
 	                            <td>
-	                                <span th:switch="${lse.lseRenew}">
-	                                    <span th:case="0" class="warning" th:text="待租客確認意願"></span>
-	                                    <span th:case="1" class="cancel" th:text="不續約"></span>
-	                                    <span th:case="2" class="warning" th:text="請決定是否續約"></span>
-	                                    <span th:case="3" class="success" th:text="續約"></span>
-	                                </span>
+	                            	<th:block th:unless="${lse.lseStatus == 1}">
+		                                <span th:switch="${lse.lseRenew}">
+		                                    <span th:case="0" class="warning" th:text="待租客確認意願"></span>
+		                                    <span th:case="1" class="cancel" th:text="不續約"></span>
+		                                    <span th:case="2" class="warning" th:text="請決定是否續約"></span>
+		                                    <span th:case="3" class="success" th:text="續約"></span>
+		                                </span>
+									</th:block>		                                
 	                            </td>
 	                        </th:block>
 	                        <th:block th:unless="${oneMonthLater >= lse.lseEnd.toLocalDate()}">

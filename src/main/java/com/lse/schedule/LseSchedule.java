@@ -26,35 +26,35 @@ public class LseSchedule {
 	
     @PostConstruct
     public void initialize() {
-        updateLseStatus();
+    	executeUpdateLseStatus();
     }
 	
 	
-//	@Scheduled(cron = "0 0/1 * * * *") //每分鐘測試
-	@Scheduled(cron = "0 0 0 * * ?")
-	public void updateLseStatus() {
+	@Scheduled(cron = "0 0/1 * * * *") //每分鐘測試
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void scheduledUpdateLseStatus() {
+        executeUpdateLseStatus();
+    }
 
-		System.out.println("合約排程器 -> 檢視合約到期日");
-		
-		LocalDate date = LocalDate.now();
-		Date endDay = Date.valueOf(date);
-		
-		List<Lse> lseList = lseSvc.getListInContract();
-		
-		
-		for (Lse alse : lseList) {
-			
-			if (alse.getLseEnd() != null && endDay.after(alse.getLseEnd())) {
-				alse.setLseStatus(Byte.valueOf("6"));
-//				續約狀態變更
-				alse.setLseRenew(Byte.valueOf("1"));
-				lseSvc.updateLse(alse);
-				
-				Rent rent = alse.getRent();
-				rent.setRentSt(Byte.valueOf("3"));
-				rentSvc.updateRent(rent);
-				System.out.println("合約編號:" + alse.getLseNo() + "到期囉!");
-			}
-		}
-	}
+    private void executeUpdateLseStatus() {
+        System.out.println("合約排程器 -> 檢視合約到期日");
+
+        LocalDate date = LocalDate.now();
+        Date endDay = Date.valueOf(date);
+
+        List<Lse> lseList = lseSvc.getListInContract();
+
+        for (Lse alse : lseList) {
+            if (alse.getLseEnd() != null && endDay.after(alse.getLseEnd())) {
+                alse.setLseStatus(Byte.valueOf("6"));
+                alse.setLseRenew(Byte.valueOf("1"));
+                lseSvc.updateLse(alse);
+
+                Rent rent = alse.getRent();
+                rent.setRentSt(Byte.valueOf("3"));
+                rentSvc.updateRent(rent);
+                System.out.println("合約編號:" + alse.getLseNo() + "到期囉!");
+            }
+        }
+    }
 }
