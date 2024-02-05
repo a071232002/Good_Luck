@@ -82,7 +82,17 @@
 <div th:insert="~{/FrontEnd/navForMemCenter/navForMemCenter :: nav}"></div>
 <main>
 
-	<h1>我的物件申請單</h1>
+	<h1 style="text-align: center;
+   			 font-size: 2em !important;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #5bc0de; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             margin-top: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */">我的物件申請單</h1>
 	<div class="lightbox" id="lightbox">
 	    <img src="" alt="放大顯示的圖片" id="lightbox-img">
 	</div>
@@ -136,7 +146,17 @@
 						        <!-- 处理值为0的情况 -->
 						        <form method="post" th:action="@{/rentApp/getOne_For_Update}">
 								<input type="hidden" name="rentAppNo"th:value="${rentApp.rentAppNo}">
-								<input type="submit" class="submitButtn"value="編輯">
+								<input type="submit" class="submitButtn"value="編輯" style="background-color: #5bc0de; /* 藍色背景顏色 */
+                                                        color: #fff; /* 白色文字顏色 */
+                                                        border: none; /* 去掉邊框 */
+                                                        padding: 10px 10px; /* 內邊距 */
+                                                        cursor: pointer; /* 鼠標懸停效果 */
+                                                        border-radius: 10px;
+                                                        font-weight: bold;
+                                                        font-size: 14px;
+                                                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" 
+                                                        onmouseover="this.style.color='red'; this.style.backgroundColor='yellow'" 
+                			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'">
 							</form>
 						    </th:block>
 					    </div>
