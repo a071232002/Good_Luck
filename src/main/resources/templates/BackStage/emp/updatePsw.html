@@ -8,24 +8,24 @@
  <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
  <style>
  	h1 {
-		text-align: center;
-      	color: red;
-		border-radius: 10px;
-		width:80%;
-        color: #fff; /* 字體顏色 */
-        background-color: #3498db; /* 背景顏色 */
-        padding: 20px; /* 內邊距 */
-        margin: 0px auto; /* 邊距 */
-        margin-bottom: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */
+			 text-align: center;
+			 font-size: 2em !important;
+			 border-radius: 10px;
+			 width:80%;
+             color: #fff; /* 字體顏色 */
+             background-color: #5bc0de; /* 背景顏色 */
+             padding: 20px; /* 內邊距 */
+             margin: 0px auto; /* 邊距 */
+             margin-bottom: 20px;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); /* 底部陰影效果 */ /* 底部陰影效果 */
 		}
 		
 	main {
 	   margin-top: 50px;
-	   padding: 50px 20px;
+	   padding: 20px 20px;
 	}
 	
-	div {
+	div.form {
 		display: flex;
 		justify-content: center;
 	} 
@@ -61,7 +61,7 @@
 	
 	<h1>修改密碼</h1>
 	<form th:action="@{/BackStage/getPsw}" method="post">
-	<div>
+	<div class="form">
 	<table>
 		<tr>
 			<td>

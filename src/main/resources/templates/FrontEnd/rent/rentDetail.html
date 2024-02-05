@@ -81,20 +81,20 @@ p {
 /* header */
 .logo {
 	margin-right: auto;
-	width: 240px;
+	width:200px;
 	display: flex;
 	align-items: center;
 }
 
-.logo span {
-	color: white;
+.logo span{
+	color:white;
 	font-size: 18px;
 	font-weight: bold;
 }
 
 .logo img {
 	max-width: 50px;
-	margin: 95px;
+	margin:75px;
 	text-align: center;
 }
 
@@ -124,7 +124,7 @@ header.header {
 }
 
 .hoverable a {
-	/* 	text-decoration: none; */
+/* 	text-decoration: none; */
 	color: white;
 }
 
@@ -215,11 +215,17 @@ header.header {
 	margin-right: 10px !important;
 }
 
-.user-info span {
-	color: white;
+.user-info {
+	width: 300px;
+	margin:0px 20px;
+}
+
+.user-info span{
+	color:white;
 	font-size: 18px;
 	font-weight: bold;
 	margin-right: 10px;
+	margin-left:auto;
 }
 
 .user-info button {
@@ -288,7 +294,6 @@ input.rentAppsub {
 		<nav class="navbar navbar-inverse">
 			<ul class="nav navbar-nav">
 				<li><a class="hoverable" th:href="@{/}">首頁</a></li>
-				<li><a class="hoverable" href="#">最新消息</a></li>
 				<li><a class="hoverable" th:href="@{/rent/listAllRent}">租賃服務</a></li>
 				<li><a class="hoverable" th:href="@{/mem/memCenter}">會員中心</a></li>
 			</ul>
