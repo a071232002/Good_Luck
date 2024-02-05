@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -34,6 +35,9 @@ public class IndexController {
 	
 	@Autowired
 	private EmpFunService empFunService;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 //	後台登入|後台|
 //	@GetMapping("/login")
@@ -67,6 +71,8 @@ public class IndexController {
 //			String uri = session.getAttribute("goBackStageURI").toString();
 			loginData.setEmpFun(empFunService.findByEmpNo(loginData.getEmpNo()));
 			model.addAttribute("activeNavItemId", activeNavItemId);
+			
+			redisTemplate.delete("changeFun" + loginData.getEmpNo().toString());
 			session.setAttribute("EmpSuccess", loginData); // 資料存入Session內
 
 //			System.out.println(req.isRequestedSessionIdFromCookie());
@@ -146,7 +152,7 @@ public class IndexController {
 			return "BackStage/emp/updatePsw";
 		}
 		//未處理完成
-		data.setEmpPsw(newEmpPsw);
+		data.setEmpPsw(empService.hashPassword(newEmpPsw));
 		empService.editEmp(data);
 		return "redirect:/BackStage/logout";
 	}

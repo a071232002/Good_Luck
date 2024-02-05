@@ -58,7 +58,7 @@ public class EmpServiceImpl implements EmpService {
 	@Override
 	public Emp editEmp(Emp newEmp) {
 		
-		newEmp.setEmpPsw(hashPassword(newEmp.getEmpPsw())); //加密
+		newEmp.setEmpPsw(newEmp.getEmpPsw());
 		return empRepository.save(newEmp);
 	}
 

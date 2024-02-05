@@ -2,10 +2,10 @@ package com.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,6 +17,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -27,6 +28,9 @@ import com.emp.model.Emp;
 public class BackStageFilter implements Filter{
 
 	private ServletContext sc;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 	
 	private static List<Set<String>> funPaths = new ArrayList<>();
 	static {
@@ -99,8 +103,18 @@ public class BackStageFilter implements Filter{
 					 							 .filter(s -> s.stream().anyMatch(u -> newUri.contains(u)))
 					 							 .findAny()
 					 							 .orElse(null);
-			 
+			//權限變更強制登出
+			String vo =  redisTemplate.opsForValue().get("changeFun" + emp.getEmpNo().toString());
+			if(vo != null) {
+				redisTemplate.delete("changeFun" + emp.getEmpNo().toString());
+				httpResponse.sendRedirect(httpRequest.getContextPath() + "/BackStage/logout");
+				return;
+			}
+			 //進入的url被管理
 			 if(pathValidator != null) {
+				 
+				 
+				 
 				 boolean funValidator = emp.getEmpFun()
 						 .stream()
 						 .anyMatch(s -> funPaths.get(s).equals(pathValidator));
