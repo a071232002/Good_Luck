@@ -34,13 +34,15 @@ public class RtnDaoImpl implements RtnDao {
 		
 		if (rtnQueryParams.getLimit() != null) {
 		    sql += " limit :limit";
-		    map.put("limit", rtnQueryParams.getLimit());
+		    map.put("limit", rtnQueryParams.getLimit()); 
 		}
 
 		if (rtnQueryParams.getLimit() != null) {
 			sql += " offset :offset";
-			map.put("offset", rtnQueryParams.getOffset());
+			map.put("offset", rtnQueryParams.getOffset()); //下一頁
 		}
+		
+		
 		
 //		System.out.println("addFilteringSQL: " + (sql));
 		

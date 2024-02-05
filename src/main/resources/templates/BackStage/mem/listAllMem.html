@@ -7,7 +7,10 @@
  <link rel="stylesheet" th:href="@{/css/BackStage/mem/try2.css}" />
  <link th:href="@{/css/BackStage/indexCSS/styles.css}" rel="stylesheet" />
  <link th:href="@{/css/BackStage/indexCSS/index.css}" rel="stylesheet" />
- <style>
+
+</head>
+<head>
+<style>
  	h1 {
 		text-align: center;
       	color: red;
@@ -18,13 +21,11 @@
 	   padding: 50px 20px;
 	}
 	
- </style>
+</style>
 <title>會員管理</title>
 </head>
 <body>
 <div th:replace="BackStage/HTMLTool/nav :: nav"></div>
-
-	
 	<main>
 	<h1 style="text-align: center;
 			 border-radius: 10px;
@@ -120,10 +121,10 @@
     	console.log($(".test"));
     // table.on("click", "tbody tr", function () {
     //   let data = table.row(this).data();
-
     //   alert("You clicked on " + data[3] + "'s row");
     // });
   	</script>
   	</main>
+  	
 </body>
 </html>
