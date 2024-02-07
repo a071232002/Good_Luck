@@ -397,14 +397,14 @@ main {
 									height="30px"
 									style="vertical-align: bottom; margin-right: 5px;"> 地圖找房
 							</div>
-<!-- 							<div class="clean" -->
-<!-- 								style="display: none; font-size: 16px; font-weight: bold; margin: 10px 10px 10px 30px; width: 120px; height: 40px;" -->
-<!-- 								onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)" -->
-<!-- 								onclick="showClean()"> -->
-<!-- 								<img th:src="@{/icon/FrontEnd/rent/bin.png}" width="30px" -->
-<!-- 									height="30px" -->
-<!-- 									style="vertical-align: bottom; margin-right: 5px;"> 清空條件 -->
-<!-- 							</div> -->
+							<div class="clean"
+								style="display: none; font-size: 16px; font-weight: bold; margin: 10px 50px 10px 10px; width: 120px; height: 40px;position: absolute; right: 0;"
+								onmouseover="activateDiv(this)" onmouseout="deactivateDiv(this)"
+								onclick="reloadPage()">
+								<img th:src="@{/icon/FrontEnd/rent/bin.png}" width="30px"
+									height="30px"
+									style="vertical-align: bottom; margin-right: 5px;"> 清空條件
+							</div>
 						</div>
 
 
@@ -895,7 +895,15 @@ function nextPage() {
 
 async function getRentList() { 
 	
-	
+	console.log(data)
+// 	console.log(checkDataProperties(data))
+	if(checkDataProperties(data)){
+		console.log("T")
+		hideClean()
+	}else{
+		console.log("F")
+		showClean()
+	}
 
 	// 使用Fetch API發送POST請求
 	fetch('QueryRentList', {
@@ -1269,14 +1277,14 @@ function logAllValues() {
                     values[element.name] = values[element.name] || [];
                     if (element.checked) {
                         values[element.name].push(element.value);
-//                         showClean()
+                        showClean()
 //                         console.log(element.name+":"+element.value+"check")
 //                         values[element.name] = values[element.name].filter(function(val) {
 //                             return val !== "不限";
 //                         });
                     } else {
 //                     	console.log(element.name+":"+element.value+"取消check")
-// 						hideClean()
+						hideClean()
                         values[element.name] = values[element.name].filter(function(val) {
                             return val !== element.value;
                         });
@@ -1286,16 +1294,22 @@ function logAllValues() {
                     values[element.name] = values[element.name] || [];
                     if (element.checked) {
                         values[element.name] = [element.value];
+//                         showClean()
                     } else {
                         values[element.name] = [];
+//                         hideClean()
                     }
                 }else {
-                	
+                	console.log(element.name)
                     values[element.name] = [element.value];
+                	if(element.name==='rentAppCou'){
+                		values['rentAppAr']=[]
+                		
+                	}
                 }
 
                 // 输出所有被选中元素的值
-                console.log('All Selected Values:', values);
+//                 console.log('All Selected Values:', values);
                 getRentList();
                 changePage(1)
 //                 console.log(data)
@@ -1333,19 +1347,52 @@ function reloadPage() {
     // 重新加载页面
     var county=document.getElementById('county_box').value
     localStorage.setItem('selectedCounty', county);
-//     console.log(county)
     location.reload();
 }
-// function showClean() {
-//     // 將 div 的 style 修改為 display: inline-block
-//     var divElement = document.querySelector('.clean');
-//     divElement.style.display = 'inline-block';
-// }
-// function hideClean() {
-//     // 將 div 的 style 修改為 display: none
-//     var divElement = document.querySelector('.clean');
-//     divElement.style.display = 'none';
-// }
+function showClean() {
+    // 將 div 的 style 修改為 display: inline-block
+    var divElement = document.querySelector('.clean');
+    divElement.style.display = 'inline-block';
+}
+function hideClean() {
+    // 將 div 的 style 修改為 display: none
+    var divElement = document.querySelector('.clean');
+    divElement.style.display = 'none';
+}
+
+
+function checkDataProperties(data) {
+    
+// 	console.log(data)
+	let continueExecution = true;
+
+        // 處理不在 requiredProperties 中的屬性
+        Object.keys(data).forEach(property => {
+        	if (!continueExecution) {
+                return;
+            }
+
+           	if (property === 'rentAppAr') {
+
+           		if( data[property].length > 0){
+           			continueExecution = false;
+           			return; // 提前結束整個 forEach 循環
+           		}
+
+            
+            }else if(!(property === 'rentAppCou' )){
+            	if(!((data[property].length === 1)&&(data[property][0] === ""))){
+            		continueExecution = false;
+            		return; // 提前結束整個 forEach 循環
+            	}
+
+            }
+
+        });
+        return continueExecution;
+}
+
+
 </script>
 </body>
 </html>
