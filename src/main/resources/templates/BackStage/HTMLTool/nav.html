@@ -41,6 +41,9 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarResponsive">
 		<ul class="navbar-nav">
+			<li id="li_0" class="nav-item" th:if="${session.EmpSuccess.empFun.contains(1)}"><a
+				class="nav-link js-scroll-trigger nav-li" th:href="@{/BackStage/#MemManage}">個人資料</a>
+			</li>
 			<li id="li_1" class="nav-item" th:if="${session.EmpSuccess.empFun.contains(1)}"><a
 				class="nav-link js-scroll-trigger nav-li" th:href="@{/BackStage/#MemManage}">會員管理</a>
 			</li>
