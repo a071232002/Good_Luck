@@ -116,7 +116,7 @@ public class IndexController {
 //	GET導向退會單|後台|Sub
 	@GetMapping("/Rtn")
 	public String GoRtn(Model model) {
-		model.addAttribute("activeNavItemId", "/Good_Luck/icon/BackStage/indexJS");
+		model.addAttribute("activeNavItemId", "/icon/BackStage/indexJS");
 		return "redirect:/BackStage/RtnManage";
 	}
 	
