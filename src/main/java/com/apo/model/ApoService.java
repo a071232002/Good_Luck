@@ -9,7 +9,7 @@ import com.rent.model.Rent;
 
 public interface ApoService {
 
-	public void addApo(Apo apo);
+	public Apo addApo(Apo apo);
 
 	public void upDateApo(Apo apo);
 	

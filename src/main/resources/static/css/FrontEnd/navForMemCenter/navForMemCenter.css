@@ -192,6 +192,37 @@ header.header {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+#message {
+	opacity: 0.1;
+}
+
+.messagePopup {
+	position: absolute;
+	top: 100%;
+	display: none;
+	background-color: white;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	padding: 10px;
+	z-index: 9999;
+}
+
+.messagePopup li {
+	list-style: none;
+	padding: 5px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.messagePopup li a {
+	text-decoration: none;
+	color: #333;
+}
+
+.messagePopup li a:hover {
+	color: blue;
+}
+
 /* aside */
 aside.aside {
 /* 	border: 1px solid lightgray; */

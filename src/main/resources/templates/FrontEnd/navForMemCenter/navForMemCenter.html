@@ -26,7 +26,9 @@
             <div class="user-info">
 				<th:block th:if="${session.logsuccess}">
                 	<span th:text="${session.logsuccess.memName}"></span>
-                	<img th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}" width="30px" height="30px">
+                	<input type="hidden" id="userId" th:value="${session.logsuccess.memNo}"></span>
+                	<img th:src="@{/mem/picture} + '?memno=' + ${session.logsuccess.memNo}" style="margin-right:5px;"width="30px" height="30px">
+                	<img id="message" th:src="@{/icon/FrontEnd/memCenter/newMessage.png}" width="30px" height="30px">
                 	<a th:href="@{/mem/logOut}"><button type="button">登出</button></a>
                 </th:block>
                 <th:block th:unless="${session.logsuccess}">
