@@ -147,8 +147,7 @@
 					<td>
 					<div th:switch="${report.reportSt}">
 						<th:block th:case="0">
-					        <!-- 处理值为0的情况 -->
-					        <!-- 燈箱 -->
+
 					        <button onclick="showLightbox(this)"style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
@@ -174,7 +173,6 @@
 
 									<div  align="center">
 										<p id="characterCount" style="background-color:#f7f7f7"  th:text="剩餘可輸入字數"></p>
-<!-- 										th:text="'剩餘可輸入字數: ' + (200 - ${#strings.length(report.reportCon)})" -->
 										<button type="submit" id="submit" onclick="checkTextarea(this)">送出編輯</button>
 									</div>
 									
@@ -334,7 +332,6 @@
         console.log(textarea)
         if (event.currentTarget.contains(textarea)) {
             // 隱藏燈箱
-//             console.log(textarea)
             console.log("originalvalue="+textarea.dataset.originalValue)
             textarea.value = textarea.dataset.originalValue;
             console.log("textvalue="+textarea.value)
@@ -388,14 +385,12 @@
     maxLen = 200; // 字數頂限
     function countCharacters(textarea) {
     	
-//         var textarea = document.getElementById('enlarged-textarea');
 		var length;
 		if(textarea.dataset.originalValue===textarea.value){
 			length=textarea.dataset.originalValue.length
 		}else{
 			length=textarea.value.length
 		}
-//         var characterCount = textarea.dataset.originalValue.length;
         var less=200-length
     
      	// 获取下一个元素

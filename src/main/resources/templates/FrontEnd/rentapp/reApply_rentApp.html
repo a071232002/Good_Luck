@@ -56,10 +56,7 @@
 			<div>
 				<label>所有權狀:</label>
 				<input type="file" name="rentAppOwn" onclick="previewImage()" onchange="hideContent('rentAppOwn.errors');" />
-				<!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
 				<span class="error" th:utext="${errorMessage}" id="rentAppOwn.errors">${errorMessage}</span>
-				<!-- 			<h2 id="errorMessage">${errorMessage}</h2>  -->
-<!-- 				<div id="blob_holder"><img th:src="@{/rent/picture} + '?rentNo=' + ${rent.rentNo}" width="100px" ></div> -->
 			</div>
 			
 			
@@ -87,7 +84,6 @@
 	</div>
 
 
-<!-- JavaScript part -->
 <script th:src="@{/js/BackStage/rentapp/update_rentApp_input.js}"></script>
 <script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script>
 </body>

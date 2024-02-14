@@ -48,34 +48,27 @@ public class RentServiceImpl implements RentService{
 
 	@Override
 	public List<Rent> getAllByLdd(Ldd ldd) {
-		// TODO Auto-generated method stub
 		return repository.findByLdd(ldd);
 	}
 
 	@Override
 	public List<Rent> getByCompositeQuery(Map<String, String[]> map) {
-		// TODO Auto-generated method stub
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Rent> criteriaQuery = criteriaBuilder.createQuery(Rent.class);
         Root<Rent> root = criteriaQuery.from(Rent.class);
         List<Predicate> predicates = new ArrayList<>();
         ArrayList<String> rentRentBetween = new ArrayList<>();
-//        System.out.println("service");
 
         for (Map.Entry<String, String[]> entry : map.entrySet()) {
             String key = entry.getKey();
             String[] values = entry.getValue();
             
             List<Predicate> orConditions = new ArrayList<>();
-//            System.out.println("orConditions1="+orConditions.size());
-            
-            // 直接在 for 循環內處理 String[] 的轉換和輸出
+
             for (int i = 0; i < values.length; i++) {
             	if(values[i].isEmpty()) {
-//            		System.out.println("null");
             	}else {
             		if ("rentAppAr".equals(key)) {
-//                    	predicates.add(criteriaBuilder.equal(root.get("rentAppAr"), values[i]));
                     	orConditions.add(criteriaBuilder.equal(root.get("rentAppAr"), values[i]));
         			}
             		if ("additionalInput".equals(key)) {
@@ -86,7 +79,6 @@ public class RentServiceImpl implements RentService{
         			}
             		if ("rentAppCou".equals(key)) {
                     	predicates.add(criteriaBuilder.equal(root.get("rentAppCou"), values[i]));
-//                    	System.out.println("rentAppAr="+values[i]);
         			}
             		if ("rentLayout".equals(key)) {
                     	predicates.add(criteriaBuilder.equal(root.get("rentLayout"), Byte.valueOf(values[i])));
@@ -110,19 +102,15 @@ public class RentServiceImpl implements RentService{
             		if ("rentAppSize".equals(key)) {
             		    switch (values[i]) {
             		        case "10坪以下":
-//            		        	predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("rentAppSize"), Double.valueOf("10")));
             		        	orConditions.add(criteriaBuilder.lessThanOrEqualTo(root.get("rentAppSize"), Double.valueOf("10")));
             		        	break;
             		        case "11-20坪":
-//            		        	predicates.add(criteriaBuilder.between(root.get("rentAppSize"), Double.valueOf("11"), Double.valueOf("20")));
             		        	orConditions.add(criteriaBuilder.between(root.get("rentAppSize"), Double.valueOf("11"), Double.valueOf("20")));
             		        	break;
             		        case "21-30坪":
-//            		        	predicates.add(criteriaBuilder.between(root.get("rentAppSize"), Double.valueOf("21"), Double.valueOf("30")));
             		        	orConditions.add(criteriaBuilder.between(root.get("rentAppSize"), Double.valueOf("21"), Double.valueOf("30")));
             		        	break;
             		        case "30坪以上":
-//            		        	predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("rentAppSize"), Double.valueOf("30")));
             		        	orConditions.add(criteriaBuilder.greaterThanOrEqualTo(root.get("rentAppSize"), Double.valueOf("30")));
             		        	break;
             		    }
@@ -183,27 +171,21 @@ public class RentServiceImpl implements RentService{
             		if ("rentRent".equals(key)) {
             			switch (values[i]) {
             			case "5000元以下":
-//            				predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("rentRent"), Integer.valueOf("5000")));
             				orConditions.add(criteriaBuilder.lessThanOrEqualTo(root.get("rentRent"), Integer.valueOf("5000")));
             				break;
             			case "5000-10000元":
-//            				predicates.add(criteriaBuilder.between(root.get("rentRent"), Integer.valueOf("5000"), Integer.valueOf("10000")));
             				orConditions.add(criteriaBuilder.between(root.get("rentRent"), Integer.valueOf("5000"), Integer.valueOf("10000")));
             				break;
             			case "10000-20000元":
-//            				predicates.add(criteriaBuilder.between(root.get("rentRent"), Integer.valueOf("10000"), Integer.valueOf("20000")));
             				orConditions.add(criteriaBuilder.between(root.get("rentRent"), Integer.valueOf("10000"), Integer.valueOf("20000")));
             				break;
             			case "20000-30000元":
-//            				predicates.add(criteriaBuilder.between(root.get("rentRent"), Integer.valueOf("20000"), Integer.valueOf("30000")));
             				orConditions.add(criteriaBuilder.between(root.get("rentRent"), Integer.valueOf("20000"), Integer.valueOf("30000")));
             				break;
             			case "30000-40000元":
-//            				predicates.add(criteriaBuilder.between(root.get("rentRent"), Integer.valueOf("30000"), Integer.valueOf("40000")));
             				orConditions.add(criteriaBuilder.between(root.get("rentRent"), Integer.valueOf("30000"), Integer.valueOf("40000")));
             				break;
             			case "40000元以上":
-//            				predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("rentRent"), Integer.valueOf("40000")));
             				orConditions.add(criteriaBuilder.greaterThanOrEqualTo(root.get("rentRent"), Integer.valueOf("40000")));
             				break;
             			default:
@@ -214,9 +196,7 @@ public class RentServiceImpl implements RentService{
             	}
                 
             }
-//            System.out.println("orConditions2="+orConditions.size());
             if(orConditions.size()!=0) {
-            	
             	predicates.add(criteriaBuilder.or(orConditions.toArray(new Predicate[0])));
             }
         }
@@ -225,22 +205,9 @@ public class RentServiceImpl implements RentService{
         }
         
         predicates.add(criteriaBuilder.equal(root.get("rentSt"), Byte.parseByte("1")));
-//        System.out.println("predicates2="+predicates.size());
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
         criteriaQuery.orderBy(criteriaBuilder.asc(root.get("rentRent")));
         List<Rent> query = entityManager.createQuery(criteriaQuery).getResultList();
-        
-//        System.out.println("rentRentBetween="+rentRentBetween.size());
-        System.out.println("query="+query.size());
-     // 將所有條件組合成一個 AND 條件
-//        Predicate finalPredicate = criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-//        criteriaQuery.where(finalPredicate);
-
-        // 執行查詢
-//        return entityManager.createQuery(criteriaQuery).getResultList();
-//        for (Rent rent : query) {
-//            System.out.println(rent); // 假设Rent类有适当的toString方法
-//        }
 		
 		return query;
 	}

@@ -129,7 +129,6 @@
 							
 							<div th:switch="${rentApp.rentAppSt}">
 								<th:block th:case="0">
-							        <!-- 处理值为0的情况 -->
 							        <button type="button" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
@@ -155,11 +154,7 @@
                 			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'"
 														onclick="setDataValue(this,'2')"> 不通過 </button>
 							    </th:block>
-<!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->
-<!-- 								<button th:case="0" type="submit" id="submit"> 不成立 </button> -->
 							</div>
-<!-- 							<input type="hidden" name="rentAppNo"th:value="${rentApp.rentAppNo}">  -->
-<!-- 							<input type="submit"value="修改"> -->
 						</form>
 					</td>
 				</tr>
@@ -175,7 +170,6 @@
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
-<!-- 	<script th:src="@{/js/BackStage/rentapp/listAllRentApp.js}"></script> -->
 	<script>
 	
 	new DataTable('#example', {

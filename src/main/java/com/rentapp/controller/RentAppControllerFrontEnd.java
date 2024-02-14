@@ -41,11 +41,6 @@ public class RentAppControllerFrontEnd {
 	@Autowired
 	RentServiceImpl rentSvc;
 	
-	// 測試索引頁
-//	@GetMapping("")
-//	public String indexOfRentApp(ModelMap model) {
-//		return "FrontEnd/rentApp/select";
-//	}
 	
 	//第一次送申請
 	@GetMapping("/addRentApp")
@@ -56,12 +51,7 @@ public class RentAppControllerFrontEnd {
 		return "FrontEnd/rentapp/addRentApp";
 	}
 	
-	//前往listall
-//    @GetMapping("/listAllRentApp")
-//	public String listAllRentApp(Model model) {
-//
-//		return "BackStage/rentapp/listAllRentApp";
-//	}
+
     //前往listAllRentAppByLdd
     @GetMapping("/listAllRentAppByLdd")
     public String listAllRentAppByLdd(Model model,HttpSession session) {
@@ -72,25 +62,17 @@ public class RentAppControllerFrontEnd {
     	return "FrontEnd/rentapp/listAllRentAppByLdd";
     }
     
-  //前往review
-//    @GetMapping("/reviewRentApp")
-//	public String reviewRentApp(Model model) {
-//
-//		return "BackStage/rentapp/reviewRentApp";
-//	}
+
 	//新增
 	@PostMapping("insert")
 	public String insert(@Valid RentApp rentApp, BindingResult result, ModelMap model,
 			@RequestParam("rentAppOwn") MultipartFile[] parts ,HttpSession session,@RequestParam(name = "rentNo", required = false) String rentNo) throws IOException {
 		
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
 		
 		result = removeFieldError(rentApp, result, "rentAppOwn");
 		Ldd ldd = (Ldd)session.getAttribute("ldd");
-//		System.out.println(ldd.getLddNo());
 
-		if (parts[0].isEmpty()) { // 使用者未選擇要上傳的圖片時
+		if (parts[0].isEmpty()) { 
 			model.addAttribute("errorMessage", "所有權狀: 請上傳照片");
 		} else {
 			for (MultipartFile multipartFile : parts) {
@@ -102,87 +84,52 @@ public class RentAppControllerFrontEnd {
 			return "FrontEnd/rentapp/addRentApp";
 		}
 
-		/*************************** 2.開始新增資料 *****************************************/
-		// EmpService empSvc = new EmpService();
 		if(rentNo!=null) {
 			Rent rent=rentSvc.getOneRent(Integer.valueOf(rentNo));
 			rentApp.setRent(rent);
-//			System.out.println("insert-rentNo="+rentNo);
 		}
 		rentApp.setLdd(ldd);
 		rentAppSvc.addRentApp(rentApp);
-		/*************************** 3.新增完成,準備轉交(Send the Success view) **************/
 		List<RentApp> list = rentAppSvc.getAll();
 		model.addAttribute("rentAppListData", list);
 		model.addAttribute("success", "- (新增成功)");
 
-		return "redirect:listAllRentAppByLdd"; // 新增成功後重導至IndexController_inSpringBoot.java的第50行@GetMapping("/emp/listAllEmp")
+		return "redirect:listAllRentAppByLdd"; 
 	}
 	
 	
 	//第二次申請
 	@PostMapping("reApply")
 	public String reApply(@RequestParam("rentNo") String rentNo, ModelMap model) {
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		/*************************** 2.開始查詢資料 *****************************************/
-		// EmpService empSvc = new EmpService();
-//		System.out.println("reApply-rentNo="+rentNo);
+
 		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
 		model.addAttribute("rent", rent);
 		RentApp rentApp = new RentApp();
 		model.addAttribute("rentApp", rentApp);
-		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
 		
-		return "FrontEnd/rentapp/reApply_rentApp"; // 查詢完成後轉交update_emp_input.html
+		return "FrontEnd/rentapp/reApply_rentApp"; 
 	}
 	
 	
 	@PostMapping("getOne_For_Update")
 	public String getOne_For_Update(@RequestParam("rentAppNo") String rentAppNo, ModelMap model) {
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		/*************************** 2.開始查詢資料 *****************************************/
-		// EmpService empSvc = new EmpService();
 
 		RentApp rentApp = rentAppSvc.getOneRentApp(Integer.valueOf(rentAppNo));
 
-		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
 		model.addAttribute("rentApp", rentApp);
-		return "FrontEnd/rentapp/update_rentApp_input"; // 查詢完成後轉交update_emp_input.html
+		return "FrontEnd/rentapp/update_rentApp_input"; 
 	}
 
-	//狀態修改
-//	@PostMapping("updateRentAppSt")
-//	public String  updateRentAppSt(ModelMap model,@RequestParam("rentAppNo") Integer rentAppNo, @RequestParam("rentAppSt") byte rentAppSt) {
-//		rentAppSvc.updateRentAppSt(rentAppNo,rentAppSt);
-//
-//		return "redirect:reviewRentApp";
-//
-////		rentAppSvc.updateRentAppSt(rentAppNo,rentAppSt);
-//		
-//		 // 获取模型中的所有键值对
-////	    for (Map.Entry<String, Object> entry : model.entrySet()) {
-////	        String key = entry.getKey();
-////	        Object value = entry.getValue();
-////	        System.out.println("Key: " + key + ", Value: " + value);
-////	    }
-//
-////		return "redirect:reviewRentApp";
-//	}
-	
-	
-	
+
 	
 	@PostMapping("update")
 	public String update(@Valid RentApp rentApp, BindingResult result, ModelMap model,
 			@RequestParam("rentAppOwn") MultipartFile[] parts) throws IOException {
 
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
 		System.out.println(rentApp);
 		result = removeFieldError(rentApp, result, "rentAppOwn");
 
-		if (parts[0].isEmpty()) { // 使用者未選擇要上傳的新圖片時
-			// EmpService empSvc = new EmpService();
+		if (parts[0].isEmpty()) { 
 
 			byte[] upFiles = rentAppSvc.getOneRentApp(rentApp.getRentAppNo()).getRentAppOwn();
 			rentApp.setRentAppOwn(upFiles);
@@ -197,15 +144,13 @@ public class RentAppControllerFrontEnd {
 			return "FrontEnd/rentapp/update_rentApp_input";
 			
 		}
-		/*************************** 2.開始修改資料 *****************************************/
-		// EmpService empSvc = new EmpService();
+
 		rentAppSvc.updateRentApp(rentApp);
 
-		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
 		model.addAttribute("success", "- (修改成功)");
 		rentApp = rentAppSvc.getOneRentApp(Integer.valueOf(rentApp.getRentAppNo()));
 		model.addAttribute("rentApp", rentApp);
-		return "FrontEnd/rentapp/listOneRentApp"; // 修改成功後轉交listOneEmp.html
+		return "FrontEnd/rentapp/listOneRentApp"; 
 	}
 	
 	
