@@ -28,6 +28,7 @@ import com.ldd.model.LddService;
 import com.mem.model.Mem;
 import com.rent.model.Rent;
 import com.rent.model.RentService;
+import com.ws.model.MsgWS;
 
 @Controller
 @RequestMapping("/apo")
@@ -91,7 +92,8 @@ public class ApoController {
 		if (apoSvc.isExist(rent.getLdd(), apo.getApoDate(), apo.getApoTime())){
 			return "FrontEnd/apo/error";
 		}
-		apoSvc.addApo(apo);	
+		Apo newOne = apoSvc.addApo(apo);
+		MsgWS.sendMessageToLdd(apoSvc.getOneApo(newOne.getApoNo()), rent.getLdd().getMem().getMemNo());
 		return "redirect:/apo/listAllApo";
 	}
 	
@@ -103,6 +105,7 @@ public class ApoController {
 		Rent rent = rentSvc.getOneRent(Integer.valueOf(rentNo));
 		deleteApoDTOListFromRedis("queryByMem"+rentNo);
 		deleteApoDTOListFromRedis("queryByLdd"+ rent.getLdd().getLddNo());
+		MsgWS.sendUpdateMessageToLdd(apo, rent.getLdd().getMem().getMemNo());
 		return "redirect:/apo/listAllApo";
 	}
 	
@@ -119,6 +122,8 @@ public class ApoController {
 		Apo data = apoSvc.getOneApo(Integer.valueOf(apo.getApoNo()));
 		data.setApoWantDate(apo.getApoWantDate());
 		apoSvc.want(data);
+		Rent rent = rentSvc.getOneRent(data.getRent().getRentNo());
+		MsgWS.sendWantMessageToLdd(data, rent.getLdd().getMem().getMemNo());
 		return "redirect:/apo/listAllApo";
 	}
 	
@@ -146,6 +151,7 @@ public class ApoController {
 		deleteApoDTOListFromRedis("queryByMem"+apo.getRent().getRentNo());
 		Ldd ldd = (Ldd)session.getAttribute("ldd");
 		deleteApoDTOListFromRedis("queryByLdd"+ldd.getLddNo());
+		MsgWS.sendMessageToMem(apo);
 		return "redirect:/apo/reviewApo";
 	}
 	
@@ -155,6 +161,7 @@ public class ApoController {
 		apoSvc.approveApo(apo);
 		Ldd ldd = (Ldd)session.getAttribute("ldd");
 		deleteApoDTOListFromRedis("queryByLdd"+ldd.getLddNo());
+		MsgWS.sendMessageToMem(apo);
 		return "redirect:/apo/reviewApo";
 	}
 	
@@ -164,6 +171,7 @@ public class ApoController {
 		apoSvc.completeApo(apo);
 		Ldd ldd = (Ldd)session.getAttribute("ldd");
 		deleteApoDTOListFromRedis("queryByLdd"+ldd.getLddNo());
+		MsgWS.sendMessageToMem(apo);
 		return "redirect:/apo/reviewApo";
 	}
 	

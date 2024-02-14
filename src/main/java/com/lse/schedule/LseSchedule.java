@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import com.lse.model.Lse;
 import com.lse.model.LseService;
 import com.rent.model.Rent;
 import com.rent.model.RentService;
+import com.ws.model.MsgWS;
 
 @Component
 public class LseSchedule {
@@ -30,8 +32,8 @@ public class LseSchedule {
     }
 	
 	
+//    @Scheduled(cron = "0 0 0 * * ?")
 	@Scheduled(cron = "0 0/1 * * * *") //每分鐘測試
-    @Scheduled(cron = "0 0 0 * * ?")
     public void scheduledUpdateLseStatus() {
         executeUpdateLseStatus();
     }
@@ -53,6 +55,7 @@ public class LseSchedule {
                 Rent rent = alse.getRent();
                 rent.setRentSt(Byte.valueOf("3"));
                 rentSvc.updateRent(rent);
+                MsgWS.sendMessageToBoth(alse, rent.getLdd().getMem().getMemNo());
                 System.out.println("合約編號:" + alse.getLseNo() + "到期囉!");
             }
         }

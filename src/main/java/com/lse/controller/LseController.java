@@ -31,6 +31,8 @@ import com.lse.model.LseService;
 import com.mem.model.Mem;
 import com.rent.model.Rent;
 import com.rent.model.RentService;
+import com.ws.model.MsgDTO;
+import com.ws.model.MsgWS;
 
 @Controller
 @RequestMapping("/lse")
@@ -116,6 +118,7 @@ public class LseController {
 		//拒絕該物件後續的預約單及租屋單 並修改此次的租屋單狀態
 		apoSvc.rejectOtherApoByRent(rent);
 		apoSvc.approveWant(Integer.valueOf(apoNo));
+		MsgWS.sendMessageToMem(newOne);
 		return "redirect:/lse/reviewLse";
 	}
 	
@@ -156,6 +159,8 @@ public class LseController {
 		lse.setLseSign(part.isEmpty() ? null : part.getBytes());
 		lse.setLseStatus(Byte.valueOf("2"));
 		lseSvc.updateLse(lse);
+		Rent rent = rentSvc.getOneRent(lse.getRent().getRentNo());
+		MsgWS.sendMessageToLdd(lse, rent.getLdd().getMem().getMemNo());
 		return "redirect:/lse/listAllLse";
 	}
 	
@@ -164,6 +169,8 @@ public class LseController {
 		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
 		lse.setLseStatus(Byte.valueOf("4"));
 		lseSvc.updateLse(lse);
+		Rent rent = rentSvc.getOneRent(lse.getRent().getRentNo());
+		MsgWS.sendMessageToLdd(lse, rent.getLdd().getMem().getMemNo());
 		return "redirect:/lse/listAllLse";
 	}
 	
@@ -210,6 +217,7 @@ public class LseController {
 		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
 		lse.setLseStatus(Byte.valueOf("1"));
 		lseSvc.updateLse(lse);
+		MsgWS.sendMessageToMem(lse);
 		return "redirect:/lse/reviewLse";
 	}
 	
@@ -218,6 +226,7 @@ public class LseController {
 		Lse lse = lseSvc.getOneByLseNo(Integer.valueOf(lseNo));
 		lse.setLseStatus(Byte.valueOf("3"));
 		lseSvc.updateLse(lse);
+		MsgWS.sendMessageToMem(lse);
 		return "redirect:/lse/reviewLse";
 	}
 	
@@ -234,6 +243,7 @@ public class LseController {
 		rent.setLse(lse);
 		rent.setRentSt(Byte.valueOf("2"));
 		rentSvc.updateRent(rent);
+		MsgWS.sendMessageToMem(lse);
 		return "redirect:/lse/reviewLse";
 	}
 	

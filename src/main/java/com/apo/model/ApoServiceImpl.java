@@ -37,9 +37,9 @@ public class ApoServiceImpl implements ApoService {
 	ApoRepository repository;
 	
 	@Override
-	public void addApo(Apo apo) {
+	public Apo addApo(Apo apo) {
 		apo.setApoCreate(Date.valueOf(LocalDate.now()));
-		repository.save(apo);
+		return repository.save(apo);
 	}
 
 	@Override
