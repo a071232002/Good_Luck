@@ -103,7 +103,7 @@
 	                    <td th:text="${lse.rent.rentNo}"></td>
 	                    
 	                    <td th:text="${lse.lseStart}"></td>
-	                    <td th:text="${lse.lseEnd}"></td>
+	                    <td th:text="${lse.lseEnd}"><input type="hidden" th:id="${lseNo} + 'end'" th:value=${lse.lseEnd}></td>
 	                    <td>
 	                    	<img class="lseImage" th:src="@{/lse/sendPic} + '?lseNo=' + ${lse.lseNo}" width="120px">
 	                    </td>
@@ -138,23 +138,22 @@
 	                        <span th:case="5" class="success" th:text="合約中"></span>
 	                        <span th:case="6" class="cancel" th:text="合約結束"></span>
 	                    </td>
+	                    <td>
 	                    <th:block
 	                        th:with="today=${#dates.createNow()}, oneMonthLater=${T(java.time.LocalDate).now().plusMonths(1)}">
 	                        <th:block th:if="${oneMonthLater >= lse.lseEnd.toLocalDate() && (lse.lseStatus ==3 || lse.lseStatus ==6)}">
-	                            <td>
+	                            
 	                                <span th:switch="${lse.lseRenew}">
 	                                    <span th:case="0" class="warning" th:text="請確認是否續約"></span>
 	                                    <span th:case="1" class="cancel" th:text="不續約"></span>
 	                                    <span th:case="2" class="warning" th:text="待房東確認"></span>
 	                                    <span th:case="3" class="success" th:text="續約"></span>
 	                                </span>
-	                            </td>
+	                            
 	                        </th:block>
-	                        <th:block th:unless="${oneMonthLater >= lse.lseEnd.toLocalDate()}">
-	                            <td>-</td>
-	                        </th:block>
+
 	                    </th:block>
-						
+						</td>
 	                    <td>
 	                    	<th:block th:if="${lse.lseStatus == 0}">
 		                    	<form class="returnSign" method="post" th:object="${lse}" th:action="@{sign}"
@@ -200,9 +199,10 @@
 	                             </form>
 	                            </th:block>
                             </th:block>
+                            	
                         	 <form th:if="${lse.lseStatus == 5}" method="post" th:object="${lse}" th:action="@{terminate}" onsubmit="return showConfirmation(this)">
                                 <input type="hidden" name="lseNo" th:value="${lse.lseNo}">
-                                <input type="date" class="apoWantDate" name="lseEnd" required>
+                                <input type="date" th:id="${lseNo} + 'check'" class="apoWantDate" name="lseEnd" required>
                                 <input type="submit" value="提前解約" class="reject_button">
                             </form>
 	                    </td>
