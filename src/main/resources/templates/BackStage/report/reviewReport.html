@@ -79,20 +79,6 @@
 				<th>審核</th>
 			</tr>
 		</thead>
-		
-<!-- 		<tfoot> -->
-<!--             <tr> -->
-<!--                 <th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!-- 				<th></th> -->
-<!--             </tr> -->
-<!--         </tfoot> -->
-
-        
 		<tbody>
 			<th:block th:each="report : ${reportListData}">
 				
@@ -119,11 +105,6 @@
 					    <textarea readonly id="enlarged-textarea" th:text="${report.reportCon}" oninput="autoExpand(this)"></textarea>
 					</div>
 					</td>
-
-
-<!-- 					<td><span th:if="${report.reportSt == 0}" th:text="審核中"></span> -->
-<!-- 						<span th:if="${report.reportSt == 1}" th:text="成立"></span> <span -->
-<!-- 						th:if="${report.reportSt == 2}" th:text="不成立"></span></td> -->
 					
 					<td th:if="${report.reportSt == 0}" th:text="審核中"></td>
 					<td th:if="${report.reportSt == 1}" th:text="成立"></td>
@@ -141,7 +122,6 @@
 							<input type="hidden" th:value="${report.reportSt}" name="reportSt">
 							<div th:switch="${report.reportSt}">
 								<th:block th:case="0">
-							        <!-- 处理值为0的情况 -->
 							        <button type="button" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
@@ -169,11 +149,7 @@
 
 
 							    </th:block>
-<!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->
-<!-- 								<button th:case="0" type="submit" id="submit"> 不成立 </button> -->
 							</div>
-<!-- 							<input type="hidden" name="reportNo"th:value="${report.reportNo}">  -->
-<!-- 							<input type="submit"value="修改"> -->
 					</form>
 					</td>
 				</tr>

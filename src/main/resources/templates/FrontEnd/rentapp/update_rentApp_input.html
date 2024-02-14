@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>物件申請單修改</title>
-<!-- <link th:href="@{/css/BackStage/rentapp/bootstrap/bootstrap.min.css}"rel="stylesheet" /> -->
-<!-- <link th:href="@{/css/BackStage/rentapp/addRentApp.css}"rel="stylesheet" /> -->
+
 <link rel="stylesheet" th:href="@{/css/FrontEnd/navForMemCenter/navForMemCenter.css}" />
 <style>
 	body {
@@ -120,9 +119,7 @@
 			<div>
 				<label>所有權狀:</label>
 				<input type="file" th:field="*{rentAppOwn}" onclick="previewImage()" onchange="hideContent('rentAppOwn.errors');" />
-				<!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
 				<span class="error" th:utext="${errorMessage}" id="rentAppOwn.errors">${errorMessage}</span>
-				<!-- 			<h2 id="errorMessage">${errorMessage}</h2>  -->
 				<div id="blob_holder"><img th:src="@{/rentApp/picture} + '?rentAppNo=' + ${rentApp.rentAppNo}" width="200px" ></div>
 			</div>
 			
@@ -161,8 +158,6 @@
 	</div>
 
 </main>
-<!-- JavaScript part -->
 <script th:src="@{/js/BackStage/rentapp/update_rentApp_input.js}"></script>
-<!-- <script th:src="@{/js/BackStage/rentapp/addRentApp.js}"></script> -->
 </body>
 </html>

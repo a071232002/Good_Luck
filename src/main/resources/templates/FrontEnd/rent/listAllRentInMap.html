@@ -3,18 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
-<!-- 新 Bootstrap 核心 CSS 文件 -->
+
 <link
 	href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet">
 
-<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 
-
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script
 	src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>地圖查詢</title>
@@ -210,7 +205,6 @@ header.header {
 }
 
 .hoverable a {
-/* 	text-decoration: none; */
 	color: white;
 }
 
@@ -353,7 +347,6 @@ main {
 	<header class="header">
 		<div class="logo">
 			<img th:src="@{/icon/FrontEnd/memCenter/memCenter.png}">
-			<!--                 <span>會員中心</span> -->
 		</div>
 		<nav class="navbar navbar-inverse">
 			<ul class="nav navbar-nav">
@@ -380,7 +373,6 @@ main {
 		<div class="container">
 			<div class="row clearfix">
 				<div class="col-md-12 column">
-					<!-- 下拉 -->
 
 					<div class="dropdown" margin="20px" id="check_rentAppCou">
 						<div style="text-align: center; padding-top: 30px;">
@@ -577,29 +569,25 @@ main {
 			</div>
 		</div>
 	</main>
-	<!-- <script src="./vendors/jquery/jquery-3.7.1.min.js"></script> -->
 	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuQxy8IWpLXa4ixgreClBMfk_TuBFfJyI&libraries=places"
+		src="https://maps.googleapis.com/maps/api/js?key=&libraries=places"
 		defer></script>
 	<script>
 
 // 初始化變數
 var itemsPerPage = 3;
-var rentList = []; // 你的 rentList 數據
+var rentList = []; 
 var currentPage = 1;
 var totalPages = Math.ceil(rentList.length / itemsPerPage);
 
 //定義全局對象 data
 const data = {
-//     all: "1"
-    // 其他屬性...
+
 };
 
 function addData(key, value) {
     data[key] = value;
     getRentList()
-//     changePage(1)
-//     console.log(data)
 }
     // Cities of Taiwan
 const database = {
@@ -707,7 +695,6 @@ const database = {
 };
 
 const county_box = document.querySelector('#county_box');
-// const district_box = document.querySelector('#district_box');
 var aaa_enter=document.querySelector('#aaa');
 var bbb_enter=document.querySelector('#bbb');
 
@@ -720,10 +707,8 @@ Object.getOwnPropertyNames(database).forEach((county) => {
 });
 
 county_box.addEventListener('change', (event) => {
-// 	console.log(event.target.value);
     selected_county = county_box.options[county_box.selectedIndex].value;
 
-//     district_box.innerHTML = '<option value="">選擇鄉鎮市區</option>';
 	document.getElementById("check_rentAppAr").innerHTML = '';
 	
     document.getElementById("check_rentAppAr").innerHTML = `<div id="check_rentAppArTitle">
@@ -813,7 +798,6 @@ county_box.addEventListener('change', (event) => {
                 selectedValues.push(checkbox.value);
             });
 
-//             console.log('被选中的 rentAppAr 值：', selectedValues);
             addData("rentAppAr",selectedValues)
         }
     });
@@ -825,7 +809,6 @@ county_box.addEventListener('change', (event) => {
 
 window.addEventListener("load", function () {
 	
-// 	getRentList();
 	 // 获取 select 元素
     var countySelect = document.getElementById('county_box');
     var storedCounty = localStorage.getItem('selectedCounty');
@@ -869,29 +852,6 @@ window.addEventListener("load", function () {
 
 })
 
-
-// // 變更當前頁面的函數
-// function changePage(pageNumber) {
-//     currentPage = pageNumber;
-//     showRents();
-// }
-
-// // 前一頁的函數
-// function prevPage() {
-//     if (currentPage > 1) {
-//         currentPage--;
-//         showRents();
-//     }
-// }
-
-// // 下一頁的函數
-// function nextPage() {
-//     if (currentPage < totalPages) {
-//         currentPage++;
-//         showRents();
-//     }
-// }
-
 async function getRentList() { 
 	if(checkDataProperties(data)){
 		console.log("T")
@@ -913,7 +873,6 @@ async function getRentList() {
 	.then(response => response.json())
 	.then(responseData => {
 	    // 處理後端返回的數據
-// 	    console.log(responseData);
 	    rentList=responseData
 	    totalPages = Math.ceil(rentList.length / itemsPerPage);
 	    showRents()
@@ -926,7 +885,6 @@ async function getRentList() {
 
 function showRents(){
 	if (rentList.length === 0) {
-// 	    window.alert('尚無物件資料');
 		var html = `<div>
 				<span style='display: block; text-align: center; font-size: x-large; color: red; font-weight: bold;'>尚無物件資料</span>
 			    </div>`;
@@ -961,7 +919,6 @@ function showRents(){
 	        if (status == google.maps.GeocoderStatus.OK) {
 
 	            var mapOptions = {
-// 	                center: results[0].geometry.location,
 	                center: new google.maps.LatLng(rentList[0].rentLat,rentList[0].rentLon),
 	                zoom: 15
 	            };
@@ -969,7 +926,6 @@ function showRents(){
 	
 	            // 添加标记
 	            for (let i=0; i<rentList.length; i++) {
-// 	            	console.log(rentList[i].rentPostTitle)
 	
 	            	var imageSource = rentList[i].rentImg;
 					var propertyTitle = rentList[i].rentPostTitle
@@ -1079,7 +1035,6 @@ function maxSelection(Id, maxCount) {
                     return checkbox.value;
                 });
 
-//                 console.log('選中的值：', selectedValues);
             }
         });
     });
@@ -1091,9 +1046,7 @@ maxSelection('check_rentAppSize',3)
 document.getElementById('additionalBtn').addEventListener('click', function() {
 	var additionalInput = document.querySelector('input[name="additionalInput"]').value;
 	data["additionalInput"]=[additionalInput]
-// 	console.log(data)
     getRentList();
-// 	changePage(1)
 })
 
 
@@ -1113,13 +1066,9 @@ document.getElementById('RentSubmit').addEventListener('click', function() {
     // 檢查 maxRent 是否小於 minRent
     if (isNaN(minRent) || isNaN(maxRent) || maxRent < minRent) {
         alert('最大值不能小於最小值');
-        // 或者你可以進行其他處理，比如阻止提交表單
         return;
     }
 
-    // 如果通過檢查，繼續你的邏輯...
-    // 這裡可以添加你想要執行的其他邏輯
-//     console.log('minRent:', minRent, 'maxRent:', maxRent);
     // 清空所有 checkbox 選取
     var checkboxes = document.querySelectorAll('#check_rentRent input[type="checkbox"]');
     checkboxes.forEach(function(checkbox) {
@@ -1137,12 +1086,8 @@ document.getElementById('RentSubmit').addEventListener('click', function() {
     var minRentInput = document.querySelector('#check_rentRent .minRent input[name="minRent"]');
     var maxRentInput = document.querySelector('#check_rentRent .maxRent input[name="maxRent"]');
     data["rentRent"]=[minRentInput.value,maxRentInput.value]
-//     console.log(data)
     getRentList();
-//     changePage(1)
-    // 印出 minRent 和 maxRent 的值
-//     console.log('最小租金:', minRentInput.value);
-//     console.log('最大租金:', maxRentInput.value);
+
 });
 
 
@@ -1203,12 +1148,8 @@ function logAllValues() {
                     values[element.name] = values[element.name] || [];
                     if (element.checked) {
                         values[element.name].push(element.value);
-//                         console.log(element.name+":"+element.value+"check")
-//                         values[element.name] = values[element.name].filter(function(val) {
-//                             return val !== "不限";
-//                         });
+
                     } else {
-//                     	console.log(element.name+":"+element.value+"取消check")
                         values[element.name] = values[element.name].filter(function(val) {
                             return val !== element.value;
                         });
@@ -1230,11 +1171,7 @@ function logAllValues() {
                 	}
                 }
 
-                // 输出所有被选中元素的值
-//                 console.log('All Selected Values:', values);
                 getRentList();
-//                 changePage(1)
-//                 console.log(data)
             }, 0);
         });
     });
@@ -1281,7 +1218,6 @@ function hideClean() {
 
 function checkDataProperties(data) {
     
-// 	console.log(data)
 	let continueExecution = true;
 
         // 處理不在 requiredProperties 中的屬性

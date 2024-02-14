@@ -33,87 +33,47 @@ public class ReportControllerFrontEnd {
 	@Autowired
 	ReportServiceImpl reoprtSvc;
 	
-	
-	// 測試索引頁
-//	@GetMapping("")
-//	public String indexOfReport(ModelMap model) {
-//		return "BackStage/report/select";
-//	}
-	
 	//前往新增頁面
 	@GetMapping("/addReport")
 	public String addReport(ModelMap model) {
 		Report report = new Report();
 		model.addAttribute("report", report);
-
 		return "FrontEnd/report/addReport";
 	}
-	//前往listall
-//    @GetMapping("/listAllReport")
-//	public String listAllReport(Model model) {
-//
-//		return "BackStage/report/listAllReport";
-//	}
-    
-    
+
   //前往findAllById
     @GetMapping("/findAllReportById")
 	public String findAllReportById(Model model,HttpSession session) {
 		Mem mem=(Mem)session.getAttribute("logsuccess");
 		List<Report> list = reoprtSvc.getAllByMem(mem);
 		model.addAttribute("reportListDataById", list);
-
 		return "FrontEnd/report/findAllReportById";
 	}
     
 	@PostMapping("insert")
 	public String insert(@Valid Report report, BindingResult result,ModelMap model ,HttpSession session) throws IOException {
 		
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
 		System.out.println(result);
 		if (result.hasErrors()) {
 			return "FrontEnd/report/addReport";
 		}
-		/*************************** 2.開始新增資料 *****************************************/
-		// EmpService empSvc = new EmpService();
+
 		Mem mem=(Mem)session.getAttribute("logsuccess");
 		report.setMem(mem);
 		reoprtSvc.addReport(report);
-		/*************************** 3.新增完成,準備轉交(Send the Success view) **************/
 		List<Report> list = reoprtSvc.getAll();
 		model.addAttribute("rentAppListData", list);
 		model.addAttribute("success", "- (新增成功)");
-
-		return "redirect:findAllReportById"; // 新增成功後重導至IndexController_inSpringBoot.java的第50行@GetMapping("/emp/listAllEmp")
+		return "redirect:findAllReportById"; 
 	}
-	
-//	@PostMapping("getOne_For_Update")
-//	public String getOne_For_Update(@RequestParam("reportNo") String reportNo, ModelMap model) {
-//		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-//		/*************************** 2.開始查詢資料 *****************************************/
-//		// EmpService empSvc = new EmpService();
-//
-//		Report report = reoprtSvc.getOneReport(Integer.valueOf(reportNo));
-//
-//		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
-//		model.addAttribute("report", report);
-//		return "BackStage/rentapp/update_report_input"; // 查詢完成後轉交update_emp_input.html
-//	}
-	
-	
+		
 	@PostMapping("update")
 	public String update(@Valid Report report, ModelMap model ) throws IOException {
-		
-
-
-//		System.out.println(report.getReportSt());
 		reoprtSvc.addReport(report);
-		/*************************** 3.新增完成,準備轉交(Send the Success view) **************/
 		model.addAttribute("success", "- (修改成功)");
 		report = reoprtSvc.getOneReport(Integer.valueOf(report.getReportNo()));
 		model.addAttribute("report", report);
-		return "redirect:findAllReportById"; // 修改成功後轉交listOneEmp.html
+		return "redirect:findAllReportById"; 
 	}
 	
 	// 設置查詢全部屬性
@@ -122,23 +82,5 @@ public class ReportControllerFrontEnd {
 		List<Report> list = reoprtSvc.getAll();
 		return list;
 	}
-	
-//	@ModelAttribute("reportListDataById")
-//	protected List<Report> findAllReportById(Integer memNo ) {
-//		Mem mem=new Mem();
-//		mem.setMemNo(memNo);
-//		List<Report> list = reoprtSvc.getAllByMem(mem);
-//		return list;
-//	}
-//	public BindingResult removeFieldError(Report report, BindingResult result, String removedFieldname) {
-//		List<FieldError> errorsListToKeep = result.getFieldErrors().stream()
-//				.filter(fieldname -> !fieldname.getField().equals(removedFieldname))
-//				.collect(Collectors.toList());
-//		result = new BeanPropertyBindingResult(report, "report");
-//		for (FieldError fieldError : errorsListToKeep) {
-//			result.addError(fieldError);
-//		}
-//		return result;
-//	}
 
 }

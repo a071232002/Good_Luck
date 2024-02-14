@@ -27,7 +27,7 @@ import com.rent.model.*;
 @Service("rentAppService")
 public class RentAppServiceImpl implements RentAppService{
 	
-	private static final String API_KEY = "AIzaSyBuQxy8IWpLXa4ixgreClBMfk_TuBFfJyI";
+	private static final String API_KEY = "";
 	@Autowired
 	RentAppRepository rentAppRepository;
 	
@@ -59,8 +59,7 @@ public class RentAppServiceImpl implements RentAppService{
 			RentApp rentApp=getOneRentApp(rentAppNo);
 			rentApp.setRentAppSt(rentAppSt);
 			rentApp.setEmp(emp);
-			rentAppRepository.save(rentApp);//有可能資料錯誤無法寫入
-//			System.out.println(rentApp);
+			rentAppRepository.save(rentApp);
 			if(rentAppSt==1) {
 				if(rentApp.getRent()!=null) {
 					
@@ -86,13 +85,9 @@ public class RentAppServiceImpl implements RentAppService{
 						rent.setRentLat(LatAndLng[0]);
 						rent.setRentLon(LatAndLng[1]);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					rentRepository.save(rent);
-//				Rent newRent=rentRepository.save(rent);
-//				rentApp.setRent(newRent);
-//				rentAppRepository.save(rentApp);
 				}
 				
 			}else {
@@ -104,7 +99,6 @@ public class RentAppServiceImpl implements RentAppService{
 			return rentApp;
 		} catch (Exception e) {
 			System.out.println("Exception");
-//			e.printStackTrace();
 
 			return null;
 		}
@@ -112,9 +106,6 @@ public class RentAppServiceImpl implements RentAppService{
 		
 	}
 
-//	public List<RentApp> getAll(Map<String, String[]> map) {
-//		return HibernateUtil_CompositeQuery_RentApp.getAllC(map,sessionFactory.openSession());
-//	}
 	
 	public String[] getLatAndLon(String rentAppCou, String rentAppAr, String rentAppRo, String rentAppAdd) throws Exception {
     	String[] LatAndLng = new String[2];

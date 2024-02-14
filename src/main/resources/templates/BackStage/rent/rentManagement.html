@@ -91,8 +91,6 @@
 					<td th:text="${rent.lse?.lseNo}"></td>
 
 					<td>
-<!-- 					<img th:src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}" -->
-<!-- 						width="150px" class="myImage"> -->
 						 <button class="showLightboxButton" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
@@ -107,8 +105,6 @@
                 			  							th:data-img-src="@{/BackStage/rent/pictureOwn} + '?rentNo=' + ${rent.rentNo}" onclick="showLightbox(this)">顯示</button>
 					</td>
 					<td>
-<!-- 						<img th:src="@{/BackStage/rent/pictureImg} + '?rentNo=' + ${rent.rentNo}" -->
-<!-- 							width="150px" class="myImage"> -->
 						<button class="showLightboxButton" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
@@ -125,7 +121,6 @@
 
 
 					<td th:text="${rent.rentPostTitle}"></td>
-<!-- 					<td th:text="${rent.rentIntr}"></td> -->
 					<td>
 					<button onclick="showLightboxImg(this)"style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
@@ -164,7 +159,6 @@
 							
 							<div th:switch="${rent.rentSt}">
 								<th:block th:case="1">
-							        <!-- 处理值为0的情况 -->
 							        <button type="button" style="background-color: red; /* 藍色背景顏色 */
                                                         color: black; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
@@ -179,7 +173,6 @@
                 			  							th:onclick="|generateAndShowDialog(this,'4',${rent.rentNo})|"> 檢舉下架 </button>
 							    </th:block>
 								<th:block th:case="4">
-							        <!-- 处理值为0的情况 -->
 							        <button type="button" style="background-color: #5bc0de; /* 藍色背景顏色 */
                                                         color: #fff; /* 白色文字顏色 */
                                                         border: none; /* 去掉邊框 */
@@ -193,11 +186,7 @@
                 			  							onmouseout="this.style.color='white'; this.style.backgroundColor='#5bc0de'"
                 			  							th:onclick="|generateAndShowDialog(this,'1',${rent.rentNo})|"> 重新上架 </button>
 							    </th:block>
-<!-- 								<button th:case="0" type="submit" id="submit"> 成立 </button> -->
-<!-- 								<button th:case="0" type="submit" id="submit"> 不成立 </button> -->
 							</div>
-<!-- 							<input type="hidden" name="rentAppNo"th:value="${rentApp.rentAppNo}">  -->
-<!-- 							<input type="submit"value="修改"> -->
 						</form>
 					</td>
 				</tr>
@@ -213,7 +202,6 @@
 	<script th:src="@{/jquery/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the.js}"></script>
 	<script th:src="@{/js/BackStage/mem/the2.js}"></script>
-<!-- 	<script th:src="@{/js/BackStage/rentapp/listAllRentApp.js}"></script> -->
 	<script>
 	
     new DataTable('#example', {
@@ -294,22 +282,7 @@
 	    });
 	});
 	
-//     function setDataValue(buttonElement, newValue) {
 
-// //    		console.log(newValue);
-// 		// 找到按钮的父级元素
-//        var parent = buttonElement.parentElement;
-
-//        // 找到隐藏字段（前一个兄弟元素）
-//        var hiddenField = parent.previousElementSibling;
-
-//        // 如果找到了隐藏字段，修改其值
-//        if (hiddenField && hiddenField.type === 'hidden' && hiddenField.name === 'rentSt') {
-//            hiddenField.value = newValue;
-//        }
-//        parent.parentElement.submit();
-       
-//    }
     
     function generateAndShowDialog(button, expectedValue,rentNo) {
 
@@ -401,29 +374,7 @@
     }
     
     
-//  // 獲取圖片元素和放大顯示容器元素
-//     var images = document.querySelectorAll('.myImage');
-//     var lightbox = document.getElementById('lightbox');
-//     var lightboxImg = document.getElementById('lightbox-img');
 
-//     // 點擊圖片時顯示放大顯示的容器和圖片
-//      images.forEach(function (img) {
-//         // 點擊圖片時顯示放大顯示的容器和圖片
-//         img.onclick = function () {
-//             lightbox.style.display = 'flex'; // 使容器可見
-//             lightboxImg.src = this.src; // 設置放大顯示的圖片
-//         };
-//     });
-
-//     // 點擊放大顯示的容器時隱藏容器
-//     lightbox.onclick = function () {
-//         lightbox.style.display = 'none'; // 隱藏容器
-//     };
-    
-//     // 阻止點擊放大顯示的圖片時隱藏容器
-// 	lightboxImg.onclick = function (event) {
-// 	    event.stopPropagation(); // 阻止事件冒泡
-// 	};
 	// 獲取按鈕元素和放大顯示容器元素
 	var buttons = document.querySelectorAll('.showLightboxButton');
 	var lightbox = document.getElementById('lightbox');
@@ -445,15 +396,6 @@
 	    event.stopPropagation(); // 阻止事件冒泡
 	};
 	
-	// 給每個按鈕設置自定義屬性，以保存相應的圖片源
-// 	buttons.forEach(function (button) {
-// // 	    button.dataset.imgSrc = button.getAttribute('data-img-src');
-// 	    // 點擊按鈕時觸發燈箱顯示
-// 	    button.onclick = function () {
-// 	    	console.log("daw")
-// 	        showLightbox(this);
-// 	    };
-// 	});
 
 	</script>
 </body>

@@ -39,27 +39,7 @@ public class RentAppController {
 	@Autowired
 	RentAppServiceImpl rentAppSvc;
 	
-	// 測試索引頁
-	@GetMapping("")
-	public String indexOfRentApp(ModelMap model) {
-		return "BackStage/rentApp/select";
-	}
 	
-//	//前往新增頁面
-//	@GetMapping("/addRentApp")
-//	public String addRentApp(ModelMap model) {
-//		RentApp rentApp = new RentApp();
-//		model.addAttribute("rentApp", rentApp);
-//
-//		return "BackStage/rentapp/addRentApp";
-//	}
-	
-	//前往listall
-//    @GetMapping("/listAllRentApp")
-//	public String listAllRentApp(Model model) {
-//
-//		return "BackStage/rentapp/listAllRentApp";
-//	}
     
   //前往review
     @GetMapping("/reviewRentApp")
@@ -67,51 +47,7 @@ public class RentAppController {
 
 		return "BackStage/rentapp/reviewRentApp";
 	}
-	//第一次送申請
-//	@PostMapping("insert")
-//	public String insert(@Valid RentApp rentApp, BindingResult result, ModelMap model,
-//			@RequestParam("rentAppOwn") MultipartFile[] parts ) throws IOException {
-//		
-//		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-//		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
-//
-//		result = removeFieldError(rentApp, result, "rentAppOwn");
-//
-//		if (parts[0].isEmpty()) { // 使用者未選擇要上傳的圖片時
-//			model.addAttribute("errorMessage", "所有權狀: 請上傳照片");
-//		} else {
-//			for (MultipartFile multipartFile : parts) {
-//				byte[] buf = multipartFile.getBytes();
-//				rentApp.setRentAppOwn(buf);
-//			}
-//		}
-//		if (result.hasErrors() || parts[0].isEmpty()) {
-//			return "BackStage/rentapp/addRentApp";
-//		}
-//
-//		/*************************** 2.開始新增資料 *****************************************/
-//		// EmpService empSvc = new EmpService();
-//		rentAppSvc.addRentApp(rentApp);
-//		/*************************** 3.新增完成,準備轉交(Send the Success view) **************/
-//		List<RentApp> list = rentAppSvc.getAll();
-//		model.addAttribute("rentAppListData", list);
-//		model.addAttribute("success", "- (新增成功)");
-//
-//		return "redirect:listAllRentApp"; // 新增成功後重導至IndexController_inSpringBoot.java的第50行@GetMapping("/emp/listAllEmp")
-//	}
-	
-//	@PostMapping("getOne_For_Update")
-//	public String getOne_For_Update(@RequestParam("rentAppNo") String rentAppNo, ModelMap model) {
-//		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-//		/*************************** 2.開始查詢資料 *****************************************/
-//		// EmpService empSvc = new EmpService();
-//
-//		RentApp rentApp = rentAppSvc.getOneRentApp(Integer.valueOf(rentAppNo));
-//
-//		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
-//		model.addAttribute("rentApp", rentApp);
-//		return "BackStage/rentapp/update_rentApp_input"; // 查詢完成後轉交update_emp_input.html
-//	}
+
 
 	//狀態修改
 	@PostMapping("updateRentAppSt")
@@ -120,55 +56,9 @@ public class RentAppController {
 		Emp emp = (Emp)session.getAttribute("EmpSuccess");
 		rentAppSvc.updateRentAppSt(rentAppNo,rentAppSt,emp);
 		
-		 // 获取模型中的所有键值对
-//	    for (Map.Entry<String, Object> entry : model.entrySet()) {
-//	        String key = entry.getKey();
-//	        Object value = entry.getValue();
-//	        System.out.println("Key: " + key + ", Value: " + value);
-//	    }
 
 		return "redirect:reviewRentApp";
 	}
-	
-	
-	
-	
-//	@PostMapping("update")
-//	public String update(@Valid RentApp rentApp, BindingResult result, ModelMap model,
-//			@RequestParam("rentAppOwn") MultipartFile[] parts) throws IOException {
-//
-//		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-//		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
-//
-//		result = removeFieldError(rentApp, result, "rentAppOwn");
-//
-//		if (parts[0].isEmpty()) { // 使用者未選擇要上傳的新圖片時
-//			// EmpService empSvc = new EmpService();
-//
-//			byte[] upFiles = rentAppSvc.getOneRentApp(rentApp.getRentAppNo()).getRentAppOwn();
-//			rentApp.setRentAppOwn(upFiles);
-//		} else {
-//			for (MultipartFile multipartFile : parts) {
-//				byte[] upFiles = multipartFile.getBytes();
-//				rentApp.setRentAppOwn(upFiles);
-//
-//			}
-//		}
-//		if (result.hasErrors()) {
-//			return "BackStage/rentapp/update_rentApp_input";
-//			
-//		}
-//		/*************************** 2.開始修改資料 *****************************************/
-//		// EmpService empSvc = new EmpService();
-//		rentAppSvc.updateRentApp(rentApp);
-//
-//		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
-//		model.addAttribute("success", "- (修改成功)");
-//		rentApp = rentAppSvc.getOneRentApp(Integer.valueOf(rentApp.getRentAppNo()));
-//		model.addAttribute("rentApp", rentApp);
-//		return "BackStage/rentapp/listOneRentApp"; // 修改成功後轉交listOneEmp.html
-//	}
-	
 	
 	
 	@GetMapping("picture")
